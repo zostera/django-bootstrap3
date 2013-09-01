@@ -4,7 +4,8 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.forms.widgets import flatatt
 
-from ..utils import add_css_class
+from ..html import add_css_class
+from ..templates import parse_token_contents, handle_var
 
 
 FORM_GROUP_CLASS = 'form-group'
@@ -197,34 +198,19 @@ def bootstrap_label(content, label_for=None, label_class=None, label_title=''):
 
 
 @register.simple_tag
-def bootstrap_form_buttons(**kwargs):
-    buttons = []
-    submit = kwargs.get('submit', None)
-    cancel = kwargs.get('cancel', None)
-    if submit:
-        buttons.append(bootstrap_button(submit, 'submit'))
-    if cancel:
-        buttons.append(bootstrap_button(cancel, 'cancel'))
-    buttons = ' '.join(buttons)
-    kwargs2 = kwargs.copy()
-    kwargs2.update({
-        'label': None,
-        'field': buttons,
-    })
-    return bootstrap_form_group(bootstrap_combine_field_and_label(**kwargs2))
-
-
-@register.simple_tag
-def bootstrap_button(content, button_type=None):
+def bootstrap_button(content, button_type=None, icon=None):
     attrs = {}
+    icon_content = ''
     if button_type:
         attrs['type'] = button_type
     attrs['class'] = 'btn'
     if button_type == 'submit':
         attrs['class'] += ' btn-primary'
+    if icon:
+        icon_content = bootstrap_icon(icon) + ' '
     return '<button%(attrs)s>%(content)s</button>' % {
         'attrs': flatatt(attrs),
-        'content': content,
+        'content': '%s%s' % (icon_content, content),
     }
 
 
@@ -250,3 +236,48 @@ def bootstrap_form_group(content, css_class=''):
         'class': add_css_class(FORM_GROUP_CLASS, css_class),
         'content': content,
     }
+
+
+@register.simple_tag
+def bootstrap_icon(icon):
+    return '<span class="glyphicon glyphicon-%s" ></span>' % icon
+
+
+@register.tag
+def bootstrap_form_buttons(parser, token):
+    buttons = []
+    kwargs = parse_token_contents(parser, token)
+    kwargs['nodelist'] = parser.parse(('end_bootstrap_form_buttons', ))
+    parser.delete_first_token()
+    return BootstrapFormButtonsNode(**kwargs)
+
+
+class BootstrapFormButtonsNode(template.Node):
+    def __init__(self, nodelist, args, kwargs, asvar, **kwargs2):
+        self.nodelist = nodelist
+        self.args = args
+        self.kwargs = kwargs
+        self.asvar = asvar
+
+    def render(self, context):
+        kwargs = {}
+        for key in self.kwargs:
+            kwargs[key] = handle_var(self.kwargs[key], context)
+        buttons = []
+        submit = kwargs.get('submit', None)
+        cancel = kwargs.get('cancel', None)
+        if submit:
+            buttons.append(bootstrap_button(submit, 'submit'))
+        if cancel:
+            buttons.append(bootstrap_button(cancel, 'cancel'))
+        buttons = ' '.join(buttons) + self.nodelist.render(context)
+        kwargs.update({
+            'label': None,
+            'field': buttons,
+        })
+        output = bootstrap_form_group(bootstrap_combine_field_and_label(**kwargs))
+        if self.asvar:
+            context[self.asvar] = output
+            return ''
+        else:
+            return output

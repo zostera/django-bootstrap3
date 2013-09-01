@@ -11,7 +11,7 @@
     <form role="form" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% bootstrap_form_buttons submit='OK' cancel='Cancel' %}
+        {% bootstrap_form_buttons submit='OK' cancel="Cancel" %}{% end_bootstrap_form_buttons %}
     </form>
 
 {% endblock %}
