@@ -1,0 +1,5 @@
+Django==1.5.1
+Fabric==1.7.0
+paramiko==1.11.0
+pycrypto==2.6
+wsgiref==0.1.2
