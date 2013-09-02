@@ -4,6 +4,7 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.forms.widgets import flatatt
 
+from ..settings import jquery_url, javascript_url, css_url
 from ..html import add_css_class
 from ..templates import parse_token_contents, handle_var
 
@@ -15,22 +16,22 @@ register = template.Library()
 
 @register.simple_tag
 def bootstrap_jquery_url():
-    return '//code.jquery.com/jquery.min.js'
+    return jquery_url()
 
 
 @register.simple_tag
 def bootstrap_javascript_url():
-    return '//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css'
+    return javascript_url()
 
 
 @register.simple_tag
 def bootstrap_css_url():
-    return '//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js'
+    return css_url()
 
 
 @register.simple_tag
 def bootstrap_css():
-    url = bootstrap_javascript_url()
+    url = bootstrap_css_url()
     if not url:
         return ''
     return mark_safe('<link href="%s" rel="stylesheet" media="screen">' % url)
@@ -240,12 +241,14 @@ def bootstrap_form_group(content, css_class=''):
 
 @register.simple_tag
 def bootstrap_icon(icon):
+    """
+    Return an icon
+    """
     return '<span class="glyphicon glyphicon-%s" ></span>' % icon
 
 
 @register.tag
 def bootstrap_form_buttons(parser, token):
-    buttons = []
     kwargs = parse_token_contents(parser, token)
     kwargs['nodelist'] = parser.parse(('end_bootstrap_form_buttons', ))
     parser.delete_first_token()

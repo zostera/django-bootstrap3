@@ -1,3 +1,7 @@
+"""
+Extra features for template file handling
+"""
+
 import re
 
 from django.template.base import kwarg_re, TemplateSyntaxError, FilterExpression
@@ -7,16 +11,18 @@ QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
 
 
 def handle_var(value, context):
+    # Resolve FilterExpression and Variable immediately
     if isinstance(value, FilterExpression) or isinstance(value, Variable):
         return value.resolve(context)
+    # Return quoted strings unquotes, from http://djangosnippets.org/snippets/886/
     stringval = QUOTED_STRING.search(value)
     if stringval:
         return stringval.group('noquotes')
-    else:
-        try:
-            return Variable(value).resolve(context)
-        except VariableDoesNotExist:
-            return value
+    # Resolve variable or return string value
+    try:
+        return Variable(value).resolve(context)
+    except VariableDoesNotExist:
+        return value
 
 
 def parse_token_contents(parser, token):
