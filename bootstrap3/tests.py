@@ -88,6 +88,10 @@ def render_field(field, **context_args):
     return render_template('{% bootstrap_field ' + form_field + ' %}', **context_args)
 
 
+def assert_in(needle, haystack):
+    assert needle in haystack, "%s not in %s" % (needle, haystack)
+
+
 class TemplateTest(TestCase):
 
     def test_empty_template(self):
@@ -101,14 +105,15 @@ class TemplateTest(TestCase):
 
 class FormTest(TestCase):
 
-    def test1(self):
-        res = render_form()
-        assert res > ''
+    def test_field_names(self):
+        form = TestForm()
+        res = render_form(form)
+        for field in form:
+            assert_in('name="%s"' % field.name, res)
 
 
 class FieldTest(TestCase):
 
     def test_subject(self):
         res = render_field('subject')
-        print res
-        assert res > ''
+        assert_in('type="text"', res)
