@@ -13,7 +13,7 @@ BOOTSTRAP3_DEFAULTS = {
 }
 
 BOOTSTRAP3 = getattr(settings, 'BOOTSTRAP3', {})
-BOOTSTRAP3.update(BOOTSTRAP3_DEFAULTS)
+BOOTSTRAP3 = dict(BOOTSTRAP3_DEFAULTS.items() + BOOTSTRAP3.items())
 
 
 def bootstrap_url(postfix):
