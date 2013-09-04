@@ -1,12 +1,14 @@
 """
 Handle HTML manipulations
 """
+from django.utils.encoding import force_text
+
 
 def split_css_classes(css_classes):
     """
     Turn string into a list of CSS classes
     """
-    classes_list = unicode(css_classes or '').split(' ')
+    classes_list = force_text(css_classes).split(' ')
     return [c for c in classes_list if c]
 
 
