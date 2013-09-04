@@ -1,13 +1,12 @@
-django-bootstrap3
-=================
+# django-bootstrap3 [![Build Status](https://secure.travis-ci.org/dyve/django-bootstrap3.png)](http://travis-ci.org/dyve/django-bootstrap3)
+
 
 **Bootstrap 3 integration with Django.**
 
 **Author:** Dylan Verheul, <dylan@dyve.net> (Follow me on Twitter][1).
 
 
-Installation
-------------
+## Installation
 
 1. Install using pip:
 
@@ -20,8 +19,7 @@ Installation
 Alternatively, you can download or clone this repo and call `pip install -e .`.
 
 
-Usage
-----------------
+## Usage
 
 In your templates, load the `bootstrap3` library and use the `bootstrap_*` tags
 
@@ -36,16 +34,14 @@ In your templates, load the `bootstrap3` library and use the `bootstrap_*` tags
     </form>
 
 
-Bugs and requests
------------------
+## Bugs and requests
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
 https://github.com/dyve/django-bootstrap3/issues
 
 
-License
--------
+## License
 
 You can use this under Apache 2.0. See LICENSE file for details.
 
