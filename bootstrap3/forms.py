@@ -94,7 +94,8 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
 
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
-        rendered_field = render_label(rendered_field + ' ' + field.label, label_title=field.help_text)
+        rendered_field = render_label('%s %s' %(rendered_field, field.label,),
+                                      label_title=field.help_text)
 
     # Add any help text and/or errors
     if not inline:
