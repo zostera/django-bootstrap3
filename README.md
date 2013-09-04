@@ -3,7 +3,7 @@ django-bootstrap3
 
 **Bootstrap 3 integration with Django.**
 
-**Author:** Dylan Verheul, <dylan@dyve.net> [Follow me on Twitter][1].
+**Author:** Dylan Verheul, <dylan@dyve.net> (Follow me on Twitter][1).
 
 
 Installation
