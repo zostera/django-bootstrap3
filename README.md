@@ -6,4 +6,10 @@ django-bootstrap3
 **Author:** Dylan Verheul, [Follow me on Twitter][1].
 
 
-[1] http://twitter.com/dyve
+License
+-------
+
+You can use this under Apache 2.0. See LICENSE file for details.
+
+
+[1]: http://twitter.com/dyve
