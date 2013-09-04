@@ -90,6 +90,13 @@ def render_field(field, **context_args):
     return render_template('{% bootstrap_field ' + form_field + ' %}', **context_args)
 
 
+class SettingsTest(TestCase):
+
+    def test_settings(self):
+        from .bootstrap import BOOTSTRAP3
+        self.assertTrue(BOOTSTRAP3)
+
+
 class TemplateTest(TestCase):
 
     def test_empty_template(self):

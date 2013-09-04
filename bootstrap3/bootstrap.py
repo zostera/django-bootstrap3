@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 
 
+# Default settings
 BOOTSTRAP3_DEFAULTS = {
     'include_jquery': False,
     'jquery_url': '//code.jquery.com/jquery.min.js',
@@ -12,8 +13,11 @@ BOOTSTRAP3_DEFAULTS = {
     'javascript_url': None,
 }
 
-BOOTSTRAP3 = getattr(settings, 'BOOTSTRAP3', {})
-BOOTSTRAP3.update(BOOTSTRAP3_DEFAULTS)
+# Start with a copy of default settings
+BOOTSTRAP3 = BOOTSTRAP3_DEFAULTS.copy()
+
+# Override with user settings from settings.py
+BOOTSTRAP3.update(getattr(settings, 'BOOTSTRAP3', {}))
 
 
 def bootstrap_url(postfix):
