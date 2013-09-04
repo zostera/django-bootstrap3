@@ -14,7 +14,7 @@
 
 2. Add to INSTALLED_APPS:
 
-        'bootstrap_3',
+        'bootstrap3',
 
 Alternatively, you can download or clone this repo and call `pip install -e .`.
 
