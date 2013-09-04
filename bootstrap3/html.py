@@ -1,6 +1,7 @@
 """
-Handle HTML manipulations
+Handle HTML manipulation
 """
+
 from django.utils.encoding import force_text
 
 

@@ -1,5 +1,7 @@
+from __future__ import unicode_literals
+
 from django.template import Template, Context
-from django.test import TestCase
+from unittest import TestCase
 from django import forms
 
 
@@ -88,19 +90,20 @@ def render_field(field, **context_args):
     return render_template('{% bootstrap_field ' + form_field + ' %}', **context_args)
 
 
-def assert_in(needle, haystack):
-    assert needle in haystack, "%s not in %s" % (needle, haystack)
-
-
 class TemplateTest(TestCase):
 
     def test_empty_template(self):
         res = render_template('')
-        assert res.strip() == ''
+        self.assertEqual(res.strip(), '')
 
     def test_text_template(self):
         res = render_template('some text')
-        assert res.strip() == 'some text'
+        self.assertEqual(res.strip(), 'some text')
+
+    def test_bootstrap_template(self):
+        template = Template(('{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
+        res = template.render(Context({}))
+        self.assertIn('test_bootstrap3_content', res)
 
 
 class FormTest(TestCase):
@@ -109,11 +112,18 @@ class FormTest(TestCase):
         form = TestForm()
         res = render_form(form)
         for field in form:
-            assert_in('name="%s"' % field.name, res)
+            self.assertIn('name="%s"' % field.name, res)
 
 
 class FieldTest(TestCase):
 
     def test_subject(self):
         res = render_field('subject')
-        assert_in('type="text"', res)
+        self.assertIn('type="text"', res)
+
+
+class IconTest(TestCase):
+
+    def test_subject(self):
+        res = render_template('{% bootstrap_icon "star" %}')
+        self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')

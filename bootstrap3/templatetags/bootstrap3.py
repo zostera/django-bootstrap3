@@ -1,6 +1,7 @@
 from django import template
 
-from ..settings import jquery_url, javascript_url, css_url
+from ..bootstrap import jquery_url, javascript_url, css_url
+from ..icons import render_icon
 from ..forms import render_formset, render_field, render_form, render_button, render_label, render_form_group, render_field_and_label
 from ..templates import parse_token_contents, handle_var
 
@@ -29,6 +30,7 @@ def bootstrap_css():
     if url:
         return '<link href="%s" rel="stylesheet" media="screen">' % url
     return ''
+
 
 @register.simple_tag
 def bootstrap_javascript(jquery=False):

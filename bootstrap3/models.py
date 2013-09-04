@@ -1,1 +1,3 @@
-# Empty models.py, required for Django tests
+"""
+Empty models.py, required file for Django tests
+"""

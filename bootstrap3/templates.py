@@ -7,6 +7,7 @@ import re
 from django.template.base import kwarg_re, TemplateSyntaxError, FilterExpression
 from django.template import Variable, VariableDoesNotExist
 
+
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
 
 
