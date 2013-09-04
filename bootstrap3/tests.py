@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.template import Template, Context
-from unittest import TestCase
+from django.utils.unittest import TestCase
 from django import forms
 
 
