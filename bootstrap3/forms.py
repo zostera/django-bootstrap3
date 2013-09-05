@@ -108,7 +108,8 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         if field.errors:
             help_text_and_errors += field.errors
         if help_text_and_errors:
-            rendered_field += '<span class="help-block">%s</span>' % ' '.join(help_text_and_errors)
+            rendered_field += '<span class="help-block">%s</span>' % ' '.join(
+                unicode(string) for string in help_text_and_errors)
 
     # Wrap the rendered field
     if wrapper:
