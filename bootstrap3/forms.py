@@ -49,7 +49,7 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         form_control_class = ''
     else:
         form_control_class = 'form-control'
-    # Convert this widget from HTML list to a wrapped class?
+        # Convert this widget from HTML list to a wrapped class?
     list_to_class = False
     # Wrap rendered field in its own label?
     put_inside_label = False
@@ -97,7 +97,7 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
 
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
-        rendered_field = render_label('%s %s' %(rendered_field, field.label,),
+        rendered_field = render_label('%s %s' % (rendered_field, field.label,),
                                       label_title=field.help_text)
 
     # Add any help text and/or errors
@@ -108,7 +108,9 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         if field.errors:
             help_text_and_errors += field.errors
         if help_text_and_errors:
-            rendered_field += '<span class="help-block">%s</span>' % ' '.join(help_text_and_errors)
+            rendered_field += '<span class="help-block">%s</span>' % ' '.join(
+                force_text(s) for s in help_text_and_errors
+            )
 
     # Wrap the rendered field
     if wrapper:
