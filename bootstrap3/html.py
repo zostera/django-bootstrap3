@@ -2,7 +2,7 @@
 Handle HTML manipulation
 """
 
-from django.utils.encoding import force_text
+from .utils import force_text
 
 
 def split_css_classes(css_classes):

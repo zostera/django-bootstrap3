@@ -1,7 +1,7 @@
 from django.forms import widgets
 from django.forms.widgets import flatatt
-from django.utils.encoding import force_text
 
+from .utils import force_text
 from .html import add_css_class
 from .icons import render_icon
 
