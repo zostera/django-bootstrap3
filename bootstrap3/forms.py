@@ -45,7 +45,10 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
     widget_attr_title = getattr(field.field.widget.attrs, 'title', '')
 
     # Class to add to field element
-    form_control_class = 'form-control'
+    if isinstance(field.field.widget, widgets.FileInput):
+        form_control_class = ''
+    else:
+        form_control_class = 'form-control'
     # Convert this widget from HTML list to a wrapped class?
     list_to_class = False
     # Wrap rendered field in its own label?
