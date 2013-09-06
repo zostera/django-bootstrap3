@@ -16,7 +16,7 @@ author_email = 'dylan@dyve.net'
 license = 'Apache License 2.0'
 install_requires = []
 classifiers = [
-    'Development Status :: 5 - Production/Stable',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: Apache Software License',
     'Programming Language :: Python',
