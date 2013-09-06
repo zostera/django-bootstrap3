@@ -1,0 +1,33 @@
+{% with bootstrap_pagination_url=bootstrap_pagination_url|default:"?" %}
+
+    <ul class="{{ pagination_css_classes }}">
+
+        <li class="prev{% if current_page == 1 %} disabled{% endif %}">
+            <a href="{% if current_page == 1 %}#{% else %}{{ bootstrap_pagination_url }}page=1{% endif %}">&laquo;</a>
+        </li>
+
+        {% if pages_back %}
+            <li>
+                <a href="{{ bootstrap_pagination_url }}page={{ pages_back }}">&hellip;</a>
+            </li>
+        {% endif %}
+
+        {% for p in pages_shown %}
+            <li{% if current_page == p %} class="active"{% endif %}>
+                <a href="{% if current_page == p %}#{% else %}{{ bootstrap_pagination_url }}page={{ p }}{% endif %}">{{ p }}</a>
+            </li>
+        {% endfor %}
+
+        {% if pages_forward %}
+            <li>
+                <a href="{{ bootstrap_pagination_url }}page={{ pages_forward }}">&hellip;</a>
+            </li>
+        {% endif %}
+
+        <li class="last{% if current_page == num_pages %} disabled{% endif %}">
+            <a href="{% if current_page == num_pages %}#{% else %}{{ bootstrap_pagination_url }}page={{ num_pages }}{% endif %}">&raquo;</a>
+        </li>
+
+    </ul>
+
+{% endwith %}
