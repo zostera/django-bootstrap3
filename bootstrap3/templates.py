@@ -2,6 +2,9 @@
 Extra features for template file handling
 """
 
+from __future__ import absolute_import
+from __future__ import unicode_literals
+
 import re
 
 from django.template.base import kwarg_re, TemplateSyntaxError, FilterExpression

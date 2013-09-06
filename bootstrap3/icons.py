@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import unicode_literals
+
+
 def render_icon(icon):
     """
     Render a Bootstrap glyphicon icon
