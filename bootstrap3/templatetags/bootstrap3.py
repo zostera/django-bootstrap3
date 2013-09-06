@@ -1,6 +1,3 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-
 from django import template
 
 from ..bootstrap import jquery_url, javascript_url, css_url
