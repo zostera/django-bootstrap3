@@ -2,16 +2,13 @@ language: python
 
 # Python versions for matrix
 python:
-  - "3.3"
   - "2.7"
   - "2.6"
-  - "2.5"
 
 # Django versions for matrix
 env:
-  - DJANGO_VERSION=1.3
-  - DJANGO_VERSION=1.4
-  - DJANGO_VERSION=1.5
+  - DJANGO_VERSION=1.4.6
+  - DJANGO_VERSION=1.5.2
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
