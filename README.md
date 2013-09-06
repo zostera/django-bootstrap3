@@ -19,6 +19,14 @@
 Alternatively, you can download or clone this repo and call `pip install -e .`.
 
 
+## Requirements
+
+- Python 2.6 or 2.7
+- Django >= 1.4
+
+Contributions and pull requests for other Django and Python versions are welcome.
+
+
 ## Usage
 
 In your templates, load the `bootstrap3` library and use the `bootstrap_*` tags
