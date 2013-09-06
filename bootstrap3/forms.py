@@ -116,10 +116,6 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
     if wrapper:
         rendered_field = wrapper % rendered_field
 
-    # Wrap the rendered field in a class if set
-    if field_class:
-        rendered_field = '<div class="%s">%s</div>' % (field_class, rendered_field)
-
     # Prepare label, horizontal forms require a small trick
     label = field.label
     if put_inside_label:
