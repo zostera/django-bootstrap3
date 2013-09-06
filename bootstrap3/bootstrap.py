@@ -5,7 +5,6 @@ from django.conf import settings
 
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
-    'include_jquery': False,
     'jquery_url': '//code.jquery.com/jquery.min.js',
     'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.0.0/',
     'css_url': None,
@@ -29,11 +28,9 @@ def bootstrap_url(postfix):
 
 def jquery_url():
     """
-    Return the full url to jQuery file to use (empty if we don't include jQuery)
+    Return the full url to jQuery file to use
     """
-    if BOOTSTRAP3['include_jquery']:
-        return BOOTSTRAP3['jquery_url']
-    return ''
+    return BOOTSTRAP3['jquery_url']
 
 
 def javascript_url():

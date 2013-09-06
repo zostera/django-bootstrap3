@@ -112,6 +112,16 @@ class TemplateTest(TestCase):
         res = template.render(Context({}))
         self.assertIn('test_bootstrap3_content', res)
 
+    def test_javascript_without_jquery(self):
+        res = render_template('{% bootstrap_javascript jquery=False %}')
+        self.assertIn('bootstrap', res)
+        self.assertNotIn('jquery', res)
+
+    def test_javascript_with_jquery(self):
+        res = render_template('{% bootstrap_javascript jquery=True %}')
+        self.assertIn('bootstrap', res)
+        self.assertIn('jquery', res)
+
 
 class FormTest(TestCase):
 
