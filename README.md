@@ -1,9 +1,7 @@
-# django-bootstrap3 [![Build Status](https://secure.travis-ci.org/dyve/django-bootstrap3.png)](http://travis-ci.org/dyve/django-bootstrap3)
+# django-bootstrap3 [![Build Status](https://secure.travis-ci.org/dyve/django-bootstrap3.png)](http://travis-ci.org/dyve/django-bootstrap3) [![PyPi version](https://pypip.in/v/django-bootstrap3/badge.png)](https://crate.io/packages/django-bootstrap3/) [![PyPi downloads](https://pypip.in/d/django-bootstrap3/badge.png)](https://crate.io/packages/django-bootstrap3/)
 
 
-**Bootstrap 3 integration with Django.**
-
-**Author:** Dylan Verheul, <dylan@dyve.net> ([Follow me on Twitter][1]).
+Bootstrap 3 integration with Django. Easily generate Bootstrap3 compatible HTML using template tags.
 
 
 ## Installation
@@ -52,6 +50,13 @@ https://github.com/dyve/django-bootstrap3/issues
 ## License
 
 You can use this under Apache 2.0. See LICENSE file for details.
+
+
+## Author
+
+My name is Dylan Verheul, you can reach me at <dylan@dyve.net> or [follow me on Twitter][1].
+
+
 
 
 [1]: http://twitter.com/dyve
