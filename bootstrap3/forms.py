@@ -40,9 +40,9 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         return force_text(field)
 
     # Read widgets attributes
-    widget_attr_class = getattr(field.field.widget.attrs, 'class', '')
-    widget_attr_placeholder = getattr(field.field.widget.attrs, 'placeholder', '')
-    widget_attr_title = getattr(field.field.widget.attrs, 'title', '')
+    widget_attr_class = field.field.widget.attrs.get('class', '')
+    widget_attr_placeholder = field.field.widget.attrs.get('placeholder', '')
+    widget_attr_title = field.field.widget.attrs.get('title', '')
 
     # Class to add to field element
     if isinstance(field.field.widget, widgets.FileInput):
