@@ -31,7 +31,11 @@ class TestForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
     """
-    subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
+    subject = forms.CharField(
+        max_length=100,
+        help_text='Maximum 100 chars.',
+        widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
+    )
     message = forms.CharField()
     sender = forms.EmailField()
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
@@ -147,6 +151,7 @@ class FieldTest(TestCase):
     def test_subject(self):
         res = render_field('subject')
         self.assertIn('type="text"', res)
+        self.assertIn('placeholder="placeholdertest"', res)
 
 
 class IconTest(TestCase):
