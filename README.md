@@ -4,18 +4,31 @@
 Bootstrap 3 integration with Django. Easily generate Bootstrap3 compatible HTML using template tags.
 
 
-## Installation
+## Quick Start
 
 1. Install using pip:
 
         pip install django-bootstrap3
 
-2. Add to INSTALLED_APPS:
+   Alternatively, you can install download or clone this repo and call `pip install -e .`.
+
+2. Add to INSTALLED_APPS in your `settings.py`:
 
         'bootstrap3',
 
-Alternatively, you can download or clone this repo and call `pip install -e .`.
+3. In your templates, load the `bootstrap3` library and use the `bootstrap_*` tags
 
+        {% load bootstrap3 %}
+        
+        <form action="/url/to/submit/" method="post" class="form">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% bootstrap_form_buttons %}
+                        <button type="submit" class="btn btn-primary">
+                                {% bootstrap_icon "star" %} Submit
+                        </button>
+                {% end_bootstrap_form_buttons %}
+        </form>
 
 ## Requirements
 
@@ -23,21 +36,6 @@ Alternatively, you can download or clone this repo and call `pip install -e .`.
 - Django >= 1.4
 
 Contributions and pull requests for other Django and Python versions are welcome.
-
-
-## Usage
-
-In your templates, load the `bootstrap3` library and use the `bootstrap_*` tags
-
-    {% load bootstrap3 %}
-
-    <form action="/url/to/submit/" method="post" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% bootstrap_form_buttons %}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        {% end_bootstrap_form_buttons %}
-    </form>
 
 
 ## Bugs and requests
