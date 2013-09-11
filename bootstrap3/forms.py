@@ -1,5 +1,8 @@
 from django.forms import widgets
+from django.forms.forms import BaseForm, BoundField
+from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
+from bootstrap3.exceptions import BootstrapError
 
 from .utils import force_text
 from .html import add_css_class
@@ -10,11 +13,15 @@ FORM_GROUP_CLASS = 'form-group'
 
 
 def render_formset(formset, **kwargs):
+    if not isinstance(formset, BaseFormSet):
+        raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
     forms = [render_form(f, **kwargs) for f in formset]
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
 def render_form(form, inline=False, field_class='', label_class='', horizontal=False):
+    if not isinstance(form, BaseForm):
+        raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
     errors = []
     fields = []
@@ -35,6 +42,8 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
 
 
 def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True):
+    if not isinstance(field, BoundField):
+        raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
     # Hidden input required no special treatment
     if field.is_hidden:
         return force_text(field)
