@@ -19,7 +19,7 @@ def render_formset(formset, **kwargs):
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, inline=False, field_class='', label_class='', horizontal=False):
+def render_form(form, inline=False, field_class='', label_class='', horizontal=False, show_help=True):
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -32,6 +32,7 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
             field_class=field_class,
             label_class=label_class,
             horizontal=horizontal,
+            show_help=show_help,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -41,7 +42,7 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
     return html + '\n'.join(fields)
 
 
-def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True):
+def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True, show_help=True):
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
     # Hidden input required no special treatment
@@ -82,7 +83,7 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         field.field.widget.attrs['class'] = add_css_class(widget_attr_class, form_control_class)
     if field.label and not put_inside_label and not widget_attr_placeholder:
         field.field.widget.attrs['placeholder'] = field.label
-    if not put_inside_label and not widget_attr_title:
+    if show_help and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
 
     # Render the field
@@ -112,7 +113,7 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
     # Add any help text and/or errors
     if not inline:
         help_text_and_errors = []
-        if field.help_text:
+        if show_help and field.help_text:
             help_text_and_errors.append(field.help_text)
         if field.errors:
             help_text_and_errors += field.errors

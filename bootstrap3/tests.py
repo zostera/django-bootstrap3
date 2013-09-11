@@ -34,7 +34,7 @@ class TestForm(forms.Form):
     """
     subject = forms.CharField(
         max_length=100,
-        help_text='Maximum 100 chars.',
+        help_text='my_help_text',
         widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
     )
     message = forms.CharField()
@@ -179,6 +179,12 @@ class FieldTest(TestCase):
     def test_illegal_field(self):
         with self.assertRaises(BootstrapError):
             render_field(field='illegal')
+
+    def test_show_help(self):
+        res = render_form_field('subject')
+        self.assertIn('my_help_text', res)
+        res = render_template('{% bootstrap_field form.subject show_help=0 %}')
+        self.assertNotIn('my_help_text', res)
 
     def test_subject(self):
         res = render_form_field('subject')
