@@ -178,6 +178,18 @@ class FormTest(TestCase):
         res = render_template('{% bootstrap_form form exclude="cc_myself" %}', form=form)
         self.assertNotIn('cc_myself', res)
 
+    def test_layout_horizontal(self):
+        form = TestForm()
+        res = render_template('{% bootstrap_form form layout="horizontal" %}', form=form)
+        self.assertIn('col-md-2', res)
+        self.assertIn('col-md-4', res)
+
+    def test_buttons_tag(self):
+        form = TestForm()
+        res = render_template('{% buttons layout="horizontal" %}{% endbuttons %}', form=form)
+        self.assertIn('col-md-2', res)
+        self.assertIn('col-md-4', res)
+
 
 class FieldTest(TestCase):
 

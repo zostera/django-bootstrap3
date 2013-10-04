@@ -86,15 +86,15 @@ def bootstrap_icon(icon):
     return render_icon(icon)
 
 
-@register.tag
-def bootstrap_form_buttons(parser, token):
+@register.tag('buttons')
+def bootstrap_buttons(parser, token):
     kwargs = parse_token_contents(parser, token)
-    kwargs['nodelist'] = parser.parse(('end_bootstrap_form_buttons', ))
+    kwargs['nodelist'] = parser.parse(('endbuttons', ))
     parser.delete_first_token()
-    return BootstrapFormButtonsNode(**kwargs)
+    return ButtonsNode(**kwargs)
 
 
-class BootstrapFormButtonsNode(template.Node):
+class ButtonsNode(template.Node):
     def __init__(self, nodelist, args, kwargs, asvar, **kwargs2):
         self.nodelist = nodelist
         self.args = args
@@ -102,22 +102,22 @@ class BootstrapFormButtonsNode(template.Node):
         self.asvar = asvar
 
     def render(self, context):
-        kwargs = {}
+        output_kwargs = {}
         for key in self.kwargs:
-            kwargs[key] = handle_var(self.kwargs[key], context)
+            output_kwargs[key] = handle_var(self.kwargs[key], context)
         buttons = []
-        submit = kwargs.get('submit', None)
-        cancel = kwargs.get('cancel', None)
+        submit = output_kwargs.get('submit', None)
+        cancel = output_kwargs.get('cancel', None)
         if submit:
             buttons.append(bootstrap_button(submit, 'submit'))
         if cancel:
             buttons.append(bootstrap_button(cancel, 'cancel'))
         buttons = ' '.join(buttons) + self.nodelist.render(context)
-        kwargs.update({
+        output_kwargs.update({
             'label': None,
             'field': buttons,
         })
-        output = render_form_group(render_field_and_label(**kwargs))
+        output = render_form_group(render_field_and_label(**output_kwargs))
         if self.asvar:
             context[self.asvar] = output
             return ''

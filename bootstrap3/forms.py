@@ -2,6 +2,7 @@ from django.forms import widgets
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
+from bootstrap3.bootstrap import BOOTSTRAP3
 from bootstrap3.exceptions import BootstrapError
 
 from .utils import force_text
@@ -19,7 +20,7 @@ def render_formset(formset, **kwargs):
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, inline=False, field_class='', label_class='', horizontal=False, show_help=True, exclude=''):
+def render_form(form, layout='', field_class='', label_class='', show_help=True, exclude=''):
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -28,10 +29,9 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
     for field in form:
         fields.append(render_field(
             field,
-            inline=inline,
+            layout=layout,
             field_class=field_class,
             label_class=label_class,
-            horizontal=horizontal,
             show_help=show_help,
             exclude=exclude,
         ))
@@ -43,25 +43,20 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
     return html + '\n'.join(fields)
 
 
-def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude=''):
+def render_field(field, layout='', field_class=None, label_class=None, show_label=True, show_help=True, exclude=''):
     # Only allow BoundField
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
-
     # See if we're not excluded
     if field.name in exclude.replace(' ', '').split(','):
         return ''
-
     # Hidden input required no special treatment
     if field.is_hidden:
         return force_text(field)
-
     # Read widgets attributes
     widget_attr_class = field.field.widget.attrs.get('class', '')
     widget_attr_placeholder = field.field.widget.attrs.get('placeholder', '')
     widget_attr_title = field.field.widget.attrs.get('title', '')
-
     # Class to add to field element
     if isinstance(field.field.widget, widgets.FileInput):
         form_control_class = ''
@@ -73,7 +68,6 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
     put_inside_label = False
     # Wrapper for the final result (should contain %s if not empty)
     wrapper = ''
-
     # Adjust workings for various widget types
     if isinstance(field.field.widget, widgets.CheckboxInput):
         form_control_class = ''
@@ -85,7 +79,6 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
     elif isinstance(field.field.widget, widgets.CheckboxSelectMultiple):
         form_control_class = ''
         list_to_class = 'checkbox'
-
     # Temporarily adjust to widget class and placeholder attributes if necessary
     if form_control_class:
         field.field.widget.attrs['class'] = add_css_class(widget_attr_class, form_control_class)
@@ -93,15 +86,12 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         field.field.widget.attrs['placeholder'] = field.label
     if show_help and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
-
     # Render the field
     rendered_field = force_text(field)
-
     # Return class and placeholder attributes to original settings
     field.field.widget.attrs['class'] = widget_attr_class
     field.field.widget.attrs['placeholder'] = widget_attr_placeholder
     field.field.widget.attrs['title'] = widget_attr_title
-
     # Handle widgets that are rendered as lists
     if list_to_class:
         mapping = [
@@ -112,14 +102,11 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
         ]
         for k, v in mapping:
             rendered_field = rendered_field.replace(k, v)
-
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
-        rendered_field = render_label('%s %s' % (rendered_field, field.label,),
-                                      label_title=field.help_text)
-
+        rendered_field = render_label('%s %s' % (rendered_field, field.label,), label_title=field.help_text)
     # Add any help text and/or errors
-    if not inline:
+    if layout != 'inline':
         help_text_and_errors = []
         if show_help and field.help_text:
             help_text_and_errors.append(field.help_text)
@@ -129,27 +116,23 @@ def render_field(field, inline=False, horizontal=False, field_class=None, label_
             rendered_field += '<span class="help-block">%s</span>' % ' '.join(
                 force_text(s) for s in help_text_and_errors
             )
-
     # Wrap the rendered field
     if wrapper:
         rendered_field = wrapper % rendered_field
-
-    # Prepare label, horizontal forms require a small trick
+    # Prepare label
     label = field.label
     if put_inside_label:
         label = None
-    if inline or not show_label:
+    if layout == 'inline' or not show_label:
         label_class = add_css_class(label_class, 'sr-only')
-
     # Render label and field
     content = render_field_and_label(
         field=rendered_field,
         label=label,
         field_class=field_class,
         label_class=label_class,
-        horizontal=horizontal,
+        layout=layout,
     )
-
     # Return combined content, wrapped in form control
     form_group_class = ''
     if field.errors:
@@ -189,12 +172,13 @@ def render_button(content, button_type=None, icon=None):
     }
 
 
-def render_field_and_label(field, label, field_class='', label_class='', horizontal=False, **kwargs):
+def render_field_and_label(field, label, field_class='', label_class='', layout='', **kwargs):
     # Default settings for horizontal form
-    if horizontal:
+    if layout == 'horizontal':
+        if not label_class:
+            label_class = BOOTSTRAP3['horizontal_label_class']
         if not field_class:
-            label_class = 'col-lg-2'
-            field_class = 'col-lg-10'
+            field_class = BOOTSTRAP3['horizontal_field_class']
         if not label:
             label = '&nbsp;'
         label_class = add_css_class(label_class, 'control-label')

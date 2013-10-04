@@ -10,6 +10,8 @@ BOOTSTRAP3_DEFAULTS = {
     'css_url': None,
     'theme_url': None,
     'javascript_url': None,
+    'horizontal_label_class': 'col-md-2',
+    'horizontal_field_class': 'col-md-4',
 }
 
 # Start with a copy of default settings
