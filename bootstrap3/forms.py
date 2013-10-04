@@ -19,7 +19,7 @@ def render_formset(formset, **kwargs):
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, inline=False, field_class='', label_class='', horizontal=False, show_help=True):
+def render_form(form, inline=False, field_class='', label_class='', horizontal=False, show_help=True, exclude=''):
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -33,6 +33,7 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
             label_class=label_class,
             horizontal=horizontal,
             show_help=show_help,
+            exclude=exclude,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -42,9 +43,16 @@ def render_form(form, inline=False, field_class='', label_class='', horizontal=F
     return html + '\n'.join(fields)
 
 
-def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True, show_help=True):
+def render_field(field, inline=False, horizontal=False, field_class=None, label_class=None, show_label=True,
+                 show_help=True, exclude=''):
+    # Only allow BoundField
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
+
+    # See if we're not excluded
+    if field.name in exclude.replace(' ', '').split(','):
+        return ''
+
     # Hidden input required no special treatment
     if field.is_hidden:
         return force_text(field)

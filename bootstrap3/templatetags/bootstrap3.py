@@ -124,7 +124,8 @@ class BootstrapFormButtonsNode(template.Node):
         else:
             return output
 
-@register.inclusion_tag("bootstrap3/pagination.html")
+
+@register.inclusion_tag('bootstrap3/pagination.html')
 def bootstrap_pagination(page, **kwargs):
     """
     Render pagination for a page

@@ -173,6 +173,11 @@ class FormTest(TestCase):
         for field in form:
             self.assertIn('name="%s"' % field.name, res)
 
+    def test_exclude(self):
+        form = TestForm()
+        res = render_template('{% bootstrap_form form exclude="cc_myself" %}', form=form)
+        self.assertNotIn('cc_myself', res)
+
 
 class FieldTest(TestCase):
 
@@ -194,6 +199,6 @@ class FieldTest(TestCase):
 
 class IconTest(TestCase):
 
-    def test_subject(self):
+    def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
         self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
