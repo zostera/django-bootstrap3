@@ -28,13 +28,13 @@ Bootstrap 3 integration with Django. Easily generate Bootstrap3 compatible HTML 
         {# Display a form #}
         
         <form action="/url/to/submit/" method="post" class="form">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                {% bootstrap_buttons %}
-                        <button type="submit" class="btn btn-primary">
-                                {% bootstrap_icon "star" %} Submit
-                        </button>
-                {% endbuttons %}
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    {% bootstrap_icon "star" %} Submit
+                </button>
+            {% endbuttons %}
         </form>
 
 ## Requirements
