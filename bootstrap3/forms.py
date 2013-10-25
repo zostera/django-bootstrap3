@@ -20,7 +20,7 @@ def render_formset(formset, **kwargs):
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, layout='', field_class='', label_class='', show_help=True, exclude=''):
+def render_form(form, layout='', field_class='', label_class='', show_help=True, exclude='', wrap_fields=True):
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -34,6 +34,7 @@ def render_form(form, layout='', field_class='', label_class='', show_help=True,
             label_class=label_class,
             show_help=show_help,
             exclude=exclude,
+            wrap=wrap_fields,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -43,7 +44,7 @@ def render_form(form, layout='', field_class='', label_class='', show_help=True,
     return html + '\n'.join(fields)
 
 
-def render_field(field, layout='', field_class=None, label_class=None, show_label=True, show_help=True, exclude=''):
+def render_field(field, layout='', field_class=None, label_class=None, show_label=True, show_help=True, exclude='', wrap=True):
     # Only allow BoundField
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
@@ -139,7 +140,10 @@ def render_field(field, layout='', field_class=None, label_class=None, show_labe
         form_group_class = 'has-error'
     elif field.form.is_bound:
         form_group_class = 'has-success'
-    return render_form_group(content, form_group_class)
+
+    if wrap:
+        return render_form_group(content, form_group_class)
+    return content
 
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
