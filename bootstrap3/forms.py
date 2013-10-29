@@ -2,9 +2,9 @@ from django.forms import widgets
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
-from bootstrap3.bootstrap import BOOTSTRAP3
-from bootstrap3.exceptions import BootstrapError
 
+from .bootstrap import BOOTSTRAP3
+from .exceptions import BootstrapError
 from .utils import force_text
 from .html import add_css_class
 from .icons import render_icon
@@ -157,13 +157,16 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
 
 
 def render_button(content, button_type=None, icon=None):
-    attrs = {}
+    attrs = {
+        'class': 'btn'
+    }
     icon_content = ''
     if button_type:
+        if button_type == 'submit':
+            attrs['class'] += ' btn-primary'
+        elif button_type != 'reset' and button_type != 'button':
+            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
-    attrs['class'] = 'btn'
-    if button_type == 'submit':
-        attrs['class'] += ' btn-primary'
     if icon:
         icon_content = render_icon(icon) + ' '
     return '<button%(attrs)s>%(content)s</button>' % {

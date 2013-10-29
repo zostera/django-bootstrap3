@@ -107,11 +107,11 @@ class ButtonsNode(template.Node):
             output_kwargs[key] = handle_var(self.kwargs[key], context)
         buttons = []
         submit = output_kwargs.get('submit', None)
-        cancel = output_kwargs.get('cancel', None)
+        reset = output_kwargs.get('reset', None)
         if submit:
             buttons.append(bootstrap_button(submit, 'submit'))
-        if cancel:
-            buttons.append(bootstrap_button(cancel, 'cancel'))
+        if reset:
+            buttons.append(bootstrap_button(reset, 'reset'))
         buttons = ' '.join(buttons) + self.nodelist.render(context)
         output_kwargs.update({
             'label': None,
