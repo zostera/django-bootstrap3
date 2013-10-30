@@ -35,9 +35,10 @@ class TestForm(forms.Form):
     subject = forms.CharField(
         max_length=100,
         help_text='my_help_text',
+        required=True,
         widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
     )
-    message = forms.CharField()
+    message = forms.CharField(required=False)
     sender = forms.EmailField()
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(required=False, help_text='You will get a copy in your mailbox.')
@@ -207,6 +208,12 @@ class FieldTest(TestCase):
         res = render_form_field('subject')
         self.assertIn('type="text"', res)
         self.assertIn('placeholder="placeholdertest"', res)
+
+    def test_required_field(self):
+        required_field = render_form_field('subject')
+        self.assertIn('required', required_field)
+        not_required_field = render_form_field('message')
+        self.assertNotIn('required', not_required_field)
 
 
 class IconTest(TestCase):
