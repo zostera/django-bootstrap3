@@ -1,6 +1,7 @@
 from math import floor
 import re
 from django import template
+from django.template.loader import get_template
 
 from ..bootstrap import jquery_url, javascript_url, css_url
 from ..icons import render_icon
@@ -123,6 +124,14 @@ class ButtonsNode(template.Node):
             return ''
         else:
             return output
+
+
+@register.simple_tag(takes_context=True)
+def bootstrap_messages(context, *args, **kwargs):
+    """
+    Show django.contrib.messages Messages in Bootstrap alert containers
+    """
+    return get_template('bootstrap3/messages.html').render(context)
 
 
 @register.inclusion_tag('bootstrap3/pagination.html')
