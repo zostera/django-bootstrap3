@@ -1,11 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.forms import widgets
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
+from django.utils.encoding import force_text
 
 from .bootstrap import BOOTSTRAP3
 from .exceptions import BootstrapError
-from .utils import force_text
 from .html import add_css_class
 from .icons import render_icon
 

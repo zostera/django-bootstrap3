@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 
 from django import forms
 from django.template import Template, Context
+from django.utils.encoding import force_text
 from django.utils.unittest import TestCase
 
 from .exceptions import BootstrapError
-from .utils import force_text
 
 
 RADIO_CHOICES = (
@@ -118,14 +120,6 @@ class SettingsTest(TestCase):
     def test_settings(self):
         from .bootstrap import BOOTSTRAP3
         self.assertTrue(BOOTSTRAP3)
-
-
-class UtilsTest(TestCase):
-
-    def test_force_text(self):
-        s = b'\xa0'
-        self.assertNotEqual(force_text(s), '\xa0')
-        self.assertEqual(force_text('text'), 'text')
 
 
 class TemplateTest(TestCase):

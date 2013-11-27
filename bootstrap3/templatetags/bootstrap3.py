@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from math import floor
 import re
 from django import template
@@ -5,7 +8,8 @@ from django.template.loader import get_template
 
 from ..bootstrap import jquery_url, javascript_url, css_url
 from ..icons import render_icon
-from ..forms import render_formset, render_field, render_form, render_button, render_label, render_form_group, render_field_and_label
+from ..forms import (render_formset, render_field, render_form, render_button,
+    render_label, render_form_group, render_field_and_label)
 from ..templates import parse_token_contents, handle_var
 
 
