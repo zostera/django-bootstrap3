@@ -1,4 +1,5 @@
-# Django settings for django_bootstrap3 project.
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import os
 import sys

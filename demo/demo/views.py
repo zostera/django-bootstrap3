@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
@@ -37,7 +40,7 @@ class PaginationView(TemplateView):
         context = super(PaginationView, self).get_context_data(**kwargs)
         lines = []
         for i in range(10000):
-            lines.append(u'Line %s' % (i + 1))
+            lines.append('Line %s' % (i + 1))
         paginator = Paginator(lines, 10)
         page = self.request.GET.get('page')
         try:

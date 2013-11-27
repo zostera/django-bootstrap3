@@ -205,20 +205,20 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     if url:
         # Remove existing page GET parameters
         url = unicode(url)
-        url = re.sub(r'\?page\=[^\&]+', u'?', url)
-        url = re.sub(r'\&page\=[^\&]+', u'', url)
+        url = re.sub(r'\?page\=[^\&]+', '?', url)
+        url = re.sub(r'\&page\=[^\&]+', '', url)
         # Append proper separator
-        if u'?' in url:
-            url += u'&'
+        if '?' in url:
+            url += '&'
         else:
-            url += u'?'
+            url += '?'
         # Append extra string to url
     if extra:
         if not url:
-            url = u'?'
-        url += unicode(extra) + u'&'
+            url = '?'
+        url += unicode(extra) + '&'
     if url:
-        url = url.replace(u'?&', u'?')
+        url = url.replace('?&', '?')
         # Set CSS classes, see http://twitter.github.io/bootstrap/components.html#pagination
     pagination_css_classes = ['pagination']
     if size == 'small':
