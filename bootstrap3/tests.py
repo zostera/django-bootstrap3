@@ -214,3 +214,38 @@ class IconTest(TestCase):
     def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
         self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
+
+
+class MessagesTest(TestCase):
+
+    def test_messages(self):
+        class FakeMessage(object):
+            """
+            Follows the `django.contrib.messages.storage.base.Message` API.
+            """
+            def __init__(self, message, tags):
+                self.tags = tags
+                self.message = message
+
+            def __str__(self):
+                return self.message
+
+        messages = [FakeMessage("hello", "warning")]
+        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        expected = """
+    <div class="alert alert-warning" data-dismiss="alert">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        hello
+    </div>
+"""
+        self.assertEqual(res.strip(), expected.strip())
+
+        messages = [FakeMessage("hello", None)]
+        expected = """
+    <div class="alert" data-dismiss="alert">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        hello
+    </div>
+"""
+        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        self.assertEqual(res.strip(), expected.strip())

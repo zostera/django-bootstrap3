@@ -25,6 +25,9 @@ Bootstrap 3 integration with Django. Easily generate Bootstrap3 compatible HTML 
         {% bootstrap_css %}
         {% bootstrap_javascript %}
         
+        {# Display django.contrib.messages as Bootstrap alerts }
+        {% bootstrap_messages %}
+
         {# Display a form #}
         
         <form action="/url/to/submit/" method="post" class="form">
