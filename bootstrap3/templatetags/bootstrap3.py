@@ -66,29 +66,41 @@ def bootstrap_form(*args, **kwargs):
 
 @register.simple_tag
 def bootstrap_field(*args, **kwargs):
+    """
+    Render a field
+    """
     return render_field(*args, **kwargs)
 
 
 @register.simple_tag()
 def bootstrap_label(*args, **kwargs):
+    """
+    Render a label
+    """
     return render_label(*args, **kwargs)
 
 
 @register.simple_tag
 def bootstrap_button(*args, **kwargs):
+    """
+    Render a button
+    """
     return render_button(*args, **kwargs)
 
 
 @register.simple_tag
 def bootstrap_icon(icon):
     """
-    Return an icon
+    Render an icon
     """
     return render_icon(icon)
 
 
 @register.tag('buttons')
 def bootstrap_buttons(parser, token):
+    """
+    Render buttons for form
+    """
     kwargs = parse_token_contents(parser, token)
     kwargs['nodelist'] = parser.parse(('endbuttons', ))
     parser.delete_first_token()
@@ -185,7 +197,7 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     pages_shown = []
     for i in range(first_page, last_page + 1):
         pages_shown.append(i)
-    # Append proper character to url
+        # Append proper character to url
     if url:
         # Remove existing page GET parameters
         url = unicode(url)
@@ -196,20 +208,20 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
             url += u'&'
         else:
             url += u'?'
-    # Append extra string to url
+        # Append extra string to url
     if extra:
         if not url:
             url = u'?'
         url += unicode(extra) + u'&'
     if url:
         url = url.replace(u'?&', u'?')
-    # Set CSS classes, see http://twitter.github.io/bootstrap/components.html#pagination
+        # Set CSS classes, see http://twitter.github.io/bootstrap/components.html#pagination
     pagination_css_classes = ['pagination']
     if size == 'small':
         pagination_css_classes.append('pagination-sm')
     elif size == 'large':
         pagination_css_classes.append('pagination-lg')
-    # Build context object
+        # Build context object
     return {
         'bootstrap_pagination_url': url,
         'num_pages': num_pages,
