@@ -25,6 +25,6 @@ script:
 matrix:
   exclude:
     - python: "3.2"
-      env: DJANGO_VERSION<"django==1.6"
+      env: DJANGO_VERSION<"1.6"
     - python: "3.3"
-      env: DJANGO_VERSION<"django==1.6"
+      env: DJANGO_VERSION<"1.6"
