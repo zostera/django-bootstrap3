@@ -16,6 +16,12 @@ from .icons import render_icon
 FORM_GROUP_CLASS = 'form-group'
 
 
+def to_unicode(string):
+    if isinstance(string, str):
+        return string.decode("utf-8", "ignore")
+    return unicode(string)
+
+
 def render_formset(formset, **kwargs):
     if not isinstance(formset, BaseFormSet):
         raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
@@ -194,8 +200,9 @@ def render_field_and_label(field, label, field_class='', label_class='', layout=
     html = field
     if field_class:
         html = '<div class="%s">%s</div>' % (field_class, html)
+    html = to_unicode(html)
     if label:
-        html = render_label(label, label_class=label_class) + html
+        html = render_label(to_unicode(label), label_class=label_class) + html
     return html
 
 
