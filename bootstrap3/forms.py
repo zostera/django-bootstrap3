@@ -57,6 +57,7 @@ def render_field(field, layout='', field_class=None, label_class=None, show_labe
     widget_attr_class = field.field.widget.attrs.get('class', '')
     widget_attr_placeholder = field.field.widget.attrs.get('placeholder', '')
     widget_attr_title = field.field.widget.attrs.get('title', '')
+    widget_is_required = field.field.required
     # Class to add to field element
     if isinstance(field.field.widget, widgets.FileInput):
         form_control_class = ''
@@ -86,6 +87,8 @@ def render_field(field, layout='', field_class=None, label_class=None, show_labe
         field.field.widget.attrs['placeholder'] = field.label
     if show_help and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
+    if widget_is_required:
+        field.field.widget.attrs['required'] = ''
     # Render the field
     rendered_field = force_text(field)
     # Return class and placeholder attributes to original settings
