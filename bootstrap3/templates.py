@@ -1,11 +1,14 @@
-"""
-Extra features for template file handling
-"""
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import re
 
 from django.template.base import kwarg_re, TemplateSyntaxError, FilterExpression
 from django.template import Variable, VariableDoesNotExist
+
+"""
+Extra features for template file handling
+"""
 
 
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')

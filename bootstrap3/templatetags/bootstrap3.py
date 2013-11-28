@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from math import floor
 import re
 from django import template
@@ -5,7 +8,8 @@ from django.template.loader import get_template
 
 from ..bootstrap import jquery_url, javascript_url, css_url
 from ..icons import render_icon
-from ..forms import render_formset, render_field, render_form, render_button, render_label, render_form_group, render_field_and_label
+from ..forms import (render_formset, render_field, render_form, render_button,
+    render_label, render_form_group, render_field_and_label)
 from ..templates import parse_token_contents, handle_var
 
 
@@ -201,20 +205,20 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     if url:
         # Remove existing page GET parameters
         url = unicode(url)
-        url = re.sub(r'\?page\=[^\&]+', u'?', url)
-        url = re.sub(r'\&page\=[^\&]+', u'', url)
+        url = re.sub(r'\?page\=[^\&]+', '?', url)
+        url = re.sub(r'\&page\=[^\&]+', '', url)
         # Append proper separator
-        if u'?' in url:
-            url += u'&'
+        if '?' in url:
+            url += '&'
         else:
-            url += u'?'
+            url += '?'
         # Append extra string to url
     if extra:
         if not url:
-            url = u'?'
-        url += unicode(extra) + u'&'
+            url = '?'
+        url += unicode(extra) + '&'
     if url:
-        url = url.replace(u'?&', u'?')
+        url = url.replace('?&', '?')
         # Set CSS classes, see http://twitter.github.io/bootstrap/components.html#pagination
     pagination_css_classes = ['pagination']
     if size == 'small':
