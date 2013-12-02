@@ -93,7 +93,7 @@ def render_field(field, layout='', field_class=None, label_class=None, show_labe
     if widget_is_required:
         field.field.widget.attrs['required'] = ''
     # Render the field
-    rendered_field = force_text(field)
+    rendered_field = field.as_widget(attrs=field.field.widget.attrs)
     # Return class and placeholder attributes to original settings
     field.field.widget.attrs['class'] = widget_attr_class
     field.field.widget.attrs['placeholder'] = widget_attr_placeholder
