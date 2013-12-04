@@ -23,7 +23,7 @@ def render_formset(formset, **kwargs):
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, layout='', field_class='', label_class='', show_help=True, exclude=''):
+def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class='', label_class='', show_help=True, exclude=''):
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -33,6 +33,7 @@ def render_form(form, layout='', field_class='', label_class='', show_help=True,
         fields.append(render_field(
             field,
             layout=layout,
+            form_group_class=form_group_class,
             field_class=field_class,
             label_class=label_class,
             show_help=show_help,
@@ -46,7 +47,7 @@ def render_form(form, layout='', field_class='', label_class='', show_help=True,
     return html + '\n'.join(fields)
 
 
-def render_field(field, layout='', field_class=None, label_class=None, show_label=True, show_help=True, exclude=''):
+def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS, field_class=None, label_class=None, show_label=True, show_help=True, exclude=''):
     # Only allow BoundField
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.' + field)
@@ -140,11 +141,11 @@ def render_field(field, layout='', field_class=None, label_class=None, show_labe
         layout=layout,
     )
     # Return combined content, wrapped in form control
-    form_group_class = ''
     if field.errors:
-        form_group_class = 'has-error'
+        form_group_class = add_css_class(form_group_class, 'has-error') 
     elif field.form.is_bound:
-        form_group_class = 'has-success'
+        form_group_class = add_css_class(form_group_class, 'has-success') 
+
     return render_form_group(content, form_group_class)
 
 
@@ -199,8 +200,8 @@ def render_field_and_label(field, label, field_class='', label_class='', layout=
     return html
 
 
-def render_form_group(content, css_class=''):
+def render_form_group(content, css_class=FORM_GROUP_CLASS):
     return '<div class="%(class)s">%(content)s</div>' % {
-        'class': add_css_class(FORM_GROUP_CLASS, css_class),
+        'class': css_class,
         'content': content,
     }
