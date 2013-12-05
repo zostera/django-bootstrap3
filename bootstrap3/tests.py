@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.template import Template, Context
-from django.utils.encoding import force_text
+# from django.utils.encoding import force_text  # PEP8: imported but unused
 from django.utils.unittest import TestCase
 
 from .exceptions import BootstrapError

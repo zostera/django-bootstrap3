@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 import re
 
-from django.template.base import kwarg_re, TemplateSyntaxError, FilterExpression
 from django.template import Variable, VariableDoesNotExist
+from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 
 """
 Extra features for template file handling
@@ -18,7 +18,7 @@ def handle_var(value, context):
     # Resolve FilterExpression and Variable immediately
     if isinstance(value, FilterExpression) or isinstance(value, Variable):
         return value.resolve(context)
-    # Return quoted strings unquotes, from http://djangosnippets.org/snippets/886/
+    # Return quoted strings unquotes, from djangosnippets.org/snippets/886
     stringval = QUOTED_STRING.search(value)
     if stringval:
         return stringval.group('noquotes')
@@ -42,7 +42,8 @@ def parse_token_contents(parser, token):
         for bit in bits:
             match = kwarg_re.match(bit)
             if not match:
-                raise TemplateSyntaxError('Malformed arguments to tag "%s"' % tag)
+                raise TemplateSyntaxError(
+                      'Malformed arguments to tag "{}"'.format(tag))
             name, value = match.groups()
             if name:
                 kwargs[name] = parser.compile_filter(value)
@@ -54,5 +55,3 @@ def parse_token_contents(parser, token):
         'kwargs': kwargs,
         'asvar': asvar,
     }
-
-
