@@ -50,7 +50,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
         html += '''<div class="alert alert-danger alert-dismissable alert-link">
                    <button class=close data-dismiss=alert aria-hidden=true>
                    &times;</button>{errors}</div>\n
-                '''.format(errors='\n'.join(['<p>{}</p>'.format(e) for e in errors]))
+                '''.format(errors='\n'.join(['<p>{e}</p>'.format(e=e) for e in errors]))
     return html + '\n'.join(fields)
 
 
@@ -115,15 +115,15 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         mapping = [
             ('<ul', '<div'),
             ('</ul>', '</div>'),
-            ('<li', '<div class="{}"'.format(list_to_class)),
+            ('<li', '<div class="{klass}"'.format(klass=list_to_class)),
             ('</li>', '</div>'),
         ]
         for k, v in mapping:
             rendered_field = rendered_field.replace(k, v)
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
-        rendered_field = render_label('{} {}'.format(rendered_field,
-                                      field.label), label_title=field.help_text)
+        rendered_field = render_label('{field} {label}'.format(field=rendered_field,
+                                      label=field.label), label_title=field.help_text)
     # Add any help text and/or errors
     if layout != 'inline':
         help_text_and_errors = []
@@ -132,8 +132,8 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         if field.errors:
             help_text_and_errors += field.errors
         if help_text_and_errors:
-            rendered_field += '<span class=help-block>{}</span>'.format(
-                ' '.join(force_text(s) for s in help_text_and_errors)
+            rendered_field += '<span class=help-block>{help}</span>'.format(
+                help=' '.join(force_text(s) for s in help_text_and_errors)
             )
     # Wrap the rendered field
     if wrapper:
@@ -188,7 +188,7 @@ def render_button(content, button_type=None, icon=None):
     if icon:
         icon_content = render_icon(icon) + ' '
     return '<button{attrs}>{content}</button>'.format(attrs=flatatt(attrs),
-           content='{}{}'.format(icon_content, content))
+           content='{icon_content}{content}'.format(icon_content=icon_content, content=content))
 
 
 def render_field_and_label(field, label, field_class='',
@@ -204,7 +204,7 @@ def render_field_and_label(field, label, field_class='',
         label_class = add_css_class(label_class, 'control-label')
     html = field
     if field_class:
-        html = '<div class="{}">{}</div>'.format(field_class, html)
+        html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
     if label:
         html = render_label(label, label_class=label_class) + html
     return html

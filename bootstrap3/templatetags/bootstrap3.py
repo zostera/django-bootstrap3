@@ -36,7 +36,7 @@ def bootstrap_css_url():
 def bootstrap_css():
     url = bootstrap_css_url()
     if url:  # http://mothereff.in/unquoted-attributes
-        return '<link href="{}" rel=stylesheet media=screen>'.format(url)
+        return '<link href="{url}" rel=stylesheet media=screen>'.format(url=url)
     return ''
 
 
@@ -46,10 +46,10 @@ def bootstrap_javascript(jquery=False):
     if jquery:
         url = bootstrap_jquery_url()
         if url:  # http://caniuse.com/#search=async
-            javascript += '<script src="{}" async></script>'.format(url)
+            javascript += '<script src="{url}" async></script>'.format(url=url)
     url = bootstrap_javascript_url()
     if url:
-        javascript += '<script src="{}" async></script>'.format(url)
+        javascript += '<script src="{url}" async></script>'.format(url=url)
     return javascript
 
 
@@ -169,7 +169,7 @@ def get_pagination_context(page, pages_to_show=11,
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
         raise ValueError("Pagination pages_to_show should be a positive " +
-                         "integer, you specified {}".format(pages_to_show))
+                         "integer, you specified {pages}".format(pages=pages_to_show))
     num_pages = page.paginator.num_pages
     current_page = page.number
     half_page_num = int(floor(pages_to_show / 2)) - 1
