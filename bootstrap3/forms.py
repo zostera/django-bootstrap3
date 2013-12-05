@@ -49,8 +49,8 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
     if errors:
         html += '''<div class="alert alert-danger alert-dismissable alert-link">
                    <button class=close data-dismiss=alert aria-hidden=true>
-                   &times;</button>{}</div>\n
-                '''.format('\n'.join(['<p>{}</p>'.format(e) for e in errors]))
+                   &times;</button>{errors}</div>\n
+                '''.format(errors='\n'.join(['<p>{}</p>'.format(e) for e in errors]))
     return html + '\n'.join(fields)
 
 
@@ -87,7 +87,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if isinstance(field.field.widget, widgets.CheckboxInput):
         form_control_class = ''
         put_inside_label = True
-        wrapper = '<div class=checkbox>{}</div>'
+        wrapper = '<div class=checkbox>{content}</div>'
     elif isinstance(field.field.widget, widgets.RadioSelect):
         form_control_class = ''
         list_to_class = 'radio'
@@ -137,7 +137,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
             )
     # Wrap the rendered field
     if wrapper:
-        rendered_field = wrapper.format(rendered_field)
+        rendered_field = wrapper.format(content=rendered_field)
     # Prepare label
     label = field.label
     if put_inside_label:
