@@ -234,8 +234,8 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", "warning")]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert alert-warning" data-dismiss="alert">
-        <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <div class="alert alert-warning" data-dismiss=alert>
+        <button class=close data-dismiss=alert aria-hidden=true>&times;</button>
         hello
     </div>
 """
@@ -243,8 +243,8 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage("hello", None)]
         expected = """
-    <div class="alert" data-dismiss="alert">
-        <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <div class="alert" data-dismiss=alert>
+        <button class=close data-dismiss=alert aria-hidden=true>&times;</button>
         hello
     </div>
 """
