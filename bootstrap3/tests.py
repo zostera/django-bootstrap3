@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.template import Template, Context
-from django.utils.encoding import force_text
+# from django.utils.encoding import force_text  # PEP8: imported but unused
 from django.utils.unittest import TestCase
 
 from .exceptions import BootstrapError
@@ -234,8 +234,8 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", "warning")]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert alert-warning" data-dismiss="alert">
-        <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <div class="alert alert-warning" data-dismiss=alert>
+        <button class=close data-dismiss=alert aria-hidden=true>&times;</button>
         hello
     </div>
 """
@@ -243,8 +243,8 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage("hello", None)]
         expected = """
-    <div class="alert" data-dismiss="alert">
-        <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <div class="alert" data-dismiss=alert>
+        <button class=close data-dismiss=alert aria-hidden=true>&times;</button>
         hello
     </div>
 """

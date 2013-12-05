@@ -32,5 +32,6 @@ def remove_css_class(css_classes, css_class):
     Remove a CSS class from a string of CSS classes
     """
     remove = set(split_css_classes(css_class))
-    classes_list = [c for c in split_css_classes(css_classes) if c not in remove]
+    classes_list = [c for c in split_css_classes(css_classes)
+                    if c not in remove]
     return ' '.join(classes_list)
