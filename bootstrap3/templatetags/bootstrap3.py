@@ -38,7 +38,7 @@ def bootstrap_css():
     if url:  # http://mothereff.in/unquoted-attributes
         return '''<link href="{url}" rel=stylesheet media=screen>
                   <script>window.jQuery || document.write(
-                      "<script src='static/css/bootstrap.min.css'><\/script>")
+                      "<link href='static/css/bootstrap.min.css' rel=stylesheet media=screen>")
                   </script>'''.format(url=url)
     return ''
 
