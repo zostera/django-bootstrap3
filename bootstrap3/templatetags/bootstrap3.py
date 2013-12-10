@@ -36,7 +36,10 @@ def bootstrap_css_url():
 def bootstrap_css():
     url = bootstrap_css_url()
     if url:  # http://mothereff.in/unquoted-attributes
-        return '<link href="{url}" rel=stylesheet media=screen>'.format(url=url)
+        return '''<link href="{url}" rel=stylesheet media=screen>
+                  <script>window.jQuery || document.write(
+                      "<link href='static/css/bootstrap.min.css' rel=stylesheet media=screen>")
+                  </script>'''.format(url=url)
     return ''
 
 
@@ -45,11 +48,17 @@ def bootstrap_javascript(jquery=False):
     javascript = ''
     if jquery:
         url = bootstrap_jquery_url()
-        if url:  # http://caniuse.com/#search=async
-            javascript += '<script src="{url}" async></script>'.format(url=url)
+        if url:           # try to load from local if CDN fails
+            javascript += '''<script src="{url}"></script>
+            <script>window.jQuery || document.write(
+                "<script src='static/js/jquery.min.js'><\/script>")
+            </script>'''.format(url=url)
     url = bootstrap_javascript_url()
-    if url:
-        javascript += '<script src="{url}" async></script>'.format(url=url)
+    if url:           # http://caniuse.com/#search=async
+        javascript += '''<script src="{url}" async></script>
+        <script>window.jQuery || document.write(
+            "<script src='static/js/bootstrap.min.js'><\/script>")
+        </script>'''.format(url=url)
     return javascript
 
 
