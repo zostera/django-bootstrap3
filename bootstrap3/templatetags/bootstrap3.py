@@ -34,31 +34,31 @@ def bootstrap_css_url():
 
 @register.simple_tag
 def bootstrap_css():
+    """
+    Return HTML for Bootstrap CSS
+    Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
+    This is intended behavior.
+    """
     url = bootstrap_css_url()
     if url:  # http://mothereff.in/unquoted-attributes
-        return '''<link href="{url}" rel=stylesheet media=screen>
-                  <script>window.jQuery || document.write(
-                      "<link href='static/css/bootstrap.min.css' rel=stylesheet media=screen>")
-                  </script>'''.format(url=url)
-    return ''
+        return '<link href="{url}" rel=stylesheet media=screen>'.format(url=url)
 
 
 @register.simple_tag
 def bootstrap_javascript(jquery=False):
+    """
+    Return HTML for Bootstrap JavaScript
+    Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
+    This is intended behavior.
+    """
     javascript = ''
     if jquery:
         url = bootstrap_jquery_url()
-        if url:           # try to load from local if CDN fails
-            javascript += '''<script src="{url}"></script>
-            <script>window.jQuery || document.write(
-                "<script src='static/js/jquery.min.js'><\/script>")
-            </script>'''.format(url=url)
+        if url:  # http://caniuse.com/#search=async
+            javascript += '<script src="{url}" async></script>'.format(url=url)
     url = bootstrap_javascript_url()
-    if url:           # http://caniuse.com/#search=async
-        javascript += '''<script src="{url}" async></script>
-        <script>window.jQuery || document.write(
-            "<script src='static/js/bootstrap.min.js'><\/script>")
-        </script>'''.format(url=url)
+    if url:
+        javascript += '<script src="{url}" async></script>'.format(url=url)
     return javascript
 
 
