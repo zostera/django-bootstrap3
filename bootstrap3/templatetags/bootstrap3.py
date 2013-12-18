@@ -54,8 +54,9 @@ def bootstrap_javascript(jquery=False):
     javascript = ''
     if jquery:
         url = bootstrap_jquery_url()
-        if url:  # http://caniuse.com/#search=async
-            javascript += '<script src="{url}" async></script>'.format(url=url)
+        if url:
+            # No async on jQuery, see issue #52
+            javascript += '<script src="{url}"></script>'.format(url=url)
     url = bootstrap_javascript_url()
     if url:
         javascript += '<script src="{url}" async></script>'.format(url=url)

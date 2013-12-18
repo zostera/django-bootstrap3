@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 
 from django import forms
 from django.template import Template, Context
-# from django.utils.encoding import force_text  # PEP8: imported but unused
 from django.utils.unittest import TestCase
 
 from .exceptions import BootstrapError
@@ -234,19 +232,29 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", "warning")]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert alert-warning" data-dismiss=alert>
+    <div class="alert alert-warning" data-dismiss="alert">
         <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         hello
     </div>
 """
         self.assertEqual(res.strip(), expected.strip())
 
-        messages = [FakeMessage("hello", None)]
+        messages = [FakeMessage("hello", "error")]
+        res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert" data-dismiss=alert>
+    <div class="alert alert-danger" data-dismiss="alert">
+        <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        hello
+    </div>
+        """
+        self.assertEqual(res.strip(), expected.strip())
+
+        messages = [FakeMessage("hello", None)]
+        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        expected = """
+    <div class="alert" data-dismiss="alert">
         <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         hello
     </div>
 """
-        res = render_template('{% bootstrap_messages messages %}', messages=messages)
         self.assertEqual(res.strip(), expected.strip())
