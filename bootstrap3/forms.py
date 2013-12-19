@@ -180,7 +180,7 @@ def render_button(content, button_type=None, icon=None):
     icon_content = ''
     if button_type:
         if button_type == 'submit':
-            attrs['class'] += 'btn btn-primary'
+            attrs['class'] += ' btn-primary'
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be ' +
                                  '"submit", "reset", "button" or empty.')
