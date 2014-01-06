@@ -123,7 +123,10 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
         rendered_field = render_label('{field} {label}'.format(field=rendered_field,
-                                      label=field.label), label_title=field.help_text)
+                                      label=field.label), 
+                                      label_class=label_class,
+                                      label_for=field.id_for_label,
+                                      label_title=field.help_text)
     # Add any help text and/or errors
     if layout != 'inline':
         help_text_and_errors = []
@@ -146,7 +149,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         label_class = add_css_class(label_class, 'sr-only')
     # Render label and field
     content = render_field_and_label(
-        field=rendered_field,
+        field=field,
         label=label,
         field_class=field_class,
         label_class=label_class,
@@ -202,11 +205,12 @@ def render_field_and_label(field, label, field_class='',
         if not label:
             label = '&nbsp;'
         label_class = add_css_class(label_class, 'control-label')
-    html = field
+    html = field.as_widget(attrs=field.field.widget.attrs)
     if field_class:
         html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
     if label:
-        html = render_label(label, label_class=label_class) + html
+        html = render_label(label, label_class=label_class,label_for=field.id_for_label, 
+                label_title=field.help_text)) + html
     return html
 
 
