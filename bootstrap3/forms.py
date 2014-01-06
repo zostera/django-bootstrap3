@@ -122,8 +122,10 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
             rendered_field = rendered_field.replace(k, v)
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
-        rendered_field = render_label('{field} {label}'.format(field=rendered_field,
-                                      label=field.label), label_title=field.help_text)
+        rendered_field = render_label(
+            content='{field} {label}'.format(field=rendered_field, label=field.label),
+            label_title=field.help_text
+        )
     # Add any help text and/or errors
     if layout != 'inline':
         help_text_and_errors = []
@@ -162,6 +164,9 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
 
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
+    """
+    Render a label with content
+    """
     attrs = {}
     if label_for:
         attrs['for'] = label_for
@@ -169,8 +174,10 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
         attrs['class'] = label_class
     if label_title:
         attrs['title'] = label_title
-    return '<label{attrs}>{content}</label>'.format(attrs=flatatt(attrs),
-                                                    content=content)
+    return '<label{attrs}>{content}</label>'.format(
+        attrs=flatatt(attrs),
+        content=content
+    )
 
 
 def render_button(content, button_type=None, icon=None):
@@ -180,7 +187,7 @@ def render_button(content, button_type=None, icon=None):
     icon_content = ''
     if button_type:
         if button_type == 'submit':
-            attrs['class'] += 'btn btn-primary'
+            attrs['class'] += ' btn-primary'
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be ' +
                                  '"submit", "reset", "button" or empty.')
