@@ -52,14 +52,14 @@ def bootstrap_javascript(jquery=False):
     This is intended behavior.
     """
     javascript = ''
+    # No async on scripts, not mature enough. See issue #52 and #56
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-            # No async on jQuery, see issue #52
             javascript += '<script src="{url}"></script>'.format(url=url)
     url = bootstrap_javascript_url()
     if url:
-        javascript += '<script src="{url}" async></script>'.format(url=url)
+        javascript += '<script src="{url}"></script>'.format(url=url)
     return javascript
 
 
