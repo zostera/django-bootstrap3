@@ -207,7 +207,7 @@ def get_pagination_context(page, pages_to_show=11,
         pages_forward = None
         if first_page > 1:
             first_page -= 1
-        if pages_back > 1:
+        if pages_back is not None and pages_back > 1:
             pages_back -= 1
         else:
             pages_back = None
