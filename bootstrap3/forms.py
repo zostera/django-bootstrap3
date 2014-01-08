@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.contrib.admin.widgets import AdminFileWidget
 
-from django.forms import widgets
+from django.forms import widgets, HiddenInput, FileInput, CheckboxSelectMultiple
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
@@ -71,13 +72,12 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     widget_attr_class = field.field.widget.attrs.get('class', '')
     widget_attr_placeholder = field.field.widget.attrs.get('placeholder', '')
     widget_attr_title = field.field.widget.attrs.get('title', '')
-    widget_is_required = field.field.required
     # Class to add to field element
     if isinstance(field.field.widget, widgets.FileInput):
         form_control_class = ''
     else:
         form_control_class = 'form-control'
-        # Convert this widget from HTML list to a wrapped class?
+    # Convert this widget from HTML list to a wrapped class?
     list_to_class = False
     # Wrap rendered field in its own label?
     put_inside_label = False
@@ -96,14 +96,14 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         list_to_class = 'checkbox'
     # Temporarily adjust to widget class and placeholder attributes if necessary
     if form_control_class:
-        field.field.widget.attrs['class'] = add_css_class(widget_attr_class,
-                                                          form_control_class)
+        field.field.widget.attrs['class'] = add_css_class(widget_attr_class, form_control_class)
     if field.label and not put_inside_label and not widget_attr_placeholder:
         field.field.widget.attrs['placeholder'] = field.label
-    if show_help and not put_inside_label and not widget_attr_title:
+    if show_help and field.help_text and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
-    if widget_is_required:
-        field.field.widget.attrs['required'] = ''
+    # Set required attribute
+    if is_widget_required_attribute(field.field.widget):
+        field.field.widget.attrs['required'] = 'required'
     # Render the field
     rendered_field = field.as_widget(attrs=field.field.widget.attrs)
     # Return class and placeholder attributes to original settings
@@ -220,3 +220,13 @@ def render_field_and_label(field, label, field_class='',
 def render_form_group(content, css_class=FORM_GROUP_CLASS):
     return '<div class="{_class}">{content}</div>'.format(_class=css_class,
                                                           content=content)
+
+
+def is_widget_required_attribute(widget):
+    if not widget.is_required:
+        return False
+    if type(widget) in (AdminFileWidget, HiddenInput, FileInput, CheckboxSelectMultiple):
+        return False
+    # if '__prefix__' in widget.attrs['name']:
+    #     return False
+    return True
