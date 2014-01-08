@@ -232,8 +232,8 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", "warning")]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert alert-warning" data-dismiss="alert">
-        <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         hello
     </div>
 """
@@ -242,8 +242,8 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", "error")]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert alert-danger" data-dismiss="alert">
-        <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         hello
     </div>
         """
@@ -252,8 +252,8 @@ class MessagesTest(TestCase):
         messages = [FakeMessage("hello", None)]
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
-    <div class="alert" data-dismiss="alert">
-        <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         hello
     </div>
 """
