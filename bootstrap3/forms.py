@@ -8,6 +8,7 @@ from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
 from django.utils.encoding import force_text
+from django.utils.html import conditional_escape
 
 from .bootstrap import BOOTSTRAP3
 from .exceptions import BootstrapError
@@ -131,12 +132,11 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         help_text_and_errors = []
         if show_help and field.help_text:
             help_text_and_errors.append(field.help_text)
-        if field.errors:
-            help_text_and_errors += field.errors
+        for error in field.errors:
+            help_text_and_errors.append(conditional_escape(error))
         if help_text_and_errors:
-            rendered_field += '<span class=help-block>{help}</span>'.format(
-                help=' '.join(force_text(s) for s in help_text_and_errors)
-            )
+            help_html = ' '.join(help_text_and_errors)
+            rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
     # Wrap the rendered field
     if wrapper:
         rendered_field = wrapper.format(content=rendered_field)

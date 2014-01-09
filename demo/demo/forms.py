@@ -26,7 +26,7 @@ MEDIA_CHOICES = (
 
 class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
-    message = forms.CharField()
+    message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
     sender = forms.EmailField()
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(required=False, help_text='You will get a copy in your mailbox.')
