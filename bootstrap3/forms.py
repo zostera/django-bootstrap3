@@ -225,7 +225,7 @@ def render_form_group(content, css_class=FORM_GROUP_CLASS):
 def is_widget_required_attribute(widget):
     if not widget.is_required:
         return False
-    if type(widget) in (AdminFileWidget, HiddenInput, FileInput, CheckboxSelectMultiple):
+    if isinstance(widget, (AdminFileWidget, HiddenInput, FileInput, CheckboxSelectMultiple)):
         return False
     # if '__prefix__' in widget.attrs['name']:
     #     return False
