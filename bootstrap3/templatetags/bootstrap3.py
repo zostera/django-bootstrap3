@@ -19,16 +19,73 @@ register = template.Library()
 
 @register.simple_tag
 def bootstrap_jquery_url():
+    """
+    **Tag name**::
+        
+        bootstrap_jquery_url
+
+    Return the full url to jQuery file to use
+
+    Default value: ``//code.jquery.com/jquery.min.js``
+
+    this value is configurable, see Settings section 
+    
+    **usage**::
+
+        {% bootstrap_jquery_url %}
+
+    **example**::
+
+        {% bootstrap_jquery_url %}
+    """
     return jquery_url()
 
 
 @register.simple_tag
 def bootstrap_javascript_url():
+    """
+    Return the full url to FIXTHIS
+
+    Default value: ``None``
+
+    this value is configurable, see Settings section 
+
+    **Tag name**::
+        
+        bootstrap_javascript_url
+    
+    **usage**::
+    
+        {% bootstrap_javascript_url %}
+
+    **example**::
+
+        {% bootstrap_javascript_url %}
+    """
     return javascript_url()
 
 
 @register.simple_tag
 def bootstrap_css_url():
+    """
+    Return the full url to FIXTHIS
+
+    Default value: ``None``
+
+    this value is configurable, see Settings section 
+
+    **Tag name**::
+        
+        bootstrap_css_url
+    
+    **usage**::
+    
+        {% bootstrap_css_url %}
+
+    **example**::
+
+        {% bootstrap_css_url %}
+    """
     return css_url()
 
 
@@ -38,7 +95,24 @@ def bootstrap_css():
     Return HTML for Bootstrap CSS
     Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
     This is intended behavior.
+
+    Default value: ``FIXTHIS``
+
+    this value is configurable, see Settings section 
+
+    **Tag name**::
+        
+        bootstrap_css
+    
+    **usage**::
+    
+        {% bootstrap_css %}
+
+    **example**::
+
+        {% bootstrap_css %}
     """
+
     url = bootstrap_css_url()
     if url:  # http://mothereff.in/unquoted-attributes
         return '<link href="{url}" rel=stylesheet media=screen>'.format(url=url)
@@ -50,7 +124,28 @@ def bootstrap_javascript(jquery=False):
     Return HTML for Bootstrap JavaScript
     Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
     This is intended behavior.
+
+    Default value: ``None``
+
+    this value is configurable, see Settings section 
+
+    **Tag name**::
+        
+        bootstrap_javascript
+
+    **Parameters**:
+        
+        :jquery: True to include jquery FIXTHIS
+
+    **usage**::
+    
+        {% bootstrap_javascript FIXTHIS %}
+
+    **example**::
+
+        {% bootstrap_javascript FIXTHIS %}
     """
+
     javascript = ''
     # No async on scripts, not mature enough. See issue #52 and #56
     if jquery:
@@ -67,6 +162,25 @@ def bootstrap_javascript(jquery=False):
 def bootstrap_formset(*args, **kwargs):
     """
     Render a formset
+
+
+    **Tag name**::
+        
+        bootstrap_formset
+
+    **Parameters**:
+        
+        :args: 
+        :kwargs: 
+  
+    **usage**::
+    
+        {% bootstrap_formset formset FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_formset formset FIXTHIS %}
+
     """
     return render_formset(*args, **kwargs)
 
@@ -75,6 +189,23 @@ def bootstrap_formset(*args, **kwargs):
 def bootstrap_form(*args, **kwargs):
     """
     Render a form
+
+    **Tag name**::
+        
+        bootstrap_form
+
+    **Parameters**:
+        
+        :args: 
+        :kwargs:   
+
+    **usage**::
+    
+        {% bootstrap_form form FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_form form FIXTHIS %}
     """
     return render_form(*args, **kwargs)
 
@@ -83,6 +214,23 @@ def bootstrap_form(*args, **kwargs):
 def bootstrap_field(*args, **kwargs):
     """
     Render a field
+
+    **Tag name**::
+        
+        bootstrap_field
+
+    **Parameters**:
+        
+        :args: 
+        :kwargs:   
+
+    **usage**::
+    
+        {% bootstrap_field form_field FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_form form_field FIXTHIS %}
     """
     return render_field(*args, **kwargs)
 
@@ -91,6 +239,23 @@ def bootstrap_field(*args, **kwargs):
 def bootstrap_label(*args, **kwargs):
     """
     Render a label
+
+    **Tag name**::
+        
+        bootstrap_label
+
+    **Parameters**:
+        
+        :args: 
+        :kwargs:      
+
+    **usage**::
+    
+        {% bootstrap_label FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_label FIXTHIS %}
     """
     return render_label(*args, **kwargs)
 
@@ -99,6 +264,23 @@ def bootstrap_label(*args, **kwargs):
 def bootstrap_button(*args, **kwargs):
     """
     Render a button
+
+    **Tag name**::
+        
+        bootstrap_button
+
+    **Parameters**:
+        
+        :args: 
+        :kwargs:     
+
+    **usage**::
+    
+        {% bootstrap_button FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_button FIXTHIS %}
     """
     return render_button(*args, **kwargs)
 
@@ -107,6 +289,23 @@ def bootstrap_button(*args, **kwargs):
 def bootstrap_icon(icon):
     """
     Render an icon
+
+    **Tag name**::
+        
+        bootstrap_icon
+
+    **Parameters**:
+        
+        :icon: icon name
+
+    **usage**::
+    
+        {% bootstrap_icon "icon_name" %}
+
+    **example**::
+    
+        {% bootstrap_icon "star" %}
+
     """
     return render_icon(icon)
 
@@ -115,6 +314,23 @@ def bootstrap_icon(icon):
 def bootstrap_buttons(parser, token):
     """
     Render buttons for form
+
+    **Tag name**::
+        
+        bootstrap_buttons
+
+    **Parameters**:
+        
+        :parser: 
+        :token: 
+
+    **usage**::
+    
+        {% bootstrap_buttons FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_buttons FIXTHIS %}
     """
     kwargs = parse_token_contents(parser, token)
     kwargs['nodelist'] = parser.parse(('endbuttons', ))
@@ -157,7 +373,26 @@ class ButtonsNode(template.Node):
 def bootstrap_messages(context, *args, **kwargs):
     """
     Show django.contrib.messages Messages in Bootstrap alert containers
-    """
+
+    **Tag name**::
+        
+        bootstrap_messages
+
+    **Parameters**:
+        
+        :context: 
+        :args: 
+        :kwargs:     
+
+    **usage**::
+    
+        {% bootstrap_messages FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_messages FIXTHIS %}
+
+   """
     return get_template('bootstrap3/messages.html').render(context)
 
 
@@ -165,7 +400,25 @@ def bootstrap_messages(context, *args, **kwargs):
 def bootstrap_pagination(page, **kwargs):
     """
     Render pagination for a page
+
+    **Tag name**::
+        
+        bootstrap_pagination
+
+    **Parameters**:
+        
+        :page: 
+        :kwargs:
+
+    **usage**::
+    
+        {% bootstrap_pagination FIXTHIS %}
+
+    **example**::
+    
+        {% bootstrap_pagination FIXTHIS %}
     """
+
     pagination_kwargs = kwargs.copy()
     pagination_kwargs['page'] = page
     return get_pagination_context(**pagination_kwargs)
