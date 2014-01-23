@@ -18,9 +18,10 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
-cwd = os.getcwd()
-parent = os.path.dirname(cwd)
-sys.path.append(parent)
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'testsettings'
+
 
 import bootstrap3
 
@@ -252,3 +253,15 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    try:
+        import sphinx_rtd_theme
+        html_theme = 'sphinx_rtd_theme'
+        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    except:
+        pass
+

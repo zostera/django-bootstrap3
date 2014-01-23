@@ -13,7 +13,8 @@ Contents:
 
    readme
    installation
-   usage
+   settingsoptions
+   templatetags
    contributing
    authors
    history
