@@ -218,8 +218,10 @@ def render_field_and_label(field, label, field_class='',
 
 
 def render_form_group(content, css_class=FORM_GROUP_CLASS):
-    return '<div class="{_class}">{content}</div>'.format(_class=css_class,
-                                                          content=content)
+    return '<div class="{klass}">{content}</div>'.format(
+        klass=css_class,
+        content=content,
+    )
 
 
 def is_widget_required_attribute(widget):
