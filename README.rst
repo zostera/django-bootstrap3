@@ -16,7 +16,7 @@ Bootstrap support for Django projects
 Documentation
 -------------
 
-The full documentation is at http://django-bootstrap3.rtfd.org.
+The full documentation is at http://django-bootstrap3.readthedocs.org/.
 
 Quickstart
 ----------
