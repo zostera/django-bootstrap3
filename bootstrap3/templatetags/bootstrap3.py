@@ -114,8 +114,8 @@ def bootstrap_css():
     """
 
     url = bootstrap_css_url()
-    if url:  # http://mothereff.in/unquoted-attributes
-        return '<link href="{url}" rel=stylesheet media=screen>'.format(url=url)
+    if url:
+        return '<link href="{url}" rel="stylesheet" media="screen">'.format(url=url)
 
 
 @register.simple_tag
