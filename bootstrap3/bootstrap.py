@@ -47,4 +47,4 @@ def css_url():
     """
     Return the full url to the Bootstrap CSS file
     """
-    return BOOTSTRAP3['css_url'] or bootstrap_url('css/bootstrap.min.css')
+    return BOOTSTRAP3['theme_url'] or BOOTSTRAP3['css_url'] or bootstrap_url('css/bootstrap.min.css')
