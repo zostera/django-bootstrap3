@@ -40,7 +40,7 @@ Quickstart
         {% bootstrap_css %}
         {% bootstrap_javascript %}
         
-        {# Display django.contrib.messages as Bootstrap alerts }
+        {# Display django.contrib.messages as Bootstrap alerts #}
         {% bootstrap_messages %}
 
         {# Display a form #}
