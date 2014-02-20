@@ -28,7 +28,7 @@ def render_formset(formset, **kwargs):
 
 
 def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
-                field_class='', label_class='', show_help=True, exclude=''):
+                field_class='', label_class='', show_help=True, exclude='', required_validation=True):
     if not isinstance(form, BaseForm):
         raise BootstrapError(
               'Parameter "form" should contain a valid Django Form.')
@@ -44,6 +44,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
             label_class=label_class,
             show_help=show_help,
             exclude=exclude,
+            required_validation=required_validation,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -58,7 +59,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
 
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude=''):
+                 show_help=True, exclude='', required_validation=True):
     # Only allow BoundField
     if not isinstance(field, BoundField):
         raise BootstrapError(
@@ -103,7 +104,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if show_help and field.help_text and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
     # Set required attribute
-    if is_widget_required_attribute(field.field.widget):
+    if required_validation and is_widget_required_attribute(field.field.widget):
         field.field.widget.attrs['required'] = 'required'
     # Render the field
     rendered_field = field.as_widget(attrs=field.field.widget.attrs)
