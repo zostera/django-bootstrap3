@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
-from django.contrib.admin.widgets import AdminFileWidget
 
+from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import widgets, HiddenInput, FileInput, CheckboxSelectMultiple
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
@@ -10,7 +8,7 @@ from django.forms.widgets import flatatt
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape
 
-from .bootstrap import BOOTSTRAP3
+from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
 from .html import add_css_class
 from .icons import render_icon
@@ -21,17 +19,15 @@ FORM_GROUP_CLASS = 'form-group'
 
 def render_formset(formset, **kwargs):
     if not isinstance(formset, BaseFormSet):
-        raise BootstrapError(
-              'Parameter "formset" should contain a valid Django FormSet.')
+        raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
     forms = [render_form(f, **kwargs) for f in formset]
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
 def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
-                field_class='', label_class='', show_help=True, exclude='', required_validation=True):
+                field_class='', label_class='', show_help=True, exclude='', set_required=True):
     if not isinstance(form, BaseForm):
-        raise BootstrapError(
-              'Parameter "form" should contain a valid Django Form.')
+        raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
     errors = []
     fields = []
@@ -44,7 +40,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
             label_class=label_class,
             show_help=show_help,
             exclude=exclude,
-            required_validation=required_validation,
+            set_required=set_required,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -59,15 +55,14 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
 
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', required_validation=True):
+                 show_help=True, exclude='', set_required=True):
     # Only allow BoundField
     if not isinstance(field, BoundField):
-        raise BootstrapError(
-          'Parameter "field" should contain a valid Django BoundField.' + field)
+        raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
     # See if we're not excluded
     if field.name in exclude.replace(' ', '').split(','):
         return ''
-    # Hidden input required no special treatment
+    # Hidden input requires no special treatment
     if field.is_hidden:
         return force_text(field)
     # Read widgets attributes
@@ -104,7 +99,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if show_help and field.help_text and not put_inside_label and not widget_attr_title:
         field.field.widget.attrs['title'] = field.help_text
     # Set required attribute
-    if required_validation and is_widget_required_attribute(field.field.widget):
+    if set_required and is_widget_required_attribute(field.field.widget):
         field.field.widget.attrs['required'] = 'required'
     # Render the field
     rendered_field = field.as_widget(attrs=field.field.widget.attrs)
@@ -182,31 +177,29 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
 
 
 def render_button(content, button_type=None, icon=None):
-    attrs = {
-        'class': 'btn'
-    }
+    attrs = {'class': 'btn'}
     icon_content = ''
     if button_type:
         if button_type == 'submit':
             attrs['class'] += ' btn-primary'
         elif button_type != 'reset' and button_type != 'button':
-            raise BootstrapError('Parameter "button_type" should be ' +
-                                 '"submit", "reset", "button" or empty.')
+            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
     if icon:
         icon_content = render_icon(icon) + ' '
-    return '<button{attrs}>{content}</button>'.format(attrs=flatatt(attrs),
-           content='{icon_content}{content}'.format(icon_content=icon_content, content=content))
+    return '<button{attrs}>{content}</button>'.format(
+        attrs=flatatt(attrs),
+        content='{icon_content}{content}'.format(icon_content=icon_content, content=content)
+    )
 
 
-def render_field_and_label(field, label, field_class='',
-                           label_class='', layout='', **kwargs):
+def render_field_and_label(field, label, field_class='', label_class='', layout='', **kwargs):
     # Default settings for horizontal form
     if layout == 'horizontal':
         if not label_class:
-            label_class = BOOTSTRAP3['horizontal_label_class']
+            label_class = get_bootstrap_setting('horizontal_label_class')
         if not field_class:
-            field_class = BOOTSTRAP3['horizontal_field_class']
+            field_class = get_bootstrap_setting('horizontal_field_class')
         if not label:
             label = '&nbsp;'
         label_class = add_css_class(label_class, 'control-label')
@@ -226,10 +219,10 @@ def render_form_group(content, css_class=FORM_GROUP_CLASS):
 
 
 def is_widget_required_attribute(widget):
+    if not get_bootstrap_setting('set_required'):
+        return False
     if not widget.is_required:
         return False
     if isinstance(widget, (AdminFileWidget, HiddenInput, FileInput, CheckboxSelectMultiple)):
         return False
-    # if '__prefix__' in widget.attrs['name']:
-    #     return False
     return True
