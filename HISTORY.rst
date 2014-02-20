@@ -14,5 +14,7 @@ History
 
 * project refactored
 * added skeleton for creating documentation to fix issue #30
+* fixed FileField issues
+
 
 
