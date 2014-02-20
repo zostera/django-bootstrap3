@@ -206,6 +206,10 @@ class FieldTest(TestCase):
         self.assertIn('required', required_field)
         not_required_field = render_form_field('message')
         self.assertNotIn('required', not_required_field)
+        # Required field with required=0
+        form_field = 'form.subject'
+        rendered = render_template('{% bootstrap_field ' + form_field + ' set_required=0 %}')
+        self.assertNotIn('required', rendered)
 
 
 class IconTest(TestCase):
