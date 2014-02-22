@@ -11,7 +11,7 @@ Template tags and Usage
 
 2. In your templates, load the ``bootstrap3`` library and use the ``bootstrap_*`` tags:
 
-::
+.. code:: django
 
 	{% load bootstrap3 %}
 
@@ -43,7 +43,7 @@ Template tags and Usage
  template tag library, placing the code below in the beginning that each template that ``bootstrap3`` 
  template tag library will be used:
 
-  ::
+.. code:: django
 
   {% load bootstrap3 %}
 
