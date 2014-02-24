@@ -1,6 +1,6 @@
-=============================
+=================
 django-bootstrap3
-=============================
+=================
 
 .. image:: https://travis-ci.org/dyve/django-bootstrap3.png?branch=master
     :target: https://travis-ci.org/dyve/django-bootstrap3
@@ -75,7 +75,7 @@ Contributions and pull requests for other Django and Python versions are welcome
 
 
 Bugs and requests
-------------------
+-----------------
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
@@ -88,10 +88,7 @@ License
 You can use this under Apache 2.0. See LICENSE file for details.
 
 Author
--------
+------
 
-My name is Dylan Verheul, you can reach me at <dylan@dyve.net> or [follow me on Twitter][1].
-
-
-[1]: http://twitter.com/dyve
+My name is Dylan Verheul, you can reach me at dylan@dyve.net or follow me on Twitter (http://twitter.com/dyve).
 
