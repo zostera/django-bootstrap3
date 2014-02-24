@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import re
@@ -6,11 +5,11 @@ from math import floor
 
 from django import template
 from django.template.loader import get_template
+from django.utils.encoding import force_text
 
 from ..bootstrap import css_url, javascript_url, jquery_url
-from ..forms import (render_button, render_field, render_field_and_label,
-                     render_form, render_form_group, render_formset,
-                     render_label)
+from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
+    render_label
 from ..icons import render_icon
 from ..templates import handle_var, parse_token_contents
 
@@ -470,7 +469,7 @@ def get_pagination_context(page, pages_to_show=11,
         # Append proper character to url
     if url:
         # Remove existing page GET parameters
-        url = unicode(url)
+        url = force_text(url)
         url = re.sub(r'\?page\=[^\&]+', '?', url)
         url = re.sub(r'\&page\=[^\&]+', '', url)
         # Append proper separator
@@ -478,11 +477,11 @@ def get_pagination_context(page, pages_to_show=11,
             url += '&'
         else:
             url += '?'
-        # Append extra string to url
+            # Append extra string to url
     if extra:
         if not url:
             url = '?'
-        url += unicode(extra) + '&'
+        url += force_text(extra) + '&'
     if url:
         url = url.replace('?&', '?')
     # Set CSS classes,see twitter.github.io/bootstrap/components.html#pagination
