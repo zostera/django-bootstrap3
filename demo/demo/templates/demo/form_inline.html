@@ -8,7 +8,8 @@
 
 {% block content %}
 
-    <form role="form" class="form-inline" method="post" action=".">
+    <form role="form" class="form-inline" method="post">
+        {% csrf_token %}
         {% bootstrap_form form layout='inline' %}
         {% buttons submit='OK' reset='Cancel' layout='inline' %}{% endbuttons %}
     </form>
