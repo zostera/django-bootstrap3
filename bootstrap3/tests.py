@@ -193,6 +193,7 @@ class FieldTest(TestCase):
     def test_show_help(self):
         res = render_form_field('subject')
         self.assertIn('my_help_text', res)
+        self.assertNotIn('<i>my_help_text</i>', res)
         res = render_template('{% bootstrap_field form.subject show_help=0 %}')
         self.assertNotIn('my_help_text', res)
 

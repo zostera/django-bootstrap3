@@ -159,3 +159,8 @@ LOGGING = {
         },
     }
 }
+
+# Settings for django-bootstrap3
+BOOTSTRAP3 = {
+    'set_required': False,
+}

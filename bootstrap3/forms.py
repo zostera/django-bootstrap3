@@ -6,7 +6,7 @@ from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
 from django.utils.encoding import force_text
-from django.utils.html import conditional_escape
+from django.utils.html import conditional_escape, strip_tags
 
 from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
@@ -91,19 +91,27 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     elif isinstance(field.field.widget, widgets.CheckboxSelectMultiple):
         form_control_class = ''
         list_to_class = 'checkbox'
-    # Temporarily adjust to widget class and placeholder attributes if necessary
+    # Get help text
+    field_help = force_text(field.help_text) if show_help and field.help_text else ''
+    # Get errors
+    field_errors = [conditional_escape(force_text(error)) for error in field.errors]
+    # Temporarily adjust widget attributes if necessary
     if form_control_class:
         field.field.widget.attrs['class'] = add_css_class(widget_attr_class, form_control_class)
     if field.label and not put_inside_label and not widget_attr_placeholder:
         field.field.widget.attrs['placeholder'] = field.label
-    if show_help and field.help_text and not put_inside_label and not widget_attr_title:
-        field.field.widget.attrs['title'] = field.help_text
+    if field_help and not put_inside_label and not widget_attr_title:
+        field.field.widget.attrs['title'] = strip_tags(field_help)
+    if layout == 'inline' and field_errors:
+        field_title = field.field.widget.attrs.get('title', '')
+        field_title += ' ' +  ' '.join([strip_tags(e) for e in field_errors])
+        field.field.widget.attrs['title'] = field_title.strip()
     # Set required attribute
     if set_required and is_widget_required_attribute(field.field.widget):
         field.field.widget.attrs['required'] = 'required'
     # Render the field
     rendered_field = field.as_widget(attrs=field.field.widget.attrs)
-    # Return class and placeholder attributes to original settings
+    # Return changed attributes to original settings
     field.field.widget.attrs['class'] = widget_attr_class
     field.field.widget.attrs['placeholder'] = widget_attr_placeholder
     field.field.widget.attrs['title'] = widget_attr_title
@@ -125,13 +133,9 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         )
     # Add any help text and/or errors
     if layout != 'inline':
-        help_text_and_errors = []
-        if show_help and field.help_text:
-            help_text_and_errors.append(force_text(field.help_text))
-        for error in field.errors:
-            help_text_and_errors.append(conditional_escape(force_text(error)))
+        help_text_and_errors = [field_help] + field_errors
         if help_text_and_errors:
-            help_html = ' '.join(help_text_and_errors)
+            help_html = ' '.join([h for h in help_text_and_errors if h])
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
     # Wrap the rendered field
     if wrapper:
