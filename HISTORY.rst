@@ -3,8 +3,8 @@
 History
 -------
 
-Work in progress
-++++++++++++++++
+3.0.0 (2014-02-28)
+++++++++++++++++++
 
 * added support for themes (fix issue #74)
 * show inline form errors in field title (fix issue #81)
