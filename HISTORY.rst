@@ -3,6 +3,12 @@
 History
 -------
 
+Work in progress
+++++++++++++++++
+
+* update to newest Bootstrap (issue #83)
+
+
 2.6.0 (2014-02-20)
 ++++++++++++++++++
 
