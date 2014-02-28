@@ -7,7 +7,8 @@ from django import template
 from django.template.loader import get_template
 from django.utils.encoding import force_text
 
-from ..bootstrap import css_url, javascript_url, jquery_url
+from ..bootstrap import css_url, javascript_url, jquery_url, theme_url
+from ..html import link_tag
 from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
     render_label
 from ..icons import render_icon
@@ -89,6 +90,30 @@ def bootstrap_css_url():
 
 
 @register.simple_tag
+def bootstrap_theme_url():
+    """
+    Return the full url to FIXTHIS
+
+    Default value: ``None``
+
+    this value is configurable, see Settings section
+
+    **Tag name**::
+
+        bootstrap_css_url
+
+    **usage**::
+
+        {% bootstrap_css_url %}
+
+    **example**::
+
+        {% bootstrap_css_url %}
+    """
+    return theme_url()
+
+
+@register.simple_tag
 def bootstrap_css():
     """
     Return HTML for Bootstrap CSS
@@ -111,10 +136,8 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-
-    url = bootstrap_css_url()
-    if url:
-        return '<link href="{url}" rel="stylesheet" media="screen">'.format(url=url)
+    urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
+    return ''.join([link_tag(url, media='screen') for url in urls])
 
 
 @register.simple_tag

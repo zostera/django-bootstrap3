@@ -54,3 +54,10 @@ def css_url():
     Return the full url to the Bootstrap CSS file
     """
     return get_bootstrap_setting('css_url') or bootstrap_url('css/bootstrap.min.css')
+
+
+def theme_url():
+    """
+    Return the full url to the theme CSS file
+    """
+    return get_bootstrap_setting('theme_url')

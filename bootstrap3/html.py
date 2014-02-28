@@ -31,3 +31,14 @@ def remove_css_class(css_classes, css_class):
     remove = set(split_css_classes(css_class))
     classes_list = [c for c in split_css_classes(css_classes) if c not in remove]
     return ' '.join(classes_list)
+
+
+def link_tag(url, rel='stylesheet', media='all'):
+    """
+    Build a link tag
+    """
+    return '<link href="{url}" rel="{rel}" media="{media}">'.format(
+        url=url,
+        rel=rel,
+        media=media,
+    )
