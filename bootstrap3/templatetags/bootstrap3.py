@@ -5,7 +5,11 @@ from math import floor
 
 from django import template
 from django.template.loader import get_template
-from django.utils.encoding import force_text
+
+try:
+    from django.utils.encoding import force_text
+except ImportError:
+    from django.utils.encoding import force_unicode as force_text
 
 from ..bootstrap import css_url, javascript_url, jquery_url, theme_url
 from ..html import link_tag
@@ -21,15 +25,15 @@ register = template.Library()
 def bootstrap_jquery_url():
     """
     **Tag name**::
-        
+
         bootstrap_jquery_url
 
     Return the full url to jQuery file to use
 
     Default value: ``//code.jquery.com/jquery.min.js``
 
-    this value is configurable, see Settings section 
-    
+    this value is configurable, see Settings section
+
     **usage**::
 
         {% bootstrap_jquery_url %}
@@ -48,14 +52,14 @@ def bootstrap_javascript_url():
 
     Default value: ``None``
 
-    this value is configurable, see Settings section 
+    this value is configurable, see Settings section
 
     **Tag name**::
-        
+
         bootstrap_javascript_url
-    
+
     **usage**::
-    
+
         {% bootstrap_javascript_url %}
 
     **example**::
@@ -72,14 +76,14 @@ def bootstrap_css_url():
 
     Default value: ``None``
 
-    this value is configurable, see Settings section 
+    this value is configurable, see Settings section
 
     **Tag name**::
-        
+
         bootstrap_css_url
-    
+
     **usage**::
-    
+
         {% bootstrap_css_url %}
 
     **example**::
@@ -122,14 +126,14 @@ def bootstrap_css():
 
     Default value: ``FIXTHIS``
 
-    this value is configurable, see Settings section 
+    this value is configurable, see Settings section
 
     **Tag name**::
-        
+
         bootstrap_css
-    
+
     **usage**::
-    
+
         {% bootstrap_css %}
 
     **example**::
@@ -149,18 +153,18 @@ def bootstrap_javascript(jquery=False):
 
     Default value: ``None``
 
-    this value is configurable, see Settings section 
+    this value is configurable, see Settings section
 
     **Tag name**::
-        
+
         bootstrap_javascript
 
     **Parameters**:
-        
+
         :jquery: True to include jquery FIXTHIS
 
     **usage**::
-    
+
         {% bootstrap_javascript FIXTHIS %}
 
     **example**::
@@ -187,20 +191,20 @@ def bootstrap_formset(*args, **kwargs):
 
 
     **Tag name**::
-        
+
         bootstrap_formset
 
     **Parameters**:
-        
-        :args: 
-        :kwargs: 
-  
+
+        :args:
+        :kwargs:
+
     **usage**::
-    
+
         {% bootstrap_formset formset FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_formset formset FIXTHIS %}
 
     """
@@ -213,20 +217,20 @@ def bootstrap_form(*args, **kwargs):
     Render a form
 
     **Tag name**::
-        
+
         bootstrap_form
 
     **Parameters**:
-        
-        :args: 
-        :kwargs:   
+
+        :args:
+        :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_form form FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_form form FIXTHIS %}
     """
     return render_form(*args, **kwargs)
@@ -238,20 +242,20 @@ def bootstrap_field(*args, **kwargs):
     Render a field
 
     **Tag name**::
-        
+
         bootstrap_field
 
     **Parameters**:
-        
-        :args: 
-        :kwargs:   
+
+        :args:
+        :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_field form_field FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_form form_field FIXTHIS %}
     """
     return render_field(*args, **kwargs)
@@ -263,20 +267,20 @@ def bootstrap_label(*args, **kwargs):
     Render a label
 
     **Tag name**::
-        
+
         bootstrap_label
 
     **Parameters**:
-        
-        :args: 
-        :kwargs:      
+
+        :args:
+        :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_label FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_label FIXTHIS %}
     """
     return render_label(*args, **kwargs)
@@ -288,20 +292,20 @@ def bootstrap_button(*args, **kwargs):
     Render a button
 
     **Tag name**::
-        
+
         bootstrap_button
 
     **Parameters**:
-        
-        :args: 
-        :kwargs:     
+
+        :args:
+        :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_button FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_button FIXTHIS %}
     """
     return render_button(*args, **kwargs)
@@ -313,19 +317,19 @@ def bootstrap_icon(icon):
     Render an icon
 
     **Tag name**::
-        
+
         bootstrap_icon
 
     **Parameters**:
-        
+
         :icon: icon name
 
     **usage**::
-    
+
         {% bootstrap_icon "icon_name" %}
 
     **example**::
-    
+
         {% bootstrap_icon "star" %}
 
     """
@@ -338,20 +342,20 @@ def bootstrap_buttons(parser, token):
     Render buttons for form
 
     **Tag name**::
-        
+
         bootstrap_buttons
 
     **Parameters**:
-        
-        :parser: 
-        :token: 
+
+        :parser:
+        :token:
 
     **usage**::
-    
+
         {% bootstrap_buttons FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_buttons FIXTHIS %}
     """
     kwargs = parse_token_contents(parser, token)
@@ -397,21 +401,21 @@ def bootstrap_messages(context, *args, **kwargs):
     Show django.contrib.messages Messages in Bootstrap alert containers
 
     **Tag name**::
-        
+
         bootstrap_messages
 
     **Parameters**:
-        
-        :context: 
-        :args: 
-        :kwargs:     
+
+        :context:
+        :args:
+        :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_messages FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_messages FIXTHIS %}
 
    """
@@ -424,20 +428,20 @@ def bootstrap_pagination(page, **kwargs):
     Render pagination for a page
 
     **Tag name**::
-        
+
         bootstrap_pagination
 
     **Parameters**:
-        
-        :page: 
+
+        :page:
         :kwargs:
 
     **usage**::
-    
+
         {% bootstrap_pagination FIXTHIS %}
 
     **example**::
-    
+
         {% bootstrap_pagination FIXTHIS %}
     """
 
