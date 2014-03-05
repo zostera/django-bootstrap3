@@ -2,7 +2,8 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput
+    CheckboxInput, MultiWidget
+from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.forms.widgets import flatatt
@@ -79,23 +80,25 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         form_control_class = ''
     else:
         form_control_class = 'form-control'
-    # Convert this widget from HTML list to a wrapped class?
-    list_to_class = False
+    # Optional extra rendering
+    after_render = None
     # Wrap rendered field in its own label?
     put_inside_label = False
-    # Wrapper for the final result (should contain %s if not empty)
+    # Wrapper for the final result (should contain {content} if not empty)
     wrapper = ''
     # Adjust workings for various widget types
     if isinstance(field.field.widget, CheckboxInput):
         form_control_class = ''
         put_inside_label = True
-        wrapper = '<div class=checkbox>{content}</div>'
+        wrapper = '<div class="checkbox">{content}</div>'
     elif isinstance(widget, RadioSelect):
         form_control_class = ''
-        list_to_class = 'radio'
+        after_render = list_to_class('radio')
     elif isinstance(widget, CheckboxSelectMultiple):
         form_control_class = ''
-        list_to_class = 'checkbox'
+        after_render = list_to_class('checkbox')
+    elif isinstance(widget, SelectDateWidget):
+        after_render = fix_date_select_input
     # Get help text
     field_help = force_text(field.help_text) if show_help and field.help_text else ''
     # Get errors
@@ -116,19 +119,12 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         widget.attrs['required'] = 'required'
     # Render the field
     rendered_field = field.as_widget(attrs=widget.attrs)
+    # Apply the post_processor
+    if after_render:
+        rendered_field = after_render(rendered_field)
     # Return changed attributes to original settings
     for attr in widget_attrs:
         widget.attrs[attr] = widget_attrs[attr]
-    # Handle widgets that are rendered as lists
-    if list_to_class:
-        mapping = [
-            ('<ul', '<div'),
-            ('</ul>', '</div>'),
-            ('<li', '<div class="{klass}"'.format(klass=list_to_class)),
-            ('</li>', '</div>'),
-        ]
-        for k, v in mapping:
-            rendered_field = rendered_field.replace(k, v)
     # Wrap the rendered field in its label if necessary
     if put_inside_label:
         rendered_field = render_label(
@@ -244,3 +240,30 @@ def is_widget_with_placeholder(widget):
     """
     return isinstance(widget, (TextInput, Textarea))
 
+
+def fix_date_select_input(html):
+    div1 = '<div class="col-xs-4">'
+    div2 = '</div>'
+    html = html.replace('<select', div1 + '<select')
+    html = html.replace('</select>', '</select>' + div2)
+    return '<div class="row bootstrap3-multi-input">' + html + '</div>'
+
+
+def list_to_class(klass):
+    def fixer(html):
+        mapping = [
+            ('<ul', '<div'),
+            ('</ul>', '</div>'),
+            ('<li', '<div class="{klass}"'.format(klass=klass)),
+            ('</li>', '</div>'),
+        ]
+        for k, v in mapping:
+            html = html.replace(k, v)
+        return html
+    return fixer
+
+
+def surround_with(html_with_content):
+    def wrapper(html):
+        return html_with_content.format(content=html)
+    return wrapper

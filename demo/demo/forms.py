@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.forms.extras import SelectDateWidget
 
 
 RADIO_CHOICES = (
@@ -25,6 +26,7 @@ MEDIA_CHOICES = (
 
 
 class ContactForm(forms.Form):
+    date = forms.DateField(widget=SelectDateWidget)
     subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
     sender = forms.EmailField()
