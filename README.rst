@@ -13,11 +13,10 @@ django-bootstrap3
 
 Bootstrap support for Django projects
 
-GitTip
-------
-
-If you like this project, you can `support me on GitTip <https://www.gittip.com/dyve/>`_.
-
+.. image:: http://i.imgur.com/lg9rx9w.png
+   :alt: gittip
+   :target: https://www.gittip.com/dyve/
+   
 Documentation
 -------------
 
