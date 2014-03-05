@@ -6,17 +6,14 @@ from math import floor
 from django import template
 from django.template.loader import get_template
 
-try:
-    from django.utils.encoding import force_text
-except ImportError:
-    from django.utils.encoding import force_unicode as force_text
-
 from ..bootstrap import css_url, javascript_url, jquery_url, theme_url
-from ..html import link_tag
+from ..html import render_link_tag
 from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
     render_label
 from ..icons import render_icon
 from ..templates import handle_var, parse_token_contents
+from ..utils import force_text
+
 
 register = template.Library()
 
@@ -141,7 +138,7 @@ def bootstrap_css():
         {% bootstrap_css %}
     """
     urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
-    return ''.join([link_tag(url, media='screen') for url in urls])
+    return ''.join([render_link_tag(url, media='screen') for url in urls])
 
 
 @register.simple_tag

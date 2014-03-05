@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
-from django.utils.encoding import force_text
+from django.forms.widgets import flatatt
+
+
+from .utils import force_text, text_value
 
 # Handle HTML and CSS manipulation
 
@@ -33,12 +36,22 @@ def remove_css_class(css_classes, css_class):
     return ' '.join(classes_list)
 
 
-def link_tag(url, rel='stylesheet', media='all'):
+def render_link_tag(url, rel='stylesheet', media='all'):
     """
     Build a link tag
     """
-    return '<link href="{url}" rel="{rel}" media="{media}">'.format(
-        url=url,
-        rel=rel,
-        media=media,
+    return render_tag('link', attrs = {'href': url, 'rel': rel, 'media': media}, close=False)
+
+
+def render_tag(tag, attrs=None, content=None, close=True):
+    """
+    Render a HTML tag
+    """
+    builder = '<{tag}{attrs}>{content}'
+    if content or close:
+        builder += '</{tag}>'
+    return builder.format(
+        tag=tag,
+        attrs=flatatt(attrs) if attrs else '',
+        content=text_value(content),
     )

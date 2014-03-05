@@ -2,17 +2,17 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput, MultiWidget
+    CheckboxInput
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
-from django.forms.widgets import flatatt
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
 
 from .bootstrap import get_bootstrap_setting
+from bootstrap3.utils import text_concat
 from .exceptions import BootstrapError
-from .html import add_css_class
+from .html import add_css_class, render_tag
 from .icons import render_icon
 
 
@@ -20,14 +20,20 @@ FORM_GROUP_CLASS = 'form-group'
 
 
 def render_formset(formset, **kwargs):
+    """
+    Render a formset to a Bootstrap layout
+    """
     if not isinstance(formset, BaseFormSet):
         raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
     forms = [render_form(f, **kwargs) for f in formset]
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
 
-def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
-                field_class='', label_class='', show_help=True, exclude='', set_required=True):
+def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class='', label_class='', show_help=True,
+                exclude='', set_required=True):
+    """
+    Render a formset to a Bootstrap layout
+    """
     if not isinstance(form, BaseForm):
         raise BootstrapError('Parameter "form" should contain a valid Django Form.')
     html = ''
@@ -58,7 +64,9 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS,
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
                  show_help=True, exclude='', set_required=True):
-    # Only allow BoundField
+    """
+    Render a formset to a Bootstrap layout
+    """
     if not isinstance(field, BoundField):
         raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
     # See if we're not excluded
@@ -174,27 +182,19 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
         attrs['class'] = label_class
     if label_title:
         attrs['title'] = label_title
-    return '<label{attrs}>{content}</label>'.format(
-        attrs=flatatt(attrs),
-        content=content
-    )
+    return render_tag('label', attrs=attrs, content=content)
 
 
 def render_button(content, button_type=None, icon=None):
     attrs = {'class': 'btn'}
-    icon_content = ''
     if button_type:
         if button_type == 'submit':
             attrs['class'] += ' btn-primary'
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
-    if icon:
-        icon_content = render_icon(icon) + ' '
-    return '<button{attrs}>{content}</button>'.format(
-        attrs=flatatt(attrs),
-        content='{icon_content}{content}'.format(icon_content=icon_content, content=content)
-    )
+    icon_content = render_icon(icon) if icon else ''
+    return render_tag('button', attrs=attrs, content=text_concat(icon_content, content, separator=' '))
 
 
 def render_field_and_label(field, label, field_class='', label_class='', layout='', **kwargs):
@@ -216,6 +216,9 @@ def render_field_and_label(field, label, field_class='', label_class='', layout=
 
 
 def render_form_group(content, css_class=FORM_GROUP_CLASS):
+    """
+    Render a Bootstrap form group
+    """
     return '<div class="{klass}">{content}</div>'.format(
         klass=css_class,
         content=content,
@@ -223,6 +226,9 @@ def render_form_group(content, css_class=FORM_GROUP_CLASS):
 
 
 def is_widget_required_attribute(widget):
+    """
+    Is this widget required?
+    """
     if not get_bootstrap_setting('set_required'):
         return False
     if not widget.is_required:
