@@ -12,7 +12,7 @@ from ..forms import render_button, render_field, render_field_and_label, render_
     render_label
 from ..icons import render_icon
 from ..templates import handle_var, parse_token_contents
-from ..utils import force_text
+from ..text import force_text
 
 
 register = template.Library()

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.forms.widgets import flatatt
 
 
-from .utils import force_text, text_value
+from .text import force_text, text_value
 
 # Handle HTML and CSS manipulation
 

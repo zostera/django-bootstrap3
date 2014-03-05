@@ -10,7 +10,7 @@ from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
 
 from .bootstrap import get_bootstrap_setting
-from bootstrap3.utils import text_concat
+from .text import text_concat
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
 from .icons import render_icon
