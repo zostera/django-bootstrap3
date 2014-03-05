@@ -13,6 +13,11 @@ django-bootstrap3
 
 Bootstrap support for Django projects
 
+GitTip
+------
+
+If you like this project, you can `support me on GitTip <https://www.gittip.com/dyve/>`_.
+
 Documentation
 -------------
 
@@ -62,7 +67,7 @@ Quickstart
 Features
 --------
 
-* TODO
+Define your forms in Django, use ``django-bootstrap3`` to render them in Bootstrap. That's the dream.
 
 
 Requirements
@@ -90,5 +95,4 @@ You can use this under Apache 2.0. See LICENSE file for details.
 Author
 ------
 
-My name is Dylan Verheul, you can reach me at dylan@dyve.net or follow me on Twitter (http://twitter.com/dyve).
-
+My name is Dylan Verheul, you can reach me at dylan@dyve.net or follow me on Twitter (http://twitter.com/dyve). If you like this project, you can `support me on GitTip <https://www.gittip.com/dyve/>`_.
