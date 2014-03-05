@@ -1,5 +1,7 @@
 {% extends 'demo/bootstrap.html' %}
 
+{% load url from future %}
+
 {% load bootstrap3 %}
 
 {% block bootstrap3_content %}
@@ -7,10 +9,12 @@
         <h1>{% block title %}(no title){% endblock %}</h1>
 
         <p>
-            <a href="/">home</a>
-            <a href="/form">form</a>
-            <a href="/form_horizontal">form_horizontal</a>
-            <a href="/form_inline">form_inline</a>
+            <a href="{% url 'home' %}">home</a>
+            <a href="{% url 'form_default' %}">form</a>
+            <a href="{% url 'form_horizontal' %}">form_horizontal</a>
+            <a href="{% url 'form_inline' %}">form_inline</a>
+            <a href="{% url 'form_with_files' %}">form_with_files</a>
+            <a href="{% url 'pagination' %}">pagination</a>
         </p>
 
         {% bootstrap_messages %}

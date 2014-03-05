@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.core.files.storage import default_storage
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models.fields.files import FieldFile
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from .forms import ContactForm
+from .forms import ContactForm, FilesForm
+
+
+# http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
+class FakeField(object):
+    storage = default_storage
+
+
+fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 
 
 class HomePageView(TemplateView):
@@ -18,7 +28,7 @@ class HomePageView(TemplateView):
         return context
 
 
-class FormView(FormView):
+class DefaultFormView(FormView):
     template_name = 'demo/form.html'
     form_class = ContactForm
 
@@ -33,8 +43,22 @@ class FormInlineView(FormView):
     form_class = ContactForm
 
 
+class FormWithFilesView(FormView):
+    template_name = 'demo/form_with_files.html'
+    form_class = FilesForm
+
+    def get_context_data(self, **kwargs):
+        context = super(FormWithFilesView, self).get_context_data(**kwargs)
+        context['layout'] = self.request.GET.get('layout', 'vertical')
+        return context
+
+    def get_initial(self):
+        return {
+            'file4': fieldfile,
+        }
+
 class PaginationView(TemplateView):
-    template_name = 'demo/pagination.html'
+    template_name = 'demo/form_with_files.html'
 
     def get_context_data(self, **kwargs):
         context = super(PaginationView, self).get_context_data(**kwargs)

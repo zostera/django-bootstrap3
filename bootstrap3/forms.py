@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput
+    CheckboxInput, ClearableFileInput
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
@@ -94,6 +94,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     put_inside_label = False
     # Wrapper for the final result (should contain {content} if not empty)
     wrapper = ''
+
     # Adjust workings for various widget types
     if isinstance(field.field.widget, CheckboxInput):
         form_control_class = ''
@@ -107,6 +108,9 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         after_render = list_to_class('checkbox')
     elif isinstance(widget, SelectDateWidget):
         after_render = fix_date_select_input
+    elif isinstance(widget, ClearableFileInput):
+        after_render = fix_clearable_file_input
+
     # Get help text
     field_help = force_text(field.help_text) if show_help and field.help_text else ''
     # Get errors
@@ -247,14 +251,6 @@ def is_widget_with_placeholder(widget):
     return isinstance(widget, (TextInput, Textarea))
 
 
-def fix_date_select_input(html):
-    div1 = '<div class="col-xs-4">'
-    div2 = '</div>'
-    html = html.replace('<select', div1 + '<select')
-    html = html.replace('</select>', '</select>' + div2)
-    return '<div class="row bootstrap3-multi-input">' + html + '</div>'
-
-
 def list_to_class(klass):
     def fixer(html):
         mapping = [
@@ -266,10 +262,33 @@ def list_to_class(klass):
         for k, v in mapping:
             html = html.replace(k, v)
         return html
+
     return fixer
 
 
 def surround_with(html_with_content):
     def wrapper(html):
         return html_with_content.format(content=html)
+
     return wrapper
+
+
+def fix_date_select_input(html):
+    div1 = '<div class="col-xs-4">'
+    div2 = '</div>'
+    html = html.replace('<select', div1 + '<select')
+    html = html.replace('</select>', '</select>' + div2)
+    return '<div class="row bootstrap3-multi-input">' + html + '</div>'
+
+
+def fix_clearable_file_input(html):
+    """
+    Fix a clearable file input
+    TODO: This needs improvement
+
+    Currently Django returns
+    Currently: <a href="dummy.txt">dummy.txt</a> <input id="file4-clear_id" name="file4-clear" type="checkbox" /> <label for="file4-clear_id">Clear</label><br />Change: <input id="id_file4" name="file4" type="file" /><span class=help-block></span></div>
+
+    """
+    # TODO This needs improvement
+    return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">' + html + '</div></div>'

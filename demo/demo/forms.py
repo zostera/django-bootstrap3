@@ -59,3 +59,11 @@ class ContactForm(forms.Form):
         cleaned_data = super(ContactForm, self).clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data
+
+
+class FilesForm(forms.Form):
+    text1 = forms.CharField()
+    file1 = forms.FileField()
+    file2 = forms.FileField(required=False)
+    file3 = forms.FileField(widget=forms.ClearableFileInput)
+    file4 = forms.FileField(required=False, widget=forms.ClearableFileInput)
