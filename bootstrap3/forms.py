@@ -9,7 +9,8 @@ from django.forms.formsets import BaseFormSet
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
 
-from .bootstrap import get_bootstrap_setting
+from .bootstrap import (get_bootstrap_setting, get_form_renderer,
+    get_field_renderer)
 from .text import text_concat
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
@@ -28,152 +29,19 @@ def render_formset(formset, **kwargs):
     forms = [render_form(f, **kwargs) for f in formset]
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
-
-def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class='', label_class='', show_help=True,
-                exclude='', set_required=True):
+def render_form(form, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    if not isinstance(form, BaseForm):
-        raise BootstrapError('Parameter "form" should contain a valid Django Form.')
-    html = ''
-    errors = []
-    fields = []
-    for field in form:
-        fields.append(render_field(
-            field,
-            layout=layout,
-            form_group_class=form_group_class,
-            field_class=field_class,
-            label_class=label_class,
-            show_help=show_help,
-            exclude=exclude,
-            set_required=set_required,
-        ))
-        if field.is_hidden and field.errors:
-            errors += field.errors
-    errors += form.non_field_errors()
-    if errors:
-        html += '''<div class="alert alert-danger alert-dismissable alert-link">
-                   <button class=close data-dismiss=alert aria-hidden=true>
-                   &times;</button>{errors}</div>\n
-                '''.format(errors='\n'.join(['<p>{e}</p>'.format(e=e) for e in errors]))
-    return html + '\n'.join(fields)
+    renderer_cls = get_form_renderer(layout)
+    return renderer_cls(form, layout, **kwargs).render()
 
-
-def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
-                 field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True):
+def render_field(field, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    if not isinstance(field, BoundField):
-        raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
-    # See if we're not excluded
-    if field.name in exclude.replace(' ', '').split(','):
-        return ''
-    # Hidden input requires no special treatment
-    if field.is_hidden:
-        return force_text(field)
-    # Shortcut to widget
-    widget = field.field.widget
-    # Read widgets attributes
-    widget_attrs = {
-        'class': widget.attrs.get('class', ''),
-        'placeholder': widget.attrs.get('placeholder', ''),
-        'title': widget.attrs.get('title', ''),
-    }
-    # Class to add to field element
-    if isinstance(widget, FileInput):
-        form_control_class = ''
-    else:
-        form_control_class = 'form-control'
-    # Optional extra rendering
-    after_render = None
-    # Wrap rendered field in its own label?
-    put_inside_label = False
-    # Wrapper for the final result (should contain {content} if not empty)
-    wrapper = ''
-
-    # Adjust workings for various widget types
-    if isinstance(field.field.widget, CheckboxInput):
-        form_control_class = ''
-        put_inside_label = True
-        wrapper = '<div class="checkbox">{content}</div>'
-    elif isinstance(widget, RadioSelect):
-        form_control_class = ''
-        after_render = list_to_class('radio')
-    elif isinstance(widget, CheckboxSelectMultiple):
-        form_control_class = ''
-        after_render = list_to_class('checkbox')
-    elif isinstance(widget, SelectDateWidget):
-        after_render = fix_date_select_input
-    elif isinstance(widget, ClearableFileInput):
-        after_render = fix_clearable_file_input
-
-    # Get help text
-    field_help = force_text(field.help_text) if show_help and field.help_text else ''
-    # Get errors
-    field_errors = [conditional_escape(force_text(error)) for error in field.errors]
-    # Temporarily adjust widget attributes if necessary
-    if form_control_class:
-        widget.attrs['class'] = add_css_class(widget_attrs['class'], form_control_class)
-    if is_widget_with_placeholder(widget) and field.label and not put_inside_label and not widget_attrs['placeholder']:
-        widget.attrs['placeholder'] = field.label
-    if field_help and not put_inside_label and not widget_attrs['title']:
-        widget.attrs['title'] = strip_tags(field_help)
-    if layout == 'inline' and field_errors:
-        field_title = widget.attrs.get('title', '')
-        field_title += ' ' + ' '.join([strip_tags(e) for e in field_errors])
-        widget.attrs['title'] = field_title.strip()
-    # Set required attribute
-    if set_required and is_widget_required_attribute(widget):
-        widget.attrs['required'] = 'required'
-    # Render the field
-    rendered_field = field.as_widget(attrs=widget.attrs)
-    # Apply the post_processor
-    if after_render:
-        rendered_field = after_render(rendered_field)
-    # Return changed attributes to original settings
-    for attr in widget_attrs:
-        widget.attrs[attr] = widget_attrs[attr]
-    # Wrap the rendered field in its label if necessary
-    if put_inside_label:
-        rendered_field = render_label(
-            content='{field} {label}'.format(field=rendered_field, label=field.label),
-            label_title=field.help_text
-        )
-    # Add any help text and/or errors
-    if layout != 'inline':
-        help_text_and_errors = [field_help] + field_errors
-        if help_text_and_errors:
-            help_html = ' '.join([h for h in help_text_and_errors if h])
-            rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
-    # Wrap the rendered field
-    if wrapper:
-        rendered_field = wrapper.format(content=rendered_field)
-    # Prepare label
-    label = field.label
-    if put_inside_label:
-        label = None
-    if layout == 'inline' or not show_label:
-        label_class = add_css_class(label_class, 'sr-only')
-    # Render label and field
-    content = render_field_and_label(
-        field=rendered_field,
-        label=label,
-        field_class=field_class,
-        label_class=label_class,
-        layout=layout,
-    )
-    # Return combined content, wrapped in form control
-    if field.errors:
-        form_group_class = add_css_class(form_group_class, 'has-error')
-    elif field.form.is_bound:
-        form_group_class = add_css_class(form_group_class, 'has-success')
-
-    return render_form_group(content, form_group_class)
-
+    renderer_cls = get_field_renderer(layout)
+    return renderer_cls(field, layout, **kwargs).render()
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
     """

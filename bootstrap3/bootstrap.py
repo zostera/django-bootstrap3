@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.utils.importlib import import_module
+
 
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
@@ -12,6 +14,9 @@ BOOTSTRAP3_DEFAULTS = {
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
+    'form_renderers': {'default': 'bootstrap3.renderers.FormRenderer',},
+    'field_renderers': {'default': 'bootstrap3.renderers.FieldRenderer',
+                        'inline': 'bootstrap3.renderers.InlineFieldRenderer',},
 }
 
 # Start with a copy of default settings
@@ -61,3 +66,17 @@ def theme_url():
     Return the full url to the theme CSS file
     """
     return get_bootstrap_setting('theme_url')
+
+def get_renderer(renderers, layout):
+    path = renderers.get(layout, renderers['default'])
+    mod, cls = path.rsplit(".", 1)
+    return getattr(import_module(mod), cls)
+
+def get_form_renderer(layout):
+    renderers = get_bootstrap_setting('form_renderers')
+    return get_renderer(renderers, layout)
+
+def get_field_renderer(layout):
+    renderers = get_bootstrap_setting('field_renderers')
+    return get_renderer(renderers, layout)
+
