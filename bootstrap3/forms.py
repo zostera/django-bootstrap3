@@ -147,7 +147,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if layout != 'inline':
         help_text_and_errors = [field_help] + field_errors
         if help_text_and_errors:
-            help_html = ' '.join([h for h in help_text_and_errors if h])
+            help_html = '<br/>'.join([h for h in help_text_and_errors if h])
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
     # Wrap the rendered field
     if wrapper:
