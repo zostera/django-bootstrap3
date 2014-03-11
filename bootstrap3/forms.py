@@ -172,6 +172,12 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     elif field.form.is_bound:
         form_group_class = add_css_class(form_group_class, 'has-success')
 
+    # Required and optional classes to the form group
+    if field.field.required:
+        form_group_class = add_css_class(form_group_class, 'required')
+    else:
+        form_group_class = add_css_class(form_group_class, 'optional')
+
     return render_form_group(content, form_group_class)
 
 
