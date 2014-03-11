@@ -30,7 +30,7 @@ def render_formset(formset, **kwargs):
 
 
 def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class='', label_class='', show_help=True,
-                exclude='', set_required=True):
+                exclude='', set_required=True, help_blocks_divider=' '):
     """
     Render a formset to a Bootstrap layout
     """
@@ -49,6 +49,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class=
             show_help=show_help,
             exclude=exclude,
             set_required=set_required,
+            help_blocks_divider=help_blocks_divider,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
