@@ -30,7 +30,7 @@ def render_formset(formset, **kwargs):
 
 
 def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class='', label_class='', show_help=True,
-                exclude='', set_required=True):
+                exclude='', set_required=True, help_blocks_divider=' '):
     """
     Render a formset to a Bootstrap layout
     """
@@ -49,6 +49,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class=
             show_help=show_help,
             exclude=exclude,
             set_required=set_required,
+            help_blocks_divider=help_blocks_divider,
         ))
         if field.is_hidden and field.errors:
             errors += field.errors
@@ -63,7 +64,7 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class=
 
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True):
+                 show_help=True, exclude='', set_required=True, help_blocks_divider = ' '):
     """
     Render a formset to a Bootstrap layout
     """
@@ -147,7 +148,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if layout != 'inline':
         help_text_and_errors = [field_help] + field_errors
         if help_text_and_errors:
-            help_html = ' '.join([h for h in help_text_and_errors if h])
+            help_html = help_blocks_divider.join([h for h in help_text_and_errors if h])
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
     # Wrap the rendered field
     if wrapper:
