@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput, ClearableFileInput
+    CheckboxInput, ClearableFileInput, DateInput, Select
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
@@ -63,7 +63,8 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class=
 
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True):
+                 show_help=True, exclude='', set_required=True,
+                 addon_before=None, addon_after=None):
     """
     Render a formset to a Bootstrap layout
     """
@@ -110,6 +111,12 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         after_render = fix_date_select_input
     elif isinstance(widget, ClearableFileInput):
         after_render = fix_clearable_file_input
+
+    if (addon_after or addon_before) and (isinstance(widget, TextInput) or isinstance(widget, DateInput) or isinstance(widget, Select)):
+        before = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_before) if addon_before else ''
+        after = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_after) if addon_after else ''
+        wrapper = '<div class="input-group">{before}{content}{after}</div>'.format(before=before, after=after,
+                                                                                   content='{content}')
 
     # Get help text
     field_help = force_text(field.help_text) if show_help and field.help_text else ''
