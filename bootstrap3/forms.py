@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput, ClearableFileInput
+    CheckboxInput, ClearableFileInput, DateInput, Select
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
@@ -63,7 +63,8 @@ def render_form(form, layout='', form_group_class=FORM_GROUP_CLASS, field_class=
 
 def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True):
+                 show_help=True, exclude='', set_required=True,
+                 addon_before=None, addon_after=None):
     """
     Render a formset to a Bootstrap layout
     """
@@ -111,6 +112,12 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     elif isinstance(widget, ClearableFileInput):
         after_render = fix_clearable_file_input
 
+    if (addon_after or addon_before) and (isinstance(widget, TextInput) or isinstance(widget, DateInput) or isinstance(widget, Select)):
+        before = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_before) if addon_before else ''
+        after = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_after) if addon_after else ''
+        wrapper = '<div class="input-group">{before}{content}{after}</div>'.format(before=before, after=after,
+                                                                                   content='{content}')
+
     # Get help text
     field_help = force_text(field.help_text) if show_help and field.help_text else ''
     # Get errors
@@ -143,15 +150,18 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
             content='{field} {label}'.format(field=rendered_field, label=field.label),
             label_title=field.help_text
         )
+    
+    # Wrap the rendered field
+    if wrapper:
+        rendered_field = wrapper.format(content=rendered_field)
+
     # Add any help text and/or errors
     if layout != 'inline':
         help_text_and_errors = [field_help] + field_errors
         if help_text_and_errors:
             help_html = ' '.join([h for h in help_text_and_errors if h])
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
-    # Wrap the rendered field
-    if wrapper:
-        rendered_field = wrapper.format(content=rendered_field)
+    
     # Prepare label
     label = field.label
     if put_inside_label:
