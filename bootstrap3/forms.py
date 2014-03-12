@@ -112,11 +112,18 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     elif isinstance(widget, ClearableFileInput):
         after_render = fix_clearable_file_input
 
-    if (addon_after or addon_before) and (isinstance(widget, TextInput) or isinstance(widget, DateInput) or isinstance(widget, Select)):
+    # Handle addons
+    if (addon_before or addon_after) and is_widget_with_addon_support(widget):
+        if not wrapper:
+            wrapper = '{content}'
         before = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_before) if addon_before else ''
         after = '<span class="input-group-addon">{addon}</span>'.format(addon=addon_after) if addon_after else ''
-        wrapper = '<div class="input-group">{before}{content}{after}</div>'.format(before=before, after=after,
-                                                                                   content='{content}')
+        content = '<div class="input-group">{before}{content}{after}</div>'.format(
+            before=before,
+            after=after,
+            content='{content}',
+        )
+        wrapper = wrapper.format(content=content)
 
     # Get help text
     field_help = force_text(field.help_text) if show_help and field.help_text else ''
@@ -259,6 +266,13 @@ def is_widget_with_placeholder(widget):
     These are all derived form TextInput, except for Textarea
     """
     return isinstance(widget, (TextInput, Textarea))
+
+
+def is_widget_with_addon_support(widget):
+    """
+    Is this a widget that supports addons?
+    """
+    return isinstance(widget, (TextInput, DateInput, Select))
 
 
 def list_to_class(klass):
