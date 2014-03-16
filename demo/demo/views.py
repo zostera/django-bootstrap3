@@ -58,7 +58,7 @@ class FormWithFilesView(FormView):
         }
 
 class PaginationView(TemplateView):
-    template_name = 'demo/form_with_files.html'
+    template_name = 'demo/pagination.html'
 
     def get_context_data(self, **kwargs):
         context = super(PaginationView, self).get_context_data(**kwargs)
