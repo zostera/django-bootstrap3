@@ -164,7 +164,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
 
     # Add any help text and/or errors
     if layout != 'inline':
-        help_text_and_errors = [field_help] + field_errors
+        help_text_and_errors = [field_help] + field_errors if field_help else field_errors
         if help_text_and_errors:
             help_html = ' '.join([h for h in help_text_and_errors if h])
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
