@@ -183,17 +183,20 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         label_class=label_class,
         layout=layout,
     )
+
+    # Add error class to form group
+    if field.errors and hasattr(field.form, 'error_css_class'):
+        form_group_class = add_css_class(form_group_class, field.form.error_css_class)
+
+    # Add required class to form group
+    if field.field.required and hasattr(field.form, 'required_css_class'):
+        form_group_class = add_css_class(form_group_class, field.form.required_css_class)
+
     # Return combined content, wrapped in form control
     if field.errors:
         form_group_class = add_css_class(form_group_class, 'has-error')
     elif field.form.is_bound:
         form_group_class = add_css_class(form_group_class, 'has-success')
-
-    # Required and optional classes to the form group
-    if field.field.required:
-        form_group_class = add_css_class(form_group_class, 'required')
-    else:
-        form_group_class = add_css_class(form_group_class, 'optional')
 
     return render_form_group(content, form_group_class)
 
