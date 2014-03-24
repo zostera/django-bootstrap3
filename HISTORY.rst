@@ -3,6 +3,24 @@
 History
 -------
 
+3.3.0 (2014-03-19)
+++++++++++++++++++
+
+* use Django forms css classes for indicating required and error on fields
+
+
+3.2.1 (2014-03-16)
+++++++++++++++++++
+
+* improved form rendering
+
+
+3.2.0 (2014-03-11)
+++++++++++++++++++
+
+* support for addons
+
+
 3.1.0 (2014-03-03)
 ++++++++++++++++++
 

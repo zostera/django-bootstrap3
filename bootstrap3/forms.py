@@ -1,13 +1,10 @@
 from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
-from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, RadioSelect, \
-    CheckboxInput, ClearableFileInput
-from django.forms.extras import SelectDateWidget
-from django.forms.forms import BaseForm, BoundField
+from django.forms import (HiddenInput, FileInput, CheckboxSelectMultiple,
+    Textarea, TextInput, DateInput, Select)
 from django.forms.formsets import BaseFormSet
 from django.utils.encoding import force_text
-from django.utils.html import conditional_escape, strip_tags
 
 from .bootstrap import (get_bootstrap_setting, get_form_renderer,
     get_field_renderer)
@@ -117,6 +114,13 @@ def is_widget_with_placeholder(widget):
     These are all derived form TextInput, except for Textarea
     """
     return isinstance(widget, (TextInput, Textarea))
+
+
+def is_widget_with_addon_support(widget):
+    """
+    Is this a widget that supports addons?
+    """
+    return isinstance(widget, (TextInput, DateInput, Select))
 
 
 def list_to_class(klass):

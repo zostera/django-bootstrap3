@@ -1,9 +1,12 @@
-from django.forms import (HiddenInput, FileInput, CheckboxSelectMultiple,
-    RadioSelect, CheckboxInput, ClearableFileInput)
+from django.forms import (TextInput, DateInput, FileInput, CheckboxInput,
+    ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
+from django.template import Context
+from django.template.loader import get_template
+from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
@@ -75,7 +78,8 @@ class FieldRenderer(object):
 
     def __init__(self, field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True):
+                 show_help=True, exclude='', set_required=True,
+                 addon_before=None, addon_after=None):
         # Only allow BoundField
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -90,11 +94,16 @@ class FieldRenderer(object):
         self.set_required = set_required
         self.widget = field.field.widget
         self.initial_attrs = self.widget.attrs.copy()
-        self.field_help = force_text(field.help_text) if (
+        self.field_help = force_text(mark_safe(field.help_text)) if (
             show_help and field.help_text) else ''
         self.field_errors = [conditional_escape(force_text(error))
             for error in field.errors]
         self.placeholder = field.label
+        self.form_error_class = getattr(field.form, 'error_css_class', '')
+        self.form_required_class = getattr(
+            field.form, 'required_css_class', '')
+        self.addon_before = addon_before
+        self.addon_after = addon_after
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -178,17 +187,34 @@ class FieldRenderer(object):
             html = self.put_inside_label(html)
         return html
 
-    def append_to_widget(self, html):
-        help_text_and_errors = [self.field_help] + self.field_errors
-        if help_text_and_errors:
-            help_html = ' '.join([h for h in help_text_and_errors if h])
-            html += '<span class=help-block>{help}</span>'.format(
-                help=help_html)
-        return html
-
     def wrap_widget(self, html):
         if isinstance(self.widget, CheckboxInput):
             html = '<div class="checkbox">{content}</div>'.format(content=html)
+        return html
+
+    def make_input_group(self, html):
+        if ((self.addon_before or self.addon_after) and
+            isinstance(self.widget, (TextInput, DateInput, Select))
+        ):
+            before = '<span class="input-group-addon">{addon}</span>'.format(
+                addon=self.addon_before) if self.addon_before else ''
+            after = '<span class="input-group-addon">{addon}</span>'.format(
+                addon=self.addon_after) if self.addon_after else ''
+            html = '<div class="input-group">{before}{html}{after}</div>'.format(
+                before=before, after=after, html=html)
+        return html
+
+    def append_to_field(self, html):
+        help_text_and_errors = [self.field_help] + self.field_errors \
+            if self.field_help else self.field_errors
+        if help_text_and_errors:
+            help_html = get_template(
+                'bootstrap3/field_help_text_and_errors.html').render(Context({
+                    'field': self.field,
+                    'help_text_and_errors': help_text_and_errors,
+                    'layout': self.layout,
+                }))
+            html += '<span class=help-block>{help}</span>'.format(help=help_html)
         return html
 
     def get_field_class(self):
@@ -223,6 +249,12 @@ class FieldRenderer(object):
 
     def get_form_group_class(self):
         form_group_class = self.form_group_class
+        if self.field.errors and self.form_error_class:
+            form_group_class = add_css_class(
+                form_group_class, self.form_error_class)
+        if self.field.field.required and self.form_required_class:
+            form_group_class = add_css_class(
+                form_group_class, self.form_required_class)
         if self.field_errors:
             form_group_class = add_css_class(form_group_class, 'has-error')
         elif self.field.form.is_bound:
@@ -243,8 +275,9 @@ class FieldRenderer(object):
         html = self.field.as_widget(attrs=self.widget.attrs)
         self.restore_widget_attrs()
         html = self.post_widget_render(html)
-        html = self.append_to_widget(html)
         html = self.wrap_widget(html)
+        html = self.make_input_group(html)
+        html = self.append_to_field(html)
         html = self.wrap_field(html)
         html = self.add_label(html)
         html = self.wrap_label_and_field(html)
@@ -265,7 +298,7 @@ class InlineFieldRenderer(FieldRenderer):
         super(InlineFieldRenderer, self).add_widget_attrs()
         self.add_error_attrs()
 
-    def append_to_widget(self, html):
+    def append_to_field(self, html):
         return html
 
     def get_field_class(self):

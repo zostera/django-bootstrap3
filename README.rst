@@ -13,9 +13,7 @@ django-bootstrap3
 
 Bootstrap support for Django projects
 
-.. image:: http://i.imgur.com/lg9rx9w.png
-   :alt: gittip
-   :target: https://www.gittip.com/dyve/
+**You can support this project on GitTip, https://www.gittip.com/dyve/.**
    
 Documentation
 -------------

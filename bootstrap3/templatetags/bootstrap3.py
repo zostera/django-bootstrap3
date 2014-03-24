@@ -415,7 +415,7 @@ def bootstrap_messages(context, *args, **kwargs):
 
         {% bootstrap_messages FIXTHIS %}
 
-   """
+    """
     return get_template('bootstrap3/messages.html').render(context)
 
 
