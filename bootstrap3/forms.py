@@ -6,8 +6,11 @@ from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textare
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
+from django.template import Context
+from django.template.loader import get_template
 from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
+from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
 from .text import text_concat
@@ -126,7 +129,7 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
         wrapper = wrapper.format(content=content)
 
     # Get help text
-    field_help = force_text(field.help_text) if show_help and field.help_text else ''
+    field_help = force_text(mark_safe(field.help_text)) if show_help and field.help_text else ''
     # Get errors
     field_errors = [conditional_escape(force_text(error)) for error in field.errors]
     # Temporarily adjust widget attributes if necessary
@@ -166,7 +169,11 @@ def render_field(field, layout='', form_group_class=FORM_GROUP_CLASS,
     if layout != 'inline':
         help_text_and_errors = [field_help] + field_errors if field_help else field_errors
         if help_text_and_errors:
-            help_html = ' '.join([h for h in help_text_and_errors if h])
+            help_html = get_template('bootstrap3/field_help_text_and_errors.html').render(Context({
+                'field': field,
+                'help_text_and_errors': help_text_and_errors,
+                'layout': layout,
+                }))
             rendered_field += '<span class=help-block>{help}</span>'.format(help=help_html)
     
     # Prepare label
