@@ -215,6 +215,12 @@ class FieldTest(TestCase):
         rendered = render_template('{% bootstrap_field ' + form_field + ' set_required=0 %}')
         self.assertNotIn('required', rendered)
 
+    def test_input_group(self):
+        res = render_template('{% bootstrap_field form.subject addon_before="$" addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
 
 class IconTest(TestCase):
 
