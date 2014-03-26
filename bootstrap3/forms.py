@@ -1,13 +1,11 @@
 from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
-from django.forms import (HiddenInput, FileInput, CheckboxSelectMultiple,
-    Textarea, TextInput, DateInput, Select)
+from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, DateInput, Select
 from django.forms.formsets import BaseFormSet
 from django.utils.encoding import force_text
 
-from .bootstrap import (get_bootstrap_setting, get_form_renderer,
-    get_field_renderer)
+from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_renderer
 from .text import text_concat
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
@@ -26,6 +24,7 @@ def render_formset(formset, **kwargs):
     forms = [render_form(f, **kwargs) for f in formset]
     return force_text(formset.management_form) + '\n' + '\n'.join(forms)
 
+
 def render_form(form, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
@@ -33,12 +32,14 @@ def render_form(form, layout='', **kwargs):
     renderer_cls = get_form_renderer(layout)
     return renderer_cls(form, layout, **kwargs).render()
 
+
 def render_field(field, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
     renderer_cls = get_field_renderer(layout)
     return renderer_cls(field, layout, **kwargs).render()
+
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
     """
@@ -55,6 +56,9 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
 
 
 def render_button(content, button_type=None, icon=None):
+    """
+    Render a button with content
+    """
     attrs = {'class': 'btn'}
     if button_type:
         if button_type == 'submit':
@@ -67,7 +71,9 @@ def render_button(content, button_type=None, icon=None):
 
 
 def render_field_and_label(field, label, field_class='', label_class='', layout='', **kwargs):
-    # Default settings for horizontal form
+    """
+    Render a field with its label
+    """
     if layout == 'horizontal':
         if not label_class:
             label_class = get_bootstrap_setting('horizontal_label_class')
@@ -115,52 +121,3 @@ def is_widget_with_placeholder(widget):
     """
     return isinstance(widget, (TextInput, Textarea))
 
-
-def is_widget_with_addon_support(widget):
-    """
-    Is this a widget that supports addons?
-    """
-    return isinstance(widget, (TextInput, DateInput, Select))
-
-
-def list_to_class(klass):
-    def fixer(html):
-        mapping = [
-            ('<ul', '<div'),
-            ('</ul>', '</div>'),
-            ('<li', '<div class="{klass}"'.format(klass=klass)),
-            ('</li>', '</div>'),
-        ]
-        for k, v in mapping:
-            html = html.replace(k, v)
-        return html
-
-    return fixer
-
-
-def surround_with(html_with_content):
-    def wrapper(html):
-        return html_with_content.format(content=html)
-
-    return wrapper
-
-
-def fix_date_select_input(html):
-    div1 = '<div class="col-xs-4">'
-    div2 = '</div>'
-    html = html.replace('<select', div1 + '<select')
-    html = html.replace('</select>', '</select>' + div2)
-    return '<div class="row bootstrap3-multi-input">' + html + '</div>'
-
-
-def fix_clearable_file_input(html):
-    """
-    Fix a clearable file input
-    TODO: This needs improvement
-
-    Currently Django returns
-    Currently: <a href="dummy.txt">dummy.txt</a> <input id="file4-clear_id" name="file4-clear" type="checkbox" /> <label for="file4-clear_id">Clear</label><br />Change: <input id="id_file4" name="file4" type="file" /><span class=help-block></span></div>
-
-    """
-    # TODO This needs improvement
-    return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">' + html + '</div></div>'
