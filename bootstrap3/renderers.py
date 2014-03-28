@@ -214,7 +214,7 @@ class FieldRenderer(object):
                     'help_text_and_errors': help_text_and_errors,
                     'layout': self.layout,
                 }))
-            html += '<span class=help-block>{help}</span>'.format(help=help_html)
+            html += '<span class="help-block">{help}</span>'.format(help=help_html)
         return html
 
     def get_field_class(self):
