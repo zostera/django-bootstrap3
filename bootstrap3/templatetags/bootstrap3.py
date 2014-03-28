@@ -6,7 +6,7 @@ from math import floor
 from django import template
 from django.template.loader import get_template
 
-from ..bootstrap import css_url, javascript_url, jquery_url, theme_url
+from ..bootstrap import css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 from ..html import render_link_tag
 from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
     render_label
@@ -16,6 +16,15 @@ from ..text import force_text
 
 
 register = template.Library()
+
+
+@register.filter
+def bootstrap_setting(value):
+    """
+    A simple way to read bootstrap settings in a template.
+    Please consider this filter private for now, do not use it in your own templates.
+    """
+    return get_bootstrap_setting(value)
 
 
 @register.simple_tag
