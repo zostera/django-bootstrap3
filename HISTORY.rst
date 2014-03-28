@@ -3,6 +3,13 @@
 History
 -------
 
+4.0.0 (2014-03-28)
+++++++++++++++++++
+
+* use renderer classes for generating HTML
+* several bug fixes
+
+
 3.3.0 (2014-03-19)
 ++++++++++++++++++
 
