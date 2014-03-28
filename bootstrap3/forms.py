@@ -80,7 +80,7 @@ def render_field_and_label(field, label, field_class='', label_class='', layout=
         if not field_class:
             field_class = get_bootstrap_setting('horizontal_field_class')
         if not label:
-            label = '&nbsp;'
+            label = '&#160;'
         label_class = add_css_class(label_class, 'control-label')
     html = field
     if field_class:

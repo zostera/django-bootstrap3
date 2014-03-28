@@ -237,7 +237,7 @@ class FieldRenderer(object):
 
     def get_label(self):
         if isinstance(self.widget, CheckboxInput):
-            return '&nbsp;'
+            return '&#160;'
         return self.field.label
 
     def add_label(self, html):
