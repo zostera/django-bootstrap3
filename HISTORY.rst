@@ -3,6 +3,12 @@
 History
 -------
 
+4.0.1 (2014-03-29)
+++++++++++++++++++
+
+* fixed unicode bug and added unicode label to tests
+
+
 4.0.0 (2014-03-28)
 ++++++++++++++++++
 
