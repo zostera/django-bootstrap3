@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 
 from django import forms
 from django.template import Template, Context
@@ -39,7 +39,7 @@ class TestForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
     )
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
-    sender = forms.EmailField()
+    sender = forms.EmailField(label='Sender © unicode')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(required=False, help_text='You will get a copy in your mailbox.')
     select1 = forms.ChoiceField(choices=RADIO_CHOICES)
@@ -117,14 +117,13 @@ def render_field(field, **context_args):
 
 
 class SettingsTest(TestCase):
-
     def test_settings(self):
         from .bootstrap import BOOTSTRAP3
+
         self.assertTrue(BOOTSTRAP3)
 
 
 class TemplateTest(TestCase):
-
     def test_empty_template(self):
         res = render_template('')
         self.assertEqual(res.strip(), '')
@@ -134,7 +133,8 @@ class TemplateTest(TestCase):
         self.assertEqual(res.strip(), 'some text')
 
     def test_bootstrap_template(self):
-        template = Template(('{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
+        template = Template((
+        '{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
         res = template.render(Context({}))
         self.assertIn('test_bootstrap3_content', res)
 
@@ -150,14 +150,12 @@ class TemplateTest(TestCase):
 
 
 class FormSetTest(TestCase):
-
     def test_illegal_formset(self):
         with self.assertRaises(BootstrapError):
             render_formset(formset='illegal')
 
 
 class FormTest(TestCase):
-
     def test_illegal_form(self):
         with self.assertRaises(BootstrapError):
             render_form(form='illegal')
@@ -187,7 +185,6 @@ class FormTest(TestCase):
 
 
 class FieldTest(TestCase):
-
     def test_illegal_field(self):
         with self.assertRaises(BootstrapError):
             render_field(field='illegal')
@@ -223,19 +220,18 @@ class FieldTest(TestCase):
 
 
 class IconTest(TestCase):
-
     def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
         self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
 
 
 class MessagesTest(TestCase):
-
     def test_messages(self):
         class FakeMessage(object):
             """
             Follows the `django.contrib.messages.storage.base.Message` API.
             """
+
             def __init__(self, message, tags):
                 self.tags = tags
                 self.message = message

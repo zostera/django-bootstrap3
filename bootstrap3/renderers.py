@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.forms import (TextInput, DateInput, FileInput, CheckboxInput,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
 from django.forms.extras import SelectDateWidget

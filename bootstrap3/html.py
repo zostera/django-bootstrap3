@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.forms.widgets import flatatt
 
-
 from .text import force_text, text_value
+
 
 # Handle HTML and CSS manipulation
 

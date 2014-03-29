@@ -6,10 +6,7 @@ import re
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 
-"""
-Extra features for template file handling
-"""
-
+# Extra features for template file handling
 
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
 
@@ -43,7 +40,7 @@ def parse_token_contents(parser, token):
             match = kwarg_re.match(bit)
             if not match:
                 raise TemplateSyntaxError(
-                      'Malformed arguments to tag "{}"'.format(tag))
+                    'Malformed arguments to tag "{}"'.format(tag))
             name, value = match.groups()
             if name:
                 kwargs[name] = parser.compile_filter(value)

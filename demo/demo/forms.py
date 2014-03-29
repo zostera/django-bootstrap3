@@ -29,7 +29,7 @@ class ContactForm(forms.Form):
     date = forms.DateField(widget=SelectDateWidget)
     subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
-    sender = forms.EmailField()
+    sender = forms.EmailField(label='Unicode © symbol')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(required=False, help_text='You will get a copy in your mailbox.')
     select1 = forms.ChoiceField(choices=RADIO_CHOICES)
