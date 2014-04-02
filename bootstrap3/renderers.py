@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.forms import (TextInput, DateInput, FileInput, CheckboxInput,
-    ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
+                          ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.utils.encoding import force_text
@@ -15,7 +15,7 @@ from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
 from .html import add_css_class
 from .forms import (render_field, render_label, render_form_group,
-    is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS)
+                    is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS)
 
 
 class FormRenderer(object):
@@ -24,8 +24,8 @@ class FormRenderer(object):
     """
 
     def __init__(self, form, layout='', form_group_class=FORM_GROUP_CLASS,
-        field_class='', label_class='', show_help=True, exclude='',
-        set_required=True):
+                 field_class='', label_class='', show_help=True, exclude='',
+                 set_required=True):
         if not isinstance(form, BaseForm):
             raise BootstrapError(
                 'Parameter "form" should contain a valid Django Form.')
@@ -63,11 +63,11 @@ class FormRenderer(object):
     def render_errors(self):
         form_errors = self.get_form_errors()
         if form_errors:
+            errors = '\n'.join(['<p>{e}</p>'.format(e=e) for e in form_errors])
             return '''
                 <div class="alert alert-danger alert-dismissable alert-link">
-                <button class=close data-dismiss=alert aria-hidden=true>
-                &times;</button>{errors}</div>\n'''.format(errors=
-                    '\n'.join(['<p>{e}</p>'.format(e=e) for e in form_errors]))
+                <button class="close" data-dismiss="alert" aria-hidden="true">
+                &times;</button>{errors}</div>\n'''.format(errors=errors)
         return ''
 
     def render(self):
@@ -100,7 +100,7 @@ class FieldRenderer(object):
         self.field_help = force_text(mark_safe(field.help_text)) if (
             show_help and field.help_text) else ''
         self.field_errors = [conditional_escape(force_text(error))
-            for error in field.errors]
+                             for error in field.errors]
         self.placeholder = field.label
         self.form_error_class = getattr(field.form, 'error_css_class', '')
         self.form_required_class = getattr(
@@ -152,10 +152,8 @@ class FieldRenderer(object):
         return html
 
     def put_inside_label(self, html):
-        return render_label(content='{field} {label}'.format(
-                                field=html, label=self.field.label),
-                            label_title=strip_tags(self.field_help)
-        )
+        content = '{field} {label}'.format(field=html, label=self.field.label)
+        return render_label(content=content, label_title=strip_tags(self.field_help))
 
     def fix_date_select_input(self, html):
         div1 = '<div class="col-xs-4">'
@@ -163,7 +161,6 @@ class FieldRenderer(object):
         html = html.replace('<select', div1 + '<select')
         html = html.replace('</select>', '</select>' + div2)
         return '<div class="row bootstrap3-multi-input">' + html + '</div>'
-
 
     def fix_clearable_file_input(self, html):
         """
@@ -197,7 +194,7 @@ class FieldRenderer(object):
 
     def make_input_group(self, html):
         if ((self.addon_before or self.addon_after) and
-            isinstance(self.widget, (TextInput, DateInput, Select))
+                isinstance(self.widget, (TextInput, DateInput, Select))
         ):
             before = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_before) if self.addon_before else ''
@@ -213,16 +210,18 @@ class FieldRenderer(object):
         if help_text_and_errors:
             help_html = get_template(
                 'bootstrap3/field_help_text_and_errors.html').render(Context({
-                    'field': self.field,
-                    'help_text_and_errors': help_text_and_errors,
-                    'layout': self.layout,
-                }))
+                'field': self.field,
+                'help_text_and_errors': help_text_and_errors,
+                'layout': self.layout,
+            }))
             html += '<span class="help-block">{help}</span>'.format(help=help_html)
         return html
 
     def get_field_class(self):
-        return (self.field_class or
-                get_bootstrap_setting('horizontal_field_class'))
+        field_class = self.field_class
+        if not field_class and self.layout == 'horizontal':
+            field_class = get_bootstrap_setting('horizontal_field_class')
+        return field_class
 
     def wrap_field(self, html):
         field_class = self.get_field_class()
@@ -232,8 +231,9 @@ class FieldRenderer(object):
         return html
 
     def get_label_class(self):
-        label_class = (self.label_class or
-                       get_bootstrap_setting('horizontal_label_class'))
+        label_class = self.label_class
+        if not label_class and self.layout == 'horizontal':
+            label_class = get_bootstrap_setting('horizontal_label_class')
         if not self.show_label:
             label_class = add_css_class(label_class, 'sr-only')
         return add_css_class(label_class, 'control-label')

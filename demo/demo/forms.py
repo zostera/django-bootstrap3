@@ -25,6 +25,10 @@ MEDIA_CHOICES = (
 )
 
 
+class ContactForm2(forms.Form):
+    subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
+
+
 class ContactForm(forms.Form):
     date = forms.DateField(widget=SelectDateWidget)
     subject = forms.CharField(max_length=100, help_text='Maximum 100 chars.')
