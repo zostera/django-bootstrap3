@@ -12,6 +12,7 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
+from bootstrap3.text import text_value
 from .exceptions import BootstrapError
 from .html import add_css_class
 from .forms import (render_field, render_label, render_form_group,
@@ -226,28 +227,31 @@ class FieldRenderer(object):
     def wrap_field(self, html):
         field_class = self.get_field_class()
         if field_class:
-            html = '<div class="{klass}">{html}</div>'.format(
-                klass=field_class, html=html)
+            html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
         return html
 
     def get_label_class(self):
         label_class = self.label_class
         if not label_class and self.layout == 'horizontal':
             label_class = get_bootstrap_setting('horizontal_label_class')
+        label_class = text_value(label_class)
         if not self.show_label:
             label_class = add_css_class(label_class, 'sr-only')
         return add_css_class(label_class, 'control-label')
 
     def get_label(self):
         if isinstance(self.widget, CheckboxInput):
+            label = None
+        else:
+            label = self.field.label
+        if self.layout == 'horizontal' and not label:
             return '&#160;'
-        return self.field.label
+        return label
 
     def add_label(self, html):
         label = self.get_label()
         if label:
-            html = (render_label(label, label_class=self.get_label_class()) +
-                    html)
+            html = render_label(label, label_class=self.get_label_class()) + html
         return html
 
     def get_form_group_class(self):
