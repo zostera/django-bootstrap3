@@ -3,7 +3,13 @@
 History
 -------
 
-4.0.2 (2014-03-29)
+4.0.3 (2014-03-03)
+++++++++++++++++++
+
+* fixed checkbox label bug in vertical and inline forms
+
+
+4.0.2 (2014-04-02)
 ++++++++++++++++++
 
 * fixed bug in vertical form rendering
