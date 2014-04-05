@@ -98,14 +98,11 @@ class FieldRenderer(object):
         self.set_required = set_required
         self.widget = field.field.widget
         self.initial_attrs = self.widget.attrs.copy()
-        self.field_help = force_text(mark_safe(field.help_text)) if (
-            show_help and field.help_text) else ''
-        self.field_errors = [conditional_escape(force_text(error))
-                             for error in field.errors]
+        self.field_help = force_text(mark_safe(field.help_text)) if show_help and field.help_text else ''
+        self.field_errors = [conditional_escape(force_text(error)) for error in field.errors]
         self.placeholder = field.label
         self.form_error_class = getattr(field.form, 'error_css_class', '')
-        self.form_required_class = getattr(
-            field.form, 'required_css_class', '')
+        self.form_required_class = getattr(field.form, 'required_css_class', '')
         self.addon_before = addon_before
         self.addon_after = addon_after
 
