@@ -3,14 +3,13 @@
 History
 -------
 
-4.0.5 (2014-03-03)
+4.1.0 (2014-04-05)
 ++++++++++++++++++
 
-* 4.0.5 contains a typo fix and internal branching changes
-* 4.0.4 was not released
+* typo fix and internal branching changes
 
 
-4.0.3 (2014-03-03)
+4.0.3 (2014-04-03)
 ++++++++++++++++++
 
 * fixed checkbox label bug in vertical and inline forms
