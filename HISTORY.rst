@@ -3,6 +3,13 @@
 History
 -------
 
+4.0.5 (2014-03-03)
+++++++++++++++++++
+
+* 4.0.5 contains a typo fix and internal branching changes
+* 4.0.4 was not released
+
+
 4.0.3 (2014-03-03)
 ++++++++++++++++++
 
