@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.forms.widgets import flatatt
 
-from .text import force_text, text_value
+from .text import text_value
 
 
 # Handle HTML and CSS manipulation
@@ -13,7 +13,7 @@ def split_css_classes(css_classes):
     """
     Turn string into a list of CSS classes
     """
-    classes_list = force_text(css_classes).split(' ')
+    classes_list = text_value(css_classes).split(' ')
     return [c for c in classes_list if c]
 
 
