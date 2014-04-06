@@ -5,7 +5,6 @@ from django.forms import (TextInput, DateInput, FileInput, CheckboxInput,
                           ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
-from django.utils.encoding import force_text
 from django.utils.html import conditional_escape, strip_tags
 from django.template import Context
 from django.template.loader import get_template
@@ -98,8 +97,8 @@ class FieldRenderer(object):
         self.set_required = set_required
         self.widget = field.field.widget
         self.initial_attrs = self.widget.attrs.copy()
-        self.field_help = force_text(mark_safe(field.help_text)) if show_help and field.help_text else ''
-        self.field_errors = [conditional_escape(force_text(error)) for error in field.errors]
+        self.field_help = text_value(mark_safe(field.help_text)) if show_help and field.help_text else ''
+        self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
         self.placeholder = field.label
         self.form_error_class = getattr(field.form, 'error_css_class', '')
         self.form_required_class = getattr(field.form, 'required_css_class', '')
@@ -274,7 +273,7 @@ class FieldRenderer(object):
             return ''
         # Hidden input requires no special treatment
         if self.field.is_hidden:
-            return force_text(self.field)
+            return text_value(self.field)
         self.add_widget_attrs()
         html = self.field.as_widget(attrs=self.widget.attrs)
         self.restore_widget_attrs()
