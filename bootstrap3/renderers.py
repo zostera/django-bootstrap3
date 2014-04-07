@@ -67,7 +67,7 @@ class FormRenderer(object):
             return '''
                 <div class="alert alert-danger alert-dismissable alert-link">
                 <button class="close" data-dismiss="alert" aria-hidden="true">
-                &times;</button>{errors}</div>\n'''.format(errors=errors)
+                &#215;</button>{errors}</div>\n'''.format(errors=errors)
         return ''
 
     def render(self):
