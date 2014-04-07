@@ -3,6 +3,13 @@
 History
 -------
 
+4.2.0 (2014-04-06)
+++++++++++++++++++
+
+* moved styling of form level errors to template
+* bug fixes
+
+
 4.1.1 (2014-04-06)
 ++++++++++++++++++
 

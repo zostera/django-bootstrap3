@@ -243,7 +243,7 @@ class MessagesTest(TestCase):
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
         hello
     </div>
 """
@@ -253,7 +253,7 @@ class MessagesTest(TestCase):
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
         hello
     </div>
         """
@@ -263,7 +263,7 @@ class MessagesTest(TestCase):
         res = render_template('{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
         hello
     </div>
 """
