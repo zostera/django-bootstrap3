@@ -63,11 +63,12 @@ class FormRenderer(object):
     def render_errors(self):
         form_errors = self.get_form_errors()
         if form_errors:
-            errors = '\n'.join(['<p>{e}</p>'.format(e=e) for e in form_errors])
-            return '''
-                <div class="alert alert-danger alert-dismissable alert-link">
-                <button class="close" data-dismiss="alert" aria-hidden="true">
-                &#215;</button>{errors}</div>\n'''.format(errors=errors)
+            return get_template(
+                'bootstrap3/form_errors.html').render(Context({
+                    'errors': form_errors,
+                    'form': self.form,
+                    'layout': self.layout,
+                }))
         return ''
 
     def render(self):
