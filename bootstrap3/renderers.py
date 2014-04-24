@@ -151,7 +151,7 @@ class FieldRenderer(object):
 
     def put_inside_label(self, html):
         content = '{field} {label}'.format(field=html, label=self.field.label)
-        return render_label(content=content, label_title=strip_tags(self.field_help))
+        return render_label(content=content, label_for=self.field.id_for_label, label_title=strip_tags(self.field_help))
 
     def fix_date_select_input(self, html):
         div1 = '<div class="col-xs-4">'
