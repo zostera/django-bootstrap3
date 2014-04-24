@@ -248,7 +248,7 @@ class FieldRenderer(object):
     def add_label(self, html):
         label = self.get_label()
         if label:
-            html = render_label(label, label_class=self.get_label_class()) + html
+            html = render_label(label, label_for=self.field.id_for_label, label_class=self.get_label_class()) + html
         return html
 
     def get_form_group_class(self):
