@@ -55,14 +55,15 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None):
+def render_button(content, button_type=None, icon=None, button_class=''):
     """
     Render a button with content
     """
-    attrs = {'class': 'btn'}
+    attrs = {}
+    attrs['class'] = add_css_class('btn', button_class)
     if button_type:
         if button_type == 'submit':
-            attrs['class'] += ' btn-primary'
+            attrs['class'] = add_css_class(attrs['class'], 'btn-primary')
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type

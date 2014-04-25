@@ -163,4 +163,6 @@ LOGGING = {
 # Settings for django-bootstrap3
 BOOTSTRAP3 = {
     'set_required': False,
+    'form_error_class': 'bootstrap3-error',
+    'form_required_class': 'bootstrap3-required',
 }

@@ -65,8 +65,6 @@ class TestForm(forms.Form):
         help_text='Check as many as you like.',
     )
 
-    required_css_class = 'bootstrap3-req'
-
     def clean(self):
         cleaned_data = super(TestForm, self).clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")

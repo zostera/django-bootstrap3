@@ -77,3 +77,8 @@ class PaginationView(TemplateView):
             show_lines = paginator.page(paginator.num_pages)
         context['lines'] = show_lines
         return context
+
+
+class MiscView(TemplateView):
+    template_name = 'demo/misc.html'
+
