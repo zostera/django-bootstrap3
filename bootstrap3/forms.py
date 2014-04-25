@@ -55,14 +55,15 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None):
+def render_button(content, button_type=None, icon=None, button_class=''):
     """
     Render a button with content
     """
-    attrs = {'class': 'btn'}
+    attrs = {}
+    attrs['class'] = add_css_class('btn', button_class)
     if button_type:
         if button_type == 'submit':
-            attrs['class'] += ' btn-primary'
+            attrs['class'] = add_css_class(attrs['class'], 'btn-primary')
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
@@ -70,7 +71,7 @@ def render_button(content, button_type=None, icon=None):
     return render_tag('button', attrs=attrs, content=text_concat(icon_content, content, separator=' '))
 
 
-def render_field_and_label(field, label, field_class='', label_class='', layout='', **kwargs):
+def render_field_and_label(field, label, field_class='', label_for=None, label_class='', layout='', **kwargs):
     """
     Render a field with its label
     """
@@ -86,7 +87,7 @@ def render_field_and_label(field, label, field_class='', label_class='', layout=
     if field_class:
         html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
     if label:
-        html = render_label(label, label_class=label_class) + html
+        html = render_label(label, label_for=label_for, label_class=label_class) + html
     return html
 
 

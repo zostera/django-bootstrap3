@@ -73,6 +73,10 @@ class TestForm(forms.Form):
         return cleaned_data
 
 
+class TestFormWithoutRequiredClass(TestForm):
+    required_css_class = ''
+
+
 def render_template(text, **context_args):
     """
     Create a template ``text`` that first loads bootstrap3.
@@ -211,6 +215,10 @@ class FieldTest(TestCase):
         form_field = 'form.subject'
         rendered = render_template('{% bootstrap_field ' + form_field + ' set_required=0 %}')
         self.assertNotIn('required', rendered)
+        # Required settings in field
+        form_field = 'form.subject'
+        rendered = render_template('{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
+        self.assertIn('test-required', rendered)
 
     def test_input_group(self):
         res = render_template('{% bootstrap_field form.subject addon_before="$" addon_after=".00" %}')

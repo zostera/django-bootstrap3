@@ -83,7 +83,8 @@ class FieldRenderer(object):
     def __init__(self, field, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class=None, label_class=None, show_label=True,
                  show_help=True, exclude='', set_required=True,
-                 addon_before=None, addon_after=None):
+                 addon_before=None, addon_after=None,
+                 error_css_class='', required_css_class=''):
         # Only allow BoundField
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -101,10 +102,18 @@ class FieldRenderer(object):
         self.field_help = text_value(mark_safe(field.help_text)) if show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
         self.placeholder = field.label
-        self.form_error_class = getattr(field.form, 'error_css_class', '')
-        self.form_required_class = getattr(field.form, 'required_css_class', '')
         self.addon_before = addon_before
         self.addon_after = addon_after
+
+        # These are set in Django or in the global BOOTSTRAP3 settings, and they can be overwritten in the template
+        if error_css_class:
+            self.form_error_class = error_css_class
+        else:
+            self.form_error_class = getattr(field.form, 'error_css_class', get_bootstrap_setting('error_css_class'))
+        if required_css_class:
+            self.form_required_class = required_css_class
+        else:
+            self.form_required_class = getattr(field.form, 'required_css_class',  get_bootstrap_setting('required_css_class'))
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -151,7 +160,7 @@ class FieldRenderer(object):
 
     def put_inside_label(self, html):
         content = '{field} {label}'.format(field=html, label=self.field.label)
-        return render_label(content=content, label_title=strip_tags(self.field_help))
+        return render_label(content=content, label_for=self.field.id_for_label, label_title=strip_tags(self.field_help))
 
     def fix_date_select_input(self, html):
         div1 = '<div class="col-xs-4">'
@@ -248,7 +257,7 @@ class FieldRenderer(object):
     def add_label(self, html):
         label = self.get_label()
         if label:
-            html = render_label(label, label_class=self.get_label_class()) + html
+            html = render_label(label, label_for=self.field.id_for_label, label_class=self.get_label_class()) + html
         return html
 
     def get_form_group_class(self):

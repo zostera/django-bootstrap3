@@ -518,7 +518,7 @@ def get_pagination_context(page, pages_to_show=11,
         url += force_text(extra) + '&'
     if url:
         url = url.replace('?&', '?')
-    # Set CSS classes,see twitter.github.io/bootstrap/components.html#pagination
+    # Set CSS classes, see http://getbootstrap.com/components/#pagination
     pagination_css_classes = ['pagination']
     if size == 'small':
         pagination_css_classes.append('pagination-sm')

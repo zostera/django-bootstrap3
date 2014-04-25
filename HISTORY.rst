@@ -3,6 +3,12 @@
 History
 -------
 
+4.3.0 (2014-04-25)
+++++++++++++++++++
+
+* added `required_css_class` and `error_css_class` as optional settings (global) and parameters (form and field rendering)
+
+
 4.2.0 (2014-04-06)
 ++++++++++++++++++
 
