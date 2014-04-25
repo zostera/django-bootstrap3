@@ -65,10 +65,16 @@ class TestForm(forms.Form):
         help_text='Check as many as you like.',
     )
 
+    required_css_class = 'bootstrap3-req'
+
     def clean(self):
         cleaned_data = super(TestForm, self).clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data
+
+
+class TestFormWithoutRequiredClass(TestForm):
+    required_css_class = ''
 
 
 def render_template(text, **context_args):
@@ -209,6 +215,10 @@ class FieldTest(TestCase):
         form_field = 'form.subject'
         rendered = render_template('{% bootstrap_field ' + form_field + ' set_required=0 %}')
         self.assertNotIn('required', rendered)
+        # Required settings in field
+        form_field = 'form.subject'
+        rendered = render_template('{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
+        self.assertIn('test-required', rendered)
 
     def test_input_group(self):
         res = render_template('{% bootstrap_field form.subject addon_before="$" addon_after=".00" %}')
