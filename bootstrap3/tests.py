@@ -32,6 +32,7 @@ class TestForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
     """
+    date = forms.DateField(required=False)
     subject = forms.CharField(
         max_length=100,
         help_text='my_help_text',
