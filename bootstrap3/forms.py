@@ -9,7 +9,7 @@ from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_rende
 from .text import text_concat, text_value
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
-from .icons import render_icon
+from .components import render_icon
 
 
 FORM_GROUP_CLASS = 'form-group'

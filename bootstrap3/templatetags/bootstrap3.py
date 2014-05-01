@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import re
+
 from math import floor
 
 from django import template
@@ -11,7 +12,7 @@ from ..bootstrap import css_url, javascript_url, jquery_url, theme_url, get_boot
 from ..html import render_link_tag
 from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
     render_label
-from ..icons import render_icon
+from ..components import render_icon, render_alert
 from ..templates import handle_var, parse_token_contents
 from ..text import force_text
 
@@ -152,7 +153,7 @@ def bootstrap_css():
 
 
 @register.simple_tag
-def bootstrap_javascript(jquery=False):
+def bootstrap_javascript(jquery=None):
     """
     Return HTML for Bootstrap JavaScript
     Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
@@ -180,7 +181,10 @@ def bootstrap_javascript(jquery=False):
     """
 
     javascript = ''
-    # No async on scripts, not mature enough. See issue #52 and #56
+    # See if we have to include jQuery
+    if jquery is None:
+        jquery = get_bootstrap_setting('include_jquery', False)
+    # NOTE: No async on scripts, not mature enough. See issue #52 and #56
     if jquery:
         url = bootstrap_jquery_url()
         if url:
@@ -341,6 +345,33 @@ def bootstrap_icon(icon):
 
     """
     return render_icon(icon)
+
+
+@register.simple_tag
+def bootstrap_alert(content, alert_type='info', dismissable=True):
+    """
+    Render an alert
+
+    **Tag name**::
+
+        bootstrap_alert
+
+    **Parameters**:
+
+        :content: HTML content of alert
+        :alert_type: one of 'info', 'warning', 'danger' or 'success'
+        :dismissable: boolean, is alert dismissable
+
+    **usage**::
+
+        {% bootstrap_alert "my_content" %}
+
+    **example**::
+
+        {% bootstrap_alert "Something went wrong" alert_type='error' %}
+
+    """
+    return render_alert(content, alert_type, dismissable)
 
 
 @register.tag('buttons')
