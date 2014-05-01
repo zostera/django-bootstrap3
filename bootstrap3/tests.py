@@ -127,6 +127,13 @@ class SettingsTest(TestCase):
 
         self.assertTrue(BOOTSTRAP3)
 
+    def test_settings_filter(self):
+        res = render_template('{% load bootstrap3 %}{{ "form_required_class"|bootstrap_setting }}')
+        self.assertEqual(res.strip(), 'bootstrap3-req')
+        res = render_template(
+            '{% load bootstrap3 %}{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
+        self.assertEqual(res.strip(), 'head')
+
 
 class TemplateTest(TestCase):
     def test_empty_template(self):
@@ -139,7 +146,7 @@ class TemplateTest(TestCase):
 
     def test_bootstrap_template(self):
         template = Template((
-        '{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
+            '{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
         res = template.render(Context({}))
         self.assertIn('test_bootstrap3_content', res)
 
@@ -228,10 +235,14 @@ class FieldTest(TestCase):
         self.assertIn('class="input-group-addon">.00', res)
 
 
-class IconTest(TestCase):
+class ComponentsTest(TestCase):
     def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
         self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
+
+    def test_alert(self):
+        res = render_template('{% bootstrap_alert "content" alert_type="danger" %}')
+        self.assertEqual(res.strip(), '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>content</div>')
 
 
 class MessagesTest(TestCase):

@@ -13,6 +13,7 @@ BOOTSTRAP3_DEFAULTS = {
     'theme_url': None,
     'javascript_url': None,
     'javascript_in_head': False,
+    'include_jquery': False,
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
