@@ -77,7 +77,8 @@ https://github.com/dyve/django-bootstrap3/issues
 License
 -------
 
-You can use this under Apache 2.0. See :doc:`LICENSE` file for details.
+You can use this under Apache 2.0. See `LICENSE
+<LICENSE>`_ file for details.
 
 
 Author
