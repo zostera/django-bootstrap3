@@ -1,6 +1,5 @@
-language: python
-
 # Python versions for matrix
+language: python
 python:
   - "2.7"
   - "2.6"
@@ -9,9 +8,9 @@ python:
 
 # Django versions for matrix
 env:
-  - DJANGO_VERSION=1.4.10
-  - DJANGO_VERSION=1.5.5
-  - DJANGO_VERSION=1.6.2
+  - DJANGO_VERSION=1.4.12
+  - DJANGO_VERSION=1.5.7
+  - DJANGO_VERSION=1.6.4
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
@@ -25,10 +24,15 @@ script:
 matrix:
   exclude:
     - python: "3.2"
-      env: DJANGO_VERSION=1.4.10
+      env: DJANGO_VERSION=1.4.12
     - python: "3.3"
-      env: DJANGO_VERSION=1.4.10
+      env: DJANGO_VERSION=1.4.12
     - python: "3.2"
-      env: DJANGO_VERSION=1.5.5
+      env: DJANGO_VERSION=1.5.7
     - python: "3.3"
-      env: DJANGO_VERSION=1.5.5
+      env: DJANGO_VERSION=1.5.7
+
+# Report to coveralls
+after_success:
+  - pip install --quiet python-coveralls
+  - coveralls

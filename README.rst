@@ -1,6 +1,6 @@
-=================
-django-bootstrap3
-=================
+============================
+Welcome to django-bootstrap3
+============================
 
 .. image:: https://travis-ci.org/dyve/django-bootstrap3.png?branch=master
     :target: https://travis-ci.org/dyve/django-bootstrap3
@@ -11,17 +11,12 @@ django-bootstrap3
 .. image:: https://pypip.in/d/django-bootstrap3/badge.png
     :target: https://crate.io/packages/django-bootstrap3?version=latest
 
-Bootstrap support for Django projects
 
-**You can support this project on GitTip, https://www.gittip.com/dyve/.**
-   
-Documentation
--------------
+Use Bootstrap in your Django templates, the Django way.
 
-The full documentation is at http://django-bootstrap3.readthedocs.org/.
 
-Quickstart
-----------
+Installation
+------------
 
 1. Install using pip:
 
@@ -35,17 +30,13 @@ Quickstart
 
 3. In your templates, load the ``bootstrap3`` library and use the ``bootstrap_*`` tags:
 
+
+Example template
+----------------
+
    .. code:: Django
 
     {% load bootstrap3 %}
-
-    {# Load CSS and JavaScript #}
-
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-
-    {# Display django.contrib.messages as Bootstrap alerts #}
-    {% bootstrap_messages %}
 
     {# Display a form #}
 
@@ -60,11 +51,10 @@ Quickstart
     </form>
 
 
+Documentation
+-------------
 
-Features
---------
-
-Define your forms in Django, use ``django-bootstrap3`` to render them in Bootstrap. That's the dream.
+The full documentation is at http://django-bootstrap3.readthedocs.org/.
 
 
 Requirements
@@ -88,6 +78,7 @@ License
 -------
 
 You can use this under Apache 2.0. See LICENSE file for details.
+
 
 Author
 ------

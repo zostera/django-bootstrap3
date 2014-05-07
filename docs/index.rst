@@ -11,10 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   readme
    installation
-   settingsoptions
+   quickstart
    templatetags
+   settings
    contributing
    authors
    history
