@@ -15,11 +15,11 @@ env:
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -q Django==$DJANGO_VERSION --use-mirrors --quiet
-  - pip install coverage
+  - pip install coveralls
 
 # Command to run tests, e.g. python setup.py test
 script:
-  - coverage run manage.py test
+  - coverage run --source=bootstrap3 manage.py test
 
 # Support Python3 only with Django 1.6
 matrix:
