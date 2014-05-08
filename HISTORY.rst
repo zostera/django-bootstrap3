@@ -3,6 +3,14 @@
 History
 -------
 
+4.4.1 (2014-05-08)
+++++++++++++++++++
+
+* bug fixes
+* documentation fixes
+* test coverage on coveralls.io
+
+
 4.4.0 (2014-05-01)
 ++++++++++++++++++
 

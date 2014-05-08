@@ -40,7 +40,7 @@ def bootstrap_jquery_url():
 
     Default value: ``//code.jquery.com/jquery.min.js``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **usage**::
 
@@ -56,11 +56,11 @@ def bootstrap_jquery_url():
 @register.simple_tag
 def bootstrap_javascript_url():
     """
-    Return the full url to FIXTHIS
+    Return the full url to the Bootstrap JavaScript library
 
     Default value: ``None``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **Tag name**::
 
@@ -80,11 +80,11 @@ def bootstrap_javascript_url():
 @register.simple_tag
 def bootstrap_css_url():
     """
-    Return the full url to FIXTHIS
+    Return the full url to the Bootstrap CSS library
 
     Default value: ``None``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **Tag name**::
 
@@ -104,11 +104,11 @@ def bootstrap_css_url():
 @register.simple_tag
 def bootstrap_theme_url():
     """
-    Return the full url to FIXTHIS
+    Return the full url to a Bootstrap theme CSS library
 
     Default value: ``None``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **Tag name**::
 
@@ -134,7 +134,7 @@ def bootstrap_css():
 
     Default value: ``FIXTHIS``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **Tag name**::
 
@@ -161,7 +161,7 @@ def bootstrap_javascript(jquery=None):
 
     Default value: ``None``
 
-    this value is configurable, see Settings section
+    This value is configurable, see Settings section
 
     **Tag name**::
 
@@ -169,15 +169,15 @@ def bootstrap_javascript(jquery=None):
 
     **Parameters**:
 
-        :jquery: True to include jquery FIXTHIS
+        :jquery: Truthy to include jQuery as well as Bootstrap
 
     **usage**::
 
-        {% bootstrap_javascript FIXTHIS %}
+        {% bootstrap_javascript %}
 
     **example**::
 
-        {% bootstrap_javascript FIXTHIS %}
+        {% bootstrap_javascript jquery=1 %}
     """
 
     javascript = ''
@@ -212,11 +212,11 @@ def bootstrap_formset(*args, **kwargs):
 
     **usage**::
 
-        {% bootstrap_formset formset FIXTHIS %}
+        {% bootstrap_formset formset %}
 
     **example**::
 
-        {% bootstrap_formset formset FIXTHIS %}
+        {% bootstrap_formset formset layout='horizontal' %}
 
     """
     return render_formset(*args, **kwargs)
@@ -238,11 +238,11 @@ def bootstrap_form(*args, **kwargs):
 
     **usage**::
 
-        {% bootstrap_form form FIXTHIS %}
+        {% bootstrap_form form %}
 
     **example**::
 
-        {% bootstrap_form form FIXTHIS %}
+        {% bootstrap_form form layout='inline' %}
     """
     return render_form(*args, **kwargs)
 
@@ -263,7 +263,7 @@ def bootstrap_field(*args, **kwargs):
 
     **usage**::
 
-        {% bootstrap_field form_field FIXTHIS %}
+        {% bootstrap_field form_field %}
 
     **example**::
 
