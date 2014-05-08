@@ -5,6 +5,9 @@ Welcome to django-bootstrap3
 .. image:: https://travis-ci.org/dyve/django-bootstrap3.png?branch=master
     :target: https://travis-ci.org/dyve/django-bootstrap3
 
+.. image:: https://coveralls.io/repos/dyve/django-bootstrap3/badge.png?branch=develop
+  :target: https://coveralls.io/r/dyve/django-bootstrap3?branch=develop
+
 .. image:: https://badge.fury.io/py/django-bootstrap3.png
     :target: http://badge.fury.io/py/django-bootstrap3
 
