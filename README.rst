@@ -60,7 +60,7 @@ The full documentation is at http://django-bootstrap3.readthedocs.org/.
 Requirements
 ------------
 
-- Python 2.6, 2.7 and 3.3
+- Python 2.6, 2.7, 3.2 or 3.3
 - Django >= 1.4
 
 Contributions and pull requests for other Django and Python versions are welcome.
