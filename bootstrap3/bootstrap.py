@@ -23,6 +23,8 @@ BOOTSTRAP3_DEFAULTS = {
         'default': 'bootstrap3.renderers.FieldRenderer',
         'inline': 'bootstrap3.renderers.InlineFieldRenderer',
     },
+    'error_line_break': False,
+    'error_icon': None
 }
 
 # Start with a copy of default settings

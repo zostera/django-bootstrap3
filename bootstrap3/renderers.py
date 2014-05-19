@@ -14,7 +14,7 @@ from .bootstrap import get_bootstrap_setting
 from bootstrap3.text import text_value
 from .exceptions import BootstrapError
 from .html import add_css_class
-from .forms import (render_field, render_label, render_form_group,
+from .forms import (render_field, render_label, render_form_group, render_icon,
                     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS)
 
 
@@ -205,11 +205,19 @@ class FieldRenderer(object):
         help_text_and_errors = [self.field_help] + self.field_errors \
             if self.field_help else self.field_errors
         if help_text_and_errors:
+            join_html = ' '
+            if self.field_errors:
+                if get_bootstrap_setting('error_line_break'):
+                    join_html += '<br/>'
+                if get_bootstrap_setting('error_icon'):
+                    join_html += render_icon(get_bootstrap_setting('error_icon')) + ' '
+
             help_html = get_template(
                 'bootstrap3/field_help_text_and_errors.html').render(Context({
                 'field': self.field,
                 'help_text_and_errors': help_text_and_errors,
                 'layout': self.layout,
+                'join_html': mark_safe(join_html),
             }))
             html += '<span class="help-block">{help}</span>'.format(help=help_html)
         return html
