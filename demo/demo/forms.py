@@ -35,3 +35,13 @@ class FilesForm(forms.Form):
     file2 = forms.FileField(required=False)
     file3 = forms.FileField(widget=forms.ClearableFileInput)
     file4 = forms.FileField(required=False, widget=forms.ClearableFileInput)
+
+
+class ArticleForm(forms.Form):
+    title = forms.CharField()
+    pub_date = forms.DateField()
+
+    def clean(self):
+        cleaned_data = super(ArticleForm, self).clean()
+        raise forms.ValidationError("This error was added to show the non field errors styling.")
+        return cleaned_data
