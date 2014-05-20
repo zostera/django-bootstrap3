@@ -8,7 +8,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from .forms import ContactForm, FilesForm
+from .forms import ContactForm, FilesForm, ContactFormSet
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -26,6 +26,11 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data(**kwargs)
         messages.info(self.request, 'This is a demo of a message.')
         return context
+
+
+class DefaultFormsetView(FormView):
+    template_name = 'demo/formset.html'
+    form_class = ContactFormSet
 
 
 class DefaultFormView(FormView):

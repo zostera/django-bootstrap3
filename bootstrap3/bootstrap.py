@@ -19,6 +19,9 @@ BOOTSTRAP3_DEFAULTS = {
     'set_required': True,
     'form_required_class': '',
     'form_error_class': '',
+    'formset_renderers':{
+        'default': 'bootstrap3.renderers.FormsetRenderer',
+    },
     'form_renderers': {
         'default': 'bootstrap3.renderers.FormRenderer',
     },
@@ -81,6 +84,11 @@ def get_renderer(renderers, layout):
     path = renderers.get(layout, renderers['default'])
     mod, cls = path.rsplit(".", 1)
     return getattr(import_module(mod), cls)
+
+
+def get_formset_renderer(layout):
+    renderers = get_bootstrap_setting('formset_renderers')
+    return get_renderer(renderers, layout)
 
 
 def get_form_renderer(layout):
