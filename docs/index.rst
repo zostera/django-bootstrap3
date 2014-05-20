@@ -15,6 +15,7 @@ Contents:
    quickstart
    templatetags
    settings
+   templates
    contributing
    authors
    history

@@ -1,0 +1,34 @@
+{% extends 'demo/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+    Forms
+{% endblock %}
+
+{% block content %}
+
+    <hr>
+
+    {{ formset }}
+
+    <hr>
+
+    {{ formset.management_form }}
+    {% for form in formset.forms %}
+        {{ form.non_field_errors }}
+        {{ form.errors }}
+        <table>
+            {{ form.as_table }}
+        </table>
+    {% endfor %}
+
+    <hr>
+
+    <form role="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_formset formset %}
+        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+    </form>
+
+{% endblock %}
