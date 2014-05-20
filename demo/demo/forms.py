@@ -42,8 +42,6 @@ class ArticleForm(forms.Form):
     pub_date = forms.DateField()
 
     def clean(self):
-        assert False
-        print 'wakka'
         cleaned_data = super(ArticleForm, self).clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data

@@ -8,23 +8,6 @@
 
 {% block content %}
 
-    <hr>
-
-    {{ formset }}
-
-    <hr>
-
-    {{ formset.management_form }}
-    {% for form in formset.forms %}
-        {{ form.non_field_errors }}
-        {{ form.errors }}
-        <table>
-            {{ form.as_table }}
-        </table>
-    {% endfor %}
-
-    <hr>
-
     <form role="form" method="post">
         {% csrf_token %}
         {% bootstrap_formset formset %}
