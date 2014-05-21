@@ -108,15 +108,22 @@ class FormRenderer(object):
             ))
         return '\n'.join(rendered_fields)
 
-    def get_form_errors(self):
+    def get_fields_errors(self):
         form_errors = []
         for field in self.form:
             if field.is_hidden and field.errors:
                 form_errors += field.errors
-        return form_errors + self.form.non_field_errors()
+        return form_errors
 
-    def render_errors(self):
-        form_errors = self.get_form_errors()
+    def render_errors(self, type='all'):
+        form_errors = None
+        if type == 'all':
+            form_errors = self.get_fields_errors() + self.form.non_field_errors()
+        elif type == 'fields':
+            form_errors = self.get_fields_errors()
+        elif type == 'non_fields':
+            form_errors = self.form.non_field_errors()
+
         if form_errors:
             return get_template(
                 'bootstrap3/form_errors.html').render(Context({

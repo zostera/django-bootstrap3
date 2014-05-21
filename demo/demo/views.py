@@ -38,6 +38,11 @@ class DefaultFormView(FormView):
     form_class = ContactForm
 
 
+class DefaultFormByFieldView(FormView):
+    template_name = 'demo/form_by_field.html'
+    form_class = ContactForm
+
+
 class FormHorizontalView(FormView):
     template_name = 'demo/form_horizontal.html'
     form_class = ContactForm
