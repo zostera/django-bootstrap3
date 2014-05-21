@@ -51,7 +51,7 @@ class FormsetRenderer(object):
                 show_help=self.show_help,
                 exclude=self.exclude,
                 set_required=self.set_required,
-                ))
+            ))
         return '\n'.join(rendered_forms)
 
     def get_formset_errors(self):
@@ -65,7 +65,7 @@ class FormsetRenderer(object):
                 'errors': formset_errors,
                 'form': self.formset,
                 'layout': self.layout,
-                }))
+            }))
         return ''
 
     def render(self):
@@ -82,8 +82,7 @@ class FormRenderer(object):
                  field_class='', label_class='', show_help=True, exclude='',
                  set_required=True):
         if not isinstance(form, BaseForm):
-            raise BootstrapError(
-                'Parameter "form" should contain a valid Django Form.')
+            raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         self.layout = layout
         self.form_group_class = form_group_class
