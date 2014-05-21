@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from ..bootstrap import css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 from ..html import render_link_tag
 from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
-    render_label, render_form_errors
+    render_label, render_form_errors, render_formset_errors
 from ..components import render_icon, render_alert
 from ..templates import handle_var, parse_token_contents
 from ..text import force_text
@@ -220,6 +220,31 @@ def bootstrap_formset(*args, **kwargs):
 
     """
     return render_formset(*args, **kwargs)
+
+
+@register.simple_tag
+def bootstrap_formset_errors(*args, **kwargs):
+    """
+    Render form errors
+
+    **Tag name**::
+
+        bootstrap_form_errors
+
+    **Parameters**:
+
+        :args:
+        :kwargs:
+
+    **usage**::
+
+        {% bootstrap_form_errors form %}
+
+    **example**::
+
+        {% bootstrap_form_errors form layout='inline' %}
+    """
+    return render_formset_errors(*args, **kwargs)
 
 
 @register.simple_tag
