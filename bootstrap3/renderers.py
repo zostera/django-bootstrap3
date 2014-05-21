@@ -145,7 +145,8 @@ class FieldRenderer(object):
                  field_class=None, label_class=None, show_label=True,
                  show_help=True, exclude='', set_required=True,
                  addon_before=None, addon_after=None,
-                 error_css_class='', required_css_class=''):
+                 error_css_class='', required_css_class='', 
+                 placeholder=None):
         # Only allow BoundField
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -162,7 +163,7 @@ class FieldRenderer(object):
         self.initial_attrs = self.widget.attrs.copy()
         self.field_help = text_value(mark_safe(field.help_text)) if show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
-        self.placeholder = field.label
+        self.placeholder = placeholder or field.label
         self.addon_before = addon_before
         self.addon_after = addon_after
 
