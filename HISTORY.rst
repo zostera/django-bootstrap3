@@ -3,6 +3,14 @@
 History
 -------
 
+4.5.0 (2014-05-21)
+++++++++++++++++++
+
+* bug fixes in formsets
+* new formset renderer
+* new bootstrap_form_errors tag
+
+
 4.4.2 (2014-05-20)
 ++++++++++++++++++
 
