@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.core.files.storage import default_storage
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
-from django.forms.formsets import formset_factory
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from .forms import ContactForm, FilesForm, ArticleForm
+from .forms import ContactForm, FilesForm, ContactFormSet
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -28,6 +26,11 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data(**kwargs)
         messages.info(self.request, 'This is a demo of a message.')
         return context
+
+
+class DefaultFormsetView(FormView):
+    template_name = 'demo/formset.html'
+    form_class = ContactFormSet
 
 
 class DefaultFormView(FormView):
@@ -84,45 +87,3 @@ class PaginationView(TemplateView):
 class MiscView(TemplateView):
     template_name = 'demo/misc.html'
 
-
-class FormSetView(TemplateView):
-    template_name = 'demo/formset.html'
-
-    def get_formset(self):
-        ArticleFormSet = formset_factory(ArticleForm)
-        return ArticleFormSet
-
-    def get_formset_kwargs(self):
-        """
-        Returns the keyword arguments for instantiating the formset.
-        """
-        kwargs = {}
-        if self.request.method in ('POST', 'PUT'):
-            kwargs.update({
-                'data': self.request.POST,
-                'files': self.request.FILES,
-            })
-        return kwargs
-
-    def construct_formset(self):
-        """
-        Returns an instance of the formset
-        """
-        formset_class = self.get_formset()
-        return formset_class(**self.get_formset_kwargs())
-
-    def get(self, request, *args, **kwargs):
-        """
-        Handles GET requests and instantiates a blank version of the formset.
-        """
-        formset = self.construct_formset()
-        return self.render_to_response(self.get_context_data(formset=formset))
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a formset instance with the passed
-        POST variables and then checked for validity.
-        """
-        formset = self.construct_formset()
-        formset.is_valid()
-        return self.render_to_response(self.get_context_data(formset=formset))
