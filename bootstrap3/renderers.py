@@ -5,6 +5,7 @@ from django.forms import (TextInput, DateInput, FileInput, CheckboxInput,
                           ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple)
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
+from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, strip_tags
 from django.template import Context
 from django.template.loader import get_template
@@ -14,8 +15,62 @@ from .bootstrap import get_bootstrap_setting
 from bootstrap3.text import text_value
 from .exceptions import BootstrapError
 from .html import add_css_class
-from .forms import (render_field, render_label, render_form_group,
+from .forms import (render_form, render_field, render_label, render_form_group,
                     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS)
+
+
+class FormsetRenderer(object):
+    """
+    Default formset renderer
+    """
+
+    def __init__(self, formset, layout='', form_group_class=FORM_GROUP_CLASS,
+                 field_class='', label_class='', show_help=True, exclude='',
+                 set_required=True):
+        if not isinstance(formset, BaseFormSet):
+            raise BootstrapError(
+                'Parameter "formset" should contain a valid Django Formset.')
+        self.formset = formset
+        self.layout = layout
+        self.form_group_class = form_group_class
+        self.field_class = field_class
+        self.label_class = label_class
+        self.show_help = show_help
+        self.exclude = exclude
+        self.set_required = set_required
+
+    def render_forms(self):
+        rendered_forms = []
+        for form in self.formset.forms:
+            rendered_forms.append(render_form(
+                form,
+                layout=self.layout,
+                form_group_class=self.form_group_class,
+                field_class=self.field_class,
+                label_class=self.label_class,
+                show_help=self.show_help,
+                exclude=self.exclude,
+                set_required=self.set_required,
+            ))
+        return '\n'.join(rendered_forms)
+
+    def get_formset_errors(self):
+        return self.formset.non_form_errors()
+
+    def render_errors(self):
+        formset_errors = self.get_formset_errors()
+        if formset_errors:
+            return get_template(
+                'bootstrap3/form_errors.html').render(Context({
+                'errors': formset_errors,
+                'form': self.formset,
+                'layout': self.layout,
+            }))
+        return ''
+
+    def render(self):
+        return self.render_errors() + self.render_forms()
+
 
 
 class FormRenderer(object):
@@ -27,8 +82,7 @@ class FormRenderer(object):
                  field_class='', label_class='', show_help=True, exclude='',
                  set_required=True):
         if not isinstance(form, BaseForm):
-            raise BootstrapError(
-                'Parameter "form" should contain a valid Django Form.')
+            raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         self.layout = layout
         self.form_group_class = form_group_class
@@ -53,15 +107,22 @@ class FormRenderer(object):
             ))
         return '\n'.join(rendered_fields)
 
-    def get_form_errors(self):
+    def get_fields_errors(self):
         form_errors = []
         for field in self.form:
             if field.is_hidden and field.errors:
                 form_errors += field.errors
-        return form_errors + self.form.non_field_errors()
+        return form_errors
 
-    def render_errors(self):
-        form_errors = self.get_form_errors()
+    def render_errors(self, type='all'):
+        form_errors = None
+        if type == 'all':
+            form_errors = self.get_fields_errors() + self.form.non_field_errors()
+        elif type == 'fields':
+            form_errors = self.get_fields_errors()
+        elif type == 'non_fields':
+            form_errors = self.form.non_field_errors()
+
         if form_errors:
             return get_template(
                 'bootstrap3/form_errors.html').render(Context({
