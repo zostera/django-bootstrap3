@@ -12,7 +12,7 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
-from bootstrap3.text import text_value
+from .text import text_value
 from .exceptions import BootstrapError
 from .html import add_css_class
 from .forms import (render_form, render_field, render_label, render_form_group,

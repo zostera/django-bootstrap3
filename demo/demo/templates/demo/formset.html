@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-
+    {% bootstrap_formset_errors form %}
     <form role="form" method="post">
         {% csrf_token %}
         {{ form.management_form }}
