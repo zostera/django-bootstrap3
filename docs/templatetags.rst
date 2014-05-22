@@ -17,10 +17,22 @@ bootstrap_form
 .. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_form
 
 
+bootstrap_form_errors
+~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_form_errors
+
+
 bootstrap_formset
 ~~~~~~~~~~~~~~~~~
 
 .. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_formset
+
+
+bootstrap_formset_errors
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_formset_errors
 
 
 bootstrap_field
