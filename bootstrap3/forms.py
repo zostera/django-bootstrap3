@@ -27,6 +27,14 @@ def render_formset(formset, layout='', **kwargs):
     return renderer_cls(formset, layout, **kwargs).render()
 
 
+def render_formset_errors(form, layout='', **kwargs):
+    """
+    Render formset errors to a Bootstrap layout
+    """
+    renderer_cls = get_formset_renderer(layout)
+    return renderer_cls(form, layout, **kwargs).render_errors()
+
+
 def render_form(form, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
