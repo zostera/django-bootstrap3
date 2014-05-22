@@ -2,7 +2,7 @@
 Installation
 ============
 
-The preferred way to install ``django-bootstrap3 ``pip`` to install::
+The preferred way to install ``django-bootstrap3`` is ``pip``::
 
     $ pip install django-bootstrap3
 
