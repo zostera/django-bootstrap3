@@ -26,7 +26,7 @@ class FormsetRenderer(object):
 
     def __init__(self, formset, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class='', label_class='', show_help=True, exclude='',
-                 set_required=True):
+                 set_required=True, no_placeholders=False):
         if not isinstance(formset, BaseFormSet):
             raise BootstrapError(
                 'Parameter "formset" should contain a valid Django Formset.')
@@ -38,6 +38,7 @@ class FormsetRenderer(object):
         self.show_help = show_help
         self.exclude = exclude
         self.set_required = set_required
+        self.no_placeholders = no_placeholders
 
     def render_forms(self):
         rendered_forms = []
@@ -51,6 +52,7 @@ class FormsetRenderer(object):
                 show_help=self.show_help,
                 exclude=self.exclude,
                 set_required=self.set_required,
+                no_placeholders=self.no_placeholders,
             ))
         return '\n'.join(rendered_forms)
 
@@ -80,7 +82,7 @@ class FormRenderer(object):
 
     def __init__(self, form, layout='', form_group_class=FORM_GROUP_CLASS,
                  field_class='', label_class='', show_help=True, exclude='',
-                 set_required=True):
+                 set_required=True, no_placeholders=False):
         if not isinstance(form, BaseForm):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
@@ -91,6 +93,7 @@ class FormRenderer(object):
         self.show_help = show_help
         self.exclude = exclude
         self.set_required = set_required
+        self.no_placeholders = no_placeholders
 
     def render_fields(self):
         rendered_fields = []
@@ -104,6 +107,7 @@ class FormRenderer(object):
                 show_help=self.show_help,
                 exclude=self.exclude,
                 set_required=self.set_required,
+                no_placeholders=self.no_placeholders,
             ))
         return '\n'.join(rendered_fields)
 
@@ -145,7 +149,7 @@ class FieldRenderer(object):
                  field_class=None, label_class=None, show_label=True,
                  show_help=True, exclude='', set_required=True,
                  addon_before=None, addon_after=None,
-                 error_css_class='', required_css_class=''):
+                 error_css_class='', required_css_class='', no_placeholders=False):
         # Only allow BoundField
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -165,6 +169,7 @@ class FieldRenderer(object):
         self.placeholder = field.label
         self.addon_before = addon_before
         self.addon_after = addon_after
+        self.no_placeholders = no_placeholders
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and they can be overwritten in the template
         if error_css_class:
@@ -189,6 +194,8 @@ class FieldRenderer(object):
                 self.widget.attrs['class'], 'form-control')
 
     def add_placeholder_attrs(self):
+        if self.no_placeholders:
+            return
         placeholder = self.widget.attrs.get('placeholder', self.placeholder)
         if placeholder and is_widget_with_placeholder(self.widget):
             self.widget.attrs['placeholder'] = placeholder
