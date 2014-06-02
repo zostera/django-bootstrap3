@@ -39,6 +39,9 @@ class FormsetRenderer(object):
         self.exclude = exclude
         self.set_required = set_required
 
+    def render_management_form(self):
+        return text_value(self.formset.management_form)
+
     def render_forms(self):
         rendered_forms = []
         for form in self.formset.forms:
@@ -69,7 +72,7 @@ class FormsetRenderer(object):
         return ''
 
     def render(self):
-        return self.render_errors() + self.render_forms()
+        return self.render_errors() + self.render_management_form() + self.render_forms()
 
 
 

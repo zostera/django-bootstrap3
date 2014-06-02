@@ -19,10 +19,6 @@ def render_formset(formset, layout='', **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    # if not isinstance(formset, BaseFormSet):
-    #     raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
-    # forms = [render_form(f, **kwargs) for f in formset]
-    # return text_value(formset.management_form) + '\n' + '\n'.join(forms)
     renderer_cls = get_formset_renderer(layout)
     return renderer_cls(formset, layout, **kwargs).render()
 
