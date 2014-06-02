@@ -2,11 +2,10 @@
 from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
-from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, DateInput, Select
-from django.forms.formsets import BaseFormSet
+from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
 
 from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_renderer, get_formset_renderer
-from .text import text_concat, text_value
+from .text import text_concat
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
 from .components import render_icon
