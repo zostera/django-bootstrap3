@@ -14,44 +14,44 @@ from .components import render_icon
 FORM_GROUP_CLASS = 'form-group'
 
 
-def render_formset(formset, layout='', **kwargs):
+def render_formset(formset, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    renderer_cls = get_formset_renderer(layout)
-    return renderer_cls(formset, layout, **kwargs).render()
+    renderer_cls = get_formset_renderer(**kwargs)
+    return renderer_cls(formset, **kwargs).render()
 
 
-def render_formset_errors(form, layout='', **kwargs):
+def render_formset_errors(form, **kwargs):
     """
     Render formset errors to a Bootstrap layout
     """
-    renderer_cls = get_formset_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render_errors()
+    renderer_cls = get_formset_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render_errors()
 
 
-def render_form(form, layout='', **kwargs):
+def render_form(form, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    renderer_cls = get_form_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render()
+    renderer_cls = get_form_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render()
 
 
 def render_form_errors(form, layout='', type='all', **kwargs):
     """
     Render form errors to a Bootstrap layout
     """
-    renderer_cls = get_form_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render_errors(type)
+    renderer_cls = get_form_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render_errors(type)
 
 
-def render_field(field, layout='', **kwargs):
+def render_field(field, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    renderer_cls = get_field_renderer(layout)
-    return renderer_cls(field, layout, **kwargs).render()
+    renderer_cls = get_field_renderer(**kwargs)
+    return renderer_cls(field, **kwargs).render()
 
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
