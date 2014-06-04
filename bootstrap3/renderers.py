@@ -30,6 +30,24 @@ class BaseRenderer(object):
         self.show_label = kwargs.get('show_label', True)
         self.exclude = kwargs.get('exclude', '')
         self.set_required = kwargs.get('set_required', True)
+        self.size = self.parse_size(kwargs.get('size', ''))
+
+    def parse_size(self, size):
+        size = text_value(size).lower().strip()
+        if size in ('sm', 'small'):
+            return 'small'
+        if size in ('lg', 'large'):
+            return 'large'
+        if size in ('md', 'medium', ''):
+            return 'medium'
+        raise BootstrapError('Invalid value "%s" for parameter "size".' % size)
+
+    def get_size_class(self):
+        if self.size == 'small':
+            return 'input-sm'
+        if self.size == 'large':
+            return 'input-lg'
+        return ''
 
 
 class FormsetRenderer(BaseRenderer):
@@ -172,13 +190,14 @@ class FieldRenderer(BaseRenderer):
         self.widget.attrs = self.initial_attrs
 
     def add_class_attrs(self):
-        self.widget.attrs['class'] = self.widget.attrs.get('class', '')
+        classes = self.widget.attrs.get('class', '')
         if not isinstance(self.widget, (CheckboxInput,
                                         RadioSelect,
                                         CheckboxSelectMultiple,
                                         FileInput)):
-            self.widget.attrs['class'] = add_css_class(
-                self.widget.attrs['class'], 'form-control')
+            classes = add_css_class(classes, 'form-control')
+        classes = add_css_class(classes, self.get_size_class())
+        self.widget.attrs['class'] = classes
 
     def add_placeholder_attrs(self):
         placeholder = self.widget.attrs.get('placeholder', self.placeholder)

@@ -234,6 +234,23 @@ class FieldTest(TestCase):
         self.assertIn('class="input-group-addon">$', res)
         self.assertIn('class="input-group-addon">.00', res)
 
+    def test_size(self):
+        def _test_size(param, klass):
+            res = render_template('{% bootstrap_field form.subject size="' + param + '" %}')
+            self.assertIn(klass, res)
+        def _test_size_medium(param):
+            res = render_template('{% bootstrap_field form.subject size="' + param + '" %}')
+            self.assertNotIn('input-lg', res)
+            self.assertNotIn('input-sm', res)
+            self.assertNotIn('input-md', res)
+        _test_size('sm', 'input-sm')
+        _test_size('small', 'input-sm')
+        _test_size('lg', 'input-lg')
+        _test_size('large', 'input-lg')
+        _test_size_medium('md')
+        _test_size_medium('medium')
+        _test_size_medium('')
+
 
 class ComponentsTest(TestCase):
     def test_icon(self):
