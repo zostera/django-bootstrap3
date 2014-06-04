@@ -5,7 +5,7 @@ from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
 
 from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_renderer, get_formset_renderer
-from .text import text_concat
+from .text import text_concat, text_value
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
 from .components import render_icon
@@ -68,18 +68,30 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None, button_class=''):
+def render_button(content, button_type=None, icon=None, button_class='', size=''):
     """
     Render a button with content
     """
     attrs = {}
-    attrs['class'] = add_css_class('btn', button_class)
+    classes = add_css_class('btn', button_class)
+    size = text_value(size).lower().strip()
+    if size == 'xs':
+        classes = add_css_class(classes, 'btn-xs')
+    elif size == 'sm' or size == 'small':
+        classes = add_css_class(classes, 'btn-sm')
+    elif size == 'lg' or size == 'large':
+        classes = add_css_class(classes, 'btn-lg')
+    elif size == 'md' or size == 'medium':
+        pass
+    elif size:
+        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty.')
     if button_type:
         if button_type == 'submit':
-            attrs['class'] = add_css_class(attrs['class'], 'btn-primary')
+            classes = add_css_class(classes, 'btn-primary')
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
+    attrs['class'] = classes
     icon_content = render_icon(icon) if icon else ''
     return render_tag('button', attrs=attrs, content=text_concat(icon_content, content, separator=' '))
 
