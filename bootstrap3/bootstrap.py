@@ -80,23 +80,24 @@ def theme_url():
     return get_bootstrap_setting('theme_url')
 
 
-def get_renderer(renderers, layout):
+def get_renderer(renderers, **kwargs):
+    layout = kwargs.get('layout', '')
     path = renderers.get(layout, renderers['default'])
     mod, cls = path.rsplit(".", 1)
     return getattr(import_module(mod), cls)
 
 
-def get_formset_renderer(layout):
+def get_formset_renderer(**kwargs):
     renderers = get_bootstrap_setting('formset_renderers')
-    return get_renderer(renderers, layout)
+    return get_renderer(renderers, **kwargs)
 
 
-def get_form_renderer(layout):
+def get_form_renderer(**kwargs):
     renderers = get_bootstrap_setting('form_renderers')
-    return get_renderer(renderers, layout)
+    return get_renderer(renderers, **kwargs)
 
 
-def get_field_renderer(layout):
+def get_field_renderer(**kwargs):
     renderers = get_bootstrap_setting('field_renderers')
-    return get_renderer(renderers, layout)
+    return get_renderer(renderers, **kwargs)
 

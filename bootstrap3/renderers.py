@@ -19,25 +19,51 @@ from .forms import (render_form, render_field, render_label, render_form_group,
                     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS)
 
 
-class FormsetRenderer(object):
+class BaseRenderer(object):
+
+    def __init__(self, *args, **kwargs):
+        self.layout = kwargs.get('layout', '')
+        self.form_group_class = kwargs.get('form_group_class', FORM_GROUP_CLASS)
+        self.field_class = kwargs.get('field_class', '')
+        self.label_class = kwargs.get('label_class', '')
+        self.show_help = kwargs.get('show_help', True)
+        self.show_label = kwargs.get('show_label', True)
+        self.exclude = kwargs.get('exclude', '')
+        self.set_required = kwargs.get('set_required', True)
+        self.size = self.parse_size(kwargs.get('size', ''))
+
+    def parse_size(self, size):
+        size = text_value(size).lower().strip()
+        if size in ('sm', 'small'):
+            return 'small'
+        if size in ('lg', 'large'):
+            return 'large'
+        if size in ('md', 'medium', ''):
+            return 'medium'
+        raise BootstrapError('Invalid value "%s" for parameter "size".' % size)
+
+    def get_size_class(self):
+        if self.size == 'small':
+            return 'input-sm'
+        if self.size == 'large':
+            return 'input-lg'
+        return ''
+
+
+class FormsetRenderer(BaseRenderer):
     """
     Default formset renderer
     """
 
-    def __init__(self, formset, layout='', form_group_class=FORM_GROUP_CLASS,
-                 field_class='', label_class='', show_help=True, exclude='',
-                 set_required=True):
+    def __init__(self, formset, *args, **kwargs):
         if not isinstance(formset, BaseFormSet):
             raise BootstrapError(
                 'Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
-        self.layout = layout
-        self.form_group_class = form_group_class
-        self.field_class = field_class
-        self.label_class = label_class
-        self.show_help = show_help
-        self.exclude = exclude
-        self.set_required = set_required
+        super(FormsetRenderer, self).__init__(*args, **kwargs)
+
+    def render_management_form(self):
+        return text_value(self.formset.management_form)
 
     def render_forms(self):
         rendered_forms = []
@@ -69,28 +95,19 @@ class FormsetRenderer(object):
         return ''
 
     def render(self):
-        return self.render_errors() + self.render_forms()
+        return self.render_errors() + self.render_management_form() + self.render_forms()
 
 
-
-class FormRenderer(object):
+class FormRenderer(BaseRenderer):
     """
     Default form renderer
     """
 
-    def __init__(self, form, layout='', form_group_class=FORM_GROUP_CLASS,
-                 field_class='', label_class='', show_help=True, exclude='',
-                 set_required=True):
+    def __init__(self, form, *args, **kwargs):
         if not isinstance(form, BaseForm):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
-        self.layout = layout
-        self.form_group_class = form_group_class
-        self.field_class = field_class
-        self.label_class = label_class
-        self.show_help = show_help
-        self.exclude = exclude
-        self.set_required = set_required
+        super(FormRenderer, self).__init__(*args, **kwargs)
 
     def render_fields(self):
         rendered_fields = []
@@ -136,37 +153,30 @@ class FormRenderer(object):
         return self.render_errors() + self.render_fields()
 
 
-class FieldRenderer(object):
+class FieldRenderer(BaseRenderer):
     """
     Default field renderer
     """
 
-    def __init__(self, field, layout='', form_group_class=FORM_GROUP_CLASS,
-                 field_class=None, label_class=None, show_label=True,
-                 show_help=True, exclude='', set_required=True,
-                 addon_before=None, addon_after=None,
-                 error_css_class='', required_css_class=''):
-        # Only allow BoundField
+    def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
-
         self.field = field
-        self.layout = layout
-        self.form_group_class = form_group_class
-        self.field_class = field_class
-        self.label_class = label_class
-        self.show_label = show_label
-        self.exclude = exclude
-        self.set_required = set_required
+        super(FieldRenderer, self).__init__(*args, **kwargs)
+
         self.widget = field.field.widget
         self.initial_attrs = self.widget.attrs.copy()
-        self.field_help = text_value(mark_safe(field.help_text)) if show_help and field.help_text else ''
+        self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
+
         self.placeholder = field.label
-        self.addon_before = addon_before
-        self.addon_after = addon_after
+
+        self.addon_before = kwargs.get('addon_before', '')
+        self.addon_after = kwargs.get('addon_after', '')
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and they can be overwritten in the template
+        error_css_class = kwargs.get('error_css_class', '')
+        required_css_class = kwargs.get('required_css_class', '')
         if error_css_class:
             self.form_error_class = error_css_class
         else:
@@ -180,13 +190,14 @@ class FieldRenderer(object):
         self.widget.attrs = self.initial_attrs
 
     def add_class_attrs(self):
-        self.widget.attrs['class'] = self.widget.attrs.get('class', '')
+        classes = self.widget.attrs.get('class', '')
         if not isinstance(self.widget, (CheckboxInput,
                                         RadioSelect,
                                         CheckboxSelectMultiple,
                                         FileInput)):
-            self.widget.attrs['class'] = add_css_class(
-                self.widget.attrs['class'], 'form-control')
+            classes = add_css_class(classes, 'form-control')
+        classes = add_css_class(classes, self.get_size_class())
+        self.widget.attrs['class'] = classes
 
     def add_placeholder_attrs(self):
         placeholder = self.widget.attrs.get('placeholder', self.placeholder)

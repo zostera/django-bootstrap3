@@ -4,10 +4,16 @@ History
 -------
 
 
+4.7.0 (2014-06-04)
+++++++++++++++++++
+
+* `size` option added to formsets, forms, fields and buttons
+
+
 4.6.0 (2014-05-22)
 ++++++++++++++++++
 
-* new bootstrap_formset_errors tag
+* new `bootstrap_formset_errors` tag
 
 
 4.5.0 (2014-05-21)
@@ -15,7 +21,7 @@ History
 
 * bug fixes in formsets
 * new formset renderer
-* new bootstrap_form_errors tag
+* new `bootstrap_form_errors` tag
 
 
 4.4.2 (2014-05-20)
@@ -132,7 +138,7 @@ History
 
 * project refactored
 * added skeleton for creating documentation (fix issue #30)
-* fixed FileField issues
+* fixed `FileField` issues
 
 
 

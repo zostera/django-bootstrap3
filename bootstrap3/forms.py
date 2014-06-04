@@ -2,8 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
-from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput, DateInput, Select
-from django.forms.formsets import BaseFormSet
+from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
 
 from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_renderer, get_formset_renderer
 from .text import text_concat, text_value
@@ -15,48 +14,44 @@ from .components import render_icon
 FORM_GROUP_CLASS = 'form-group'
 
 
-def render_formset(formset, layout='', **kwargs):
+def render_formset(formset, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    # if not isinstance(formset, BaseFormSet):
-    #     raise BootstrapError('Parameter "formset" should contain a valid Django FormSet.')
-    # forms = [render_form(f, **kwargs) for f in formset]
-    # return text_value(formset.management_form) + '\n' + '\n'.join(forms)
-    renderer_cls = get_formset_renderer(layout)
-    return renderer_cls(formset, layout, **kwargs).render()
+    renderer_cls = get_formset_renderer(**kwargs)
+    return renderer_cls(formset, **kwargs).render()
 
 
-def render_formset_errors(form, layout='', **kwargs):
+def render_formset_errors(form, **kwargs):
     """
     Render formset errors to a Bootstrap layout
     """
-    renderer_cls = get_formset_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render_errors()
+    renderer_cls = get_formset_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render_errors()
 
 
-def render_form(form, layout='', **kwargs):
+def render_form(form, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    renderer_cls = get_form_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render()
+    renderer_cls = get_form_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render()
 
 
 def render_form_errors(form, layout='', type='all', **kwargs):
     """
     Render form errors to a Bootstrap layout
     """
-    renderer_cls = get_form_renderer(layout)
-    return renderer_cls(form, layout, **kwargs).render_errors(type)
+    renderer_cls = get_form_renderer(**kwargs)
+    return renderer_cls(form, **kwargs).render_errors(type)
 
 
-def render_field(field, layout='', **kwargs):
+def render_field(field, **kwargs):
     """
     Render a formset to a Bootstrap layout
     """
-    renderer_cls = get_field_renderer(layout)
-    return renderer_cls(field, layout, **kwargs).render()
+    renderer_cls = get_field_renderer(**kwargs)
+    return renderer_cls(field, **kwargs).render()
 
 
 def render_label(content, label_for=None, label_class=None, label_title=''):
@@ -73,18 +68,30 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None, button_class=''):
+def render_button(content, button_type=None, icon=None, button_class='', size=''):
     """
     Render a button with content
     """
     attrs = {}
-    attrs['class'] = add_css_class('btn', button_class)
+    classes = add_css_class('btn', button_class)
+    size = text_value(size).lower().strip()
+    if size == 'xs':
+        classes = add_css_class(classes, 'btn-xs')
+    elif size == 'sm' or size == 'small':
+        classes = add_css_class(classes, 'btn-sm')
+    elif size == 'lg' or size == 'large':
+        classes = add_css_class(classes, 'btn-lg')
+    elif size == 'md' or size == 'medium':
+        pass
+    elif size:
+        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty.')
     if button_type:
         if button_type == 'submit':
-            attrs['class'] = add_css_class(attrs['class'], 'btn-primary')
+            classes = add_css_class(classes, 'btn-primary')
         elif button_type != 'reset' and button_type != 'button':
             raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
         attrs['type'] = button_type
+    attrs['class'] = classes
     icon_content = render_icon(icon) if icon else ''
     return render_tag('button', attrs=attrs, content=text_concat(icon_content, content, separator=' '))
 
