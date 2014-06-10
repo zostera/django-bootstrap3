@@ -65,10 +65,13 @@ class FormsetRenderer(BaseRenderer):
     def render_management_form(self):
         return text_value(self.formset.management_form)
 
+    def render_form(self, form, **kwargs):
+        return render_form(form, **kwargs)
+
     def render_forms(self):
         rendered_forms = []
         for form in self.formset.forms:
-            rendered_forms.append(render_form(
+            rendered_forms.append(self.render_form(
                 form,
                 layout=self.layout,
                 form_group_class=self.form_group_class,
