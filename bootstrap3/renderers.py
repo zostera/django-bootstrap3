@@ -20,7 +20,6 @@ from .forms import (render_form, render_field, render_label, render_form_group,
 
 
 class BaseRenderer(object):
-
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get('layout', '')
         self.form_group_class = kwargs.get('form_group_class', FORM_GROUP_CLASS)
@@ -42,11 +41,11 @@ class BaseRenderer(object):
             return 'medium'
         raise BootstrapError('Invalid value "%s" for parameter "size".' % size)
 
-    def get_size_class(self):
+    def get_size_class(self, prefix='input'):
         if self.size == 'small':
-            return 'input-sm'
+            return prefix + '-sm'
         if self.size == 'large':
-            return 'input-lg'
+            return prefix + '-lg'
         return ''
 
 
@@ -80,6 +79,7 @@ class FormsetRenderer(BaseRenderer):
                 show_help=self.show_help,
                 exclude=self.exclude,
                 set_required=self.set_required,
+                size=self.size,
             ))
         return '\n'.join(rendered_forms)
 
@@ -124,6 +124,7 @@ class FormRenderer(BaseRenderer):
                 show_help=self.show_help,
                 exclude=self.exclude,
                 set_required=self.set_required,
+                size=self.size,
             ))
         return '\n'.join(rendered_fields)
 
@@ -146,10 +147,10 @@ class FormRenderer(BaseRenderer):
         if form_errors:
             return get_template(
                 'bootstrap3/form_errors.html').render(Context({
-                    'errors': form_errors,
-                    'form': self.form,
-                    'layout': self.layout,
-                }))
+                'errors': form_errors,
+                'form': self.form,
+                'layout': self.layout,
+            }))
         return ''
 
     def render(self):
@@ -187,7 +188,8 @@ class FieldRenderer(BaseRenderer):
         if required_css_class:
             self.form_required_class = required_css_class
         else:
-            self.form_required_class = getattr(field.form, 'required_css_class',  get_bootstrap_setting('required_css_class'))
+            self.form_required_class = getattr(field.form, 'required_css_class',
+                                               get_bootstrap_setting('required_css_class'))
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -199,7 +201,8 @@ class FieldRenderer(BaseRenderer):
                                         CheckboxSelectMultiple,
                                         FileInput)):
             classes = add_css_class(classes, 'form-control')
-        classes = add_css_class(classes, self.get_size_class())
+            # For these widget types, add the size class here
+            classes = add_css_class(classes, self.get_size_class())
         self.widget.attrs['class'] = classes
 
     def add_placeholder_attrs(self):
@@ -208,9 +211,8 @@ class FieldRenderer(BaseRenderer):
             self.widget.attrs['placeholder'] = placeholder
 
     def add_help_attrs(self):
-        title = self.widget.attrs.get('title', strip_tags(self.field_help))
         if not isinstance(self.widget, CheckboxInput):
-            self.widget.attrs['title'] = title
+            self.widget.attrs['title'] = self.widget.attrs.get('title', strip_tags(self.field_help))
 
     def add_required_attrs(self):
         if self.set_required and is_widget_required_attribute(self.widget):
@@ -223,10 +225,11 @@ class FieldRenderer(BaseRenderer):
         self.add_required_attrs()
 
     def list_to_class(self, html, klass):
+        classes = add_css_class(klass, self.get_size_class())
         mapping = [
             ('<ul', '<div'),
             ('</ul>', '</div>'),
-            ('<li', '<div class="{klass}"'.format(klass=klass)),
+            ('<li', '<div class="{klass}"'.format(klass=classes)),
             ('</li>', '</div>'),
         ]
         for k, v in mapping:
@@ -271,7 +274,8 @@ class FieldRenderer(BaseRenderer):
 
     def wrap_widget(self, html):
         if isinstance(self.widget, CheckboxInput):
-            html = '<div class="checkbox">{content}</div>'.format(content=html)
+            checkbox_class = add_css_class('checkbox', self.get_size_class())
+            html = '<div class="{klass}">{content}</div>'.format(klass=checkbox_class, content=html)
         return html
 
     def make_input_group(self, html):
@@ -283,7 +287,9 @@ class FieldRenderer(BaseRenderer):
             after = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_after) if self.addon_after else ''
             html = '<div class="input-group">{before}{html}{after}</div>'.format(
-                before=before, after=after, html=html)
+                before=before,
+                after=after,
+                html=html)
         return html
 
     def append_to_field(self, html):
@@ -347,6 +353,8 @@ class FieldRenderer(BaseRenderer):
             form_group_class = add_css_class(form_group_class, 'has-error')
         elif self.field.form.is_bound:
             form_group_class = add_css_class(form_group_class, 'has-success')
+        if self.layout == 'horizontal':
+            form_group_class = add_css_class(form_group_class, self.get_size_class(prefix='form-group'))
         return form_group_class
 
     def wrap_label_and_field(self, html):
@@ -359,9 +367,11 @@ class FieldRenderer(BaseRenderer):
         # Hidden input requires no special treatment
         if self.field.is_hidden:
             return text_value(self.field)
+        # Render the widget
         self.add_widget_attrs()
         html = self.field.as_widget(attrs=self.widget.attrs)
         self.restore_widget_attrs()
+        # Start post render
         html = self.post_widget_render(html)
         html = self.wrap_widget(html)
         html = self.make_input_group(html)
