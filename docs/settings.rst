@@ -14,7 +14,7 @@ The ``BOOTSTRAP3`` dict variable is configured by default to the following value
     # Default settings
     BOOTSTRAP3 = {
         'jquery_url': '//code.jquery.com/jquery.min.js',
-        'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+        'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
         'css_url': None,
         'theme_url': None,
         'javascript_url': None,
@@ -25,6 +25,9 @@ The ``BOOTSTRAP3`` dict variable is configured by default to the following value
         'set_required': True,
         'form_required_class': '',
         'form_error_class': '',
+        'formset_renderers':{
+            'default': 'bootstrap3.renderers.FormsetRenderer',
+        },
         'form_renderers': {
             'default': 'bootstrap3.renderers.FormRenderer',
         },
