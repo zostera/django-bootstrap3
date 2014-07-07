@@ -12,7 +12,7 @@ The ``BOOTSTRAP3`` dict variable is configured by default to the following value
 .. code:: django
 
     # Default settings
-    BOOTSTRAP3_DEFAULTS = {
+    BOOTSTRAP3 = {
         'jquery_url': '//code.jquery.com/jquery.min.js',
         'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',
         'css_url': None,
