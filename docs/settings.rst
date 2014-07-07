@@ -25,6 +25,9 @@ The ``BOOTSTRAP3`` dict variable is configured by default to the following value
         'set_required': True,
         'form_required_class': '',
         'form_error_class': '',
+        'formset_renderers':{
+            'default': 'bootstrap3.renderers.FormsetRenderer',
+        },
         'form_renderers': {
             'default': 'bootstrap3.renderers.FormRenderer',
         },
