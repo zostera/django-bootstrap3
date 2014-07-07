@@ -4,6 +4,13 @@ History
 -------
 
 
+4.7.1 (2014-07-07)
+++++++++++++++++++
+
+* Fixed rendering of various sizes (as introduced in 4.7.0)
+* Upgrade to Bootstrap 4.2.0 as edfault version
+
+
 4.7.0 (2014-06-04)
 ++++++++++++++++++
 
