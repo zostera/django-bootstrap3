@@ -8,7 +8,7 @@ from django.utils.importlib import import_module
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
     'jquery_url': '//code.jquery.com/jquery.min.js',
-    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
     'css_url': None,
     'theme_url': None,
     'javascript_url': None,
