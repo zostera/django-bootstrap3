@@ -6,54 +6,25 @@ The django-bootstrap3 has some pre-configured settings.
 
 They can be modified by adding a dict variable called ``BOOTSTRAP3`` in your ``settings.py`` and customizing the values ​​you want;
 
-The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
+The ``BOOTSTRAP3`` dict variable is configured by default to the following values​​:
 
 
 .. code:: django
 
     # Default settings
     BOOTSTRAP3 = {
-
-        # The URL to the jQuery JavaScript file
         'jquery_url': '//code.jquery.com/jquery.min.js',
-
-        # The Bootstrap base URL
         'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.2.0/',
-
-        # The complete URL to the Bootstrap CSS file (None means derive it from base_url)
         'css_url': None,
-
-        # The complete URL to the Bootstrap CSS file (None means no theme)
         'theme_url': None,
-
-        # The complete URL to the Bootstrap JavaScript file (None means derive it from base_url)
         'javascript_url': None,
-
-        # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap3.html)
         'javascript_in_head': False,
-
-        # Include jQuery with Bootstrap JavaScript (affects django-bootstrap3 template tags)
         'include_jquery': False,
-
-        # Label class to use in horizontal forms
         'horizontal_label_class': 'col-md-2',
-
-        # Field class to use in horiozntal forms
         'horizontal_field_class': 'col-md-4',
-
-        # Set HTML required attribute on required fields
         'set_required': True,
-
-        # Set placeholder attributes to label if no placeholder is provided
-        'set_placeholder': True,
-
-        # Class to indicate required (better to set this in your Django form)
         'form_required_class': '',
-
-        # Class to indicate error (better to set this in your Django form)
         'form_error_class': '',
-
-        # Renderers (only set these if you have studied the source and understand the inner workings)
         'formset_renderers':{
             'default': 'bootstrap3.renderers.FormsetRenderer',
         },
