@@ -4,6 +4,18 @@ History
 -------
 
 
+4.8.1 (2014-07-10)
+++++++++++++++++++
+
+* Make extra classes override bootstrap defaults
+
+
+4.8.0 (2014-07-10)
+++++++++++++++++++
+
+* Introduced new setting `set_placeholder`, default True
+
+
 4.7.1 (2014-07-07)
 ++++++++++++++++++
 
