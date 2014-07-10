@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.forms.formsets import formset_factory
 from django.template import Template, Context
 from django.utils.unittest import TestCase
 
@@ -166,6 +167,11 @@ class FormSetTest(TestCase):
     def test_illegal_formset(self):
         with self.assertRaises(BootstrapError):
             render_formset(formset='illegal')
+
+    def test_layout_tabular(self):
+        formset = formset_factory(TestForm)
+        res = render_template('{% bootstrap_formset formset layout="tabular" %}', formset=formset)
+        self.assertIn('table table-bordered table-hover table-striped', res)
 
 
 class FormTest(TestCase):

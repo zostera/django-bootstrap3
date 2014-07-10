@@ -65,7 +65,23 @@ class FormsetRenderer(BaseRenderer):
         return text_value(self.formset.management_form)
 
     def render_form(self, form, **kwargs):
-        return render_form(form, **kwargs)
+        html = render_form(form, **kwargs)
+        if self.layout == 'tabular':
+            return '<tr>{html}</tr>'.format(html=html)
+        return html
+
+    def render_form_labels(self):
+        if not self.formset.forms:
+            return ''
+
+        form = self.formset.forms[0]
+        labels = []
+        for field in form:
+            if field.is_hidden:
+                continue
+            labels.append('<th>{label}</th>'.format(label=field.label))
+        html = '\n'.join(labels)
+        return '<tr>{html}</tr>'.format(html=html)
 
     def render_forms(self):
         rendered_forms = []
@@ -81,7 +97,12 @@ class FormsetRenderer(BaseRenderer):
                 set_required=self.set_required,
                 size=self.size,
             ))
-        return '\n'.join(rendered_forms)
+        html = '\n'.join(rendered_forms)
+        if self.layout == 'tabular':
+            labels = self.render_form_labels()
+            table_classes = get_bootstrap_setting('tabular_table_classes')
+            return '<table class="{classes}">{labels}{html}</table>'.format(classes=table_classes, labels=labels, html=html)
+        return html
 
     def get_formset_errors(self):
         return self.formset.non_form_errors()
@@ -330,6 +351,9 @@ class FieldRenderer(BaseRenderer):
         return add_css_class(label_class, 'control-label')
 
     def get_label(self):
+        if self.layout == 'tabular':
+            return None
+
         if isinstance(self.widget, CheckboxInput):
             label = None
         else:
@@ -361,6 +385,10 @@ class FieldRenderer(BaseRenderer):
         return form_group_class
 
     def wrap_label_and_field(self, html):
+        if self.layout == 'tabular':
+            field_class = self.get_field_class() or ''
+            html = '<td class="{klass}">{html}</td>'.format(klass=field_class, html=html)
+            return html
         return render_form_group(html, self.get_form_group_class())
 
     def render(self):
