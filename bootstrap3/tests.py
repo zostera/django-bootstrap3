@@ -310,7 +310,10 @@ class MessagesTest(TestCase):
 
 class HtmlTest(TestCase):
     def test_add_css_class(self):
-        css_classes = "hey hi"
-        css_class = "there"
+        css_classes = "one two"
+        css_class = "three four"
         classes = add_css_class(css_classes, css_class)
-        self.assertEqual(classes, "hey hi there")
+        self.assertEqual(classes, "one two three four")
+
+        classes = add_css_class(css_classes, css_class, prepend=True)
+        self.assertEqual(classes, "three four one two")
