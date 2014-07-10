@@ -7,6 +7,8 @@ from django.utils.unittest import TestCase
 
 from .exceptions import BootstrapError
 
+from .html import add_css_class
+
 
 RADIO_CHOICES = (
     ('1', 'Radio 1'),
@@ -304,3 +306,14 @@ class MessagesTest(TestCase):
     </div>
 """
         self.assertEqual(res.strip(), expected.strip())
+
+
+class HtmlTest(TestCase):
+    def test_add_css_class(self):
+        css_classes = "one two"
+        css_class = "three four"
+        classes = add_css_class(css_classes, css_class)
+        self.assertEqual(classes, "one two three four")
+
+        classes = add_css_class(css_classes, css_class, prepend=True)
+        self.assertEqual(classes, "three four one two")

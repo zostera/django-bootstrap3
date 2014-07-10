@@ -203,7 +203,7 @@ class FieldRenderer(BaseRenderer):
                                         RadioSelect,
                                         CheckboxSelectMultiple,
                                         FileInput)):
-            classes = add_css_class(classes, 'form-control')
+            classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
         self.widget.attrs['class'] = classes
