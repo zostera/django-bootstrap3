@@ -124,7 +124,6 @@ def render_field(field, **context_args):
 class SettingsTest(TestCase):
     def test_settings(self):
         from .bootstrap import BOOTSTRAP3
-
         self.assertTrue(BOOTSTRAP3)
 
     def test_settings_filter(self):

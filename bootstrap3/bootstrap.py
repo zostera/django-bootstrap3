@@ -17,6 +17,7 @@ BOOTSTRAP3_DEFAULTS = {
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
+    'set_placeholder': True,
     'form_required_class': '',
     'form_error_class': '',
     'formset_renderers':{
