@@ -346,14 +346,12 @@ class FieldRenderer(BaseRenderer):
 
     def get_form_group_class(self):
         form_group_class = self.form_group_class
-        if self.field.errors and self.form_error_class:
-            form_group_class = add_css_class(
-                form_group_class, self.form_error_class)
         if self.field.field.required and self.form_required_class:
             form_group_class = add_css_class(
                 form_group_class, self.form_required_class)
-        if self.field_errors:
-            form_group_class = add_css_class(form_group_class, 'has-error')
+        if self.field.errors:
+            form_group_class = add_css_class(
+                form_group_class, self.form_error_class)
         elif self.field.form.is_bound:
             form_group_class = add_css_class(form_group_class, 'has-success')
         if self.layout == 'horizontal':
