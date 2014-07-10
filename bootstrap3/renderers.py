@@ -173,7 +173,10 @@ class FieldRenderer(BaseRenderer):
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
-        self.placeholder = field.label
+        if get_bootstrap_setting('set_placeholder'):
+            self.placeholder = field.label
+        else:
+            self.placeholder = ''
 
         self.addon_before = kwargs.get('addon_before', '')
         self.addon_after = kwargs.get('addon_after', '')
