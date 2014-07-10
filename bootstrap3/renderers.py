@@ -168,6 +168,8 @@ class FieldRenderer(BaseRenderer):
         self.field = field
         super(FieldRenderer, self).__init__(*args, **kwargs)
 
+        self.is_modelform = hasattr(field.form, 'instance')
+
         self.widget = field.field.widget
         self.initial_attrs = self.widget.attrs.copy()
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
@@ -354,7 +356,7 @@ class FieldRenderer(BaseRenderer):
                 form_group_class, self.form_required_class)
         if self.field_errors:
             form_group_class = add_css_class(form_group_class, 'has-error')
-        elif self.field.form.is_bound:
+        elif self.field.form.is_bound and self.is_modelform:
             form_group_class = add_css_class(form_group_class, 'has-success')
         if self.layout == 'horizontal':
             form_group_class = add_css_class(form_group_class, self.get_size_class(prefix='form-group'))
