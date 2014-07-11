@@ -91,10 +91,11 @@ class FormsetRenderer(BaseRenderer):
         if formset_errors:
             return get_template(
                 'bootstrap3/form_errors.html').render(Context({
-                'errors': formset_errors,
-                'form': self.formset,
-                'layout': self.layout,
-            }))
+                    'errors': formset_errors,
+                    'form': self.formset,
+                    'layout': self.layout,
+                })
+            )
         return ''
 
     def render(self):
