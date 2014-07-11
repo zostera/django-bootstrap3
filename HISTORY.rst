@@ -26,7 +26,7 @@ History
 ++++++++++++++++++
 
 * Fixed rendering of various sizes (as introduced in 4.7.0)
-* Upgrade to Bootstrap 4.2.0 as edfault version
+* Upgrade to Bootstrap 3.2.0 as default version
 
 
 4.7.0 (2014-06-04)
