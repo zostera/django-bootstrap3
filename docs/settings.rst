@@ -51,7 +51,10 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         'form_required_class': '',
 
         # Class to indicate error (better to set this in your Django form)
-        'form_error_class': '',
+        'form_error_class': 'has-error',
+
+        # Class to indicate the field is bound (better to set this in your Django form)
+        'form_bound_class': 'has-success',
 
         # Renderers (only set these if you have studied the source and understand the inner workings)
         'formset_renderers':{

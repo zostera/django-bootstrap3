@@ -145,6 +145,11 @@ class SettingsTest(TestCase):
         res = render_template('{% bootstrap_form form %}', form=form)
         self.assertIn('bootstrap3-err', res)
 
+    def test_bound_class(self):
+        form = TestForm({'sender': 'sender'})
+        res = render_template('{% bootstrap_form form %}', form=form)
+        self.assertIn('bootstrap3-bound', res)
+
 
 class TemplateTest(TestCase):
     def test_empty_template(self):

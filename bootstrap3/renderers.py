@@ -184,6 +184,7 @@ class FieldRenderer(BaseRenderer):
         # These are set in Django or in the global BOOTSTRAP3 settings, and they can be overwritten in the template
         error_css_class = kwargs.get('error_css_class', '')
         required_css_class = kwargs.get('required_css_class', '')
+        bound_css_class = kwargs.get('bound_css_class', '')
         if error_css_class:
             self.form_error_class = error_css_class
         else:
@@ -193,6 +194,10 @@ class FieldRenderer(BaseRenderer):
         else:
             self.form_required_class = getattr(field.form, 'required_css_class',
                                                get_bootstrap_setting('form_required_class'))
+        if bound_css_class:
+            self.form_bound_class = bound_css_class
+        else:
+            self.form_bound_class = getattr(field.form, 'bound_css_class', get_bootstrap_setting('form_bound_class'))
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -353,7 +358,7 @@ class FieldRenderer(BaseRenderer):
             form_group_class = add_css_class(
                 form_group_class, self.form_error_class)
         elif self.field.form.is_bound:
-            form_group_class = add_css_class(form_group_class, 'has-success')
+            form_group_class = add_css_class(form_group_class, self.form_bound_class)
         if self.layout == 'horizontal':
             form_group_class = add_css_class(form_group_class, self.get_size_class(prefix='form-group'))
         return form_group_class
