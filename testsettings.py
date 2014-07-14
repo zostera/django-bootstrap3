@@ -12,6 +12,7 @@ INSTALLED_APPS = (
 BOOTSTRAP3 = {
     'javascript_in_head': True,
     'form_required_class': 'bootstrap3-req',
+    'form_error_class': 'bootstrap3-err',
 }
 
 SECRET_KEY = 'bootstrap3isawesome'

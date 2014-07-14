@@ -187,12 +187,12 @@ class FieldRenderer(BaseRenderer):
         if error_css_class:
             self.form_error_class = error_css_class
         else:
-            self.form_error_class = getattr(field.form, 'error_css_class', get_bootstrap_setting('error_css_class'))
+            self.form_error_class = getattr(field.form, 'error_css_class', get_bootstrap_setting('form_error_class'))
         if required_css_class:
             self.form_required_class = required_css_class
         else:
             self.form_required_class = getattr(field.form, 'required_css_class',
-                                               get_bootstrap_setting('required_css_class'))
+                                               get_bootstrap_setting('form_required_class'))
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
