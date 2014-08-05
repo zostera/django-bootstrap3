@@ -92,10 +92,10 @@ class FormsetRenderer(BaseRenderer):
         if formset_errors:
             return get_template(
                 'bootstrap3/form_errors.html').render(Context({
-                    'errors': formset_errors,
-                    'form': self.formset,
-                    'layout': self.layout,
-                })
+                'errors': formset_errors,
+                'form': self.formset,
+                'layout': self.layout,
+            })
             )
         return ''
 
@@ -113,6 +113,9 @@ class FormRenderer(BaseRenderer):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super(FormRenderer, self).__init__(*args, **kwargs)
+        # Handle form.empty_permitted
+        if self.form.empty_permitted:
+            self.set_required = False
 
     def render_fields(self):
         rendered_fields = []
@@ -195,6 +198,10 @@ class FieldRenderer(BaseRenderer):
         else:
             self.form_required_class = getattr(field.form, 'required_css_class',
                                                get_bootstrap_setting('required_css_class'))
+        # Handle form.empty_permitted
+        if self.field.form.empty_permitted:
+            self.set_required = False
+            self.form_required_class = ''
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -204,9 +211,9 @@ class FieldRenderer(BaseRenderer):
         if isinstance(self.widget, ReadOnlyPasswordHashWidget):
             classes = add_css_class(classes, 'form-control-static', prepend=True)
         elif not isinstance(self.widget, (CheckboxInput,
-                                        RadioSelect,
-                                        CheckboxSelectMultiple,
-                                        FileInput)):
+                                          RadioSelect,
+                                          CheckboxSelectMultiple,
+                                          FileInput)):
             classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
@@ -354,8 +361,7 @@ class FieldRenderer(BaseRenderer):
             form_group_class = add_css_class(
                 form_group_class, self.form_error_class)
         if self.field.field.required and self.form_required_class:
-            form_group_class = add_css_class(
-                form_group_class, self.form_required_class)
+            form_group_class = add_css_class(form_group_class, self.form_required_class)
         if self.field_errors:
             form_group_class = add_css_class(form_group_class, 'has-error')
         elif self.field.form.is_bound:
