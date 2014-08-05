@@ -229,6 +229,15 @@ class FieldTest(TestCase):
         rendered = render_template('{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
         self.assertIn('test-required', rendered)
 
+    def test_empty_permitted(self):
+        form = TestForm()
+        res = render_form_field('subject', form=form)
+        self.assertIn('required', res)
+        form.empty_permitted = True
+        res = render_form_field('subject', form=form)
+        self.assertNotIn('required', res)
+
+
     def test_input_group(self):
         res = render_template('{% bootstrap_field form.subject addon_before="$" addon_after=".00" %}')
         self.assertIn('class="input-group"', res)
