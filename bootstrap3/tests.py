@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.template import Template, Context
 from django.utils.unittest import TestCase
+from bootstrap3.text import text_value, text_concat
 
 from .exceptions import BootstrapError
 
@@ -317,7 +318,7 @@ class MessagesTest(TestCase):
         self.assertEqual(res.strip(), expected.strip())
 
 
-class HtmlTest(TestCase):
+class TextTest(TestCase):
     def test_add_css_class(self):
         css_classes = "one two"
         css_class = "three four"
@@ -326,3 +327,24 @@ class HtmlTest(TestCase):
 
         classes = add_css_class(css_classes, css_class, prepend=True)
         self.assertEqual(classes, "three four one two")
+
+
+class HtmlTest(TestCase):
+    def test_text_value(self):
+        self.assertEqual(text_value(''), "")
+        self.assertEqual(text_value(' '), " ")
+        self.assertEqual(text_value(None), "")
+        self.assertEqual(text_value(1), "1")
+
+    def test_text_concat(self):
+        self.assertEqual(text_concat(1, 2), "12")
+        self.assertEqual(text_concat(1, 2, separator='='), "1=2")
+        self.assertEqual(text_concat(None, 2, separator='='), "2")
+
+
+class ButtonTest(TestCase):
+    def test_button(self):
+        res = render_template("{% bootstrap_button 'button' size='lg' %}")
+        self.assertEqual(res.strip(), '<button class="btn btn-lg">button</button>')
+        res = render_template("{% bootstrap_button 'button' size='lg' href='#' %}")
+        self.assertEqual(res.strip(), '<a class="btn btn-lg" href="#">button</a>')

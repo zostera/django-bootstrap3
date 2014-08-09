@@ -68,7 +68,7 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None, button_class='', size=''):
+def render_button(content, button_type=None, icon=None, button_class='', size='', href=''):
     """
     Render a button with content
     """
@@ -88,12 +88,17 @@ def render_button(content, button_type=None, icon=None, button_class='', size=''
     if button_type:
         if button_type == 'submit':
             classes = add_css_class(classes, 'btn-primary')
-        elif button_type != 'reset' and button_type != 'button':
-            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button" or empty.')
+        elif not button_type in ('reset' 'button', 'link'):
+            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button", "link" or empty.')
         attrs['type'] = button_type
     attrs['class'] = classes
     icon_content = render_icon(icon) if icon else ''
-    return render_tag('button', attrs=attrs, content=text_concat(icon_content, content, separator=' '))
+    if href:
+        attrs['href'] = href
+        tag = 'a'
+    else:
+        tag = 'button'
+    return render_tag(tag, attrs=attrs, content=text_concat(icon_content, content, separator=' '))
 
 
 def render_field_and_label(field, label, field_class='', label_for=None, label_class='', layout='', **kwargs):
