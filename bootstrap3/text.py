@@ -22,8 +22,5 @@ def text_concat(*args, **kwargs):
     Concatenate several values as a text string with an optional separator
     """
     separator = text_value(kwargs.get('separator', ''))
-    skip_empty = kwargs.get('skip_empty', False)
-    values = [text_value(v) for v in args]
-    if skip_empty:
-        values = [v for v in values if v]
+    values = filter(None, [text_value(v) for v in args])
     return separator.join(values)

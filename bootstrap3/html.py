@@ -43,7 +43,7 @@ def render_link_tag(url, rel='stylesheet', media='all'):
     """
     Build a link tag
     """
-    return render_tag('link', attrs = {'href': url, 'rel': rel, 'media': media}, close=False)
+    return render_tag('link', attrs={'href': url, 'rel': rel, 'media': media}, close=False)
 
 
 def render_tag(tag, attrs=None, content=None, close=True):

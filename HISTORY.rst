@@ -4,6 +4,12 @@ History
 -------
 
 
+4.9.0 (2014-08-09)
+++++++++++++++++++
+
+* New parameter `href` for `bootstrap_button`, if provided will render `a` tag instead of `buttonz tag
+
+
 4.8.2 (2014-07-10)
 ++++++++++++++++++
 
