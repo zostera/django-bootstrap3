@@ -347,4 +347,4 @@ class ButtonTest(TestCase):
         res = render_template("{% bootstrap_button 'button' size='lg' %}")
         self.assertEqual(res.strip(), '<button class="btn btn-lg">button</button>')
         res = render_template("{% bootstrap_button 'button' size='lg' href='#' %}")
-        self.assertEqual(res.strip(), '<a class="btn btn-lg" href="#">button</a>')
+        self.assertIn(res.strip(), '<a class="btn btn-lg" href="#">button</a><a href="#" class="btn btn-lg">button</a>')
