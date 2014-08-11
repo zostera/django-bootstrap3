@@ -4,6 +4,12 @@ History
 -------
 
 
+4.9.2 (2014-08-11)
+++++++++++++++++++
+
+* Fixed bug causing problems with setting classes for horizontal forms
+
+
 4.9.1 (2014-08-10)
 ++++++++++++++++++
 

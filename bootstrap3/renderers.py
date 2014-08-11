@@ -31,6 +31,14 @@ class BaseRenderer(object):
         self.exclude = kwargs.get('exclude', '')
         self.set_required = kwargs.get('set_required', True)
         self.size = self.parse_size(kwargs.get('size', ''))
+        self.horizontal_label_class = kwargs.get(
+            'horizontal_label_class',
+            get_bootstrap_setting('horizontal_label_class')
+        )
+        self.horizontal_field_class = kwargs.get(
+            'horizontal_field_class',
+            get_bootstrap_setting('horizontal_field_class')
+        )
 
     def parse_size(self, size):
         size = text_value(size).lower().strip()
@@ -81,6 +89,8 @@ class FormsetRenderer(BaseRenderer):
                 exclude=self.exclude,
                 set_required=self.set_required,
                 size=self.size,
+                horizontal_label_class=self.horizontal_label_class,
+                horizontal_field_class=self.horizontal_field_class,
             ))
         return '\n'.join(rendered_forms)
 
@@ -130,6 +140,8 @@ class FormRenderer(BaseRenderer):
                 exclude=self.exclude,
                 set_required=self.set_required,
                 size=self.size,
+                horizontal_label_class=self.horizontal_label_class,
+                horizontal_field_class=self.horizontal_field_class,
             ))
         return '\n'.join(rendered_fields)
 
@@ -322,7 +334,7 @@ class FieldRenderer(BaseRenderer):
     def get_field_class(self):
         field_class = self.field_class
         if not field_class and self.layout == 'horizontal':
-            field_class = get_bootstrap_setting('horizontal_field_class')
+            field_class = self.horizontal_field_class
         return field_class
 
     def wrap_field(self, html):
@@ -334,7 +346,7 @@ class FieldRenderer(BaseRenderer):
     def get_label_class(self):
         label_class = self.label_class
         if not label_class and self.layout == 'horizontal':
-            label_class = get_bootstrap_setting('horizontal_label_class')
+            label_class = self.horizontal_label_class
         label_class = text_value(label_class)
         if not self.show_label:
             label_class = add_css_class(label_class, 'sr-only')

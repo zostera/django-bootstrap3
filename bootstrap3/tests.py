@@ -190,6 +190,9 @@ class FormTest(TestCase):
         res = render_template('{% bootstrap_form form layout="horizontal" %}', form=form)
         self.assertIn('col-md-2', res)
         self.assertIn('col-md-4', res)
+        res = render_template('{% bootstrap_form form layout="horizontal" horizontal_label_class="hlabel" horizontal_field_class="hfield" %}', form=form)
+        self.assertIn('hlabel', res)
+        self.assertIn('hfield', res)
 
     def test_buttons_tag(self):
         form = TestForm()
