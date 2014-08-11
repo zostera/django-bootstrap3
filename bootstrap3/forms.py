@@ -84,12 +84,12 @@ def render_button(content, button_type=None, icon=None, button_class='', size=''
     elif size == 'md' or size == 'medium':
         pass
     elif size:
-        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty.')
+        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty ("{}" given).'.format(size))
     if button_type:
         if button_type == 'submit':
             classes = add_css_class(classes, 'btn-primary')
-        elif not button_type in ('reset' 'button', 'link'):
-            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button", "link" or empty.')
+        elif button_type not in ('reset', 'button', 'link'):
+            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button", "link" or empty  ("{}" given).'.format(button_type))
         attrs['type'] = button_type
     attrs['class'] = classes
     icon_content = render_icon(icon) if icon else ''
