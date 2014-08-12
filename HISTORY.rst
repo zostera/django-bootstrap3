@@ -10,6 +10,12 @@ History
 * Fixed bug causing problems with setting classes for horizontal forms
 
 
+4.10.0 (2014-08-12)
++++++++++++++++++++
+
+* Template tag `bootstrap_icon` now supports a `title` parameter
+
+
 4.9.1 (2014-08-10)
 ++++++++++++++++++
 

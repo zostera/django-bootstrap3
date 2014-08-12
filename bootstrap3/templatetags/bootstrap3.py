@@ -373,7 +373,7 @@ def bootstrap_button(*args, **kwargs):
 
 
 @register.simple_tag
-def bootstrap_icon(icon):
+def bootstrap_icon(icon, **kwargs):
     """
     Render an icon
 
@@ -394,7 +394,7 @@ def bootstrap_icon(icon):
         {% bootstrap_icon "star" %}
 
     """
-    return render_icon(icon)
+    return render_icon(icon, **kwargs)
 
 
 @register.simple_tag
