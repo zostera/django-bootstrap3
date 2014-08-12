@@ -270,6 +270,8 @@ class ComponentsTest(TestCase):
     def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
         self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
+        res = render_template('{% bootstrap_icon "star" title="alpha centauri" %}')
+        self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star" title="alpha centauri"></span>')
 
     def test_alert(self):
         res = render_template('{% bootstrap_alert "content" alert_type="danger" %}')

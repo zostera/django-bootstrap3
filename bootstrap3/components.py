@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from bootstrap3.text import text_value
+
+from django.forms.widgets import flatatt
+
+from .text import text_value
 
 
-def render_icon(icon):
+def render_icon(icon, title=''):
     """
     Render a Bootstrap glyphicon icon
     """
-    return '<span class="glyphicon glyphicon-{icon}"></span>'.format(icon=icon)
+    attrs = {
+        'class': 'glyphicon glyphicon-{icon}'.format(icon=icon),
+    }
+    if title:
+        attrs['title'] = title
+    return '<span{attrs}></span>'.format(attrs=flatatt(attrs))
 
 
 def render_alert(content, alert_type=None, dismissable=True):
