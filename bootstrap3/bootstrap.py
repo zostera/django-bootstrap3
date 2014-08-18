@@ -18,8 +18,8 @@ BOOTSTRAP3_DEFAULTS = {
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
     'set_placeholder': True,
-    'form_required_class': '',
-    'form_error_class': '',
+    'required_css_class': '',
+    'error_css_class': '',
     'formset_renderers': {
         'default': 'bootstrap3.renderers.FormsetRenderer',
     },

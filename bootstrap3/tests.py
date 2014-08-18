@@ -130,7 +130,7 @@ class SettingsTest(TestCase):
         self.assertTrue(BOOTSTRAP3)
 
     def test_settings_filter(self):
-        res = render_template('{% load bootstrap3 %}{{ "form_required_class"|bootstrap_setting }}')
+        res = render_template('{% load bootstrap3 %}{{ "required_css_class"|bootstrap_setting }}')
         self.assertEqual(res.strip(), 'bootstrap3-req')
         res = render_template(
             '{% load bootstrap3 %}{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
