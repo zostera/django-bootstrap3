@@ -9,9 +9,9 @@ python:
 
 # Django versions for matrix
 env:
-  - DJANGO_VERSION=1.4.12
-  - DJANGO_VERSION=1.5.7
-  - DJANGO_VERSION=1.6.4
+  - DJANGO_VERSION=1.4.13
+  - DJANGO_VERSION=1.5.8
+  - DJANGO_VERSION=1.6.5
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
@@ -26,23 +26,23 @@ script:
 matrix:
   exclude:
     - python: "3.2"
-      env: DJANGO_VERSION=1.4.12
+      env: DJANGO_VERSION=1.4.13
     - python: "3.3"
-      env: DJANGO_VERSION=1.4.12
+      env: DJANGO_VERSION=1.4.13
     - python: "3.4"
-      env: DJANGO_VERSION=1.4.12
+      env: DJANGO_VERSION=1.4.13
     - python: "3.2"
-      env: DJANGO_VERSION=1.5.7
+      env: DJANGO_VERSION=1.5.8
     - python: "3.3"
-      env: DJANGO_VERSION=1.5.7
+      env: DJANGO_VERSION=1.5.8
     - python: "3.4"
-      env: DJANGO_VERSION=1.5.7
-    - python: "3.2"
-      env: DJANGO_VERSION=1.6.4
-    - python: "3.3"
-      env: DJANGO_VERSION=1.6.4
-    - python: "3.4"
-      env: DJANGO_VERSION=1.6.4
+      env: DJANGO_VERSION=1.5.8
+#    - python: "3.2"
+#      env: DJANGO_VERSION=1.6.5
+#    - python: "3.3"
+#      env: DJANGO_VERSION=1.6.5
+#    - python: "3.4"
+#      env: DJANGO_VERSION=1.6.5
 
 # Report to coveralls
 after_success:
