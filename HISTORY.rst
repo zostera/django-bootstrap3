@@ -10,6 +10,12 @@ History
 * Fixed bug causing problems with setting classes for horizontal forms
 
 
+4.10.1 (2014-08-18)
++++++++++++++++++++
+
+* Bug fixes, test fixes, documentation fixes
+
+
 4.10.0 (2014-08-12)
 +++++++++++++++++++
 
