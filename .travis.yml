@@ -5,6 +5,7 @@ python:
   - "2.6"
   - "3.2"
   - "3.3"
+  - "3.4"
 
 # Django versions for matrix
 env:
@@ -28,10 +29,20 @@ matrix:
       env: DJANGO_VERSION=1.4.12
     - python: "3.3"
       env: DJANGO_VERSION=1.4.12
+    - python: "3.4"
+      env: DJANGO_VERSION=1.4.12
     - python: "3.2"
       env: DJANGO_VERSION=1.5.7
     - python: "3.3"
       env: DJANGO_VERSION=1.5.7
+    - python: "3.4"
+      env: DJANGO_VERSION=1.5.7
+    - python: "3.2"
+      env: DJANGO_VERSION=1.6.4
+    - python: "3.3"
+      env: DJANGO_VERSION=1.6.4
+    - python: "3.4"
+      env: DJANGO_VERSION=1.6.4
 
 # Report to coveralls
 after_success:
