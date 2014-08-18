@@ -48,10 +48,10 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         'set_placeholder': True,
 
         # Class to indicate required (better to set this in your Django form)
-        'form_required_class': '',
+        'required_css_class': '',
 
         # Class to indicate error (better to set this in your Django form)
-        'form_error_class': '',
+        'error_css_class': '',
 
         # Renderers (only set these if you have studied the source and understand the inner workings)
         'formset_renderers':{

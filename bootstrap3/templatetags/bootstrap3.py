@@ -155,7 +155,8 @@ def bootstrap_css():
 @register.simple_tag
 def bootstrap_javascript(jquery=None):
     """
-    Return HTML for Bootstrap JavaScript
+    Return HTML for Bootstrap JavaScript.
+
     Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
     This is intended behavior.
 
@@ -486,7 +487,11 @@ class ButtonsNode(template.Node):
 @register.simple_tag(takes_context=True)
 def bootstrap_messages(context, *args, **kwargs):
     """
-    Show django.contrib.messages Messages in Bootstrap alert containers
+    Show django.contrib.messages Messages in Bootstrap alert containers.
+
+    In order to make the alerts dismissable (with the close button),
+    we have to set the jquery parameter too when using the
+    bootstrap_javascript tag.
 
     **Tag name**::
 
@@ -504,6 +509,7 @@ def bootstrap_messages(context, *args, **kwargs):
 
     **example**::
 
+        {% bootstrap_javascript jquery=1 %}
         {% bootstrap_messages FIXTHIS %}
 
     """

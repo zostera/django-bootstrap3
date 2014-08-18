@@ -202,18 +202,18 @@ class FieldRenderer(BaseRenderer):
         error_css_class = kwargs.get('error_css_class', '')
         required_css_class = kwargs.get('required_css_class', '')
         if error_css_class:
-            self.form_error_class = error_css_class
+            self.error_css_class = error_css_class
         else:
-            self.form_error_class = getattr(field.form, 'error_css_class', get_bootstrap_setting('error_css_class'))
+            self.error_css_class = getattr(field.form, 'error_css_class', get_bootstrap_setting('error_css_class'))
         if required_css_class:
-            self.form_required_class = required_css_class
+            self.required_css_class = required_css_class
         else:
-            self.form_required_class = getattr(field.form, 'required_css_class',
+            self.required_css_class = getattr(field.form, 'required_css_class',
                                                get_bootstrap_setting('required_css_class'))
         # Handle form.empty_permitted
         if self.field.form.empty_permitted:
             self.set_required = False
-            self.form_required_class = ''
+            self.required_css_class = ''
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -369,11 +369,11 @@ class FieldRenderer(BaseRenderer):
 
     def get_form_group_class(self):
         form_group_class = self.form_group_class
-        if self.field.errors and self.form_error_class:
+        if self.field.errors and self.error_css_class:
             form_group_class = add_css_class(
-                form_group_class, self.form_error_class)
-        if self.field.field.required and self.form_required_class:
-            form_group_class = add_css_class(form_group_class, self.form_required_class)
+                form_group_class, self.error_css_class)
+        if self.field.field.required and self.required_css_class:
+            form_group_class = add_css_class(form_group_class, self.required_css_class)
         if self.field_errors:
             form_group_class = add_css_class(form_group_class, 'has-error')
         elif self.field.form.is_bound:
