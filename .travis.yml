@@ -37,12 +37,6 @@ matrix:
       env: DJANGO_VERSION=1.5.8
     - python: "3.4"
       env: DJANGO_VERSION=1.5.8
-#    - python: "3.2"
-#      env: DJANGO_VERSION=1.6.5
-#    - python: "3.3"
-#      env: DJANGO_VERSION=1.6.5
-#    - python: "3.4"
-#      env: DJANGO_VERSION=1.6.5
 
 # Report to coveralls
 after_success:
