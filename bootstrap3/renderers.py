@@ -201,6 +201,7 @@ class FieldRenderer(BaseRenderer):
         # These are set in Django or in the global BOOTSTRAP3 settings, and they can be overwritten in the template
         error_css_class = kwargs.get('error_css_class', '')
         required_css_class = kwargs.get('required_css_class', '')
+        bound_css_class = kwargs.get('bound_css_class', '')
         if error_css_class:
             self.error_css_class = error_css_class
         else:
@@ -210,6 +211,11 @@ class FieldRenderer(BaseRenderer):
         else:
             self.required_css_class = getattr(field.form, 'required_css_class',
                                                get_bootstrap_setting('required_css_class'))
+        if bound_css_class:
+            self.success_css_class = bound_css_class
+        else:
+            self.success_css_class = getattr(field.form, 'bound_css_class', get_bootstrap_setting('success_css_class'))
+
         # Handle form.empty_permitted
         if self.field.form.empty_permitted:
             self.set_required = False
@@ -377,7 +383,7 @@ class FieldRenderer(BaseRenderer):
         if self.field_errors:
             form_group_class = add_css_class(form_group_class, 'has-error')
         elif self.field.form.is_bound:
-            form_group_class = add_css_class(form_group_class, 'has-success')
+            form_group_class = add_css_class(form_group_class, self.success_css_class)
         if self.layout == 'horizontal':
             form_group_class = add_css_class(form_group_class, self.get_size_class(prefix='form-group'))
         return form_group_class
