@@ -19,7 +19,8 @@ BOOTSTRAP3_DEFAULTS = {
     'set_required': True,
     'set_placeholder': True,
     'required_css_class': '',
-    'error_css_class': '',
+    'error_css_class': 'has-error',
+    'success_css_class': 'has-success',
     'formset_renderers': {
         'default': 'bootstrap3.renderers.FormsetRenderer',
     },
