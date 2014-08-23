@@ -54,6 +54,14 @@ def render_field(field, **kwargs):
     return renderer_cls(field, **kwargs).render()
 
 
+def render_field_errors(field, **kwargs):
+    """
+    Render field errors to a Bootstrap layout
+    """
+    renderer_cls = get_field_renderer(**kwargs)
+    return renderer_cls(field, **kwargs).render_errors()
+
+
 def render_label(content, label_for=None, label_class=None, label_title=''):
     """
     Render a label with content
