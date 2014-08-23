@@ -4,6 +4,13 @@ Templates
 
 You can customize the output of ``django-bootstrap3`` by writing your own templates. These templates are available:
 
+bootstrap3/field_errors.html
+------------------------------------------
+
+This renders the errors of a field.
+
+Variable ``errors`` contains an array of strings.
+
 
 bootstrap3/field_help_text_and_errors.html
 ------------------------------------------
