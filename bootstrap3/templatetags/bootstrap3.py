@@ -330,7 +330,7 @@ def bootstrap_field_errors(*args, **kwargs):
 
     **Tag name**::
 
-        bootstrap_field_errrors
+        bootstrap_field_errors
 
     **Parameters**:
 
