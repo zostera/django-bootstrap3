@@ -23,7 +23,8 @@ install:
 script:
   - coverage run --source=bootstrap3 manage.py test
 
-# Support Python3 only with Django 1.6
+# Support Python3 only with Django 1.6+
+# Support Django 1.7+ only with Python 2.7+
 matrix:
   exclude:
     - python: "3.2"
@@ -38,6 +39,8 @@ matrix:
       env: DJANGO_VERSION=1.5.10
     - python: "3.4"
       env: DJANGO_VERSION=1.5.10
+    - python: "2.6"
+      env: DJANGO_VERSION=1.7.0
 
 # Report to coveralls
 after_success:
