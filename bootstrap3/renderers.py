@@ -28,6 +28,7 @@ class BaseRenderer(object):
         self.label_class = kwargs.get('label_class', '')
         self.show_help = kwargs.get('show_help', True)
         self.show_label = kwargs.get('show_label', True)
+        self.required_field_label_add_star = kwargs.get('required_field_label_add_star', True)
         self.exclude = kwargs.get('exclude', '')
         self.set_required = kwargs.get('set_required', True)
         self.size = self.parse_size(kwargs.get('size', ''))
@@ -370,6 +371,8 @@ class FieldRenderer(BaseRenderer):
     def add_label(self, html):
         label = self.get_label()
         if label:
+            if self.required_field_label_add_star and is_widget_required_attribute(self.widget):
+                label = '{} *'.format(label)
             html = render_label(label, label_for=self.field.id_for_label, label_class=self.get_label_class()) + html
         return html
 
