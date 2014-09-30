@@ -38,7 +38,7 @@ def render_form(form, **kwargs):
     return renderer_cls(form, **kwargs).render()
 
 
-def render_form_errors(form, layout='', type='all', **kwargs):
+def render_form_errors(form, type='all', **kwargs):
     """
     Render form errors to a Bootstrap layout
     """
