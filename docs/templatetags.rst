@@ -41,6 +41,12 @@ bootstrap_field
 .. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_field
 
 
+bootstrap_field_errors
+~~~~~~~~~~~~~~~
+
+.. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_field_errors
+
+
 bootstrap_label
 ~~~~~~~~~~~~~~~
 

@@ -10,7 +10,7 @@ from django.template.loader import get_template
 
 from ..bootstrap import css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 from ..html import render_link_tag
-from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
+from ..forms import render_button, render_field, render_field_errors, render_field_and_label, render_form, render_form_group, render_formset, \
     render_label, render_form_errors, render_formset_errors
 from ..components import render_icon, render_alert
 from ..templates import handle_var, parse_token_contents
@@ -321,6 +321,31 @@ def bootstrap_field(*args, **kwargs):
         {% bootstrap_form form_field form.subject %}
     """
     return render_field(*args, **kwargs)
+
+
+@register.simple_tag
+def bootstrap_field_errors(*args, **kwargs):
+    """
+    Render a field errors
+
+    **Tag name**::
+
+        bootstrap_field_errors
+
+    **Parameters**:
+
+        :args:
+        :kwargs:
+
+    **usage**::
+
+        {% bootstrap_field_errors form_field %}
+
+    **example**::
+
+        {% bootstrap_field_errors form.subject %}
+    """
+    return render_field_errors(*args, **kwargs)
 
 
 @register.simple_tag()

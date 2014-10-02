@@ -412,6 +412,18 @@ class FieldRenderer(BaseRenderer):
         html = self.wrap_label_and_field(html)
         return html
 
+    def render_errors(self):
+        field_errors = self.field_errors
+        if field_errors:
+            return get_template(
+                'bootstrap3/field_errors.html').render(Context({
+                'errors': field_errors,
+                'field': self.field,
+                'layout': self.layout,
+            })
+            )
+        return ''
+
 
 class InlineFieldRenderer(FieldRenderer):
     """
