@@ -8,10 +8,15 @@ from math import floor
 from django import template
 from django.template.loader import get_template
 
-from ..bootstrap import css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
+from ..bootstrap import (
+    css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
+)
 from ..html import render_link_tag
-from ..forms import render_button, render_field, render_field_and_label, render_form, render_form_group, render_formset, \
+from ..forms import (
+    render_button, render_field, render_field_and_label, render_form,
+    render_form_group, render_formset,
     render_label, render_form_errors, render_formset_errors
+)
 from ..components import render_icon, render_alert
 from ..templates import handle_var, parse_token_contents
 from ..text import force_text
@@ -24,7 +29,8 @@ register = template.Library()
 def bootstrap_setting(value):
     """
     A simple way to read bootstrap settings in a template.
-    Please consider this filter private for now, do not use it in your own templates.
+    Please consider this filter private for now, do not use it in your own
+    templates.
     """
     return get_bootstrap_setting(value)
 
@@ -129,7 +135,8 @@ def bootstrap_theme_url():
 def bootstrap_css():
     """
     Return HTML for Bootstrap CSS
-    Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
+    Adjust url in settings. If no url is returned, we don't want this statement
+    to return any HTML.
     This is intended behavior.
 
     Default value: ``FIXTHIS``
@@ -157,7 +164,8 @@ def bootstrap_javascript(jquery=None):
     """
     Return HTML for Bootstrap JavaScript.
 
-    Adjust url in settings. If no url is returned, we don't want this statement to return any HTML.
+    Adjust url in settings. If no url is returned, we don't want this
+    statement to return any HTML.
     This is intended behavior.
 
     Default value: ``None``
@@ -552,7 +560,8 @@ def get_pagination_context(page, pages_to_show=11,
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
         raise ValueError("Pagination pages_to_show should be a positive " +
-                         "integer, you specified {pages}".format(pages=pages_to_show))
+                         "integer, you specified {pages}".format(
+                             pages=pages_to_show))
     num_pages = page.paginator.num_pages
     current_page = page.number
     half_page_num = int(floor(pages_to_show / 2)) - 1

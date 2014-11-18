@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
+
 from django import forms
 from django.template import Template, Context
 from django.utils.unittest import TestCase
@@ -45,7 +47,8 @@ class TestForm(forms.Form):
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
     sender = forms.EmailField(label='Sender © unicode')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
-    cc_myself = forms.BooleanField(required=False, help_text='You will get a copy in your mailbox.')
+    cc_myself = forms.BooleanField(
+        required=False, help_text='You will get a copy in your mailbox.')
     select1 = forms.ChoiceField(choices=RADIO_CHOICES)
     select2 = forms.MultipleChoiceField(
         choices=RADIO_CHOICES,
@@ -56,13 +59,15 @@ class TestForm(forms.Form):
         choices=MEDIA_CHOICES,
         help_text='Check as many as you like.',
     )
-    category1 = forms.ChoiceField(choices=RADIO_CHOICES, widget=forms.RadioSelect)
+    category1 = forms.ChoiceField(
+        choices=RADIO_CHOICES, widget=forms.RadioSelect)
     category2 = forms.MultipleChoiceField(
         choices=RADIO_CHOICES,
         widget=forms.CheckboxSelectMultiple,
         help_text='Check as many as you like.',
     )
-    category3 = forms.ChoiceField(widget=forms.RadioSelect, choices=MEDIA_CHOICES)
+    category3 = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=MEDIA_CHOICES)
     category4 = forms.MultipleChoiceField(
         choices=MEDIA_CHOICES,
         widget=forms.CheckboxSelectMultiple,
@@ -73,7 +78,8 @@ class TestForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(TestForm, self).clean()
-        raise forms.ValidationError("This error was added to show the non field errors styling.")
+        raise forms.ValidationError(
+            "This error was added to show the non field errors styling.")
         return cleaned_data
 
 
@@ -86,7 +92,7 @@ def render_template(text, **context_args):
     Create a template ``text`` that first loads bootstrap3.
     """
     template = Template("{% load bootstrap3 %}" + text)
-    if not 'form' in context_args:
+    if 'form' not in context_args:
         context_args['form'] = TestForm()
     return template.render(Context(context_args))
 
@@ -113,7 +119,8 @@ def render_form_field(field, **context_args):
     Create a template that renders a field
     """
     form_field = 'form.%s' % field
-    return render_template('{% bootstrap_field ' + form_field + ' %}', **context_args)
+    return render_template(
+        '{% bootstrap_field ' + form_field + ' %}', **context_args)
 
 
 def render_field(field, **context_args):
@@ -130,10 +137,15 @@ class SettingsTest(TestCase):
         self.assertTrue(BOOTSTRAP3)
 
     def test_settings_filter(self):
-        res = render_template('{% load bootstrap3 %}{{ "required_css_class"|bootstrap_setting }}')
+        res = render_template(
+            '{% load bootstrap3 %}' +
+            '{{ "required_css_class"|bootstrap_setting }}')
         self.assertEqual(res.strip(), 'bootstrap3-req')
         res = render_template(
-            '{% load bootstrap3 %}{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
+            '{% load bootstrap3 %}' +
+            '{% if "javascript_in_head"|bootstrap_setting %}' +
+            'head{% else %}body{% endif %}'
+        )
         self.assertEqual(res.strip(), 'head')
 
     def test_required_class(self):
@@ -163,7 +175,11 @@ class TemplateTest(TestCase):
 
     def test_bootstrap_template(self):
         template = Template((
-            '{% extends "bootstrap3/bootstrap3.html" %}{% block bootstrap3_content %}test_bootstrap3_content{% endblock %}'))
+            '{% extends "bootstrap3/bootstrap3.html" %}' +
+            '{% block bootstrap3_content %}' +
+            'test_bootstrap3_content' +
+            '{% endblock %}'
+        ))
         res = template.render(Context({}))
         self.assertIn('test_bootstrap3_content', res)
 
@@ -197,21 +213,29 @@ class FormTest(TestCase):
 
     def test_exclude(self):
         form = TestForm()
-        res = render_template('{% bootstrap_form form exclude="cc_myself" %}', form=form)
+        res = render_template(
+            '{% bootstrap_form form exclude="cc_myself" %}', form=form)
         self.assertNotIn('cc_myself', res)
 
     def test_layout_horizontal(self):
         form = TestForm()
-        res = render_template('{% bootstrap_form form layout="horizontal" %}', form=form)
+        res = render_template(
+            '{% bootstrap_form form layout="horizontal" %}', form=form)
         self.assertIn('col-md-2', res)
         self.assertIn('col-md-4', res)
-        res = render_template('{% bootstrap_form form layout="horizontal" horizontal_label_class="hlabel" horizontal_field_class="hfield" %}', form=form)
+        res = render_template(
+            '{% bootstrap_form form layout="horizontal" ' +
+            'horizontal_label_class="hlabel" ' +
+            'horizontal_field_class="hfield" %}',
+            form=form
+        )
         self.assertIn('hlabel', res)
         self.assertIn('hfield', res)
 
     def test_buttons_tag(self):
         form = TestForm()
-        res = render_template('{% buttons layout="horizontal" %}{% endbuttons %}', form=form)
+        res = render_template(
+            '{% buttons layout="horizontal" %}{% endbuttons %}', form=form)
         self.assertIn('col-md-2', res)
         self.assertIn('col-md-4', res)
 
@@ -241,11 +265,15 @@ class FieldTest(TestCase):
         self.assertNotIn('required', not_required_field)
         # Required field with required=0
         form_field = 'form.subject'
-        rendered = render_template('{% bootstrap_field ' + form_field + ' set_required=0 %}')
+        rendered = render_template(
+            '{% bootstrap_field ' + form_field + ' set_required=0 %}')
         self.assertNotIn('required', rendered)
         # Required settings in field
         form_field = 'form.subject'
-        rendered = render_template('{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
+        rendered = render_template(
+            '{% bootstrap_field ' +
+            form_field +
+            ' required_css_class="test-required" %}')
         self.assertIn('test-required', rendered)
 
     def test_empty_permitted(self):
@@ -256,19 +284,24 @@ class FieldTest(TestCase):
         res = render_form_field('subject', form=form)
         self.assertNotIn('required', res)
 
-
     def test_input_group(self):
-        res = render_template('{% bootstrap_field form.subject addon_before="$" addon_after=".00" %}')
+        res = render_template(
+            '{% bootstrap_field form.subject addon_before="$" ' +
+            'addon_after=".00" %}'
+        )
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-addon">$', res)
         self.assertIn('class="input-group-addon">.00', res)
 
     def test_size(self):
         def _test_size(param, klass):
-            res = render_template('{% bootstrap_field form.subject size="' + param + '" %}')
+            res = render_template(
+                '{% bootstrap_field form.subject size="' + param + '" %}')
             self.assertIn(klass, res)
+
         def _test_size_medium(param):
-            res = render_template('{% bootstrap_field form.subject size="' + param + '" %}')
+            res = render_template(
+                '{% bootstrap_field form.subject size="' + param + '" %}')
             self.assertNotIn('input-lg', res)
             self.assertNotIn('input-sm', res)
             self.assertNotIn('input-md', res)
@@ -284,13 +317,25 @@ class FieldTest(TestCase):
 class ComponentsTest(TestCase):
     def test_icon(self):
         res = render_template('{% bootstrap_icon "star" %}')
-        self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star"></span>')
-        res = render_template('{% bootstrap_icon "star" title="alpha centauri" %}')
-        self.assertEqual(res.strip(), '<span class="glyphicon glyphicon-star" title="alpha centauri"></span>')
+        self.assertEqual(
+            res.strip(), '<span class="glyphicon glyphicon-star"></span>')
+        res = render_template(
+            '{% bootstrap_icon "star" title="alpha centauri" %}')
+        self.assertEqual(
+            res.strip(),
+            '<span class="glyphicon glyphicon-star" ' +
+            'title="alpha centauri"></span>')
 
     def test_alert(self):
-        res = render_template('{% bootstrap_alert "content" alert_type="danger" %}')
-        self.assertEqual(res.strip(), '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>content</div>')
+        res = render_template(
+            '{% bootstrap_alert "content" alert_type="danger" %}')
+        self.assertEqual(
+            res.strip(),
+            '<div class="alert alert-danger alert-dismissable">' +
+            '<button type="button" class="close" data-dismiss="alert" ' +
+            'aria-hidden="true">' +
+            '&times;</button>content</div>'
+        )
 
 
 class MessagesTest(TestCase):
@@ -307,35 +352,52 @@ class MessagesTest(TestCase):
             def __str__(self):
                 return self.message
 
+        pattern = re.compile(r'\s+')
         messages = [FakeMessage("hello", "warning")]
-        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        res = render_template(
+            '{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
         hello
     </div>
 """
-        self.assertEqual(res.strip(), expected.strip())
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
 
         messages = [FakeMessage("hello", "error")]
-        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        res = render_template(
+            '{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
         hello
     </div>
         """
-        self.assertEqual(res.strip(), expected.strip())
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
 
         messages = [FakeMessage("hello", None)]
-        res = render_template('{% bootstrap_messages messages %}', messages=messages)
+        res = render_template(
+            '{% bootstrap_messages messages %}', messages=messages)
         expected = """
     <div class="alert alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
         hello
     </div>
-"""
-        self.assertEqual(res.strip(), expected.strip())
+        """
+
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
 
 
 class TextTest(TestCase):
@@ -364,7 +426,13 @@ class HtmlTest(TestCase):
 
 class ButtonTest(TestCase):
     def test_button(self):
-        res = render_template("{% bootstrap_button 'button' size='lg' %}")
-        self.assertEqual(res.strip(), '<button class="btn btn-lg">button</button>')
-        res = render_template("{% bootstrap_button 'button' size='lg' href='#' %}")
-        self.assertIn(res.strip(), '<a class="btn btn-lg" href="#">button</a><a href="#" class="btn btn-lg">button</a>')
+        res = render_template(
+            "{% bootstrap_button 'button' size='lg' %}")
+        self.assertEqual(
+            res.strip(), '<button class="btn btn-lg">button</button>')
+        res = render_template(
+            "{% bootstrap_button 'button' size='lg' href='#' %}")
+        self.assertIn(
+            res.strip(),
+            '<a class="btn btn-lg" href="#">button</a><a href="#" ' +
+            'class="btn btn-lg">button</a>')
