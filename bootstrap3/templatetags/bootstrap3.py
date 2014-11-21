@@ -156,7 +156,7 @@ def bootstrap_css():
         {% bootstrap_css %}
     """
     urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
-    return ''.join([render_link_tag(url, media='screen') for url in urls])
+    return ''.join([render_link_tag(url) for url in urls])
 
 
 @register.simple_tag
