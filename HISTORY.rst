@@ -4,7 +4,7 @@ History
 -------
 
 
-5.0.0 (2014-11-21)
+5.0.1 (2014-11-21)
 ++++++++++++++++++
 
 * Bug fixes and update to Bootstrap 3.2.1
@@ -43,7 +43,7 @@ History
 4.9.0 (2014-08-09)
 ++++++++++++++++++
 
-* New parameter `href` for `bootstrap_button`, if provided will render `a` tag instead of `buttonz tag
+* New parameter `href` for `bootstrap_button`, if provided will render `a` tag instead of `button` tag
 
 
 4.8.2 (2014-07-10)

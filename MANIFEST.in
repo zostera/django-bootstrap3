@@ -5,4 +5,3 @@ include LICENSE
 include README.rst
 recursive-include bootstrap3 *.html *.png *.gif *js *jpg *jpeg *svg *py
 recursive-include demo *.html *.png *.gif *js *jpg *jpeg *svg *py
-
