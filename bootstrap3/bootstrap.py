@@ -65,14 +65,16 @@ def javascript_url():
     """
     Return the full url to the Bootstrap JavaScript file
     """
-    return get_bootstrap_setting('javascript_url') or bootstrap_url('js/bootstrap.min.js')
+    return get_bootstrap_setting('javascript_url') or \
+        bootstrap_url('js/bootstrap.min.js')
 
 
 def css_url():
     """
     Return the full url to the Bootstrap CSS file
     """
-    return get_bootstrap_setting('css_url') or bootstrap_url('css/bootstrap.min.css')
+    return get_bootstrap_setting('css_url') or \
+        bootstrap_url('css/bootstrap.min.css')
 
 
 def theme_url():
@@ -102,4 +104,3 @@ def get_form_renderer(**kwargs):
 def get_field_renderer(**kwargs):
     renderers = get_bootstrap_setting('field_renderers')
     return get_renderer(renderers, **kwargs)
-

@@ -4,7 +4,9 @@ from __future__ import unicode_literals
 import re
 
 from django.template import Variable, VariableDoesNotExist
-from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
+from django.template.base import (
+    FilterExpression, kwarg_re, TemplateSyntaxError
+)
 
 # Extra features for template file handling
 

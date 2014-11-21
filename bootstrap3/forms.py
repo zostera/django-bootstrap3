@@ -2,9 +2,14 @@
 from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
-from django.forms import HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
+from django.forms import (
+    HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
+)
 
-from .bootstrap import get_bootstrap_setting, get_form_renderer, get_field_renderer, get_formset_renderer
+from .bootstrap import (
+    get_bootstrap_setting, get_form_renderer, get_field_renderer,
+    get_formset_renderer
+)
 from .text import text_concat, text_value
 from .exceptions import BootstrapError
 from .html import add_css_class, render_tag
@@ -68,7 +73,9 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
     return render_tag('label', attrs=attrs, content=content)
 
 
-def render_button(content, button_type=None, icon=None, button_class='', size='', href=''):
+def render_button(
+        content, button_type=None, icon=None, button_class='', size='',
+        href=''):
     """
     Render a button with content
     """
@@ -84,12 +91,16 @@ def render_button(content, button_type=None, icon=None, button_class='', size=''
     elif size == 'md' or size == 'medium':
         pass
     elif size:
-        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty ("{}" given).'.format(size))
+        raise BootstrapError(
+            'Parameter "size" should be "xs", "sm", "lg" or ' +
+            'empty ("{}" given).'.format(size))
     if button_type:
         if button_type == 'submit':
             classes = add_css_class(classes, 'btn-primary')
         elif button_type not in ('reset', 'button', 'link'):
-            raise BootstrapError('Parameter "button_type" should be "submit", "reset", "button", "link" or empty  ("{}" given).'.format(button_type))
+            raise BootstrapError(
+                'Parameter "button_type" should be "submit", "reset", ' +
+                '"button", "link" or empty  ("{}" given).'.format(button_type))
         attrs['type'] = button_type
     attrs['class'] = classes
     icon_content = render_icon(icon) if icon else ''
@@ -98,10 +109,14 @@ def render_button(content, button_type=None, icon=None, button_class='', size=''
         tag = 'a'
     else:
         tag = 'button'
-    return render_tag(tag, attrs=attrs, content=text_concat(icon_content, content, separator=' '))
+    return render_tag(
+        tag, attrs=attrs, content=text_concat(
+            icon_content, content, separator=' '))
 
 
-def render_field_and_label(field, label, field_class='', label_for=None, label_class='', layout='', **kwargs):
+def render_field_and_label(
+        field, label, field_class='', label_for=None, label_class='',
+        layout='', **kwargs):
     """
     Render a field with its label
     """
@@ -115,9 +130,11 @@ def render_field_and_label(field, label, field_class='', label_for=None, label_c
         label_class = add_css_class(label_class, 'control-label')
     html = field
     if field_class:
-        html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
+        html = '<div class="{klass}">{html}</div>'.format(
+            klass=field_class, html=html)
     if label:
-        html = render_label(label, label_for=label_for, label_class=label_class) + html
+        html = render_label(
+            label, label_for=label_for, label_class=label_class) + html
     return html
 
 
@@ -139,7 +156,10 @@ def is_widget_required_attribute(widget):
         return False
     if not widget.is_required:
         return False
-    if isinstance(widget, (AdminFileWidget, HiddenInput, FileInput, CheckboxSelectMultiple)):
+    if isinstance(
+            widget, (
+                AdminFileWidget, HiddenInput, FileInput,
+                CheckboxSelectMultiple)):
         return False
     return True
 
@@ -151,4 +171,3 @@ def is_widget_with_placeholder(widget):
     These are all derived form TextInput, except for Textarea
     """
     return isinstance(widget, (TextInput, Textarea))
-
