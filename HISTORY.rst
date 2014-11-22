@@ -7,7 +7,7 @@ History
 5.0.1 (2014-11-21)
 ++++++++++++++++++
 
-* Bug fixes and update to Bootstrap 3.2.1
+* Bug fixes and update to Bootstrap 3.3.1
 
 
 4.11.0 (2014-08-19)
