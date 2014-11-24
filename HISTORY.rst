@@ -4,6 +4,12 @@ History
 -------
 
 
+5.0.2 (2014-11-24)
+++++++++++++++++++
+
+* Cleaning up some mess in 5.0.1 created by PyPI malfunction
+
+
 5.0.1 (2014-11-21)
 ++++++++++++++++++
 
