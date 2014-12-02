@@ -3,7 +3,6 @@ import django.conf.global_settings as DEFAULT_SETTINGS
 
 SECRET_KEY = 'bootstrap3isawesome'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

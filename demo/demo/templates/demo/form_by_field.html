@@ -11,7 +11,7 @@
     <form role="form" method="post">
         {% csrf_token %}
         {% bootstrap_form_errors form type='non_fields' %}
-        {% bootstrap_field form.subject layout='horizontal' %}
+        {% bootstrap_field form.subject layout='horizontal' size='sm' %}
         {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
     </form>
 
