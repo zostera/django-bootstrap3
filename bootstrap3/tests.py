@@ -3,13 +3,13 @@ from __future__ import unicode_literals
 
 import re
 
+from django.test import TestCase
+
 from django import forms
 from django.template import Template, Context
-from django.utils.unittest import TestCase
-from bootstrap3.text import text_value, text_concat
 
+from .text import text_value, text_concat
 from .exceptions import BootstrapError
-
 from .html import add_css_class
 
 

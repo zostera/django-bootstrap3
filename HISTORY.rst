@@ -10,10 +10,22 @@ History
 * Cleaning up some mess in 5.0.1 created by PyPI malfunction
 
 
+5.0.3 (2014-12-02)
+++++++++++++++++++
+
+* Fixing tests for older Django and Python versions
+
+
+5.0.2 (2014-11-24)
+++++++++++++++++++
+
+* Cleaning up some mess in 5.0.1 created by PyPI malfunction
+
+
 5.0.1 (2014-11-21)
 ++++++++++++++++++
 
-* Bug fixes and update to Bootstrap 3.2.1
+* Bug fixes and update to Bootstrap 3.3.1
 
 
 4.11.0 (2014-08-19)
