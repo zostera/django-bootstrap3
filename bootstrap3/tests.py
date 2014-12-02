@@ -2,7 +2,12 @@
 from __future__ import unicode_literals
 
 import re
-from unittest import TestCase
+
+try:
+    from unittest import TestCase
+    TestCase.AssertIn
+except AttributeError:
+    from django.utils.unittest.case import TestCase
 
 from django import forms
 from django.template import Template, Context
