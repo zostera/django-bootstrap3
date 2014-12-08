@@ -536,6 +536,7 @@ def bootstrap_pagination(page, **kwargs):
     **Parameters**:
 
         :page:
+        :parameter_name: Name of paging URL parameter (default: "page")
         :kwargs:
 
     **usage**::
@@ -553,7 +554,8 @@ def bootstrap_pagination(page, **kwargs):
 
 
 def get_pagination_context(page, pages_to_show=11,
-                           url=None, size=None, extra=None):
+                           url=None, size=None, extra=None,
+                           parameter_name='page'):
     """
     Generate Bootstrap pagination context from a page object
     """
@@ -600,8 +602,8 @@ def get_pagination_context(page, pages_to_show=11,
     if url:
         # Remove existing page GET parameters
         url = force_text(url)
-        url = re.sub(r'\?page\=[^\&]+', '?', url)
-        url = re.sub(r'\&page\=[^\&]+', '', url)
+        url = re.sub(r'\?{0}\=[^\&]+'.format(parameter_name), '?', url)
+        url = re.sub(r'\&{0}\=[^\&]+'.format(parameter_name), '', url)
         # Append proper separator
         if '?' in url:
             url += '&'
@@ -631,4 +633,5 @@ def get_pagination_context(page, pages_to_show=11,
         'pages_back': pages_back,
         'pages_forward': pages_forward,
         'pagination_css_classes': ' '.join(pagination_css_classes),
+        'parameter_name': parameter_name,
     }
