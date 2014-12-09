@@ -209,8 +209,8 @@ class FieldRenderer(BaseRenderer):
         else:
             self.placeholder = ''
 
-        self.addon_before = kwargs.get('addon_before', '')
-        self.addon_after = kwargs.get('addon_after', '')
+        self.addon_before = kwargs.get('addon_before', self.initial_attrs.pop('addon_before', ''))
+        self.addon_after = kwargs.get('addon_after', self.initial_attrs.pop('addon_after', ''))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
