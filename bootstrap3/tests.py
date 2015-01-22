@@ -10,7 +10,7 @@ from django.template import Template, Context
 
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
-from .html import add_css_class
+from .utils import add_css_class
 
 
 RADIO_CHOICES = (

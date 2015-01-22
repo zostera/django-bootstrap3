@@ -17,7 +17,7 @@ from django.utils.safestring import mark_safe
 from .bootstrap import get_bootstrap_setting
 from .text import text_value
 from .exceptions import BootstrapError
-from .html import add_css_class
+from .utils import add_css_class
 from .forms import (
     render_form, render_field, render_label, render_form_group,
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS

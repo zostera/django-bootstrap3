@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 )
-from ..html import render_link_tag
+from ..utils import render_link_tag
 from ..forms import (
     render_button, render_field, render_field_and_label, render_form,
     render_form_group, render_formset,
