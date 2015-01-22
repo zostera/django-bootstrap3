@@ -12,7 +12,7 @@ from .bootstrap import (
 )
 from .text import text_concat, text_value
 from .exceptions import BootstrapError
-from .html import add_css_class, render_tag
+from .utils import add_css_class, render_tag
 from .components import render_icon
 
 

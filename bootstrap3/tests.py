@@ -10,7 +10,7 @@ from django.template import Template, Context
 
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
-from .html import add_css_class
+from .utils import add_css_class
 
 
 RADIO_CHOICES = (
@@ -72,6 +72,9 @@ class TestForm(forms.Form):
         choices=MEDIA_CHOICES,
         widget=forms.CheckboxSelectMultiple,
         help_text='Check as many as you like.',
+    )
+    addon = forms.CharField(
+        widget=forms.TextInput(attrs={'addon_before': 'before', 'addon_after': 'after'}),
     )
 
     required_css_class = 'bootstrap3-req'
@@ -210,6 +213,12 @@ class FormTest(TestCase):
         res = render_form(form)
         for field in form:
             self.assertIn('name="%s"' % field.name, res)
+
+    def test_field_addons(self):
+        form = TestForm()
+        res = render_form(form)
+        self.assertIn('<div class="input-group"><span class="input-group-addon">before</span><input', res)
+        self.assertIn('/><span class="input-group-addon">after</span></div>', res)
 
     def test_exclude(self):
         form = TestForm()

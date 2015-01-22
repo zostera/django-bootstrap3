@@ -17,7 +17,7 @@ from django.utils.safestring import mark_safe
 from .bootstrap import get_bootstrap_setting
 from .text import text_value
 from .exceptions import BootstrapError
-from .html import add_css_class
+from .utils import add_css_class
 from .forms import (
     render_form, render_field, render_label, render_form_group,
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
@@ -209,8 +209,8 @@ class FieldRenderer(BaseRenderer):
         else:
             self.placeholder = ''
 
-        self.addon_before = kwargs.get('addon_before', '')
-        self.addon_after = kwargs.get('addon_after', '')
+        self.addon_before = kwargs.get('addon_before', self.initial_attrs.pop('addon_before', ''))
+        self.addon_after = kwargs.get('addon_after', self.initial_attrs.pop('addon_after', ''))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template

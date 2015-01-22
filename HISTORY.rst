@@ -4,10 +4,11 @@ History
 -------
 
 
-5.0.2 (2014-11-24)
+5.1.0 (2015-01-22)
 ++++++++++++++++++
 
-* Cleaning up some mess in 5.0.1 created by PyPI malfunction
+* Make Bootstrap 3.3.2 default
+* Fix issue #140 (bad behaviour in Python 3)
 
 
 5.0.3 (2014-12-02)
