@@ -339,8 +339,7 @@ class FieldRenderer(BaseRenderer):
         if isinstance(self.widget, CheckboxInput):
             checkbox_class = add_css_class('checkbox', self.get_size_class())
             html = \
-                '<div class="{klass}">' + \
-                '{content}</div>'.format(
+                '<div class="{klass}">{content}</div>'.format(
                     klass=checkbox_class, content=html
                 )
         return html
