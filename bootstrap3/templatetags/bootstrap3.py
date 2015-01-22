@@ -326,7 +326,7 @@ def bootstrap_field(*args, **kwargs):
 
     **example**::
 
-        {% bootstrap_field form_field %}
+        {% bootstrap_form form_field %}
     """
     return render_field(*args, **kwargs)
 
