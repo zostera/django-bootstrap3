@@ -7,6 +7,7 @@ History
 5.1.0 (2015-01-22)
 ++++++++++++++++++
 
+* Make Bootstrap 3.3.2 default
 * Fix issue #140 (bad behaviour in Python 3)
 
 
