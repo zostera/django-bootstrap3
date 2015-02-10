@@ -445,3 +445,17 @@ class ButtonTest(TestCase):
             res.strip(),
             '<a class="btn btn-lg" href="#">button</a><a href="#" ' +
             'class="btn btn-lg">button</a>')
+
+
+class ShowLabelTest(TestCase):
+    def test_show_label(self):
+        form = TestForm()
+        res = render_template('{% bootstrap_form form show_label=False %}', form=form)
+        self.assertIn('sr-only', res)
+    
+    def test_for_formset(self):
+        TestFormSet = forms.formset_factory(TestForm, extra=1)
+        test_formset = TestFormSet()
+        res = render_template('{% bootstrap_formset formset show_label=False %}', formset=test_formset)
+        self.assertIn('sr-only', res)
+
