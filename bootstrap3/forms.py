@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import (
-    HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
+    HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput,
+    PasswordInput
 )
 
 from .bootstrap import (
