@@ -172,4 +172,6 @@ def is_widget_with_placeholder(widget):
     Only text, search, url, tel, e-mail, password, number have placeholders
     These are all derived form TextInput, except for Textarea
     """
-    return isinstance(widget, (TextInput, Textarea))
+    # PasswordInput inherits from Input in Django 1.4.
+    # It was changed to inherit from TextInput in 1.5.
+    return isinstance(widget, (TextInput, Textarea, PasswordInput))
