@@ -5,6 +5,7 @@ from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import (
     HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
 )
+from django.forms.widgets import CheckboxInput
 
 from .bootstrap import (
     get_bootstrap_setting, get_form_renderer, get_field_renderer,
@@ -161,7 +162,7 @@ def is_widget_required_attribute(widget):
     if isinstance(
             widget, (
                 AdminFileWidget, HiddenInput, FileInput,
-                CheckboxSelectMultiple)):
+                CheckboxInput, CheckboxSelectMultiple)):
         return False
     return True
 
