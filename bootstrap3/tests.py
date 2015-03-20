@@ -45,6 +45,7 @@ class TestForm(forms.Form):
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
     )
+    password = forms.CharField(widget=forms.PasswordInput)
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
     sender = forms.EmailField(label='Sender © unicode')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
@@ -266,6 +267,11 @@ class FieldTest(TestCase):
         res = render_form_field('subject')
         self.assertIn('type="text"', res)
         self.assertIn('placeholder="placeholdertest"', res)
+
+    def test_password(self):
+        res = render_form_field('password')
+        self.assertIn('type="password"', res)
+        self.assertIn('placeholder="Password"', res)
 
     def test_required_field(self):
         required_field = render_form_field('subject')
