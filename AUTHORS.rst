@@ -2,6 +2,8 @@
 Authors
 =======
 
+This application is developed and maintained by `Zostera <https://zostera.nl>`_.
+
 Development Lead
 ----------------
 
