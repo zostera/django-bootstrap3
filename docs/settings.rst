@@ -18,7 +18,7 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         'jquery_url': '//code.jquery.com/jquery.min.js',
 
         # The Bootstrap base URL
-        'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.3.1/',
+        'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.3.4/',
 
         # The complete URL to the Bootstrap CSS file (None means derive it from base_url)
         'css_url': None,

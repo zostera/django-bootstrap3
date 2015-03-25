@@ -6,6 +6,7 @@ import re
 from django.test import TestCase
 
 from django import forms
+from django.forms.formsets import formset_factory
 from django.template import Template, Context
 
 from .text import text_value, text_concat
@@ -44,6 +45,7 @@ class TestForm(forms.Form):
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
     )
+    password = forms.CharField(widget=forms.PasswordInput)
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
     sender = forms.EmailField(label='Sender © unicode')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
@@ -266,6 +268,11 @@ class FieldTest(TestCase):
         self.assertIn('type="text"', res)
         self.assertIn('placeholder="placeholdertest"', res)
 
+    def test_password(self):
+        res = render_form_field('password')
+        self.assertIn('type="password"', res)
+        self.assertIn('placeholder="Password"', res)
+
     def test_required_field(self):
         required_field = render_form_field('subject')
         self.assertIn('required', required_field)
@@ -445,3 +452,22 @@ class ButtonTest(TestCase):
             res.strip(),
             '<a class="btn btn-lg" href="#">button</a><a href="#" ' +
             'class="btn btn-lg">button</a>')
+
+
+class ShowLabelTest(TestCase):
+    def test_show_label(self):
+        form = TestForm()
+        res = render_template(
+            '{% bootstrap_form form show_label=False %}',
+            form=form
+        )
+        self.assertIn('sr-only', res)
+
+    def test_for_formset(self):
+        TestFormSet = formset_factory(TestForm, extra=1)
+        test_formset = TestFormSet()
+        res = render_template(
+            '{% bootstrap_formset formset show_label=False %}',
+            formset=test_formset
+        )
+        self.assertIn('sr-only', res)

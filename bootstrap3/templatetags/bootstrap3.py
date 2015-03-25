@@ -18,7 +18,7 @@ from ..forms import (
     render_label, render_form_errors, render_formset_errors
 )
 from ..components import render_icon, render_alert
-from ..templates import handle_var, parse_token_contents
+from ..utils import handle_var, parse_token_contents
 from ..text import force_text
 
 

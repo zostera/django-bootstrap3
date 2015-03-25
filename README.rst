@@ -87,4 +87,10 @@ You can use this under Apache 2.0. See `LICENSE
 Author
 ------
 
-My name is Dylan Verheul, you can reach me at dylan@dyve.net or follow me on Twitter (http://twitter.com/dyve). If you like this project, you can `support me on GitTip <https://www.gittip.com/dyve/>`_.
+Developed and maintained by `Zostera <https://zostera.nl/>`_.
+
+Original author & Development lead: `Dylan Verheul <https://github.com/dyve>`_.
+
+Thanks to everybody that has contributed pull requests, ideas, issues, comments and kind words.
+
+Please see AUTHORS.rst for a list of contributors.

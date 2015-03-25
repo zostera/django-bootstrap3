@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import (
-    HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput
+    HiddenInput, FileInput, CheckboxSelectMultiple, Textarea, TextInput,
+    PasswordInput
 )
+from django.forms.widgets import CheckboxInput
 
 from .bootstrap import (
     get_bootstrap_setting, get_form_renderer, get_field_renderer,
@@ -75,7 +77,7 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
 
 def render_button(
         content, button_type=None, icon=None, button_class='', size='',
-        href=''):
+        href='', name=None):
     """
     Render a button with content
     """
@@ -109,6 +111,8 @@ def render_button(
         tag = 'a'
     else:
         tag = 'button'
+    if name:
+        attrs['name'] = name
     return render_tag(
         tag, attrs=attrs, content=text_concat(
             icon_content, content, separator=' '))
@@ -159,7 +163,7 @@ def is_widget_required_attribute(widget):
     if isinstance(
             widget, (
                 AdminFileWidget, HiddenInput, FileInput,
-                CheckboxSelectMultiple)):
+                CheckboxInput, CheckboxSelectMultiple)):
         return False
     return True
 
@@ -170,4 +174,6 @@ def is_widget_with_placeholder(widget):
     Only text, search, url, tel, e-mail, password, number have placeholders
     These are all derived form TextInput, except for Textarea
     """
-    return isinstance(widget, (TextInput, Textarea))
+    # PasswordInput inherits from Input in Django 1.4.
+    # It was changed to inherit from TextInput in 1.5.
+    return isinstance(widget, (TextInput, Textarea, PasswordInput))
