@@ -10,6 +10,14 @@ History
 * Various bug fixes and improvements
 
 
+5.2.0 (2015-03-25)
+++++++++++++++++++
+
+* Upgrade to Bootstrap 3.3.4
+* Fix required bug for checkboxes
+* Various bug fixes
+
+
 5.1.1 (2015-01-22)
 ++++++++++++++++++
 
