@@ -135,6 +135,7 @@ class FormRenderer(BaseRenderer):
         # Handle form.empty_permitted
         if self.form.empty_permitted:
             self.set_required = False
+        self.autofocus_field = kwargs.get('autofocus')
 
     def render_fields(self):
         rendered_fields = []
@@ -152,6 +153,7 @@ class FormRenderer(BaseRenderer):
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
+                autofocus=self.autofocus_field and self.autofocus_field == field.auto_id
             ))
         return '\n'.join(rendered_fields)
 
@@ -214,6 +216,8 @@ class FieldRenderer(BaseRenderer):
         self.addon_before = kwargs.get('addon_before', self.initial_attrs.pop('addon_before', ''))
         self.addon_after = kwargs.get('addon_after', self.initial_attrs.pop('addon_after', ''))
 
+        self.autofocus = kwargs.get('autofocus', False)
+
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
         error_css_class = kwargs.get('error_css_class', '')
@@ -274,11 +278,16 @@ class FieldRenderer(BaseRenderer):
         if self.set_required and is_widget_required_attribute(self.widget):
             self.widget.attrs['required'] = 'required'
 
+    def add_focus_attrs(self):
+        if self.autofocus:
+            self.widget.attrs['autofocus'] = 'autofocus'
+
     def add_widget_attrs(self):
         self.add_class_attrs()
         self.add_placeholder_attrs()
         self.add_help_attrs()
         self.add_required_attrs()
+        self.add_focus_attrs()
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
