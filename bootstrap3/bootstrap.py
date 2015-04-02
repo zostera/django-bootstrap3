@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 try:
-    from django.utils.importlib import import_module
-except ImportError:
     from importlib import import_module
+except ImportError:
+    from django.utils.importlib import import_module
 
 
 # Default settings
