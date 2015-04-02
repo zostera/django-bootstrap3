@@ -234,11 +234,11 @@ def bootstrap_formset(*args, **kwargs):
 @register.simple_tag
 def bootstrap_formset_errors(*args, **kwargs):
     """
-    Render form errors
+    Render formset errors
 
     **Tag name**::
 
-        bootstrap_form_errors
+        bootstrap_formset_errors
 
     **Parameters**:
 
@@ -247,11 +247,11 @@ def bootstrap_formset_errors(*args, **kwargs):
 
     **usage**::
 
-        {% bootstrap_form_errors form %}
+        {% bootstrap_formset_errors formset %}
 
     **example**::
 
-        {% bootstrap_form_errors form layout='inline' %}
+        {% bootstrap_formset_errors formset layout='inline' %}
     """
     return render_formset_errors(*args, **kwargs)
 
