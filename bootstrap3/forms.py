@@ -29,17 +29,17 @@ def render_formset(formset, **kwargs):
     return renderer_cls(formset, **kwargs).render()
 
 
-def render_formset_errors(form, **kwargs):
+def render_formset_errors(formset, **kwargs):
     """
     Render formset errors to a Bootstrap layout
     """
     renderer_cls = get_formset_renderer(**kwargs)
-    return renderer_cls(form, **kwargs).render_errors()
+    return renderer_cls(formset, **kwargs).render_errors()
 
 
 def render_form(form, **kwargs):
     """
-    Render a formset to a Bootstrap layout
+    Render a form to a Bootstrap layout
     """
     renderer_cls = get_form_renderer(**kwargs)
     return renderer_cls(form, **kwargs).render()
@@ -55,7 +55,7 @@ def render_form_errors(form, type='all', **kwargs):
 
 def render_field(field, **kwargs):
     """
-    Render a formset to a Bootstrap layout
+    Render a field to a Bootstrap layout
     """
     renderer_cls = get_field_renderer(**kwargs)
     return renderer_cls(field, **kwargs).render()
