@@ -204,6 +204,11 @@ class FormSetTest(TestCase):
         with self.assertRaises(BootstrapError):
             render_formset(formset='illegal')
 
+    def test_layout_tabular(self):
+        formset = formset_factory(TestForm)
+        res = render_template('{% bootstrap_formset formset layout="tabular" %}', formset=formset)
+        self.assertIn('table table-bordered table-hover table-striped', res)
+
 
 class FormTest(TestCase):
     def test_illegal_form(self):

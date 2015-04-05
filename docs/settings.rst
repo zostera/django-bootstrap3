@@ -41,6 +41,9 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         # Field class to use in horizontal forms
         'horizontal_field_class': 'col-md-4',
 
+        # Table classes to use in tabular forms
+        'tabular_table_classes': 'table table-bordered table-hover table-striped',
+
         # Set HTML required attribute on required fields
         'set_required': True,
 

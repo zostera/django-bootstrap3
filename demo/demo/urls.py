@@ -25,6 +25,7 @@ from .views import HomePageView, FormHorizontalView, FormInlineView, PaginationV
 urlpatterns = patterns('',
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^formset$', DefaultFormsetView.as_view(), name='formset_default'),
+    url(r'^formset_tabular$', FormsetTabularView.as_view(), name='formset_tabular'),
     url(r'^form$', DefaultFormView.as_view(), name='form_default'),
     url(r'^form_by_field$', DefaultFormByFieldView.as_view(), name='form_by_field'),
     url(r'^form_horizontal$', FormHorizontalView.as_view(), name='form_horizontal'),

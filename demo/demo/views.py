@@ -33,6 +33,11 @@ class DefaultFormsetView(FormView):
     form_class = ContactFormSet
 
 
+class FormsetTabularView(FormView):
+    template_name = 'demo/formset_tabular.html'
+    form_class = ContactFormSet
+
+
 class DefaultFormView(FormView):
     template_name = 'demo/form.html'
     form_class = ContactForm
@@ -47,6 +52,10 @@ class FormHorizontalView(FormView):
     template_name = 'demo/form_horizontal.html'
     form_class = ContactForm
 
+
+class FormHorizontalView(FormView):
+    template_name = 'demo/form_horizontal.html'
+    form_class = ContactForm
 
 class FormInlineView(FormView):
     template_name = 'demo/form_inline.html'

@@ -19,6 +19,7 @@ BOOTSTRAP3_DEFAULTS = {
     'include_jquery': False,
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
+    'tabular_table_classes': 'table table-bordered table-hover table-striped',
     'set_required': True,
     'set_placeholder': True,
     'required_css_class': '',
