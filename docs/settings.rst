@@ -36,10 +36,10 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         'include_jquery': False,
 
         # Label class to use in horizontal forms
-        'horizontal_label_class': 'col-md-2',
+        'horizontal_label_class': 'col-md-3',
 
         # Field class to use in horizontal forms
-        'horizontal_field_class': 'col-md-4',
+        'horizontal_field_class': 'col-md-9',
 
         # Set HTML required attribute on required fields
         'set_required': True,

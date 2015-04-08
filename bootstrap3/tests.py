@@ -232,8 +232,8 @@ class FormTest(TestCase):
         form = TestForm()
         res = render_template(
             '{% bootstrap_form form layout="horizontal" %}', form=form)
-        self.assertIn('col-md-2', res)
-        self.assertIn('col-md-4', res)
+        self.assertIn('col-md-3', res)
+        self.assertIn('col-md-9', res)
         res = render_template(
             '{% bootstrap_form form layout="horizontal" ' +
             'horizontal_label_class="hlabel" ' +
@@ -247,8 +247,8 @@ class FormTest(TestCase):
         form = TestForm()
         res = render_template(
             '{% buttons layout="horizontal" %}{% endbuttons %}', form=form)
-        self.assertIn('col-md-2', res)
-        self.assertIn('col-md-4', res)
+        self.assertIn('col-md-3', res)
+        self.assertIn('col-md-9', res)
 
 
 class FieldTest(TestCase):

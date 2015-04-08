@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 try:
-    from django.utils.importlib import import_module
-except ImportError:
     from importlib import import_module
+except ImportError:
+    from django.utils.importlib import import_module
 
 
 # Default settings
@@ -17,8 +17,8 @@ BOOTSTRAP3_DEFAULTS = {
     'javascript_url': None,
     'javascript_in_head': False,
     'include_jquery': False,
-    'horizontal_label_class': 'col-md-2',
-    'horizontal_field_class': 'col-md-4',
+    'horizontal_label_class': 'col-md-3',
+    'horizontal_field_class': 'col-md-9',
     'set_required': True,
     'set_placeholder': True,
     'required_css_class': '',
