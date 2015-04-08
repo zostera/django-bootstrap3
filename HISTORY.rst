@@ -4,6 +4,14 @@ History
 -------
 
 
+5.3.0 (2015-04-08)
+++++++++++++++++++
+
+* Fix Django 1.8 importlib warnings
+* Set defaults for horizontal-form to col-md-3 for label, col-md-9 for field
+* Various bug fixes
+
+
 5.2.0 (2015-03-25)
 ++++++++++++++++++
 
