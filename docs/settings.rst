@@ -44,6 +44,9 @@ The ``BOOTSTRAP3`` dict variable is contains these settings and defaults:
         # Set HTML required attribute on required fields
         'set_required': True,
 
+        # Set HTML disabled attribute on disabled fields
+        'set_disabled': False,
+
         # Set placeholder attributes to label if no placeholder is provided
         'set_placeholder': True,
 
