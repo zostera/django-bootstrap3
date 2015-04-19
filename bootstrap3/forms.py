@@ -14,7 +14,7 @@ from .bootstrap import (
 )
 from .text import text_concat, text_value
 from .exceptions import BootstrapError
-from .utils import add_css_class, render_tag
+from .utils import add_css_class, render_tag, split_css_classes
 from .components import render_icon
 
 
@@ -98,7 +98,8 @@ def render_button(
             'empty ("{}" given).'.format(size))
     if button_type:
         if button_type == 'submit':
-            classes = add_css_class(classes, 'btn-primary')
+            if not any([c.startswith('btn-') for c in split_css_classes(classes)]):
+                classes = add_css_class(classes, 'btn-primary')
         elif button_type not in ('reset', 'button', 'link'):
             raise BootstrapError(
                 'Parameter "button_type" should be "submit", "reset", ' +
