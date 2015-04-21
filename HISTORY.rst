@@ -4,6 +4,14 @@ History
 -------
 
 
+5.4.0 (2015-04-21)
+++++++++++++++++++
+
+* No more forcing btn-primary when another button class is specified (@takuchanno2)
+* Added value option to buttons (@TyVik)
+* Switched CDN to //maxcdn.bootstrapcdn.com/bootstrap/3.3.4/ (@djangoic)
+
+
 5.3.1 (2015-04-08)
 ++++++++++++++++++
 
