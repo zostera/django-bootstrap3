@@ -12,8 +12,8 @@ env:
   - DJANGO_VERSION=1.4.20
   - DJANGO_VERSION=1.5.12
   - DJANGO_VERSION=1.6.11
-  - DJANGO_VERSION=1.7.7
-  - DJANGO_VERSION=1.8
+  - DJANGO_VERSION=1.7.8
+  - DJANGO_VERSION=1.8.1
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
@@ -41,9 +41,9 @@ matrix:
     - python: "3.4"
       env: DJANGO_VERSION=1.5.12
     - python: "2.6"
-      env: DJANGO_VERSION=1.7.7
+      env: DJANGO_VERSION=1.7.8
     - python: "2.6"
-      env: DJANGO_VERSION=1.8
+      env: DJANGO_VERSION=1.8.1
 
 # Report to coveralls
 after_success:
