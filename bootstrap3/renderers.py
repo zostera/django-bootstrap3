@@ -375,18 +375,15 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def append_to_field(self, html):
-        help_text_and_errors = [self.field_help] + self.field_errors \
-            if self.field_help else self.field_errors
-        if help_text_and_errors:
-            help_html = get_template(
+        if self.field_help or self.field_errors:
+            html += get_template(
                 'bootstrap3/field_help_text_and_errors.html'
             ).render(Context({
                 'field': self.field,
-                'help_text_and_errors': help_text_and_errors,
+                'help_text': self.field_help,
+                'errors': self.field_errors,
                 'layout': self.layout,
             }))
-            html += '<span class="help-block">{help}</span>'.format(
-                help=help_html)
         return html
 
     def get_field_class(self):

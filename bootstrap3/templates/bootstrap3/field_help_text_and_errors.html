@@ -1,1 +1,6 @@
-{{ help_text_and_errors|join:' ' }}
+{% if errors %}
+<div class="help-block">{{ errors|join:'<br>' }}</div>
+{% endif %}
+{% if help_text %}
+<div class="help-block">{{ help_text }}</div>
+{% endif %}
