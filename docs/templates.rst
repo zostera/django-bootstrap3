@@ -30,11 +30,11 @@ Variable ``messages`` contains the messages as described in https://docs.djangop
 
 ``messages`` is passed through three built-in filters
 
-[safe](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-safe)
+`safe <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-safe>`
 
-[urlize](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-urlize)
+`urlize <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-urlize>`
 
-[linebreaksbr](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-linebreaksbr)
+`linebreaksbr <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-linebreaksbr>`
 
 Other
 -----
