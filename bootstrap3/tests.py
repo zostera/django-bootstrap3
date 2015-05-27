@@ -342,6 +342,15 @@ class ComponentsTest(TestCase):
             '<span class="glyphicon glyphicon-star" ' +
             'title="alpha centauri"></span>')
 
+    def test_fa_icon(self):
+        res = render_template('{% bootstrap_fa_icon "user" %}')
+        self.assertEqual(
+            res.strip(), '<i class="fa fa-user"></i>')
+
+        res = render_template('{% bootstrap_fa_icon "user lg" %}')
+        self.assertEqual(
+            res.strip(), '<i class="fa fa-user fa-lg"></i>')
+
     def test_alert(self):
         res = render_template(
             '{% bootstrap_alert "content" alert_type="danger" %}')
