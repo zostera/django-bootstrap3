@@ -407,6 +407,31 @@ def bootstrap_icon(icon, **kwargs):
 
 
 @register.simple_tag
+def bootstrap_fa_icon(icons, **kwargs):
+    """
+    Render an icon
+
+    **Tag name**::
+
+        bootstrap_fa_icon
+
+    **Parameters**:
+
+        :icons: icon name and modifiers like spin or lg
+
+    **usage**::
+
+        {% bootstrap_fa_icon "icon_name modifiers" %}
+
+    **example**::
+
+        {% bootstrap_icon "cog spin" %}
+
+    """
+    return render_fa_icon(icons, **kwargs)
+
+    
+@register.simple_tag
 def bootstrap_alert(content, alert_type='info', dismissable=True):
     """
     Render an alert
