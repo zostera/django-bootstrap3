@@ -18,7 +18,7 @@ def render_icon(icon, title=''):
     return '<span{attrs}></span>'.format(attrs=flatatt(attrs))
 
 
-def render_fa_icon(icons, title=''):
+def render_fa_icon(icon, title=''):
     """
     Render a Font Awesome icon
     """

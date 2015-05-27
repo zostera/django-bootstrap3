@@ -17,7 +17,7 @@ from ..forms import (
     render_form_group, render_formset,
     render_label, render_form_errors, render_formset_errors
 )
-from ..components import render_icon, render_alert
+from ..components import render_icon, render_fa_icon, render_alert
 from ..utils import handle_var, parse_token_contents
 from ..text import force_text
 
@@ -407,7 +407,7 @@ def bootstrap_icon(icon, **kwargs):
 
 
 @register.simple_tag
-def bootstrap_fa_icon(icons, **kwargs):
+def bootstrap_fa_icon(icon, **kwargs):
     """
     Render an icon
 
@@ -428,9 +428,9 @@ def bootstrap_fa_icon(icons, **kwargs):
         {% bootstrap_icon "cog spin" %}
 
     """
-    return render_fa_icon(icons, **kwargs)
+    return render_fa_icon(icon, **kwargs)
 
-    
+
 @register.simple_tag
 def bootstrap_alert(content, alert_type='info', dismissable=True):
     """
