@@ -4,6 +4,12 @@ History
 -------
 
 
+6.0.0 (2015-04-21)
+++++++++++++++++++
+
+* No more media="screen" in CSS tags, complying to Bootstraps examples
+
+
 5.4.0 (2015-04-21)
 ++++++++++++++++++
 

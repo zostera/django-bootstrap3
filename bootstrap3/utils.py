@@ -7,7 +7,6 @@ from django.forms.widgets import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 
-
 from .text import text_value
 
 
@@ -97,14 +96,17 @@ def remove_css_class(css_classes, css_class):
     return ' '.join(classes_list)
 
 
-def render_link_tag(url, rel='stylesheet', media='all'):
+def render_link_tag(url, rel='stylesheet', media=None):
     """
     Build a link tag
     """
-    return render_tag(
-        'link',
-        attrs={'href': url, 'rel': rel, 'media': media},
-        close=False)
+    attrs = {
+        'href': url,
+        'rel': rel,
+    }
+    if media:
+        attrs['media'] = media
+    return render_tag('link', attrs=attrs, close=False)
 
 
 def render_tag(tag, attrs=None, content=None, close=True):

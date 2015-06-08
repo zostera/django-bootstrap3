@@ -141,16 +141,18 @@ class SettingsTest(TestCase):
         from .bootstrap import BOOTSTRAP3
         self.assertTrue(BOOTSTRAP3)
 
+    def test_bootstrap_javascript_tag(self):
+        res = render_template('{% bootstrap_javascript %}')
+        self.assertEqual(res.strip(), '<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>')
+
+    def test_bootstrap_css_tag(self):
+        res = render_template('{% bootstrap_css %}')
+        self.assertEqual(res.strip(), '<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">')
+
     def test_settings_filter(self):
-        res = render_template(
-            '{% load bootstrap3 %}' +
-            '{{ "required_css_class"|bootstrap_setting }}')
+        res = render_template('{{ "required_css_class"|bootstrap_setting }}')
         self.assertEqual(res.strip(), 'bootstrap3-req')
-        res = render_template(
-            '{% load bootstrap3 %}' +
-            '{% if "javascript_in_head"|bootstrap_setting %}' +
-            'head{% else %}body{% endif %}'
-        )
+        res = render_template('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
         self.assertEqual(res.strip(), 'head')
 
     def test_required_class(self):
