@@ -143,11 +143,11 @@ class SettingsTest(TestCase):
 
     def test_bootstrap_javascript_tag(self):
         res = render_template('{% bootstrap_javascript %}')
-        self.assertEqual(res.strip(), '<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>')
+        self.assertEqual(res.strip(), '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>')
 
     def test_bootstrap_css_tag(self):
         res = render_template('{% bootstrap_css %}')
-        self.assertEqual(res.strip(), '<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">')
+        self.assertEqual(res.strip(), '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">')
 
     def test_settings_filter(self):
         res = render_template('{{ "required_css_class"|bootstrap_setting }}')
