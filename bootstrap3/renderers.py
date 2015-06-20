@@ -9,7 +9,7 @@ from django.forms import (
 from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
-from django.utils.html import conditional_escape, strip_tags
+from django.utils.html import conditional_escape, escape, strip_tags
 from django.template import Context
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
@@ -273,7 +273,7 @@ class FieldRenderer(BaseRenderer):
     def add_help_attrs(self):
         if not isinstance(self.widget, CheckboxInput):
             self.widget.attrs['title'] = self.widget.attrs.get(
-                'title', strip_tags(self.field_help))
+                'title', escape(strip_tags(self.field_help)))
 
     def add_required_attrs(self):
         if self.set_required and is_widget_required_attribute(self.widget):
@@ -306,7 +306,7 @@ class FieldRenderer(BaseRenderer):
         content = '{field} {label}'.format(field=html, label=self.field.label)
         return render_label(
             content=content, label_for=self.field.id_for_label,
-            label_title=strip_tags(self.field_help))
+            label_title=escape(strip_tags(self.field_help)))
 
     def fix_date_select_input(self, html):
         div1 = '<div class="col-xs-4">'

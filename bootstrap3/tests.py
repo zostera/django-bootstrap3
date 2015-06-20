@@ -13,6 +13,11 @@ from .text import text_value, text_concat
 from .exceptions import BootstrapError
 from .utils import add_css_class
 
+try:
+    from html.parser import HTMLParser
+except ImportError:
+    from HTMLParser import HTMLParser
+
 
 RADIO_CHOICES = (
     ('1', 'Radio 1'),
@@ -47,10 +52,15 @@ class TestForm(forms.Form):
     )
     password = forms.CharField(widget=forms.PasswordInput)
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
-    sender = forms.EmailField(label='Sender © unicode')
+    sender = forms.EmailField(
+        label='Sender © unicode',
+        help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(
-        required=False, help_text='You will get a copy in your mailbox.')
+        required=False,
+        help_text='cc stands for "carbon copy." '
+                  'You will get a copy in your mailbox.'
+    )
     select1 = forms.ChoiceField(choices=RADIO_CHOICES)
     select2 = forms.MultipleChoiceField(
         choices=RADIO_CHOICES,
@@ -134,6 +144,23 @@ def render_field(field, **context_args):
     """
     context_args['field'] = field
     return render_template('{% bootstrap_field field %}', **context_args)
+
+
+def get_title_from_html(html):
+    class GetTitleParser(HTMLParser):
+        def __init__(self):
+            HTMLParser.__init__(self)
+            self.title = None
+
+        def handle_starttag(self, tag, attrs):
+            for attr, value in attrs:
+                if attr == 'title':
+                    self.title = value
+
+    parser = GetTitleParser()
+    parser.feed(html)
+
+    return parser.title
 
 
 class SettingsTest(TestCase):
@@ -264,6 +291,14 @@ class FieldTest(TestCase):
         self.assertNotIn('<i>my_help_text</i>', res)
         res = render_template('{% bootstrap_field form.subject show_help=0 %}')
         self.assertNotIn('my_help_text', res)
+
+    def test_help_with_quotes(self):
+        # Checkboxes get special handling, so test a checkbox and something else
+        res = render_form_field('sender')
+        self.assertEqual(get_title_from_html(res), TestForm.base_fields['sender'].help_text)
+
+        res = render_form_field('cc_myself')
+        self.assertEqual(get_title_from_html(res), TestForm.base_fields['cc_myself'].help_text)
 
     def test_subject(self):
         res = render_form_field('subject')
