@@ -118,15 +118,15 @@ def bootstrap_theme_url():
 
     **Tag name**::
 
-        bootstrap_css_url
+        bootstrap_theme_url
 
     **usage**::
 
-        {% bootstrap_css_url %}
+        {% bootstrap_theme_url %}
 
     **example**::
 
-        {% bootstrap_css_url %}
+        {% bootstrap_theme_url %}
     """
     return theme_url()
 
