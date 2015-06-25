@@ -18,6 +18,21 @@ def render_icon(icon, title=''):
     return '<span{attrs}></span>'.format(attrs=flatatt(attrs))
 
 
+def render_fa_icon(icon, title=''):
+    """
+    Render a Font Awesome icon
+    """
+
+    icons = ' '.join(['fa-' + item for item in icon.split(' ')])
+
+    attrs = {
+        'class': 'fa {icon}'.format(icon=icons),
+    }
+    if title:
+        attrs['title'] = title
+    return '<i{attrs}></i>'.format(attrs=flatatt(attrs))
+
+
 def render_alert(content, alert_type=None, dismissable=True):
     """
     Render a Bootstrap alert
