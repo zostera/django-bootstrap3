@@ -11,13 +11,12 @@ from django.template import Template, Context
 
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
-from .utils import add_css_class, render_tag
+from .utils import add_css_class, render_tag, render_template_to_unicode
 
 try:
     from html.parser import HTMLParser
 except ImportError:
     from HTMLParser import HTMLParser
-
 
 RADIO_CHOICES = (
     ('1', 'Radio 1'),
@@ -29,12 +28,12 @@ MEDIA_CHOICES = (
         ('vinyl', 'Vinyl'),
         ('cd', 'CD'),
     )
-    ),
+     ),
     ('Video', (
         ('vhs', 'VHS Tape'),
         ('dvd', 'DVD'),
     )
-    ),
+     ),
     ('unknown', 'Unknown'),
 )
 
@@ -108,7 +107,7 @@ def render_template(text, **context_args):
     template = Template("{% load bootstrap3 %}" + text)
     if 'form' not in context_args:
         context_args['form'] = TestForm()
-    return template.render(Context(context_args))
+    return render_template_to_unicode(template, context=context_args)
 
 
 def render_formset(formset=None, **context_args):
@@ -169,11 +168,17 @@ class SettingsTest(TestCase):
 
     def test_bootstrap_javascript_tag(self):
         res = render_template('{% bootstrap_javascript %}')
-        self.assertEqual(res.strip(), '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>')
+        self.assertEqual(
+            res.strip(),
+            '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>'
+        )
 
     def test_bootstrap_css_tag(self):
         res = render_template('{% bootstrap_css %}')
-        self.assertEqual(res.strip(), '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">')
+        self.assertIn(res.strip(), [
+            '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">',
+            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">',
+        ])
 
     def test_settings_filter(self):
         res = render_template('{{ "required_css_class"|bootstrap_setting }}')
@@ -213,7 +218,7 @@ class TemplateTest(TestCase):
             'test_bootstrap3_content' +
             '{% endblock %}'
         ))
-        res = template.render(Context({}))
+        res = render_template_to_unicode(template)
         self.assertIn('test_bootstrap3_content', res)
 
     def test_javascript_without_jquery(self):
@@ -356,6 +361,7 @@ class FieldTest(TestCase):
             self.assertNotIn('input-lg', res)
             self.assertNotIn('input-sm', res)
             self.assertNotIn('input-md', res)
+
         _test_size('sm', 'input-sm')
         _test_size('small', 'input-sm')
         _test_size('lg', 'input-lg')
@@ -372,10 +378,10 @@ class ComponentsTest(TestCase):
             res.strip(), '<span class="glyphicon glyphicon-star"></span>')
         res = render_template(
             '{% bootstrap_icon "star" title="alpha centauri" %}')
-        self.assertEqual(
-            res.strip(),
-            '<span class="glyphicon glyphicon-star" ' +
-            'title="alpha centauri"></span>')
+        self.assertIn(res.strip(), [
+            '<span class="glyphicon glyphicon-star" title="alpha centauri"></span>',
+            '<span title="alpha centauri" class="glyphicon glyphicon-star"></span>',
+        ])
 
     def test_alert(self):
         res = render_template(

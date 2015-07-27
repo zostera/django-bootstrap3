@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 )
-from ..utils import render_link_tag, render_tag
+from ..utils import render_link_tag, render_tag, render_template_to_unicode
 from ..forms import (
     render_button, render_field, render_field_and_label, render_form,
     render_form_group, render_formset,
@@ -522,7 +522,7 @@ def bootstrap_messages(context, *args, **kwargs):
         {% bootstrap_messages FIXTHIS %}
 
     """
-    return get_template('bootstrap3/messages.html').render(context)
+    return render_template_to_unicode('bootstrap3/messages.html', context=context)
 
 
 @register.inclusion_tag('bootstrap3/pagination.html')

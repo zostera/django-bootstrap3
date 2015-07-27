@@ -4,10 +4,15 @@ from __future__ import unicode_literals
 import re
 
 from django.forms.widgets import flatatt
-from django.template import Variable, VariableDoesNotExist
+from django.template import Variable, VariableDoesNotExist, Template, Context
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
-from django.utils.html import format_html
+from django.template.loader import get_template
 from django.utils.safestring import mark_safe
+
+try:
+    from django.utils.html import format_html
+except ImportError:
+    from .legacy import format_html_pre_18 as format_html
 
 from .text import text_value
 
@@ -124,3 +129,14 @@ def render_tag(tag, attrs=None, content=None, close=True):
         attrs=mark_safe(flatatt(attrs)) if attrs else '',
         content=text_value(content),
     )
+
+
+def render_template_to_unicode(template, context=None):
+    """
+    Render a Template to unicode
+    """
+    if not isinstance(template, Template):
+        template = get_template(template)
+    if context is None:
+        context = {}
+    return template.render(Context(context))

@@ -3,6 +3,11 @@
 History
 -------
 
+Development
++++++++++++
+
+* Make simple_tag output saf ein Django 1.9
+
 
 6.1.0 (2015-06-25)
 ++++++++++++++++++

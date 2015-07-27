@@ -16,7 +16,7 @@ from django.utils.safestring import mark_safe
 from .bootstrap import get_bootstrap_setting
 from .text import text_value
 from .exceptions import BootstrapError
-from .utils import add_css_class
+from .utils import add_css_class, render_template_to_unicode
 from .forms import (
     render_form, render_field, render_label, render_form_group,
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
@@ -27,6 +27,7 @@ class BaseRenderer(object):
     """
     A content renderer
     """
+
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get('layout', '')
         self.form_group_class = kwargs.get(
@@ -116,11 +117,14 @@ class FormsetRenderer(BaseRenderer):
     def render_errors(self):
         formset_errors = self.get_formset_errors()
         if formset_errors:
-            return get_template('bootstrap3/form_errors.html').render({
+            return render_template_to_unicode(
+                'bootstrap3/form_errors.html',
+                context={
                     'errors': formset_errors,
                     'form': self.formset,
                     'layout': self.layout,
-            })
+                }
+            )
         return ''
 
     def _render(self):
@@ -185,11 +189,15 @@ class FormRenderer(BaseRenderer):
             form_errors = self.form.non_field_errors()
 
         if form_errors:
-            return get_template('bootstrap3/form_errors.html').render({
-                'errors': form_errors,
-                'form': self.form,
-                'layout': self.layout,
-            })
+            return render_template_to_unicode(
+                'bootstrap3/form_errors.html',
+                context={
+                    'errors': form_errors,
+                    'form': self.form,
+                    'layout': self.layout,
+                }
+            )
+
         return ''
 
     def _render(self):
@@ -384,18 +392,20 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def append_to_field(self, html):
-        help_text_and_errors = [self.field_help] + self.field_errors \
-            if self.field_help else self.field_errors
+        help_text_and_errors = []
+        if self.field_help:
+            help_text_and_errors.append(self.field_help)
+        help_text_and_errors += self.field_errors
         if help_text_and_errors:
-            help_html = get_template(
-                'bootstrap3/field_help_text_and_errors.html'
-            ).render({
-                'field': self.field,
-                'help_text_and_errors': help_text_and_errors,
-                'layout': self.layout,
-            })
-            html += '<span class="help-block">{help}</span>'.format(
-                help=help_html)
+            help_html = render_template_to_unicode(
+                'bootstrap3/field_help_text_and_errors.html',
+                context={
+                    'field': self.field,
+                    'help_text_and_errors': help_text_and_errors,
+                    'layout': self.layout,
+                }
+            )
+            html += '<span class="help-block">{help}</span>'.format(help=help_html)
         return html
 
     def get_field_class(self):
