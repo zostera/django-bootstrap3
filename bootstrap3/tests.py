@@ -11,7 +11,7 @@ from django.template import Template, Context
 
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
-from .utils import add_css_class
+from .utils import add_css_class, render_tag
 
 try:
     from html.parser import HTMLParser
@@ -58,8 +58,7 @@ class TestForm(forms.Form):
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(
         required=False,
-        help_text='cc stands for "carbon copy." '
-                  'You will get a copy in your mailbox.'
+        help_text='cc stands for "carbon copy." You will get a copy in your mailbox.'
     )
     select1 = forms.ChoiceField(choices=RADIO_CHOICES)
     select2 = forms.MultipleChoiceField(
@@ -296,7 +295,6 @@ class FieldTest(TestCase):
         # Checkboxes get special handling, so test a checkbox and something else
         res = render_form_field('sender')
         self.assertEqual(get_title_from_html(res), TestForm.base_fields['sender'].help_text)
-
         res = render_form_field('cc_myself')
         self.assertEqual(get_title_from_html(res), TestForm.base_fields['cc_myself'].help_text)
 
@@ -453,7 +451,7 @@ class MessagesTest(TestCase):
         )
 
 
-class TextTest(TestCase):
+class UtilsTest(TestCase):
     def test_add_css_class(self):
         css_classes = "one two"
         css_class = "three four"
@@ -463,8 +461,6 @@ class TextTest(TestCase):
         classes = add_css_class(css_classes, css_class, prepend=True)
         self.assertEqual(classes, "three four one two")
 
-
-class HtmlTest(TestCase):
     def test_text_value(self):
         self.assertEqual(text_value(''), "")
         self.assertEqual(text_value(' '), " ")
@@ -475,6 +471,14 @@ class HtmlTest(TestCase):
         self.assertEqual(text_concat(1, 2), "12")
         self.assertEqual(text_concat(1, 2, separator='='), "1=2")
         self.assertEqual(text_concat(None, 2, separator='='), "2")
+
+    def test_render_tag(self):
+        self.assertEqual(render_tag('span'), '<span></span>')
+        self.assertEqual(render_tag('span', content='foo'), '<span>foo</span>')
+        self.assertEqual(
+            render_tag('span', attrs={'bar': 123}, content='foo'),
+            '<span bar="123">foo</span>'
+        )
 
 
 class ButtonTest(TestCase):

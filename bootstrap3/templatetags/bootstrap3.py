@@ -7,11 +7,12 @@ from math import floor
 
 from django import template
 from django.template.loader import get_template
+from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 )
-from ..utils import render_link_tag
+from ..utils import render_link_tag, render_tag
 from ..forms import (
     render_button, render_field, render_field_and_label, render_form,
     render_form_group, render_formset,
@@ -156,7 +157,7 @@ def bootstrap_css():
         {% bootstrap_css %}
     """
     urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
-    return ''.join([render_link_tag(url) for url in urls])
+    return mark_safe(''.join([render_link_tag(url) for url in urls]))
 
 
 @register.simple_tag
@@ -197,11 +198,11 @@ def bootstrap_javascript(jquery=None):
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-            javascript += '<script src="{url}"></script>'.format(url=url)
+            javascript += render_tag('script', attrs={'src': url})
     url = bootstrap_javascript_url()
     if url:
-        javascript += '<script src="{url}"></script>'.format(url=url)
-    return javascript
+        javascript += render_tag('script', attrs={'src': url})
+    return mark_safe(javascript)
 
 
 @register.simple_tag

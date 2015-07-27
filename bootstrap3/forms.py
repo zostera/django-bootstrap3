@@ -117,8 +117,10 @@ def render_button(
     if value:
         attrs['value'] = value
     return render_tag(
-        tag, attrs=attrs, content=text_concat(
-            icon_content, content, separator=' '))
+        tag,
+        attrs=attrs,
+        content=text_concat(icon_content, content, separator=' '),
+    )
 
 
 def render_field_and_label(

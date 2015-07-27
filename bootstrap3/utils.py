@@ -6,6 +6,8 @@ import re
 from django.forms.widgets import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from .text import text_value
 
@@ -116,8 +118,9 @@ def render_tag(tag, attrs=None, content=None, close=True):
     builder = '<{tag}{attrs}>{content}'
     if content or close:
         builder += '</{tag}>'
-    return builder.format(
+    return format_html(
+        builder,
         tag=tag,
-        attrs=flatatt(attrs) if attrs else '',
+        attrs=mark_safe(flatatt(attrs)) if attrs else '',
         content=text_value(content),
     )
