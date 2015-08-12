@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 
 from django.forms import (
-    TextInput, DateInput, FileInput, CheckboxInput,
+    TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
 from django.forms.extras import SelectDateWidget
@@ -217,6 +217,7 @@ class FieldRenderer(BaseRenderer):
         super(FieldRenderer, self).__init__(*args, **kwargs)
 
         self.widget = field.field.widget
+        self.is_multi_widget = isinstance(field.field.widget, MultiWidget)
         self.initial_attrs = self.widget.attrs.copy()
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
@@ -263,44 +264,62 @@ class FieldRenderer(BaseRenderer):
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
 
-    def add_class_attrs(self):
-        classes = self.widget.attrs.get('class', '')
-        if isinstance(self.widget, ReadOnlyPasswordHashWidget):
+    def add_class_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        classes = widget.attrs.get('class', '')
+        if isinstance(widget, ReadOnlyPasswordHashWidget):
             classes = add_css_class(
                 classes, 'form-control-static', prepend=True)
-        elif not isinstance(self.widget, (CheckboxInput,
-                                          RadioSelect,
-                                          CheckboxSelectMultiple,
-                                          FileInput)):
+        elif not isinstance(widget, (CheckboxInput,
+                                     RadioSelect,
+                                     CheckboxSelectMultiple,
+                                     FileInput)):
             classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
-        self.widget.attrs['class'] = classes
+        widget.attrs['class'] = classes
 
-    def add_placeholder_attrs(self):
-        placeholder = self.widget.attrs.get('placeholder', self.placeholder)
-        if placeholder and is_widget_with_placeholder(self.widget):
-            self.widget.attrs['placeholder'] = placeholder
+    def add_placeholder_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        placeholder = widget.attrs.get('placeholder', self.placeholder)
+        if placeholder and is_widget_with_placeholder(widget):
+            # TODO: Should this be stripped and/or escaped?
+            widget.attrs['placeholder'] = placeholder
 
-    def add_help_attrs(self):
-        if not isinstance(self.widget, CheckboxInput):
-            self.widget.attrs['title'] = self.widget.attrs.get(
-                'title', escape(strip_tags(self.field_help)))
+    def add_help_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        if not isinstance(widget, CheckboxInput):
+            widget.attrs['title'] = widget.attrs.get(
+                'title',
+                escape(strip_tags(self.field_help))
+            )
 
-    def add_required_attrs(self):
-        if self.set_required and is_widget_required_attribute(self.widget):
-            self.widget.attrs['required'] = 'required'
+    def add_required_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        if self.set_required and is_widget_required_attribute(widget):
+            widget.attrs['required'] = 'required'
 
-    def add_disabled_attrs(self):
+    def add_disabled_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
         if self.set_disabled:
-            self.widget.attrs['disabled'] = 'disabled'
+            widget.attrs['disabled'] = 'disabled'
 
     def add_widget_attrs(self):
-        self.add_class_attrs()
-        self.add_placeholder_attrs()
-        self.add_help_attrs()
-        self.add_required_attrs()
-        self.add_disabled_attrs()
+        if self.is_multi_widget:
+            widgets = self.widget.widgets
+        else:
+            widgets = [self.widget]
+        for widget in widgets:
+            self.add_class_attrs(widget)
+            self.add_placeholder_attrs(widget)
+            self.add_help_attrs(widget)
+            self.add_required_attrs(widget)
+            self.add_disabled_attrs(widget)
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
