@@ -8,6 +8,7 @@ from django.test import TestCase
 from django import forms
 from django.forms.formsets import formset_factory
 from django.template import Template, Context
+from django.contrib.admin.widgets import AdminSplitDateTime
 
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
@@ -43,6 +44,7 @@ class TestForm(forms.Form):
     Form with a variety of widgets to test bootstrap3 rendering.
     """
     date = forms.DateField(required=False)
+    datetime = forms.SplitDateTimeField(widget=AdminSplitDateTime(), required=False)
     subject = forms.CharField(
         max_length=100,
         help_text='my_help_text',
@@ -247,7 +249,12 @@ class FormTest(TestCase):
         form = TestForm()
         res = render_form(form)
         for field in form:
-            self.assertIn('name="%s"' % field.name, res)
+            # datetime has a multiwidget field widget
+            if field.name == "datetime":
+                self.assertIn('name="datetime_0"', res)
+                self.assertIn('name="datetime_1"', res)
+            else:
+                self.assertIn('name="%s"' % field.name, res)
 
     def test_field_addons(self):
         form = TestForm()
@@ -369,6 +376,11 @@ class FieldTest(TestCase):
         _test_size_medium('md')
         _test_size_medium('medium')
         _test_size_medium('')
+
+    def test_datetime(self):
+        field = render_form_field('datetime')
+        self.assertIn('vDateField', field)
+        self.assertIn('vTimeField', field)
 
 
 class ComponentsTest(TestCase):
