@@ -1,18 +1,15 @@
-=================
-django-bootstrap3
-=================
------------------------
-Bootstrap 3 for Django.
------------------------
+======================
+Bootstrap 3 for Django
+======================
 
-Write Django for your backend
+Write Django as usual, and let ``django-bootstrap3`` make template output into Bootstrap 3 code.
+
 
 .. image:: https://img.shields.io/travis/dyve/django-bootstrap3/master.svg
     :target: https://travis-ci.org/dyve/django-bootstrap3
 
 .. image:: https://img.shields.io/coveralls/dyve/django-bootstrap3/master.svg
   :target: https://coveralls.io/r/dyve/django-bootstrap3?branch=master
-
 
 .. image:: https://img.shields.io/pypi/v/django-bootstrap3.svg
     :target: https://pypi.python.org/pypi/django-bootstrap3
@@ -29,8 +26,6 @@ Write Django for your backend
 .. image:: https://img.shields.io/pypi/dd/django-bootstrap3.svg
     :target: https://pypi.python.org/pypi/django-bootstrap3
     :alt: Number of PyPI downloads per day
-
-Use Bootstrap in your Django templates, the Django way.
 
 
 Installation
