@@ -19,14 +19,6 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
     :target: https://pypi.python.org/pypi/django-bootstrap3
     :alt: Number of PyPI downloads per month
 
-.. image:: https://img.shields.io/pypi/dw/django-bootstrap3.svg
-    :target: https://pypi.python.org/pypi/django-bootstrap3
-    :alt: Number of PyPI downloads per week
-
-.. image:: https://img.shields.io/pypi/dd/django-bootstrap3.svg
-    :target: https://pypi.python.org/pypi/django-bootstrap3
-    :alt: Number of PyPI downloads per day
-
 
 Installation
 ------------
