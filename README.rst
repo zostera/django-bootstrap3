@@ -12,9 +12,9 @@ Welcome to django-bootstrap3
     :target: https://pypi.python.org/pypi/django-bootstrap3
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/django-bootstrap3/badge.png
+.. image:: https://img.shields.io/pypi/dm/django-bootstrap3.svg
     :target: https://pypi.python.org/pypi/django-bootstrap3
-    :alt: Number of PyPI downloads
+    :alt: Number of PyPI downloads per month
 
 Use Bootstrap in your Django templates, the Django way.
 
