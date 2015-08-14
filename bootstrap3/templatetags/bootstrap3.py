@@ -49,11 +49,11 @@ def bootstrap_jquery_url():
 
     This value is configurable, see Settings section
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_jquery_url %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_jquery_url %}
     """
@@ -73,11 +73,11 @@ def bootstrap_javascript_url():
 
         bootstrap_javascript_url
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_javascript_url %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_javascript_url %}
     """
@@ -97,11 +97,11 @@ def bootstrap_css_url():
 
         bootstrap_css_url
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_css_url %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_css_url %}
     """
@@ -121,11 +121,11 @@ def bootstrap_theme_url():
 
         bootstrap_css_url
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_css_url %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_css_url %}
     """
@@ -135,12 +135,12 @@ def bootstrap_theme_url():
 @register.simple_tag
 def bootstrap_css():
     """
-    Return HTML for Bootstrap CSS
+    Return HTML for Bootstrap CSS.
     Adjust url in settings. If no url is returned, we don't want this statement
     to return any HTML.
     This is intended behavior.
 
-    Default value: ``FIXTHIS``
+    Default value: ``None``
 
     This value is configurable, see Settings section
 
@@ -148,11 +148,11 @@ def bootstrap_css():
 
         bootstrap_css
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_css %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_css %}
     """
@@ -181,11 +181,11 @@ def bootstrap_javascript(jquery=None):
 
         :jquery: Truthy to include jQuery as well as Bootstrap
 
-    **usage**::
+    **Usage**::
 
         {% bootstrap_javascript %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_javascript jquery=1 %}
     """
@@ -217,14 +217,17 @@ def bootstrap_formset(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        formset
+            The formset that is being rendered
 
-    **usage**::
+
+        See bootstrap_field_ for other arguments
+
+    **Usage**::
 
         {% bootstrap_formset formset %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_formset formset layout='horizontal' %}
 
@@ -243,14 +246,17 @@ def bootstrap_formset_errors(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        formset
+            The formset that is being rendered
 
-    **usage**::
+        layout
+            Context value that is available in the template ``bootstrap3/form_errors.html`` as ``layout``.
+
+    **Usage**::
 
         {% bootstrap_formset_errors formset %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_formset_errors formset layout='inline' %}
     """
@@ -268,14 +274,17 @@ def bootstrap_form(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        form
+            The form that is to be rendered
 
-    **usage**::
+
+        See bootstrap_field_ for other arguments
+
+    **Usage**::
 
         {% bootstrap_form form %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_form form layout='inline' %}
     """
@@ -293,14 +302,28 @@ def bootstrap_form_errors(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        form
+            The form that is to be rendered
 
-    **usage**::
+        type
+            Control which type of errors should be rendered.
+
+            One of the following values:
+
+                * ``'all'``
+                * ``'fields'``
+                * ``'non_fields'``
+
+            :default: ``'all'``
+
+        layout
+            Context value that is available in the template ``bootstrap3/form_errors.html`` as ``layout``.
+
+    **Usage**::
 
         {% bootstrap_form_errors form %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_form_errors form layout='inline' %}
     """
@@ -318,16 +341,76 @@ def bootstrap_field(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
 
-    **usage**::
+        field
+            The form field to be rendered
 
-        {% bootstrap_field form_field %}
+        layout
+            If set to ``'horizontal'`` then the field and label will be rendered side-by-side, as long as there
+            is no ``field_class`` set as well.
 
-    **example**::
+        form_group_class
+            CSS class of the ``div`` that wraps the field and label.
 
-        {% bootstrap_field form_field %}
+            :default: ``'form-group'``
+
+        field_class
+            CSS class of the ``div`` that wraps the field.
+
+        label_class
+            CSS class of the ``label`` element. Will always have ``control-label`` as the last CSS class.
+
+        show_help
+            Show the field's help text, if the field has help text.
+
+            :default: ``True``
+
+        show_label
+            Whether the show the label of the field.
+
+            :default: ``True``
+
+        exclude
+            A list of field names that should not be rendered
+
+        set_required
+            When set to ``True`` and the field is required then the ``required`` attribute is set on the
+            rendered field
+
+            :default: ``True``
+
+        set_disabled
+            When set to ``True`` then the ``disabled`` attribute is set on the rendered field.
+
+            :default: ``False``
+
+        size
+            Controls the size of the rendered ``div.form-group`` through the use of CSS classes.
+
+            One of the following values:
+
+                * ``'small'``
+                * ``'medium'``
+                * ``'large'``
+
+
+        horizontal_label_class
+            Class used on the label when the ``layout`` is set to ``horizontal``.
+
+            :default: ``'col-md-3'``. Can be changed in :doc:`settings`
+
+        horizontal_field_class
+            Class used on the field when the ``layout`` is set to ``horizontal``.
+
+            :default: ``'col-md-9'``. Can be changed in :doc:`settings`
+
+    **Usage**::
+
+        {% bootstrap_field field %}
+
+    **Example**::
+
+        {% bootstrap_field field show_label=False %}
     """
     return render_field(*args, **kwargs)
 
@@ -343,16 +426,26 @@ def bootstrap_label(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        content
+            The label's text
 
-    **usage**::
+        label_for
+            The value that will be in the ``for`` attribute of the rendered ``<label>``
 
-        {% bootstrap_label FIXTHIS %}
+        label_class
+            The CSS class for the rendered ``<label>``
 
-    **example**::
+        label_title
+            The value that will be in the ``title`` attribute of the rendered ``<label>``
 
-        {% bootstrap_label FIXTHIS %}
+    **Usage**::
+
+        {% bootstrap_label content %}
+
+    **Example**::
+
+        {% bootstrap_label "Email address" for="exampleInputEmail1" %}
+
     """
     return render_label(*args, **kwargs)
 
@@ -368,16 +461,54 @@ def bootstrap_button(*args, **kwargs):
 
     **Parameters**:
 
-        :args:
-        :kwargs:
+        content
+            The text to be displayed in the button
 
-    **usage**::
+        button_type
+            Optional field defining what type of button this is.
 
-        {% bootstrap_button FIXTHIS %}
+            Accepts one of the following values:
 
-    **example**::
+                * ``'submit'``
+                * ``'reset'``
+                * ``'button'``
+                * ``'link'``
+        icon
+            Name of an icon to render in the button's visible content. See bootstrap_icon_ for acceptable values.
 
-        {% bootstrap_button FIXTHIS %}
+        button_class
+            Any extra CSS classes that should be added to the button.
+
+        size
+            Optional field to control the size of the button.
+
+            Accepts one of the following values:
+
+                * ``'xs'``
+                * ``'sm'``
+                * ``'small'``
+                * ``'md'``
+                * ``'medium'``
+                * ``'lg'``
+                * ``'large'``
+
+
+        href
+            Render the button as an ``<a>`` element. The ``href`` attribute is set with this value.
+
+        name
+            Value of the ``name`` attribute of the rendered element.
+
+        value
+            Value of the ``value`` attribute of the rendered element.
+
+    **Usage**::
+
+        {% bootstrap_button content %}
+
+    **Example**::
+
+        {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
     """
     return render_button(*args, **kwargs)
 
@@ -393,13 +524,14 @@ def bootstrap_icon(icon, **kwargs):
 
     **Parameters**:
 
-        :icon: icon name
+        icon
+            Icon name. See the `Bootstrap docs <http://getbootstrap.com/components/#glyphicons>`_ for all icons.
 
-    **usage**::
+    **Usage**::
 
-        {% bootstrap_icon "icon_name" %}
+        {% bootstrap_icon icon %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_icon "star" %}
 
@@ -418,15 +550,27 @@ def bootstrap_alert(content, alert_type='info', dismissable=True):
 
     **Parameters**:
 
-        :content: HTML content of alert
-        :alert_type: one of 'info', 'warning', 'danger' or 'success'
-        :dismissable: boolean, is alert dismissable
+        content
+            HTML content of alert
 
-    **usage**::
+        alert_type
+            * ``'info'``
+            * ``'warning'``
+            * ``'danger'``
+            * ``'success'``
 
-        {% bootstrap_alert "my_content" %}
+            :default: ``'info'``
 
-    **example**::
+        dismissable
+            boolean, is alert dismissable
+
+            :default: ``True``
+
+    **Usage**::
+
+        {% bootstrap_alert content %}
+
+    **Example**::
 
         {% bootstrap_alert "Something went wrong" alert_type='error' %}
 
@@ -441,20 +585,24 @@ def bootstrap_buttons(parser, token):
 
     **Tag name**::
 
-        bootstrap_buttons
+        buttons
 
     **Parameters**:
 
-        :parser:
-        :token:
+        submit
+            Text for a submit button
 
-    **usage**::
+        reset
+            Text for a reset button
 
-        {% bootstrap_buttons FIXTHIS %}
+    **Usage**::
 
-    **example**::
+        {% buttons %}{% endbuttons %}
 
-        {% bootstrap_buttons FIXTHIS %}
+    **Example**::
+
+        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+
     """
     kwargs = parse_token_contents(parser, token)
     kwargs['nodelist'] = parser.parse(('endbuttons', ))
@@ -502,24 +650,24 @@ def bootstrap_messages(context, *args, **kwargs):
     we have to set the jquery parameter too when using the
     bootstrap_javascript tag.
 
+    Uses the template ``bootstrap3/messages.html``.
+
     **Tag name**::
 
         bootstrap_messages
 
     **Parameters**:
 
-        :context:
-        :args:
-        :kwargs:
+        None.
 
-    **usage**::
+    **Usage**::
 
-        {% bootstrap_messages FIXTHIS %}
+        {% bootstrap_messages %}
 
-    **example**::
+    **Example**::
 
         {% bootstrap_javascript jquery=1 %}
-        {% bootstrap_messages FIXTHIS %}
+        {% bootstrap_messages %}
 
     """
     return render_template_to_unicode('bootstrap3/messages.html', context=context)
@@ -536,17 +684,47 @@ def bootstrap_pagination(page, **kwargs):
 
     **Parameters**:
 
-        :page:
-        :parameter_name: Name of paging URL parameter (default: "page")
-        :kwargs:
+        page
+            The page of results to show.
 
-    **usage**::
+        pages_to_show
+            Number of pages in total
 
-        {% bootstrap_pagination FIXTHIS %}
+            :default: ``11``
 
-    **example**::
+        url
+            URL to navigate to for pagination forward and pagination back.
 
-        {% bootstrap_pagination FIXTHIS %}
+            :default: ``None``
+
+        size
+            Controls the size of the pagination through CSS. Defaults to being normal sized.
+
+            One of the following:
+
+                * ``'small'``
+                * ``'large'``
+
+            :default: ``None``
+
+        extra
+            Any extra page parameters.
+
+            :default: ``None``
+
+        parameter_name
+            Name of the paging URL parameter.
+
+            :default: ``'page'``
+
+    **Usage**::
+
+        {% bootstrap_pagination page %}
+
+    **Example**::
+
+        {% bootstrap_pagination lines url="/pagination?page=1" size="large" %}
+
     """
 
     pagination_kwargs = kwargs.copy()
