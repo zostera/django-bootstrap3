@@ -3,10 +3,13 @@
 History
 -------
 
-Development
-+++++++++++
+6.2.0 (2015-08-15)
+++++++++++++++++++
 
-* Make simple_tag output saf ein Django 1.9
+* Improved tests
+* Make simple_tag output safe in Django 1.9
+* Better support for MultiWidgets (@xrmx)
+* Better documentation (@Moustacha)
 
 
 6.1.0 (2015-06-25)
