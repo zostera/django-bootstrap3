@@ -1,21 +1,23 @@
-============================
-Welcome to django-bootstrap3
-============================
+======================
+Bootstrap 3 for Django
+======================
 
-.. image:: https://travis-ci.org/dyve/django-bootstrap3.png?branch=master
+Write Django as usual, and let ``django-bootstrap3`` make template output into Bootstrap 3 code.
+
+
+.. image:: https://img.shields.io/travis/dyve/django-bootstrap3/master.svg
     :target: https://travis-ci.org/dyve/django-bootstrap3
 
-.. image:: https://coveralls.io/repos/dyve/django-bootstrap3/badge.png?branch=develop
-  :target: https://coveralls.io/r/dyve/django-bootstrap3?branch=develop
+.. image:: https://img.shields.io/coveralls/dyve/django-bootstrap3/master.svg
+  :target: https://coveralls.io/r/dyve/django-bootstrap3?branch=master
 
-.. image:: https://badge.fury.io/py/django-bootstrap3.png
-    :target: http://badge.fury.io/py/django-bootstrap3
+.. image:: https://img.shields.io/pypi/v/django-bootstrap3.svg
+    :target: https://pypi.python.org/pypi/django-bootstrap3
+    :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/django-bootstrap3/badge.png
-    :target: https://crate.io/packages/django-bootstrap3?version=latest
-
-
-Use Bootstrap in your Django templates, the Django way.
+.. image:: https://img.shields.io/pypi/dm/django-bootstrap3.svg
+    :target: https://pypi.python.org/pypi/django-bootstrap3
+    :alt: Number of PyPI downloads per month
 
 
 Installation

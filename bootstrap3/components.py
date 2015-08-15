@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.forms.widgets import flatatt
+from django.utils.safestring import mark_safe
+from bootstrap3.utils import render_tag
 
 from .text import text_value
 
@@ -15,7 +17,7 @@ def render_icon(icon, title=''):
     }
     if title:
         attrs['title'] = title
-    return '<span{attrs}></span>'.format(attrs=flatatt(attrs))
+    return render_tag('span', attrs=attrs)
 
 
 def render_alert(content, alert_type=None, dismissable=True):
@@ -30,8 +32,9 @@ def render_alert(content, alert_type=None, dismissable=True):
         css_classes.append('alert-dismissable')
         button = '<button type="button" class="close" ' + \
                  'data-dismiss="alert" aria-hidden="true">&times;</button>'
-    return '<div class="{css_classes}">{button}{content}</div>'.format(
-        css_classes=' '.join(css_classes),
-        button=button,
-        content=text_value(content),
-    )
+    button_placeholder = '__BUTTON__'
+    return mark_safe(render_tag(
+        'div',
+        attrs={'class': ' '.join(css_classes)},
+        content=button_placeholder + text_value(content),
+    ).replace(button_placeholder, button))
