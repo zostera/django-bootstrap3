@@ -404,6 +404,29 @@ def bootstrap_field(*args, **kwargs):
 
             :default: ``'col-md-9'``. Can be changed in :doc:`settings`
 
+        addon_before
+            Text that should be prepended to the form field. See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>`_
+            for an example.
+
+        addon_after
+            Text that should be appended to the form field. See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>`_
+            for an example.
+
+        error_css_class
+            CSS class used when the field has an error
+
+            :default: ``'has-error'``. Can be changed :doc:`settings`
+
+        required_css_class
+            CSS class used on the ``div.form-group`` to indicate a field is required
+
+            :default: ``''``. Can be changed :doc:`settings`
+
+        bound_css_class
+            CSS class used when the field is bound
+
+            :default: ``'has-success'``. Can be changed :doc:`settings`
+
     **Usage**::
 
         {% bootstrap_field field %}
