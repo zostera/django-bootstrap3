@@ -455,7 +455,7 @@ class FieldRenderer(BaseRenderer):
         else:
             label = self.field.label
         if self.layout == 'horizontal' and not label:
-            return '&#160;'
+            return mark_safe('&#160;')
         return label
 
     def add_label(self, html):
