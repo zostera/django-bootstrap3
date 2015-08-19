@@ -3,6 +3,12 @@
 History
 -------
 
+6.2.1 (2015-08-19)
+++++++++++++++++++
+
+* Bug fix for whitespace in label placeholders (@Grelek)
+
+
 6.2.0 (2015-08-15)
 ++++++++++++++++++
 
