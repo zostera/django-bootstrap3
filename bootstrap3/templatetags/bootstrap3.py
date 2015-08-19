@@ -383,6 +383,11 @@ def bootstrap_field(*args, **kwargs):
             When set to ``True`` then the ``disabled`` attribute is set on the rendered field.
 
             :default: ``False``
+            
+        set_readonly
+            When set to ``True`` then the ``readonly`` attribute is set on the rendered field.
+
+            :default: ``False``
 
         size
             Controls the size of the rendered ``div.form-group`` through the use of CSS classes.

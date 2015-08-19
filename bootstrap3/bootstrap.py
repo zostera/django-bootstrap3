@@ -21,6 +21,7 @@ BOOTSTRAP3_DEFAULTS = {
     'horizontal_field_class': 'col-md-9',
     'set_required': True,
     'set_disabled': False,
+    'set_readonly': False,
     'set_placeholder': True,
     'required_css_class': '',
     'error_css_class': 'has-error',
