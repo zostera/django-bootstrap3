@@ -120,7 +120,7 @@ def render_button(
     return render_tag(
         tag,
         attrs=attrs,
-        content=text_concat(icon_content, content, separator=' '),
+        content=mark_safe(text_concat(icon_content, content, separator=' ')),
     )
 
 

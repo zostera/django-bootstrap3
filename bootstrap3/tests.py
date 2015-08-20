@@ -530,3 +530,12 @@ class ShowLabelTest(TestCase):
             formset=test_formset
         )
         self.assertIn('sr-only', res)
+
+    def test_button_with_icon(self):
+        res = render_template(
+            "{% bootstrap_button 'test' icon='info-sign' %}"
+        )
+        self.assertEqual(
+            res.strip(),
+            '<button class="btn"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
+        )
