@@ -3,6 +3,12 @@
 History
 -------
 
+6.2.2 (2015-08-20)
+++++++++++++++++++
+
+* Bug fix for escaped icons in buttons (reported by @jlec)
+
+
 6.2.1 (2015-08-19)
 ++++++++++++++++++
 
