@@ -151,6 +151,9 @@ class FormRenderer(BaseRenderer):
         # Handle form.empty_permitted
         if self.form.empty_permitted:
             self.set_required = False
+        self.error_css_class = kwargs.get('error_css_class', None)
+        self.required_css_class = kwargs.get('required_css_class', None)
+        self.bound_css_class = kwargs.get('bound_css_class', None)
 
     def render_fields(self):
         rendered_fields = []
@@ -169,6 +172,9 @@ class FormRenderer(BaseRenderer):
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
+                error_css_class=self.error_css_class,
+                required_css_class=self.required_css_class,
+                bound_css_class=self.bound_css_class,
             ))
         return '\n'.join(rendered_fields)
 
@@ -232,22 +238,22 @@ class FieldRenderer(BaseRenderer):
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
-        error_css_class = kwargs.get('error_css_class', '')
-        required_css_class = kwargs.get('required_css_class', '')
-        bound_css_class = kwargs.get('bound_css_class', '')
-        if error_css_class:
+        error_css_class = kwargs.get('error_css_class', None)
+        required_css_class = kwargs.get('required_css_class', None)
+        bound_css_class = kwargs.get('bound_css_class', None)
+        if error_css_class is not None:
             self.error_css_class = error_css_class
         else:
             self.error_css_class = getattr(
                 field.form, 'error_css_class',
                 get_bootstrap_setting('error_css_class'))
-        if required_css_class:
+        if required_css_class is not None:
             self.required_css_class = required_css_class
         else:
             self.required_css_class = getattr(
                 field.form, 'required_css_class',
                 get_bootstrap_setting('required_css_class'))
-        if bound_css_class:
+        if bound_css_class is not None:
             self.success_css_class = bound_css_class
         else:
             self.success_css_class = getattr(
