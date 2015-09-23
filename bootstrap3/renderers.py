@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import ast
 from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 
 from django.forms import (
@@ -40,6 +41,7 @@ class BaseRenderer(object):
         self.set_required = kwargs.get('set_required', True)
         self.set_disabled = kwargs.get('set_disabled', False)
         self.set_readonly = kwargs.get('set_readonly', False)
+        self.input_extra = kwargs.get('input_extra', '')
         self.size = self.parse_size(kwargs.get('size', ''))
         self.horizontal_label_class = kwargs.get(
             'horizontal_label_class',
@@ -107,6 +109,7 @@ class FormsetRenderer(BaseRenderer):
                 set_required=self.set_required,
                 set_disabled=self.set_disabled,
                 set_readonly=self.set_readonly,
+                input_extra=self.input_extra,
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
@@ -169,6 +172,7 @@ class FormRenderer(BaseRenderer):
                 set_required=self.set_required,
                 set_disabled=self.set_disabled,
                 set_readonly=self.set_readonly,
+                input_extra=self.input_extra,
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
@@ -264,6 +268,7 @@ class FieldRenderer(BaseRenderer):
 
         self.set_disabled = kwargs.get('set_disabled', False)
         self.set_readonly = kwargs.get('set_readonly', False)
+        self.extra_attrs = kwargs.get('input_extra')
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -312,12 +317,20 @@ class FieldRenderer(BaseRenderer):
             widget = self.widget
         if self.set_disabled:
             widget.attrs['disabled'] = 'disabled'
-            
+
     def add_readonly_attrs(self, widget=None):
         if widget is None:
             widget = self.widget
         if self.set_readonly:
             widget.attrs['readonly'] = 'readonly'
+
+    def add_extra_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        if self.extra_attrs:
+            temp_dict = widget.attrs.copy()
+            temp_dict.update(ast.literal_eval(self.extra_attrs))
+            widget.attrs = temp_dict
 
     def add_widget_attrs(self):
         if self.is_multi_widget:
@@ -331,6 +344,7 @@ class FieldRenderer(BaseRenderer):
             self.add_required_attrs(widget)
             self.add_disabled_attrs(widget)
             self.add_readonly_attrs(widget)
+            self.add_extra_attrs(widget)
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
