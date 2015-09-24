@@ -7,7 +7,7 @@ from django.forms import (
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
 from django.forms.extras import SelectDateWidget
-from django.forms.forms import BaseForm, BoundField
+from django.forms.forms import BaseForm
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
 from django.template.loader import get_template
@@ -22,6 +22,11 @@ from .forms import (
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
 )
 
+try:
+    from django.forms.form import BoundField
+except ImportError:
+    # django 1.9 moved BoundField to its own module
+    from django.forms.boundfield import BoundField
 
 class BaseRenderer(object):
     """
