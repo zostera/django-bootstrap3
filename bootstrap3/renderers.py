@@ -7,7 +7,7 @@ from django.forms import (
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
 from django.forms.extras import SelectDateWidget
-from django.forms import BaseForm, BoundField
+from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
 from django.template.loader import get_template
