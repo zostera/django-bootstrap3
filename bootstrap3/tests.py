@@ -382,6 +382,10 @@ class FieldTest(TestCase):
         self.assertIn('vDateField', field)
         self.assertIn('vTimeField', field)
 
+    def test_readonly(self):
+        template = render_template(
+            '{% bootstrap_field form.message set_readonly=True %}')
+        self.assertIn('readonly="readonly"', template)
 
 class ComponentsTest(TestCase):
     def test_icon(self):

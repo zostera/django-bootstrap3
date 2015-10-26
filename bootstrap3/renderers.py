@@ -260,6 +260,7 @@ class FieldRenderer(BaseRenderer):
             self.required_css_class = ''
 
         self.set_disabled = kwargs.get('set_disabled', False)
+        self.set_readonly = kwargs.get('set_readonly', False)
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs
@@ -309,6 +310,12 @@ class FieldRenderer(BaseRenderer):
         if self.set_disabled:
             widget.attrs['disabled'] = 'disabled'
 
+    def add_readonly_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        if self.set_readonly:
+            widget.attrs['readonly'] = 'readonly'
+
     def add_widget_attrs(self):
         if self.is_multi_widget:
             widgets = self.widget.widgets
@@ -320,6 +327,7 @@ class FieldRenderer(BaseRenderer):
             self.add_help_attrs(widget)
             self.add_required_attrs(widget)
             self.add_disabled_attrs(widget)
+            self.add_readonly_attrs(widget)
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
