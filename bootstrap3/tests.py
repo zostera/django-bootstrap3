@@ -468,6 +468,36 @@ class MessagesTest(TestCase):
             re.sub(pattern, '', expected)
         )
 
+        messages = [FakeMessage("hello http://example.com", "error")]
+        res = render_template(
+            '{% bootstrap_messages messages %}', messages=messages)
+        expected = """
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
+        hello <a href="http://example.com">http://example.com</a>
+    </div>
+        """
+        self.assertEqual(
+            re.sub(pattern, '', res).replace('rel="nofollow"', ''),
+            re.sub(pattern, '', expected).replace('rel="nofollow"', '')
+        )
+
+        messages = [FakeMessage("hello\nthere", "error")]
+        res = render_template(
+            '{% bootstrap_messages messages %}', messages=messages)
+        expected = """
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
+        hello<br/>there
+    </div>
+        """
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
+
 
 class UtilsTest(TestCase):
     def test_add_css_class(self):

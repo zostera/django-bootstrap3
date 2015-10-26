@@ -28,6 +28,13 @@ This renders the Django messages variable.
 
 Variable ``messages`` contains the messages as described in https://docs.djangoproject.com/en/dev/ref/contrib/messages/#displaying-messages
 
+``messages`` is passed through three built-in filters
+
+`safe <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-safe>`
+
+`urlize <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-urlize>`
+
+`linebreaksbr <https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-linebreaksbr>`
 
 Other
 -----
