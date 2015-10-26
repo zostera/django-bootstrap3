@@ -48,6 +48,9 @@ class BaseRenderer(object):
             'horizontal_field_class',
             get_bootstrap_setting('horizontal_field_class')
         )
+        self.data_attrs = {key.replace('_', '-'): val \
+                           for key, val in kwargs.items() \
+                           if key.startswith('data_')}
 
     def parse_size(self, size):
         size = text_value(size).lower().strip()
@@ -309,6 +312,12 @@ class FieldRenderer(BaseRenderer):
         if self.set_disabled:
             widget.attrs['disabled'] = 'disabled'
 
+    def add_data_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        for key, val in self.data_attrs.items():
+            widget.attrs[key] = val
+
     def add_widget_attrs(self):
         if self.is_multi_widget:
             widgets = self.widget.widgets
@@ -320,6 +329,7 @@ class FieldRenderer(BaseRenderer):
             self.add_help_attrs(widget)
             self.add_required_attrs(widget)
             self.add_disabled_attrs(widget)
+            self.add_data_attrs(widget)
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
