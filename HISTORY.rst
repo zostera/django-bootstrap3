@@ -3,6 +3,12 @@
 History
 -------
 
+IN PROGRESS
++++++++++++
+
+* Show links and newlines in messages (@jakub3279)
+* CSS classes arguments passed to the bootstrap_form are now working (@gordon)
+
 6.2.2 (2015-08-20)
 ++++++++++++++++++
 
