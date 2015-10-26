@@ -21,12 +21,9 @@ env:
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -q Django==$DJANGO_VERSION --use-mirrors --quiet
-  # Install coverage tools (On 3.2 the new coverage is broken, use an old one)
-  # https://github.com/menegazzo/travispy/issues/20
-  - if [ $TRAVIS_PYTHON_VERSION == 3.2 ];
-    then pip install coverage<4; else
-    pip install coverage;
-    fi
+  # Coverage 4.0 no longer supports py32. Install an older version before
+  # coveralls tries to install the latest
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then travis_retry pip install 'coverage<4.0'; fi
   - pip install coveralls
 
 # Command to run tests, e.g. python setup.py test
