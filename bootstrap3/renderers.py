@@ -215,10 +215,17 @@ class FieldRenderer(BaseRenderer):
     Default field renderer
     """
 
+    # These widgets will not be wrapped in a form-control class
+    WIDGETS_NO_FORM_CONTROL = (
+        CheckboxInput,
+        RadioSelect,
+        CheckboxSelectMultiple,
+        FileInput,
+    )
+
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise BootstrapError(
-                'Parameter "field" should contain a valid Django BoundField.')
+            raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super(FieldRenderer, self).__init__(*args, **kwargs)
 
@@ -275,12 +282,9 @@ class FieldRenderer(BaseRenderer):
             widget = self.widget
         classes = widget.attrs.get('class', '')
         if isinstance(widget, ReadOnlyPasswordHashWidget):
-            classes = add_css_class(
-                classes, 'form-control-static', prepend=True)
-        elif not isinstance(widget, (CheckboxInput,
-                                     RadioSelect,
-                                     CheckboxSelectMultiple,
-                                     FileInput)):
+            # Render this is a static control
+            classes = add_css_class(classes, 'form-control-static', prepend=True)
+        elif not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
             classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
@@ -373,8 +377,9 @@ class FieldRenderer(BaseRenderer):
 
         """
         # TODO This needs improvement
-        return '<div class="row bootstrap3-multi-input">' + \
-               '<div class="col-xs-12">' + html + '</div></div>'
+        return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'.format(
+            html=html
+        )
 
     def post_widget_render(self, html):
         if isinstance(self.widget, RadioSelect):
@@ -399,21 +404,16 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def make_input_group(self, html):
-        if (
-                    (self.addon_before or self.addon_after) and
-                    isinstance(self.widget, (TextInput, DateInput, Select))
-        ):
+        if (self.addon_before or self.addon_after) and isinstance(self.widget, (TextInput, DateInput, Select)):
             before = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_before) if self.addon_before else ''
             after = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_after) if self.addon_after else ''
-            html = \
-                '<div class="input-group">' + \
-                '{before}{html}{after}</div>'.format(
-                    before=before,
-                    after=after,
-                    html=html
-                )
+            html = '<div class="input-group">{before}{html}{after}</div>'.format(
+                before=before,
+                after=after,
+                html=html
+            )
         return html
 
     def append_to_field(self, html):
