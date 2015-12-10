@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import re
 
 from django.forms.widgets import flatatt
-from django.template import Variable, VariableDoesNotExist, Template, Context
+from django.template import Variable, VariableDoesNotExist, Template, RequestContext
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
@@ -137,6 +137,9 @@ def render_template_to_unicode(template, context=None):
     """
     if not isinstance(template, Template):
         template = get_template(template)
+    if isinstance(context, RequestContext):
+        return template.render(context.flatten(), context.request)
     if context is None:
         context = {}
-    return template.render(Context(context))
+
+    return template.render(context)
