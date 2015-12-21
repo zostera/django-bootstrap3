@@ -20,9 +20,9 @@ env:
   - DJANGO_VERSION='>=1.8,<1.9'
   - DJANGO_VERSION='>=1.9,<1.10'
 
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+# Command to install dependencies, e.g. pip install -r requirements.txt
 install:
-  - pip install -q Django$DJANGO_VERSION --use-mirrors --quiet
+  - pip install Django$DJANGO_VERSION
   # Coverage 4.0 no longer supports py32. Install an older version before
   # coveralls tries to install the latest
   - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then travis_retry pip install 'coverage<4.0'; fi
@@ -32,8 +32,6 @@ install:
 script:
   - coverage run --source=bootstrap3 manage.py test
 
-# Support Python3 only with Django 1.6+
-# Support Django 1.7+ only with Python 2.7+
 matrix:
   exclude:
     - python: "3.2"
