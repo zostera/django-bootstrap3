@@ -6,6 +6,7 @@ History
 IN PROGRESS
 +++++++++++
 
+* Update to Bootstrap 3.3.6 (@nikolas)
 * Show links and newlines in messages (@jakub3279)
 * CSS classes arguments passed to the bootstrap_form are now working (@gordon)
 * Support for Django 1.9/Python 3.5 (@jieter and @jonashaag)
