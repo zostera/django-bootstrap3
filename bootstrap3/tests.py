@@ -172,14 +172,14 @@ class SettingsTest(TestCase):
         res = render_template('{% bootstrap_javascript %}')
         self.assertEqual(
             res.strip(),
-            '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>'
+            '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>'
         )
 
     def test_bootstrap_css_tag(self):
         res = render_template('{% bootstrap_css %}')
         self.assertIn(res.strip(), [
-            '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">',
-            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">',
+            '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">',
+            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">',
         ])
 
     def test_settings_filter(self):
