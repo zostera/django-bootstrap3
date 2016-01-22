@@ -10,6 +10,8 @@ from django.forms.formsets import formset_factory
 from django.template import Template, Context
 from django.contrib.admin.widgets import AdminSplitDateTime
 
+from bootstrap3.exceptions import BootstrapException
+from bootstrap3.layout import FieldContainer, LayoutFormRenderer, Col, Row, LayoutElement, Layout
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
 from .utils import add_css_class, render_tag, render_template_to_unicode
@@ -101,6 +103,27 @@ class TestForm(forms.Form):
 class TestFormWithoutRequiredClass(TestForm):
     required_css_class = ''
 
+
+class WellLayoutElement(LayoutElement):
+    """
+    fake LayoutElement that display a field in a well
+    """
+    natural_child_classes = [
+        (list, Row),
+        (tuple, Row),
+        (None, FieldContainer), # we will always make a FieldContainer by default
+    ]
+    def _render(self, form, renderer):
+        """
+        render the children into a div with well class
+        """
+        return render_tag(
+            'div',
+            attrs={
+                "class": "well"
+            },
+            content=self._render_children(form, renderer)
+        )
 
 def render_template(text, **context_args):
     """
@@ -614,3 +637,247 @@ class ShowLabelTest(TestCase):
             res.strip(),
             '<button class="btn"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
         )
+
+# ############
+# Layout tests
+# ############
+
+class TestLayoutElement(TestCase):
+    def setUp(self):
+        self.form = TestForm()
+        self.renderer = LayoutFormRenderer(self.form)
+
+    def test_abstract_functions(self):
+        self.assertRaises(NotImplementedError, lambda : LayoutElement.from_base_type(""))
+        self.assertRaises(NotImplementedError, lambda : LayoutElement()._render(self.form, self.renderer))
+
+    def test_falback_get_natural_child(self):
+        well = WellLayoutElement("subject")
+        self.assertIsInstance(well._children[0], FieldContainer)
+        result = well.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="well">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_bad_usage_of_get_natural_child(self):
+        self.assertRaises(TypeError, lambda : Row().get_natural_children([], {Col(): 2})) # should not pass a LayoutElement to kwargs
+        c = Col()
+        self.assertIs(LayoutElement().get_natural_child(c), c) # nothing done to a already LayoutElement
+
+
+class TestFieldContainer(TestCase):
+    def setUp(self):
+        self.form = TestForm()
+        self.renderer = LayoutFormRenderer(self.form)
+
+    def test_from_base_type(self):
+        element = FieldContainer.from_base_type("subject")
+        self.assertIsInstance(element, FieldContainer)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, render_form_field("subject", form=self.form))
+
+    def test_empty(self):
+        element = FieldContainer.from_base_type("dontexists")
+        self.assertIsInstance(element, FieldContainer)
+        result = element.render(self.form, self.renderer)
+        self.assertTrue(element.is_empty(self.form))
+        self.assertEqual(result, "", "absent field should render nothing")
+
+    def test_get_natural_child(self):
+        from .layout import unicode
+        # FieldContainer should not have any natural child
+        for t in (list, unicode, tuple):
+            self.assertRaises(BootstrapException, lambda : FieldContainer("subject").get_natural_child(t()))
+
+    def test_repr(self):
+        self.assertEqual(repr(FieldContainer('subject')), str("FieldContainer('subject')"))
+
+    def test_bad_type(self):
+        self.assertRaises(TypeError, lambda : FieldContainer.from_base_type(self.form))
+
+
+class TestCol(TestCase):
+    def setUp(self):
+        self.form = TestForm()
+        self.renderer = LayoutFormRenderer(self.form)
+
+    def test_from_base_type_unicode(self):
+        element = Col.from_base_type("subject")
+        self.assertIsInstance(element, Col)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="col-md-12">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_from_base_type_list(self):
+        element = Col.from_base_type([FieldContainer("subject")])
+        self.assertIsInstance(element, Col)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="col-md-12">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_empty(self):
+        element = Col()
+        result = element.render(self.form, self.renderer)
+        self.assertTrue(element.is_empty(self.form))
+        self.assertEqual(result, '<div class="col-md-12"></div>')
+
+    def test_empty_sub(self):
+        element = Col.from_base_type("dontexists")
+        self.assertIsInstance(element, Col)
+        result = element.render(self.form, self.renderer)
+        self.assertTrue(element.is_empty(self.form))
+        self.assertEqual(result, '<div class="col-md-12"></div>')
+
+    def test_get_natural_child(self):
+        from .layout import unicode
+        # FieldContainer should not have any natural child
+        for t, expected in ((list, Row), (unicode, FieldContainer), (tuple, Row)):
+            self.assertIsInstance(Col().get_natural_child(t()), expected)
+
+    def test_repr(self):
+        self.assertEqual(repr(Col(FieldContainer('subject'))), str("Col(FieldContainer('subject'))"))
+        self.assertEqual(repr(Col(FieldContainer('subject'), FieldContainer('subject'))), str("Col(FieldContainer('subject'), FieldContainer('subject'))"))
+
+    def test_given_size_base_type(self):
+        element = Col.from_base_type("subject", 2)
+        self.assertIsInstance(element, Col)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="col-md-2">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_given_size_by_cfg(self):
+        element = Col.from_base_type("subject", dict(size=2))
+        self.assertIsInstance(element, Col)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="col-md-2">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_given_size(self):
+        element = Col(FieldContainer("subject"), size=2)
+        self.assertIsInstance(element, Col)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="col-md-2">%s</div>' % render_form_field("subject", form=self.form))
+
+    def test_type_error(self):
+        self.assertRaises(TypeError, lambda : Col.from_base_type(self.form)) # create Col with form can't be handled
+
+
+class TestRow(TestCase):
+    def setUp(self):
+        self.form = TestForm()
+        self.renderer = LayoutFormRenderer(self.form)
+
+    def test_from_base_type_unicode(self):
+        element = Row.from_base_type("subject")
+        self.assertIsInstance(element, Row)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="row"><div class="col-md-12">%s</div></div>' % render_form_field("subject", form=self.form))
+
+    def test_from_base_type_list(self):
+        element = Row.from_base_type([Col(FieldContainer("subject"))])
+        self.assertIsInstance(element, Row)
+        self.assertFalse(element.is_empty(self.form))
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="row"><div class="col-md-12">%s</div></div>' % render_form_field("subject", form=self.form))
+
+    def test_form_bad_type(self):
+        self.assertRaises(TypeError, lambda : Row.from_base_type(self.form)) # create Col with form can't be handled
+
+    def test_space_reserverd_for_absent_field(self):
+        element = Row.from_base_type(["subject", "absent", "message"])
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="row"><div class="col-md-4">%s</div>\n<div class="col-md-4"></div>\n<div class="col-md-4">%s</div></div>' % (
+            render_form_field("subject", form=self.form),
+            render_form_field("message", form=self.form)
+        ))
+
+    def test_space_reserved_for_hidden_field(self):
+        # since we con't know if the field will be hidden or not at
+        # compilation time, we can't compute the row size correctly.
+        # hidden fields must be added with size=0 or directly in the layout root
+        element = Row.from_base_type(["subject", "secret", "message"])
+        result = element.render(self.form, self.renderer)
+        self.assertEqual(result, '<div class="row"><div class="col-md-4">%s</div>\n<div class="col-md-4">%s</div>\n<div class="col-md-4">%s</div></div>' % (
+            render_form_field("subject", form=self.form),
+            render_form_field("secret", form=self.form),
+            render_form_field("message", form=self.form)
+        ))
+
+    def test_empty(self):
+        element = Row()
+        result = element.render(self.form, self.renderer)
+        self.assertTrue(element.is_empty(self.form))
+        self.assertEqual(result, "")
+
+    def test_empty_sub(self):
+        element = Row.from_base_type("dontexists")
+        self.assertIsInstance(element, Row)
+        result = element.render(self.form, self.renderer)
+        self.assertTrue(element.is_empty(self.form))
+        self.assertEqual(result, "")
+
+    def test_get_natural_child(self):
+        from .layout import unicode
+        # FieldContainer should not have any natural child
+        for t, expected in ((list, Col), (unicode, Col), (tuple, Col)):
+            self.assertIsInstance(Row().get_natural_child(t()), expected)
+
+    def test_repr(self):
+        self.assertEqual(repr(Col(FieldContainer('subject'))), str("Col(FieldContainer('subject'))"))
+        self.assertEqual(repr(Col(FieldContainer('subject'), FieldContainer('message'))), str("Col(FieldContainer('subject'), FieldContainer('message'))"))
+
+    def test_col_size_default(self):
+        r = Row("subject","message")
+        for child in r._children:
+            self.assertIsInstance(child, Col)
+            self.assertEqual(child.size, 6)
+
+    def test_space_computing(self):
+        # one given, others without space left
+        r = Row(Col("subject", size=4), Col("message"), Col("date"))
+        self.assertEqual([4, 4, 4], [c.size for c in r._children])
+        # one given, but 1 extra space left
+        r = Row(Col("subject", size=5), Col("message"), Col("date"))
+        self.assertEqual([5, 4, 3], [c.size for c in r._children])
+        # two given
+        r = Row(Col("subject", size=5), Col("message", size=5), Col("date"))
+        self.assertEqual([5, 5, 2], [c.size for c in r._children])
+        # no space left for the 2 fields
+        with self.assertRaises(BootstrapException):
+            Row(Col("subject", size=11), Col("message"), Col("date"))
+        # wrong total
+        with self.assertRaises(BootstrapException):
+            Row(Col("subject", size=5), Col("message", size=5), Col("date", size=3))
+
+    def test_cfg_col_cleation(self):
+        r = Row(Col("subject", size=4), message=4, date=3)
+        # the usage of kwargs mean no order can be preserved.
+        self.assertEqual(["date", "message", "subject"], sorted([c._children[0].fieldname for c in r._children]))
+        self.assertEqual([3, 4, 4], sorted([c.size for c in r._children]))
+
+
+class LayoutTest(TestCase):
+    def setUp(self):
+        self.form = TestForm()
+        self.renderer = LayoutFormRenderer(self.form)
+
+    def test_empty_layout(self):
+        l = Layout.from_base_type([])
+        self.assertTrue(l.is_empty(self.form))
+
+    def test_from_unicode(self):
+        fields = [
+            "subject",
+            "message",
+            "date",
+        ]
+        l = Layout.from_base_type(fields)
+        result = l.render(self.form, self.renderer)
+        self.assertEqual(
+            "\n".join((render_form_field(name, form=self.form) for name in fields)),
+            result
+        )
+
+    def test_bad_type(self):
+        self.assertRaises(TypeError, lambda : Layout.from_base_type(self.form))
