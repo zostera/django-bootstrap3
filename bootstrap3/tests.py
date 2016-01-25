@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import re
 
+from django.forms.forms import Form
 from django.test import TestCase
 
 from django import forms
@@ -450,6 +451,18 @@ class FieldTest(TestCase):
         self.assertIn('vDateField', field)
         self.assertIn('vTimeField', field)
 
+    def test_field_same_render(self):
+        form = TestForm()
+        rendered_a = render_form_field("addon", form=form)
+        rendered_b = render_form_field("addon", form=form)
+        self.assertEqual(rendered_a, rendered_b)
+
+    def test_attributes_consistence(self):
+        form = TestForm()
+        attrs = form.fields['addon'].widget.attrs
+        field_alone = render_form_field("addon", form=form)
+        self.assertEqual(attrs, form.fields['addon'].widget.attrs)
+
 
 class ComponentsTest(TestCase):
     def test_icon(self):
@@ -675,6 +688,14 @@ class TestFieldContainer(TestCase):
         result = element.render(self.form, self.renderer)
         self.assertEqual(result, render_form_field("subject", form=self.form))
 
+    def test_render_all_field(self):
+        for f_name in self.form.fields:
+            field_alone = render_form_field(f_name, form=self.form)
+            element = FieldContainer.from_base_type(f_name)
+            self.assertFalse(element.is_empty(self.form))
+            fieldcontainen_rendered = element.render(self.form, self.renderer)
+            self.assertEqual(field_alone, fieldcontainen_rendered)
+
     def test_empty(self):
         element = FieldContainer.from_base_type("dontexists")
         self.assertIsInstance(element, FieldContainer)
@@ -864,7 +885,8 @@ class LayoutTest(TestCase):
 
     def test_empty_layout(self):
         l = Layout.from_base_type([])
-        self.assertTrue(l.is_empty(self.form))
+        self.assertFalse(l.is_empty(self.form))
+        self.assertTrue(l.is_empty(Form()))
 
     def test_from_unicode(self):
         fields = [
@@ -875,9 +897,40 @@ class LayoutTest(TestCase):
         l = Layout.from_base_type(fields)
         result = l.render(self.form, self.renderer)
         self.assertEqual(
-            "\n".join((render_form_field(name, form=self.form) for name in fields)),
+            l.get_missings_fields(self.form),
+            ['datetime', 'password', 'sender', 'secret', 'cc_myself', 'select1', 'select2', 'select3', 'select4', 'category1', 'category2', 'category3', 'category4', 'addon']
+        )
+        self.assertEqual(
+            "\n".join((
+                render_form_field(name, form=self.form)
+                for name in fields + [f for f in self.form.fields if not f in fields] # all fields, but first the choosen ones
+            )),
             result
         )
 
     def test_bad_type(self):
         self.assertRaises(TypeError, lambda : Layout.from_base_type(self.form))
+
+class LayoutFormRendererTest(TestCase):
+
+    def test_get_default_layout(self):
+        renderer = LayoutFormRenderer(TestForm())
+        layout = renderer.get_layout()
+        # take into acount the Ellipsis
+        for child in layout._children[:-1]:
+            self.assertIsInstance(child, FieldContainer)
+        self.assertEqual(len(layout._children), len(renderer.form.fields) + 1)
+
+    def test_get_layout_by_get_layout(self):
+        OtherTestForm = type(str("OtherTestForm"), (TestForm, ), {"get_layout": lambda self: Layout("secret")})
+        renderer = LayoutFormRenderer(OtherTestForm())
+        layout = renderer.get_layout()
+        self.assertEqual(len(layout._children), 2) # take into acount the Ellipsis
+        self.assertEqual(layout._children[0].fieldname, "secret")
+
+    def test_get_layout_by_fields_layout(self):
+        OtherTestForm = type(str("OtherTestForm"), (TestForm, ), {"fields_layout": Layout("secret")})
+        renderer = LayoutFormRenderer(OtherTestForm())
+        layout = renderer.get_layout()
+        self.assertEqual(len(layout._children), 2) # take into acount the Ellipsis
+        self.assertEqual(layout._children[0].fieldname, "secret")

@@ -19,6 +19,7 @@ in your settings.py :
 from __future__ import unicode_literals, print_function, absolute_import, division
 import logging
 
+import itertools
 from django.forms.forms import Form
 from django.utils.safestring import mark_safe
 
@@ -82,16 +83,16 @@ class LayoutFormRenderer(FormRenderer):
             bound_css_class=self.bound_css_class,
         )
 
-    def create_default_layout(self, form):
+    def create_default_layout(self):
         """
         create a layout from the form. it will give exactly the same layout as
         the base FormRenderer
         :param form:
         :return:
         """
-        return Layout(list(form.fields.keys()))
+        return Layout(*list(self.form.fields.keys()))
 
-    def get_layout(self, form):
+    def get_layout(self):
         """
         return a layout for the given form. will try many way to have one :
         - return the result of `get_layout` if for has this method
@@ -99,12 +100,13 @@ class LayoutFormRenderer(FormRenderer):
         - create a default layout using `self.create_default_layout`
         :param Form form: the form
         """
+        form = self.form
         if hasattr(form, "get_layout"):
             layout = form.get_layout()
         elif hasattr(form, "fields_layout"):
             layout = form.fields_layout
         else:
-            layout = self.create_default_layout(form)
+            layout = self.create_default_layout()
         if not isinstance(layout, Layout):
             layout = Layout.from_base_type(layout)
         return layout
@@ -116,7 +118,7 @@ class LayoutFormRenderer(FormRenderer):
         :rtype: unicode
         """
 
-        layout = self.get_layout(self.form)
+        layout = self.get_layout()
         return layout.render(self.form, self)
 
 class LayoutElement(object):
@@ -189,6 +191,26 @@ class LayoutElement(object):
         """
         the children of the current element. it should be others LayoutElement
         """
+        self.layout = None # type: Layout
+        """
+        the backward link to the current layout
+        """
+
+    def add_child(self, child):
+        """
+        add a child to the current element.
+        :param child: an element which will be added.
+        :return: the added child in its final form : LayoutElement
+        :rtype: LayoutElement
+        """
+        if isinstance(child, LayoutElement):
+            # we just add a already created LayoutElement
+            layout_child = child
+        else:
+            # child can be anything (str, col, etc)
+            layout_child = self.get_natural_child(child)
+        self._children.append(layout_child)
+        return layout_child
 
 
     def get_natural_children(self, children, children_cfg):
@@ -336,6 +358,24 @@ class LayoutElement(object):
             value, cls.__name__, ", ".join((t.__name__ for t in types))
         ))
 
+    def _hook_added_to_layout(self, layout):
+        """
+        hook triggered where a LayoutElement is added in a Layout.
+        usefull whene a LayoutElement must be uniq in the layout.
+        :param Layout layout:  the layout in which one this Element is Added
+        :return: None
+        """
+        self.layout = layout
+
+
+    def get_children_fields(self):
+        """
+        return the field of the current element throuth its children
+        :return: the current field
+        :rtype: list[unicode]
+        """
+        return itertools.chain(*(child.get_children_fields() for child in self._children))
+
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, ", ".join((repr(child) for child in self._children)))
 
@@ -373,6 +413,14 @@ class FieldContainer(LayoutElement):
     def __repr__(self):
         return "%s(%r)" % (self.__class__.__name__, str(self.fieldname))
 
+    def get_children_fields(self):
+        """
+        return the field of the current FieldContainer
+        :return: the current field
+        :rtype: list[unicode]
+        """
+        return [self.fieldname]
+
 
 
 class Col(LayoutElement):
@@ -386,6 +434,7 @@ class Col(LayoutElement):
         return [(basestring, FieldContainer),
             (list, Row),
             (tuple, Row),
+            (Ellipsis, EllipsisFieldContainer),
             # todo: manage dict
             #(dict, Fieldset ?)
         ]
@@ -509,10 +558,44 @@ class Row(LayoutElement):
             return cls(*base_value) # as many children as base_value contains
         cls.raise_type_error(base_value, unicode, list, tuple)
 
+    def add_child(self, child):
+        raise BootstrapException("impossible to add a element to a Row after its creation.")
+
+
+class EllipsisFieldContainer(LayoutElement):
+    """
+    represent a fieldcontainer that will render all missing field in the layout
+    it must be uniq in the layout
+    """
+    field_container_class = FieldContainer
+    def __init__(self):
+        super(EllipsisFieldContainer, self).__init__()
+
+    def is_empty(self, form):
+        if self.layout is None:
+            return True
+        return len(self.layout.get_missings_fields(form)) == 0
+
+    def _render(self, form, renderer):
+        return "\n".join((
+            self.field_container_class(f_name).render(form, renderer)
+            for f_name in self.layout.get_missings_fields(form)
+        ))
+
+    def _hook_added_to_layout(self, layout):
+        super(EllipsisFieldContainer, self)._hook_added_to_layout(layout)
+        if "EllipsisFieldContainer" in layout.context:
+            raise BootstrapException(
+                "the layout %r already contain a EllipsisFieldContainer. it must be uniq per Layout" % (layout)
+            )
+        layout.context["EllipsisFieldContainer"] = self
+
 
 class Layout(LayoutElement):
     """
-    represent a Full layout. it will contains all rows and cols.
+    represent a Full layout. it will contains all rows and cols.'
+    this is the root structur of a Layout, and add a global context to all its LayoutElement.
+    it will add automaticaly the EllipsisFieldContainer if none is manualy added
 
     >>> Layout.from_base_type([
     ...    "a",
@@ -526,7 +609,44 @@ class Layout(LayoutElement):
         (basestring, FieldContainer),
         (list, Row),
         (tuple, Row),
+        (Ellipsis, EllipsisFieldContainer),
     ]
+
+    def __init__(self, *args, **kwargs):
+        self.context = {}
+        self.Ellipsis_field_container = None
+        """
+        dict that allow sub-LayoutElement to make
+        some global Layout variable
+        """
+        super(Layout, self).__init__(*args, **kwargs)
+        for child in self._children:
+            child._hook_added_to_layout(self)
+        # at this point, all the layout will be provided. so we can add
+        # the EllipsisFieldContainer in it if non exists
+        if "EllipsisFieldContainer" not in self.context:
+            self.add_child(EllipsisFieldContainer())
+
+    def get_missings_fields(self, form):
+        """
+        list all field in the form that is not listed
+        in the current layout
+        :param form: the form meant to be displayed
+        :rtype: list[unicode]
+        :return: the list of fields names
+        """
+        fields = form.fields.keys()[:]
+        for layout_field in self.get_children_fields():
+            try:
+                fields.remove(layout_field)
+            except IndexError:
+                pass
+        return fields
+
+    def add_child(self, child):
+        layout_child = super(Layout, self).add_child(child)
+        layout_child._hook_added_to_layout(self)
+
 
     def _render(self, form, renderer):
         return self._render_children(form, renderer)
