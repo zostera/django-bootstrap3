@@ -622,5 +622,5 @@ class ModalTest(TestCase):
             "{% bootstrap_modal id='test' title='test title' %}{% end_bootstrap_modal %}"
         )
 
-        self.assertIn('<h4 class="modal-title">test title</h4>', res)
+        self.assertIn('<h4 class="modal-title" id="myModalLabel">test title</h4>', res)
         self.assertIn('<div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">', res)
