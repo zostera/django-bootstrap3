@@ -623,4 +623,4 @@ class ModalTest(TestCase):
         )
 
         self.assertIn('<h4 class="modal-title" id="myModalLabel">test title</h4>', res)
-        self.assertIn('<div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">', res)
+        self.assertIn('<div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">', res)
