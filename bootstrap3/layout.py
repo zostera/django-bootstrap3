@@ -635,7 +635,7 @@ class Layout(LayoutElement):
         :rtype: list[unicode]
         :return: the list of fields names
         """
-        fields = form.fields.keys()[:]
+        fields = list(form.fields.keys())
         for layout_field in self.get_children_fields():
             try:
                 fields.remove(layout_field)
