@@ -457,12 +457,11 @@ class FieldTest(TestCase):
         rendered_b = render_form_field("addon", form=form)
         self.assertEqual(rendered_a, rendered_b)
 
-    def test_attributes_consistence(self):
+    def test_attributes_consistency(self):
         form = TestForm()
-        attrs = form.fields['addon'].widget.attrs
+        attrs = form.fields['addon'].widget.attrs.copy()
         field_alone = render_form_field("addon", form=form)
         self.assertEqual(attrs, form.fields['addon'].widget.attrs)
-
 
 class ComponentsTest(TestCase):
     def test_icon(self):
