@@ -109,3 +109,9 @@ bootstrap_javascript
 ~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_javascript
+
+
+bootstrap_modal
+~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: bootstrap3.templatetags.bootstrap3.bootstrap_modal

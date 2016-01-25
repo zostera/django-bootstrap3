@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import re
 
 from math import floor
+from ..renderers import ModalRenderer
 
 from django import template
 from django.template.loader import get_template
@@ -837,3 +838,75 @@ def get_pagination_context(page, pages_to_show=11,
         'pagination_css_classes': ' '.join(pagination_css_classes),
         'parameter_name': parameter_name,
     }
+
+@register.tag('bootstrap_modal')
+def bootstrap_modal(parser, token):
+    """
+    Render bootstrap modal window.
+
+    **Tag name**::
+
+        bootstrap_modal
+
+    **Parameters**:
+
+        id
+            modal id parameter
+
+        title
+            modal title
+
+    **Usage**::
+
+        {% bootstrap_modal id='id' title='title' %}
+            html body
+        {% bootstrap_modal_buttons %}
+            html buttons
+        {% end_bootstrap_modal %}
+
+    **Example**::
+
+         <a href="#" data-toggle="modal" data-target="#exampleModal">Open modal</a>
+        {% bootstrap_modal id='exampleModal' title='The Title' %}
+            {% bootstrap_form form %}
+        {% bootstrap_modal_buttons %}
+            {% buttons submit='OK' reset='Cancel' layout='inline' %}{% endbuttons %}
+        {% end_bootstrap_modal %}
+
+    """
+    kwargs = parse_token_contents(parser, token)
+    nodelist_body = parser.parse(('bootstrap_modal_buttons', 'end_bootstrap_modal'))
+    token = parser.next_token()
+    if token.contents == 'bootstrap_modal_buttons':
+        nodelist_buttons = parser.parse(('end_bootstrap_modal',))
+        parser.delete_first_token()
+    else:
+        nodelist_buttons = None
+
+    return ModalNode(nodelist_body, nodelist_buttons, **kwargs)
+
+
+class ModalNode(template.Node):
+    def __init__(self, nodelist_body, nodelist_buttons, tag, args, kwargs, asvar):
+        self.nodelist_body = nodelist_body
+        self.nodelist_buttons = nodelist_buttons
+        self.tag = tag
+        self.args = args
+        self.kwargs = kwargs
+        self.asvar = asvar
+
+    def render(self, context):
+        output_kwargs = {}
+        for key in self.kwargs:
+            output_kwargs[key] = handle_var(self.kwargs[key], context)
+
+        modal_id = output_kwargs.get('id', 'default_id')
+        title = output_kwargs.get('title', 'TITLE')
+
+        if self.nodelist_buttons is None:
+            modal_buttons = None
+        else:
+            modal_buttons = self.nodelist_buttons.render(context)
+
+        renderer = ModalRenderer(self.nodelist_body.render(context), modal_buttons, modal_id, title)
+        return renderer.render()

@@ -539,3 +539,68 @@ class InlineFieldRenderer(FieldRenderer):
 
     def get_label_class(self):
         return add_css_class(self.label_class, 'sr-only')
+
+
+class ModalRenderer(object):
+    """
+    modal window renderer
+    """
+
+    def __init__(self, body, buttons, modal_id, title, *args, **kwargs):
+        self.modal_id = modal_id
+        self.modal_title = title
+        self.modal_body = body
+        self.modal_buttons = buttons
+
+        self.modal_header = """
+            <div class="modal fade" id="{id}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{title}</h4>
+                  </div>
+                  <div class="modal-body">
+        """
+
+        self.modal_end_body = """
+            </div>
+            <div class="modal-footer">
+        """
+
+        self.modal_default_buttons = """
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        """
+
+        self.modal_footer = """
+                  </div>
+                </div>
+              </div>
+            </div>
+        """
+
+    def get_modal_header(self):
+        return self.modal_header.format(id=self.modal_id, title=self.modal_title)
+
+    def get_modal_buttons(self):
+        if self.modal_buttons is None:
+            return self.modal_default_buttons
+        else:
+            return self.modal_buttons
+
+    def _render(self):
+        return ''.join(
+            [
+                self.get_modal_header(),
+                self.modal_body,
+                self.modal_end_body,
+                self.get_modal_buttons(),
+                self.modal_footer,
+            ]
+        )
+
+    def render(self):
+        return mark_safe(self._render())
+
+

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf.urls import patterns, url
 
 from .views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
-    DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView
+    DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView, ModalView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -32,4 +32,5 @@ urlpatterns = patterns('',
     url(r'^form_with_files$', FormWithFilesView.as_view(), name='form_with_files'),
     url(r'^pagination$', PaginationView.as_view(), name='pagination'),
     url(r'^misc$', MiscView.as_view(), name='misc'),
+    url(r'^modal', ModalView.as_view(), name='modal'),
 )
