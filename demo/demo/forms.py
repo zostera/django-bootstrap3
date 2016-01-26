@@ -35,20 +35,37 @@ class LayoutContactForm(TestForm):
     a form with a beautiful layout
     """
     fields_layout = [
-        ("date", "dontexists", "datetime"), # row with equivalent size col. the absent field will have his space reserved
-        ( # nested row and col
+        # row with equivalent size col. the absent field will have his space reserved
+        ("date", "dontexists", "datetime"),
+
+        # nested row and col
+        (
             ("password", "sender"),
             ("message",),
         ),
-        ("cc_myself", "secret", "select1", "select2"), # row with equial size, but one is hidden. his space will be reserved
-        Row("select3", Col("select4", size=8)), # mixed base and native types
-        "category1", # no row nor col. just the field as by default
+        # row with equial size, but one is hidden. his space will be reserved
+        ("cc_myself", "secret", "select1", "select2"),
+
+        # mixed base and native types
+        Row("select3", Col("select4", size=8)),
+
+        # no row nor col. just the field as by default
+        "category1",
+
         # size given in a keyword fashion
         # NOTE : the order of the keywords can't be keept
         #        it will will be rendered with random order
         Row(category2=2, category3=4, category4=4),
+
         # full native layout
-        WellLayoutElement(Row(Col(FieldContainer("addon")), size=4)) # added a custom LayoutElement
+        Row(Col(FieldContainer("addon")), size=4),
+
+        # added a custom LayoutElement `WellLayoutElement` wich contains Ellipsis. this mean
+        # that all non given field in the layout will be rendered in a well
+        # only in python 3 :
+        #WellLayoutElement(...)
+        # compatible with both python 2 and 3:
+        WellLayoutElement(Ellipsis)
     ]
 
 

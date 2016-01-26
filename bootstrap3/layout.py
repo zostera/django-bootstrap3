@@ -344,7 +344,8 @@ class LayoutElement(object):
         :return: the html output
         :rtype: unicode
         """
-        return mark_safe("\n".join((child.render(form, renderer) for child in self._children)))
+        rendered_all = [child.render(form, renderer) for child in self._children]
+        return mark_safe("\n".join((rendered for rendered in rendered_all if rendered.strip() != "")))
 
     @classmethod
     def raise_type_error(cls, value, *types):
@@ -355,7 +356,7 @@ class LayoutElement(object):
         :raise: TypeError
         """
         raise TypeError("%s is not a valid value to create a %s. accepted type is : %s" % (
-            value, cls.__name__, ", ".join((t.__name__ for t in types))
+            value, cls.__name__, ", ".join((t.__name__ if isinstance(t, type) else unicode(t) for t in types))
         ))
 
     def _hook_added_to_layout(self, layout):
@@ -366,6 +367,8 @@ class LayoutElement(object):
         :return: None
         """
         self.layout = layout
+        for child in self._children:
+            child._hook_added_to_layout(layout)
 
 
     def get_children_fields(self):
@@ -434,7 +437,7 @@ class Col(LayoutElement):
         return [(basestring, FieldContainer),
             (list, Row),
             (tuple, Row),
-            (Ellipsis, EllipsisFieldContainer),
+            (type(Ellipsis), EllipsisFieldContainer),
             # todo: manage dict
             #(dict, Fieldset ?)
         ]
@@ -487,6 +490,8 @@ class Col(LayoutElement):
             return cls(base_value, **size_if_given) # only one child, which is a string
         if isinstance(base_value, (list, tuple)):
             return cls(*base_value, **size_if_given) # as many children as base_value contains
+        if base_value is Ellipsis:
+            return cls(base_value, **size_if_given)
         cls.raise_type_error(base_value, unicode, list, tuple)
 
 
@@ -502,6 +507,7 @@ class Row(LayoutElement):
             (basestring, Col), # Col(basestring) => Col(FieldContainer(basestring))
             (list, Col),
             (tuple, Col),
+            (type(Ellipsis), Col),
         ]
 
     def get_natural_children(self, children, children_cfg):
@@ -556,7 +562,9 @@ class Row(LayoutElement):
             return cls(base_value) # only one child, which is a string
         if isinstance(base_value, (list, tuple)):
             return cls(*base_value) # as many children as base_value contains
-        cls.raise_type_error(base_value, unicode, list, tuple)
+        if base_value is Ellipsis:
+            return cls(base_value)
+        cls.raise_type_error(base_value, unicode, list, tuple, Ellipsis)
 
     def add_child(self, child):
         raise BootstrapException("impossible to add a element to a Row after its creation.")
@@ -581,6 +589,11 @@ class EllipsisFieldContainer(LayoutElement):
             self.field_container_class(f_name).render(form, renderer)
             for f_name in self.layout.get_missings_fields(form)
         ))
+
+    @classmethod
+    def from_base_type(cls, base_value, cfg=None):
+        # base_value should be Ellipsis. and we don't care about that
+        return cls()
 
     def _hook_added_to_layout(self, layout):
         super(EllipsisFieldContainer, self)._hook_added_to_layout(layout)
@@ -609,12 +622,11 @@ class Layout(LayoutElement):
         (basestring, FieldContainer),
         (list, Row),
         (tuple, Row),
-        (Ellipsis, EllipsisFieldContainer),
+        (type(Ellipsis), EllipsisFieldContainer),
     ]
 
     def __init__(self, *args, **kwargs):
         self.context = {}
-        self.Ellipsis_field_container = None
         """
         dict that allow sub-LayoutElement to make
         some global Layout variable
@@ -639,7 +651,7 @@ class Layout(LayoutElement):
         for layout_field in self.get_children_fields():
             try:
                 fields.remove(layout_field)
-            except IndexError:
+            except ValueError:
                 pass
         return fields
 

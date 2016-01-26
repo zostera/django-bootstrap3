@@ -12,7 +12,8 @@ from django.template import Template, Context
 from django.contrib.admin.widgets import AdminSplitDateTime
 
 from bootstrap3.exceptions import BootstrapException
-from bootstrap3.layout import FieldContainer, LayoutFormRenderer, Col, Row, LayoutElement, Layout
+from bootstrap3.layout import FieldContainer, LayoutFormRenderer, Col, Row, LayoutElement, Layout, \
+    EllipsisFieldContainer
 from .text import text_value, text_concat
 from .exceptions import BootstrapError
 from .utils import add_css_class, render_tag, render_template_to_unicode
@@ -110,10 +111,10 @@ class WellLayoutElement(LayoutElement):
     fake LayoutElement that display a field in a well
     """
     natural_child_classes = [
-        (list, Row),
-        (tuple, Row),
-        (None, FieldContainer), # we will always make a FieldContainer by default
+        (type(u""), FieldContainer),
+        (None, Row), # we will always make a FieldContainer by default
     ]
+
     def _render(self, form, renderer):
         """
         render the children into a div with well class
@@ -674,6 +675,12 @@ class TestLayoutElement(TestCase):
         c = Col()
         self.assertIs(LayoutElement().get_natural_child(c), c) # nothing done to a already LayoutElement
 
+    def test_add_child(self):
+        c = Col()
+        c.add_child("secret")
+        c.add_child(FieldContainer("message"))
+        l = Layout(Row(c))
+        self.assertEqual(list(l.get_children_fields()), ["secret", "message"])
 
 class TestFieldContainer(TestCase):
     def setUp(self):
@@ -876,6 +883,62 @@ class TestRow(TestCase):
         self.assertEqual(["date", "message", "subject"], sorted([c._children[0].fieldname for c in r._children]))
         self.assertEqual([3, 4, 4], sorted([c.size for c in r._children]))
 
+    def test_add_child(self):
+        r = Row("subject")
+        # impossible to add in a row because the Row compute
+        # each col size at creation.
+        with self.assertRaises(BootstrapException):
+            r.add_child(Col(FieldContainer("message")))
+
+
+class EllipsisFieldContainerTest(TestCase):
+    def test_is_empty_true(self):
+        form = TestForm()
+        fields = list(form.fields.keys())
+        e = EllipsisFieldContainer()
+        fields.append(e)
+        l = Layout(*fields)
+        self.assertTrue(e.is_empty(form))
+
+    def test_orphan(self):
+        form = TestForm()
+        renderer = LayoutFormRenderer(form)
+        e = EllipsisFieldContainer()
+        self.assertTrue(e.is_empty(form))
+        self.assertEqual("", e.render(form, renderer))
+
+    def test_is_empty_false(self):
+        form = TestForm()
+        fields = list()
+        e = EllipsisFieldContainer()
+        fields.append(e)
+        l = Layout(*fields)
+        self.assertFalse(e.is_empty(form))
+
+    def test_is_uniq(self):
+        l = Layout("subject", "message")
+        with self.assertRaises(BootstrapException):
+            l.add_child(EllipsisFieldContainer())
+
+    def test_auto_add(self):
+        l = Layout("subject", "message")
+        self.assertEqual(len(l._children), 3)
+        self.assertIsInstance(l._children[-1], EllipsisFieldContainer)
+
+    def test_ellipsis_from_base_type(self):
+        # only in python 3 :
+        #l = Layout("subject", ..., "message", )
+        l = Layout("subject", Ellipsis, "message")
+        self.assertIsInstance(l._children[1], EllipsisFieldContainer)
+
+    def test_manual_added(self):
+        form = TestForm()
+        renderer = LayoutFormRenderer(form)
+        efc = EllipsisFieldContainer()
+        l = Layout(("subject", "message"), (efc,))
+        self.assertIs(efc, l.context["EllipsisFieldContainer"])
+        self.assertEqual(2, len(l._children))
+
 
 class LayoutTest(TestCase):
     def setUp(self):
@@ -910,6 +973,13 @@ class LayoutTest(TestCase):
     def test_bad_type(self):
         self.assertRaises(TypeError, lambda : Layout.from_base_type(self.form))
 
+    def test_get_missing_fields(self):
+        l = Layout("subject", "message", "date", "missing_field")
+        self.assertEqual(
+            ['datetime', 'password', 'sender', 'secret', 'cc_myself', 'select1', 'select2', 'select3', 'select4', 'category1', 'category2', 'category3', 'category4', 'addon'],
+            list(l.get_missings_fields(TestForm()))
+        )
+
 class LayoutFormRendererTest(TestCase):
 
     def test_get_default_layout(self):
@@ -933,3 +1003,16 @@ class LayoutFormRendererTest(TestCase):
         layout = renderer.get_layout()
         self.assertEqual(len(layout._children), 2) # take into acount the Ellipsis
         self.assertEqual(layout._children[0].fieldname, "secret")
+
+    def test_get_layout_from_base_type(self):
+        OtherTestForm = type(str("OtherTestForm"), (TestForm, ), {"fields_layout": ("secret",)})
+        renderer = LayoutFormRenderer(OtherTestForm())
+        layout = renderer.get_layout()
+        self.assertEqual(len(layout._children), 2) # take into acount the Ellipsis
+        self.assertEqual(layout._children[0].fieldname, "secret")
+
+    def test_render(self):
+        form = TestForm()
+        renderer = LayoutFormRenderer(form)
+        rendered = renderer.render()
+        self.assertEqual(render_form(form), rendered)
