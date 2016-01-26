@@ -231,9 +231,11 @@ class LayoutElement(object):
                 layout_child = child
             else:
                 # child can be anything (str, col, etc)
-                layout_child = self.get_natural_child(child)
+
+                layout_child = self.get_natural_child(child, children_cfg.pop(child, None))
             result.append(layout_child)
         for child, cfg in children_cfg.items():
+            # do not re-insert already add col
             if isinstance(child, LayoutElement):
                 raise TypeError("you cannont give a LayoutElement in the keyword of %s" % self.__class__.__name__)
             else:

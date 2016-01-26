@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
+from django.forms.widgets import Textarea
 
 from bootstrap3.layout import Row, Col, FieldContainer
 from bootstrap3.tests import TestForm, WellLayoutElement
@@ -30,9 +31,37 @@ MEDIA_CHOICES = (
 class ContactForm(TestForm):
     pass
 
-class LayoutContactForm(TestForm):
+
+class LayoutContactForm(forms.Form):
+    name = forms.CharField()
+    surname = forms.CharField()
+    address = forms.CharField()
+    address2 = forms.CharField()
+    zipcode = forms.CharField()
+    city = forms.CharField()
+    country = forms.ChoiceField(choices=[("fr", "France"),("be", "belgium")])
+    subject = forms.CharField()
+    message = forms.CharField(widget=Textarea())
+
+    fields_layout = [
+        (
+            [
+                ("name", "surname"),
+                "address",
+                "address2",
+                Row("zipcode", "city", zipcode=3, city=9),
+                "country"
+            ],
+            [
+                "subject",
+                "message",
+            ]
+        ),
+    ]
+
+class LayoutContactForm2(TestForm):
     """
-    a form with a beautiful layout
+    a complete exemple of a Layout capability
     """
     fields_layout = [
         # row with equivalent size col. the absent field will have his space reserved
@@ -55,7 +84,9 @@ class LayoutContactForm(TestForm):
         # size given in a keyword fashion
         # NOTE : the order of the keywords can't be keept
         #        it will will be rendered with random order
-        Row(category2=2, category3=4, category4=4),
+        # Row(category2=2, category3=4, category4=4),
+        # keep the order, you must repeat the field in the *args like so
+        Row("category2", "category3", "category4", category2=2, category3=4, category4=4),
 
         # full native layout
         Row(Col(FieldContainer("addon")), size=4),

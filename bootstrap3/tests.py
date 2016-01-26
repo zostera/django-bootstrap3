@@ -877,11 +877,17 @@ class TestRow(TestCase):
         with self.assertRaises(BootstrapException):
             Row(Col("subject", size=5), Col("message", size=5), Col("date", size=3))
 
-    def test_cfg_col_cleation(self):
+    def test_cfg_col_creation(self):
         r = Row(Col("subject", size=4), message=4, date=3)
         # the usage of kwargs mean no order can be preserved.
         self.assertEqual(["date", "message", "subject"], sorted([c._children[0].fieldname for c in r._children]))
         self.assertEqual([3, 4, 4], sorted([c.size for c in r._children]))
+
+    def test_cfg_col_creation_with_order(self):
+        r = Row(Col("subject", size=4), "message", "date", message=4, date=3)
+        # if the kwarg repeate *args, so it is just the config, and then the order is preserved
+        self.assertEqual(["subject", "message", "date"], [c._children[0].fieldname for c in r._children])
+        self.assertEqual([4, 4, 3], [c.size for c in r._children])
 
     def test_add_child(self):
         r = Row("subject")
