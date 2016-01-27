@@ -2,6 +2,8 @@
 Layouts
 =======
 
+.. py:currentmodule:: bootstrap3.layout
+
 The Rendering of Django Form can use a customized Layout to make it less linear.
 
 By using the :class:`LayoutFormRenderer` as the default renderer, you can specify a customized layout in your form.
@@ -204,6 +206,8 @@ and be rendered in something like ::
    [                            ]
 
 
+.. _mixed:
+
 """""
 mixed
 """""
@@ -279,11 +283,14 @@ the first row is as you wished it, and the message will be guessed.
 -------------------------
 
 Many LayoutElement can be cusomized if inserted manualy in their native form (By Instacing the class).
-since the layout can be `mixed`, you can take the best of the guessing feature and insert your native class into it.
+Rememeer that the layout can be :ref:`mixed`,you can take the best of the guessing feature and insert
+your native class into it.
+
 
 ^^^
 Col
 ^^^
+
 
 .. py:class:: Col(*childs, size=None)
 
@@ -306,6 +313,7 @@ if the size is not given or is None, the parent Row will fix it to give equal si
 ^^^
 Row
 ^^^
+
 .. py:class:: Row
 
 
@@ -341,9 +349,9 @@ the :class:`Row` will create as many column as it have childs, each one of the s
 FieldContainer
 ^^^^^^^^^^^^^^
 
-.. py:class:: FieldContainer
+.. py:class:: FieldContainer(fieldname)
 
-  :param fieldname: the name of the field
+  :param unicode fieldname: the name of the field
 
 the :class:`FieldContainer` is just the final part of the layout. it will basicaly render the field itself and nothing more.
 
@@ -369,7 +377,8 @@ it will create the final :class:`EllipsisFieldContainer` if none is present in t
 EllipsisFieldContainer
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. py:class:: EllipsisFieldContainer
+.. py:class:: EllipsisFieldContainer()
+
 
 This element is in charge of adding all missing fields of the form into the final rendering.
 if a field is not present in the Layout, but is in the form, this field will render all of them in the
@@ -417,4 +426,44 @@ you can give the `Ellipsis` global value to create a EllipsisFieldContainer. it 
 
 .. note::
 
-  the Layout will add a :class:`EllipsisFieldContainer` automaticaly if none is present in the given layout
+  the Layout will add a :class:`EllipsisFieldContainer` automaticaly there is none already created.
+
+
+
+-----------------------
+5 - enhence your Layout
+-----------------------
+
+You can even create your own LayoutElement that will wrap the others parts in your html code.
+
+a simple exemple would be the creation of a :class:`Well` LayoutElement, which will wrape all his children in
+a `<div class="well">...</div>`. The best way to know how to make your own is to watch how Col/Row/FieldContainer
+are created.
+
+let see what the :class:`Well` should look like ::
+
+
+    class WellLayoutElement(LayoutElement):
+        """
+        fake LayoutElement that display its children in a well
+        """
+
+
+        def _render(self, form, renderer):
+            """
+            render the children into a div with well class
+            """
+            return render_tag(
+                'div',
+                attrs={
+                    "class": "well"
+                },
+                content=self._render_children(form, renderer)
+            )
+
+
+the main method to override is :meth:`_render`
+
+.. autoclass:: LayoutElement
+   :members: __init__, _render, render, _render_children, natural_child_classes,
+            get_natural_children, from_base_type, get_natural_child, is_empty

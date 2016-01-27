@@ -110,10 +110,7 @@ class WellLayoutElement(LayoutElement):
     """
     fake LayoutElement that display a field in a well
     """
-    natural_child_classes = [
-        (type(u""), FieldContainer),
-        (None, Row), # we will always make a FieldContainer by default
-    ]
+
 
     def _render(self, form, renderer):
         """

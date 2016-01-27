@@ -157,8 +157,9 @@ class LayoutElement(object):
     a base type (list/unicode/tuple/dict). it is the job of `from_base_type` to take a data in a base type
     and check if it is usable to instantiate itself.
 
-    ie : a FieldContainer know what to do with a unicode, it will instantiate itself with filename=attr
-    ie2 : a Layout don't know what to do with unicode, it will raise TypeError
+    * ie:  a FieldContainer know what to do with a unicode, it will instantiate itself with filename=attr
+    * ie:  a Layout don't know what to do with unicode, it will raise TypeError.
+      give it a list, and it will be well
 
     ## get_natural_child
 
@@ -171,20 +172,29 @@ class LayoutElement(object):
 
 
     """
-    natural_child_classes = [ # type: list[(type, type(LayoutElement))]
-        #(unicode, FieldContainer),
-        #(list, Row),
-        #(tupel, Row),
-    ]
-    """
-    this list of tuple contains the correspances for base type (list/tuples/dict/unicode) into
-    the layout natural classes.
-    ie : a unicode is meant to be a field in many cases, but an list/tuple depend of the parent.
-    """
+    # must be a property for cycle usage probleme
+    @property
+    def natural_child_classes(self):
+        """
+        this list of tuple contains the correspances for base type (list/tuples/dict/unicode) into
+        the layout natural classes.
+        ie : a unicode is meant to be a field in many cases, but an list/tuple depend of the parent.
+        """
+        return  [
+            (basestring, FieldContainer),
+            (list, Row),
+            (tuple, Row),
+            (type(Ellipsis), EllipsisFieldContainer),
+        ]
+
 
     def __init__(self, *children, **children_cfg):
         """
-        just initialize the current layout with its empty children
+        initialize the current Element and parsing all *children into a final LayoutElement added in
+        the children of this Element.
+        :param object|LayoutElement children: all argument given to this constructor will be
+                                              parsed and added to the current children
+        :param children_cfg: the key_value given to the init can be used by the element to add a special behavior.
         """
         self._children = [] # to make sur that we won't have problème if a repr() is called in next line
         self._children = self.get_natural_children(children, children_cfg) # type: list[LayoutElement]
@@ -217,7 +227,7 @@ class LayoutElement(object):
         """
         take all children given to the construcor and use it to
         create the children list.
-        can be overriden create a list of children more aware of the others
+        can be overriden to create a list of children more aware of the others
         children given.
         :param list children: the list of children given
         :param dict children_cfg: the list of children with theire config given as keyword argument to the constructor
@@ -251,7 +261,7 @@ class LayoutElement(object):
         base type value (list, unicode, dict) and create the current type with it.
 
         ie : «ok, I am a Row, and you give me a tuple» => «I must create a Row with as many Col as elements in
-        this tuple»
+        this tuple elements»
 
         :param Any base_value: the non layout natural type
         :param cfg: the extra cfg possibly passed to us. ie : Row(field_a="col-md-6")
@@ -265,14 +275,14 @@ class LayoutElement(object):
         AI is there. this method is charged to create the moste intuitive
         layout if the given layout was not made with LayoutElement.
 
-        this method permit to get :
+        this method permit to get ::
 
             layout = [
                 ("a", "b"),
                 "c"
             ]
 
-        and then create the final Layout :
+        and then create the final Layout ::
 
             layout = Layout(
                 Row(Col(FieldContainer("a")), Col(FieldContainer("ba")),
@@ -281,7 +291,10 @@ class LayoutElement(object):
 
         if a Row get a child with "a" => it will create a Col("a")
         if the Col get a child with "a" => it will create a FieldContainer("a")
-        if the FieldContainer get a "a" => it will be ok !!
+        if the FieldContainer get a "a" => it will be ok and use it as fieldname !!
+
+        it use :attr:`natural_child_classes` to know what to do with this type. in many way,
+        you just have to create your own :attr:`natural_child_classes` corresponding to your need.
 
         :param attr: the attrubute that is given as a child (it can't be a LayoutElement)
         :param cfg: the extra cfg possibly passed to us. ie : Row(field_a="col-md-6")
@@ -308,7 +321,7 @@ class LayoutElement(object):
     def is_empty(self, form):
         """
         method used to skip rendering a layout part of the form if it don't
-        contains anithing.
+        contains anything.
         :param django.forms.forms.Form form: the current form
         :return: True if the current element is empty (or its children are all empty)
         :rtype: bool
@@ -620,12 +633,7 @@ class Layout(LayoutElement):
 
     """
 
-    natural_child_classes = [
-        (basestring, FieldContainer),
-        (list, Row),
-        (tuple, Row),
-        (type(Ellipsis), EllipsisFieldContainer),
-    ]
+
 
     def __init__(self, *args, **kwargs):
         self.context = {}
