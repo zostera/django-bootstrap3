@@ -401,6 +401,9 @@ class FieldContainer(LayoutElement):
     """
     Layout element in charge to render the field itself. do not add anything else
     """
+    natural_child_classes = [
+        # no child for FieldContainer
+    ]
     def __init__(self, fieldname):
         """
         :param unicode fieldname: the fieldname of the current form
