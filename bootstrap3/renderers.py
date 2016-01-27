@@ -240,8 +240,8 @@ class FieldRenderer(BaseRenderer):
         else:
             self.placeholder = ''
 
-        self.addon_before = kwargs.get('addon_before', self.initial_attrs.pop('addon_before', ''))
-        self.addon_after = kwargs.get('addon_after', self.initial_attrs.pop('addon_after', ''))
+        self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
+        self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
@@ -275,7 +275,7 @@ class FieldRenderer(BaseRenderer):
         self.set_disabled = kwargs.get('set_disabled', False)
 
     def restore_widget_attrs(self):
-        self.widget.attrs = self.initial_attrs
+        self.widget.attrs = self.initial_attrs.copy()
 
     def add_class_attrs(self, widget=None):
         if widget is None:

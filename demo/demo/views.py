@@ -8,7 +8,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from .forms import ContactForm, FilesForm, ContactFormSet
+from .forms import ContactForm, FilesForm, ContactFormSet, LayoutContactForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -37,6 +37,9 @@ class DefaultFormView(FormView):
     template_name = 'demo/form.html'
     form_class = ContactForm
 
+class LayoutFormView(FormView):
+    template_name = 'demo/form_layout.html'
+    form_class = LayoutContactForm
 
 class DefaultFormByFieldView(FormView):
     template_name = 'demo/form_by_field.html'

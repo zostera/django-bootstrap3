@@ -155,4 +155,8 @@ BOOTSTRAP3 = {
     'error_css_class': 'bootstrap3-error',
     'required_css_class': 'bootstrap3-required',
     'javascript_in_head': True,
+    'form_renderers': {
+        'default': 'bootstrap3.renderers.FormRenderer',
+        'advanced': 'bootstrap3.layout.LayoutFormRenderer',
+    },
 }

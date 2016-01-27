@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to django-bootstrap3's documentation!
-=================================================================
+=============================================
 
 Contents:
 
@@ -15,6 +15,7 @@ Contents:
    quickstart
    templatetags
    settings
+   layout
    templates
    contributing
    authors
