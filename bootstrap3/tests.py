@@ -614,3 +614,13 @@ class ShowLabelTest(TestCase):
             res.strip(),
             '<button class="btn"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
         )
+
+class ModalTest(TestCase):
+
+    def test_modal_render(self):
+        res = render_template(
+            "{% bootstrap_modal id='test' title='test title' %}{% end_bootstrap_modal %}"
+        )
+
+        self.assertIn('<h4 class="modal-title" id="myModalLabel">test title</h4>', res)
+        self.assertIn('<div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">', res)

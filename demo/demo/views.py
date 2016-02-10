@@ -4,11 +4,12 @@ from django.core.files.storage import default_storage
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
+from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from .forms import ContactForm, FilesForm, ContactFormSet
+from .forms import ContactForm, FilesForm, ContactFormSet, ArticleForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -91,4 +92,27 @@ class PaginationView(TemplateView):
 
 class MiscView(TemplateView):
     template_name = 'demo/misc.html'
+
+
+class ModalView(FormView):
+    template_name = 'demo/modal.html'
+    form_class = ArticleForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ModalView, self).get_context_data(**kwargs)
+        context['items'] = [
+            {'pk':1, 'name': 'item 1'},
+            {'pk':2, 'name': 'item 2'},
+            {'pk':3, 'name': 'item 3'},
+            {'pk':4, 'name': 'item 4'},
+            {'pk':5, 'name': 'item 5'},
+            {'pk':6, 'name': 'item 6'},
+        ]
+        return context
+
+    def post(self, request, *args, **kwargs):
+        pk = request.POST.get("pk", "0")
+        messages.info(self.request, 'Item %s was removed, believe me!' % pk)
+        return redirect("modal")
+
 

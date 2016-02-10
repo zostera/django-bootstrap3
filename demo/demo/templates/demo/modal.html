@@ -1,0 +1,57 @@
+{% extends 'demo/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+    Modals
+{% endblock %}
+
+{% block content %}
+    <br/><br/>
+    <a href="#" data-toggle="modal" data-target="#exampleModal" data-pk="1" data-url="">Open modal</a>
+    <form role="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_modal id='exampleModal' title='Example Modal Title' %}
+             {% bootstrap_form form %}
+        {% end_bootstrap_modal %}
+    </form>
+
+    <hr/>
+    Removal modal test (click on 'remove' link)
+    <br/><br/>
+    <ul>
+    {% for item in items %}
+        <li>{{ item.name }} | <a href="#" data-toggle="modal" data-target="#removeModal" data-pk="{{ item.pk }}" data-message="{{ item.name }}" data-url="{% url 'modal' %}">remove</a></li>
+    {% endfor %}
+    </ul>
+
+    {% bootstrap_modal id='removeModal' title='Example Removal Modal Title' %}
+         <div role="alert" class="alert alert-danger">Are you sure you want to delete <span id="object"></span>?</div>
+    {% bootstrap_modal_buttons %}
+        <form id="removalForm" action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pk" value=""/>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </form>
+    {% end_bootstrap_modal %}
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('#removeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var message = button.data('message'); // Extract info from data-* attributes
+            var pk = button.data('pk'); // Extract info from data-* attributes
+            var action = button.data('url');
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            var modal = $(this);
+            modal.find('.modal-body span#object').html(message);
+            modal.find('.modal-footer #removalForm').attr("action", action);
+            modal.find('.modal-footer [name=pk]').val(pk);
+        })
+    });
+    </script>
+{% endblock %}

@@ -26,3 +26,4 @@ Contributors
 * Owais Lone <loneowais@gmail.com>
 * pmav99 <pmav99@users.noreply.github.com>
 * Richard Hajdu <tuskone16@gmail.com>
+* Ivanenko Danil <ivanenko.danil@gmail.com>
