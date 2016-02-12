@@ -3,22 +3,18 @@ from __future__ import unicode_literals
 
 import re
 
-from django import VERSION
 from django.forms.widgets import flatatt
-from django.template import (Context, RequestContext, Template, Variable,
-                             VariableDoesNotExist)
-from django.template.base import (FilterExpression, TemplateSyntaxError,
-                                  kwarg_re)
+from django.template import Variable, VariableDoesNotExist, Template, Context
+from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
-
-from .text import text_value
 
 try:
     from django.utils.html import format_html
 except ImportError:
     from .legacy import format_html_pre_18 as format_html
 
+from .text import text_value
 
 
 # RegEx for quoted string
@@ -139,12 +135,8 @@ def render_template_to_unicode(template, context=None):
     """
     Render a Template to unicode
     """
-    if context is None:
-        context = {}
-
     if not isinstance(template, Template):
         template = get_template(template)
-        if VERSION > (1, 8):
-            return template.render(context)
-
+    if context is None:
+        context = {}
     return template.render(Context(context))
