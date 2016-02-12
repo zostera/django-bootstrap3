@@ -5,7 +5,7 @@ import re
 
 from django import VERSION
 from django.forms.widgets import flatatt
-from django.template import Variable, VariableDoesNotExist, Template, Context
+from django.template import Variable, VariableDoesNotExist, Context
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
 from django.utils.deprecation import RemovedInDjango110Warning
@@ -159,9 +159,4 @@ def render_template_to_unicode(template, context=None):
     except AttributeError:
         pass
 
-    # Try to render with a dict, but somehow this doesn't alway work (at least in 1.9)
-    # TODO: Figure this out
-    try:
-        return render(context)
-    except AttributeError:
-        return render(Context(context))
+    return render(context)
