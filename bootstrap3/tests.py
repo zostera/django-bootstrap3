@@ -3,15 +3,14 @@ from __future__ import unicode_literals
 
 import re
 
+from django import forms
+from django.contrib.admin.widgets import AdminSplitDateTime
+from django.forms.formsets import formset_factory
+from django.template import Template
 from django.test import TestCase
 
-from django import forms
-from django.forms.formsets import formset_factory
-from django.template import Template, Context
-from django.contrib.admin.widgets import AdminSplitDateTime
-
-from .text import text_value, text_concat
 from .exceptions import BootstrapError
+from .text import text_value, text_concat
 from .utils import add_css_class, render_tag, render_template_to_unicode
 
 try:

@@ -12,7 +12,6 @@ if BOOTSTRAP3_FOLDER not in sys.path:
     sys.path.insert(0, BOOTSTRAP3_FOLDER)
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = ()
 
@@ -99,11 +98,10 @@ ROOT_URLCONF = 'demo.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'demo.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+}]
 
 INSTALLED_APPS = (
     'django.contrib.auth',

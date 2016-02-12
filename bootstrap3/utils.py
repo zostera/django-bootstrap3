@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 
 import re
 
+from django import VERSION
 from django.forms.widgets import flatatt
 from django.template import Variable, VariableDoesNotExist, Template, Context
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
+from django.utils.deprecation import RemovedInDjango110Warning
 from django.utils.safestring import mark_safe
 
 try:
@@ -135,8 +137,31 @@ def render_template_to_unicode(template, context=None):
     """
     Render a Template to unicode
     """
-    if not isinstance(template, Template):
-        template = get_template(template)
+
+    # Set an empty dict if no context is provided
     if context is None:
-        context = {}
-    return template.render(Context(context))
+        context = dict()
+
+    # Find the render function, make a Template if necessary
+    try:
+        render = template.render
+    except AttributeError:
+        template = get_template(template)
+        render = template.render
+
+    # For Django < 1.8, render with a Context object
+    if VERSION < (1,8):
+        return render(Context(context))
+
+    # Flatten the context object
+    try:
+        context = context.flatten()
+    except AttributeError:
+        pass
+
+    # Try to render with a dict, but somehow this doesn't alway work (at least in 1.9)
+    # TODO: Figure this out
+    try:
+        return render(context)
+    except AttributeError:
+        return render(Context(context))

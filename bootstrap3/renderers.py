@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 
+from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 from django.forms import (
     TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
@@ -10,17 +10,16 @@ from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
-from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
-from .text import text_value
 from .exceptions import BootstrapError
-from .utils import add_css_class, render_template_to_unicode
 from .forms import (
     render_form, render_field, render_label, render_form_group,
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
 )
+from .text import text_value
+from .utils import add_css_class, render_template_to_unicode
 
 
 class BaseRenderer(object):
