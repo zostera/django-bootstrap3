@@ -3,9 +3,11 @@
 History
 -------
 
-IN PROGRESS
+
+6.3.0 (2016-02-12)
 +++++++++++
 
+* Fix template context warning (@jieter)
 * Update to Bootstrap 3.3.6 (@nikolas)
 * Show links and newlines in messages (@jakub3279)
 * CSS classes arguments passed to the bootstrap_form are now working (@gordon)
