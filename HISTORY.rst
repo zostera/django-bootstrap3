@@ -4,10 +4,12 @@ History
 -------
 
 
-6.3.0 (2016-02-12)
-+++++++++++
+7.0.0 (in progress)
++++++++++++++++++++
 
-* Fix template context warning (@jieter)
+* Dropped support for Django < 1.8
+* Dropped support for Python < 2.7
+* Fix template context warning (thanks @jieter and @jonashaag)
 * Update to Bootstrap 3.3.6 (@nikolas)
 * Show links and newlines in messages (@jakub3279)
 * CSS classes arguments passed to the bootstrap_form are now working (@gordon)
