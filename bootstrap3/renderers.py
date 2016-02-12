@@ -19,7 +19,7 @@ from .forms import (
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
 )
 from .text import text_value
-from .utils import add_css_class, render_template_to_unicode
+from .utils import add_css_class, render_template_file
 
 
 class BaseRenderer(object):
@@ -116,7 +116,7 @@ class FormsetRenderer(BaseRenderer):
     def render_errors(self):
         formset_errors = self.get_formset_errors()
         if formset_errors:
-            return render_template_to_unicode(
+            return render_template_file(
                 'bootstrap3/form_errors.html',
                 context={
                     'errors': formset_errors,
@@ -194,7 +194,7 @@ class FormRenderer(BaseRenderer):
             form_errors = self.form.non_field_errors()
 
         if form_errors:
-            return render_template_to_unicode(
+            return render_template_file(
                 'bootstrap3/form_errors.html',
                 context={
                     'errors': form_errors,
@@ -421,7 +421,7 @@ class FieldRenderer(BaseRenderer):
             help_text_and_errors.append(self.field_help)
         help_text_and_errors += self.field_errors
         if help_text_and_errors:
-            help_html = render_template_to_unicode(
+            help_html = render_template_file(
                 'bootstrap3/field_help_text_and_errors.html',
                 context={
                     'field': self.field,

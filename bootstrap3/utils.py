@@ -3,12 +3,10 @@ from __future__ import unicode_literals
 
 import re
 
-from django import VERSION
 from django.forms.widgets import flatatt
-from django.template import Variable, VariableDoesNotExist, Context
+from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
-from django.utils.deprecation import RemovedInDjango110Warning
 from django.utils.safestring import mark_safe
 
 try:
@@ -17,7 +15,6 @@ except ImportError:
     from .legacy import format_html_pre_18 as format_html
 
 from .text import text_value
-
 
 # RegEx for quoted string
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
@@ -133,30 +130,10 @@ def render_tag(tag, attrs=None, content=None, close=True):
     )
 
 
-def render_template_to_unicode(template, context=None):
+def render_template_file(template, context=None):
     """
     Render a Template to unicode
     """
-
-    # Set an empty dict if no context is provided
-    if context is None:
-        context = dict()
-
-    # Find the render function, make a Template if necessary
-    try:
-        render = template.render
-    except AttributeError:
-        template = get_template(template)
-        render = template.render
-
-    # For Django < 1.8, render with a Context object
-    if VERSION < (1,8):
-        return render(Context(context))
-
-    # Flatten the context object
-    try:
-        context = context.flatten()
-    except AttributeError:
-        pass
-
-    return render(context)
+    assert type(context) == type({})
+    template = get_template(template)
+    return template.render(context)
