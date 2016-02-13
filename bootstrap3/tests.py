@@ -5,12 +5,14 @@ import re
 
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
+from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
-from django.test import TestCase
 from django.template import engines
+from django.test import TestCase
+
 from .exceptions import BootstrapError
 from .text import text_value, text_concat
-from .utils import add_css_class, render_tag, render_template_file
+from .utils import add_css_class, render_tag
 
 try:
     from html.parser import HTMLParser
@@ -402,7 +404,8 @@ class FieldTest(TestCase):
         self.assertNotIn('required', rendered)
         # Required settings in field
         form_field = 'form.subject'
-        rendered = render_template_with_form('{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
+        rendered = render_template_with_form(
+            '{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
         self.assertIn('test-required', rendered)
 
     def test_empty_permitted(self):
@@ -472,16 +475,20 @@ class MessagesTest(TestCase):
             """
             Follows the `django.contrib.messages.storage.base.Message` API.
             """
+            level = None
+            message = None
+            extra_tags = None
 
-            def __init__(self, message, tags):
-                self.tags = tags
+            def __init__(self, level, message, extra_tags=None):
+                self.level = level
+                self.extra_tags = extra_tags
                 self.message = message
 
             def __str__(self):
                 return self.message
 
         pattern = re.compile(r'\s+')
-        messages = [FakeMessage("hello", "warning")]
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.WARNING, "hello")]
         res = render_template_with_form(
             '{% bootstrap_messages messages %}', {'messages': messages})
         expected = """
@@ -496,7 +503,7 @@ class MessagesTest(TestCase):
             re.sub(pattern, '', expected)
         )
 
-        messages = [FakeMessage("hello", "error")]
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello")]
         res = render_template_with_form(
             '{% bootstrap_messages messages %}', {'messages': messages})
         expected = """
@@ -511,11 +518,11 @@ class MessagesTest(TestCase):
             re.sub(pattern, '', expected)
         )
 
-        messages = [FakeMessage("hello", None)]
+        messages = [FakeMessage(None, "hello")]
         res = render_template_with_form(
             '{% bootstrap_messages messages %}', {'messages': messages})
         expected = """
-    <div class="alert alert-dismissable">
+    <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
             aria-hidden="true">&#215;</button>
         hello
@@ -527,29 +534,27 @@ class MessagesTest(TestCase):
             re.sub(pattern, '', expected)
         )
 
-        messages = [FakeMessage("hello http://example.com", "error")]
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello http://example.com")]
         res = render_template_with_form(
             '{% bootstrap_messages messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert"
-            aria-hidden="true">&#215;</button>
-        hello <a href="http://example.com">http://example.com</a>
-    </div>
-        """
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+        hello http://example.com
+    </div>        """
         self.assertEqual(
             re.sub(pattern, '', res).replace('rel="nofollow"', ''),
             re.sub(pattern, '', expected).replace('rel="nofollow"', '')
         )
 
-        messages = [FakeMessage("hello\nthere", "error")]
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello\nthere")]
         res = render_template_with_form(
             '{% bootstrap_messages messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
             aria-hidden="true">&#215;</button>
-        hello<br/>there
+        hello there
     </div>
         """
         self.assertEqual(

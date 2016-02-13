@@ -49,10 +49,14 @@ def bootstrap_message_classes(message):
     """
     Return the message classes for a message
     """
+    extra_tags = None
     try:
-        classes = [message.extra_tags, ]
+        extra_tags = message.extra_tags
     except AttributeError:
-        classes = []
+        pass
+    if not extra_tags:
+        extra_tags = ""
+    classes = [extra_tags]
     try:
         level = message.level
     except AttributeError:
