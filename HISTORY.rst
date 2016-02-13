@@ -14,7 +14,8 @@ History
 * Show links and newlines in messages (@jakub3279)
 * CSS classes arguments passed to the bootstrap_form are now working (@gordon)
 * Support for Django 1.9/Python 3.5 (@jieter and @jonashaag)
-* Better Travis CI Djanfo versions (thanks @jonashaag)
+* Better Travis CI Django versions (thanks @jonashaag)
+* Improved handling of messages in `bootstrap_messages` (thanks @frewsxcv and @rjsparks)
 
 
 6.2.2 (2015-08-20)

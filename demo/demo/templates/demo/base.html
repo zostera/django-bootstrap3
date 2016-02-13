@@ -18,7 +18,7 @@
             <a href="{% url 'misc' %}">miscellaneous</a>
         </p>
 
-        {% bootstrap_messages %}
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
 
         {% block content %}(no content){% endblock %}
     </div>

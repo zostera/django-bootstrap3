@@ -5,6 +5,8 @@ import re
 from math import floor
 
 from django import template
+from django.contrib.messages import constants as message_constants
+from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.template import Context
 from django.utils.safestring import mark_safe
 
@@ -21,6 +23,14 @@ from ..text import force_text
 from ..utils import handle_var, parse_token_contents
 from ..utils import render_link_tag, render_tag, render_template_file
 
+MESSAGE_LEVEL_CLASSES = {
+    DEFAULT_MESSAGE_LEVELS.DEBUG: "alert alert-warning",
+    DEFAULT_MESSAGE_LEVELS.INFO: "alert alert-info",
+    DEFAULT_MESSAGE_LEVELS.SUCCESS: "alert alert-success",
+    DEFAULT_MESSAGE_LEVELS.WARNING: "alert alert-warning",
+    DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
+}
+
 register = template.Library()
 
 
@@ -32,6 +42,27 @@ def bootstrap_setting(value):
     templates.
     """
     return get_bootstrap_setting(value)
+
+
+@register.filter
+def bootstrap_message_classes(message):
+    """
+    Return the message classes for a message
+    """
+    try:
+        classes = [message.extra_tags, ]
+    except AttributeError:
+        classes = []
+    try:
+        level = message.level
+    except AttributeError:
+        pass
+    else:
+        try:
+            classes.append(MESSAGE_LEVEL_CLASSES[level])
+        except KeyError:
+            classes.append("alert alert-danger")
+    return ' '.join(classes).strip()
 
 
 @register.simple_tag
@@ -696,6 +727,7 @@ def bootstrap_messages(context, *args, **kwargs):
     # TODO: This may be due to a bug in Django 1.8/1.9+
     if Context and isinstance(context, Context):
         context = context.flatten()
+    context.update({'message_constants': message_constants})
     return render_template_file('bootstrap3/messages.html', context=context)
 
 
