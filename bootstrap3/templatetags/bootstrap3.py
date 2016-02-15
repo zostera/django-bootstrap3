@@ -11,7 +11,8 @@ from django.template import Context
 from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
-    css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
+    css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting, 
+	jquery_integrity, javascript_integrity, css_integrity, theme_integrity
 )
 from ..components import render_icon, render_alert
 from ..forms import (
@@ -94,6 +95,28 @@ def bootstrap_jquery_url():
 
 
 @register.simple_tag
+def bootstrap_jquery_integrity():
+    """
+    **Tag name**::
+
+        bootstrap_jquery_integrity
+
+    Return the integrity value set for the jQuery file
+
+    This value is configurable, see Settings section
+
+    **Usage**::
+
+        {% bootstrap_jquery_integrity %}
+
+    **Example**::
+
+        {% bootstrap_jquery_integrity %}
+    """
+    return jquery_integrity()
+
+
+@register.simple_tag
 def bootstrap_javascript_url():
     """
     Return the full url to the Bootstrap JavaScript library
@@ -115,6 +138,28 @@ def bootstrap_javascript_url():
         {% bootstrap_javascript_url %}
     """
     return javascript_url()
+
+
+@register.simple_tag
+def bootstrap_javascript_integrity():
+    """
+    **Tag name**::
+
+        bootstrap_javascript_integrity
+
+    Return the integrity value set for the JavaScript file
+
+    This value is configurable, see Settings section
+
+    **Usage**::
+
+        {% bootstrap_javascript_integrity %}
+
+    **Example**::
+
+        {% bootstrap_javascript_integrity %}
+    """
+    return javascript_integrity()
 
 
 @register.simple_tag
@@ -142,6 +187,28 @@ def bootstrap_css_url():
 
 
 @register.simple_tag
+def bootstrap_css_integrity():
+    """
+    Return the integrity value set for the Bootstrap CSS file
+
+    This value is configurable, see Settings section
+
+    **Tag name**::
+
+        bootstrap_css_integrity
+
+    **Usage**::
+
+        {% bootstrap_css_integrity %}
+
+    **Example**::
+
+        {% bootstrap_css_integrity %}
+    """
+    return css_integrity()
+
+
+@register.simple_tag
 def bootstrap_theme_url():
     """
     Return the full url to a Bootstrap theme CSS library
@@ -163,6 +230,28 @@ def bootstrap_theme_url():
         {% bootstrap_theme_url %}
     """
     return theme_url()
+
+
+@register.simple_tag
+def bootstrap_theme_integrity():
+    """
+    Return the integrity value set for the CSS theme file
+
+    This value is configurable, see Settings section
+
+    **Tag name**::
+
+        bootstrap_theme_integrity
+
+    **Usage**::
+
+        {% bootstrap_theme_integrity %}
+
+    **Example**::
+
+        {% bootstrap_theme_integrity %}
+    """
+    return theme_integrity()
 
 
 @register.simple_tag
@@ -189,8 +278,10 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-    urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
-    return mark_safe(''.join([render_link_tag(url) for url in urls]))
+    urls = [(url, integrity) for (url, integrity) in zip(
+		[bootstrap_css_url(), bootstrap_theme_url()],
+		[bootstrap_css_integrity(), bootstrap_theme_integrity()]) if url]
+    return mark_safe(''.join([render_link_tag(url, integrity=integrity) for (url, integrity) in urls]))
 
 
 @register.simple_tag
@@ -231,10 +322,18 @@ def bootstrap_javascript(jquery=None):
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-            javascript += render_tag('script', attrs={'src': url})
+			jquery_attrs = {'src': url}
+			jquery_integrity = bootstrap_jquery_integrity()
+			if jquery_integrity:
+				jquery_attrs.update({'integrity': jquery_integrity, 'crossorigin': 'anonymous'})
+            javascript += render_tag('script', attrs=jquery_attrs)
     url = bootstrap_javascript_url()
     if url:
-        javascript += render_tag('script', attrs={'src': url})
+		javascript_attrs = {'src': url}
+		javascript_integrity = bootstrap_javascript_integrity()
+		if javascript_integrity: # This should probably be in render_tag but author seems to reserve it for general rendering
+			javascript_attrs.update({'integrity': javascript_integrity, 'crossorigin': 'anonymous'})
+        javascript += render_tag('script', attrs=javascript_attrs)
     return mark_safe(javascript)
 
 
