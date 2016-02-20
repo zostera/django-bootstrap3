@@ -20,10 +20,11 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
     :alt: Number of PyPI downloads per month
 
 
-Note
-----
+Requirements
+------------
 
-This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
+- Python 2.7, 3.2, 3.3, 3.4, or 3.5
+- Django >= 1.8
 
 
 Installation
@@ -40,6 +41,8 @@ Installation
    ``'bootstrap3',``
 
 3. In your templates, load the ``bootstrap3`` library and use the ``bootstrap_*`` tags:
+
+This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
 
 
 Example template
@@ -68,17 +71,8 @@ Documentation
 The full documentation is at http://django-bootstrap3.readthedocs.org/.
 
 
-Requirements
-------------
-
-- Python 2.6, 2.7, 3.2, 3.3, 3.4, or 3.5
-- Django >= 1.4
-
-Contributions and pull requests for other Django and Python versions are welcome.
-
-
-Bugs and requests
------------------
+Bugs and suggestions
+--------------------
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
