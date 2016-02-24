@@ -9,6 +9,7 @@ History
 
 * Dropped support for Django < 1.8
 * Dropped support for Python < 2.7
+* Fix page number bug (thanks @frewsxcv)
 * Fix template context warning (thanks @jieter and @jonashaag)
 * Update to Bootstrap 3.3.6 (@nikolas)
 * Show links and newlines in messages (@jakub3279)
