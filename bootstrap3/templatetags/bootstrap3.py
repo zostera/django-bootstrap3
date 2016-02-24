@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting, 
-	jquery_integrity, javascript_integrity, css_integrity, theme_integrity
+    jquery_integrity, javascript_integrity, css_integrity, theme_integrity
 )
 from ..components import render_icon, render_alert
 from ..forms import (
@@ -279,8 +279,9 @@ def bootstrap_css():
         {% bootstrap_css %}
     """
     urls = [(url, integrity) for (url, integrity) in zip(
-		[bootstrap_css_url(), bootstrap_theme_url()],
-		[bootstrap_css_integrity(), bootstrap_theme_integrity()]) if url]
+            [bootstrap_css_url(), bootstrap_theme_url()],
+            [bootstrap_css_integrity(), bootstrap_theme_integrity()]
+        ) if url]
     return mark_safe(''.join([render_link_tag(url, integrity=integrity) for (url, integrity) in urls]))
 
 
@@ -322,17 +323,17 @@ def bootstrap_javascript(jquery=None):
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-			jquery_attrs = {'src': url}
-			jquery_integrity = bootstrap_jquery_integrity()
-			if jquery_integrity:
-				jquery_attrs.update({'integrity': jquery_integrity, 'crossorigin': 'anonymous'})
+            jquery_attrs = {'src': url}
+            jquery_integrity = bootstrap_jquery_integrity()
+            if jquery_integrity:
+                jquery_attrs.update({'integrity': jquery_integrity, 'crossorigin': 'anonymous'})
             javascript += render_tag('script', attrs=jquery_attrs)
     url = bootstrap_javascript_url()
     if url:
-		javascript_attrs = {'src': url}
-		javascript_integrity = bootstrap_javascript_integrity()
-		if javascript_integrity: # This should probably be in render_tag but author seems to reserve it for general rendering
-			javascript_attrs.update({'integrity': javascript_integrity, 'crossorigin': 'anonymous'})
+        javascript_attrs = {'src': url}
+        javascript_integrity = bootstrap_javascript_integrity()
+        if javascript_integrity: # This should probably be in render_tag but author seems to reserve it for general rendering
+            javascript_attrs.update({'integrity': javascript_integrity, 'crossorigin': 'anonymous'})
         javascript += render_tag('script', attrs=javascript_attrs)
     return mark_safe(javascript)
 
