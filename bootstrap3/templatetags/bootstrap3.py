@@ -802,12 +802,13 @@ def get_pagination_context(page, pages_to_show=11,
     """
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError("Pagination pages_to_show should be a positive " +
-                         "integer, you specified {pages}".format(
-                             pages=pages_to_show))
+        raise ValueError(
+            "Pagination pages_to_show should be a positive integer, you specified {pages}".format(
+                pages=pages_to_show)
+        )
     num_pages = page.paginator.num_pages
     current_page = page.number
-    half_page_num = int(floor(pages_to_show / 2)) - 1
+    half_page_num = int(floor(pages_to_show / 2))
     if half_page_num < 0:
         half_page_num = 0
     first_page = current_page - half_page_num
