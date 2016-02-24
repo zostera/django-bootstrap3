@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 
+from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 from django.forms import (
     TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
@@ -10,17 +10,16 @@ from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
-from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 
 from .bootstrap import get_bootstrap_setting
-from .text import text_value
 from .exceptions import BootstrapError
-from .utils import add_css_class, render_template_to_unicode
 from .forms import (
     render_form, render_field, render_label, render_form_group,
     is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
 )
+from .text import text_value
+from .utils import add_css_class, render_template_file
 
 
 class BaseRenderer(object):
@@ -117,7 +116,7 @@ class FormsetRenderer(BaseRenderer):
     def render_errors(self):
         formset_errors = self.get_formset_errors()
         if formset_errors:
-            return render_template_to_unicode(
+            return render_template_file(
                 'bootstrap3/form_errors.html',
                 context={
                     'errors': formset_errors,
@@ -151,6 +150,9 @@ class FormRenderer(BaseRenderer):
         # Handle form.empty_permitted
         if self.form.empty_permitted:
             self.set_required = False
+        self.error_css_class = kwargs.get('error_css_class', None)
+        self.required_css_class = kwargs.get('required_css_class', None)
+        self.bound_css_class = kwargs.get('bound_css_class', None)
 
     def render_fields(self):
         rendered_fields = []
@@ -169,6 +171,9 @@ class FormRenderer(BaseRenderer):
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
+                error_css_class=self.error_css_class,
+                required_css_class=self.required_css_class,
+                bound_css_class=self.bound_css_class,
             ))
         return '\n'.join(rendered_fields)
 
@@ -189,7 +194,7 @@ class FormRenderer(BaseRenderer):
             form_errors = self.form.non_field_errors()
 
         if form_errors:
-            return render_template_to_unicode(
+            return render_template_file(
                 'bootstrap3/form_errors.html',
                 context={
                     'errors': form_errors,
@@ -209,10 +214,17 @@ class FieldRenderer(BaseRenderer):
     Default field renderer
     """
 
+    # These widgets will not be wrapped in a form-control class
+    WIDGETS_NO_FORM_CONTROL = (
+        CheckboxInput,
+        RadioSelect,
+        CheckboxSelectMultiple,
+        FileInput,
+    )
+
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise BootstrapError(
-                'Parameter "field" should contain a valid Django BoundField.')
+            raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super(FieldRenderer, self).__init__(*args, **kwargs)
 
@@ -232,22 +244,22 @@ class FieldRenderer(BaseRenderer):
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
-        error_css_class = kwargs.get('error_css_class', '')
-        required_css_class = kwargs.get('required_css_class', '')
-        bound_css_class = kwargs.get('bound_css_class', '')
-        if error_css_class:
+        error_css_class = kwargs.get('error_css_class', None)
+        required_css_class = kwargs.get('required_css_class', None)
+        bound_css_class = kwargs.get('bound_css_class', None)
+        if error_css_class is not None:
             self.error_css_class = error_css_class
         else:
             self.error_css_class = getattr(
                 field.form, 'error_css_class',
                 get_bootstrap_setting('error_css_class'))
-        if required_css_class:
+        if required_css_class is not None:
             self.required_css_class = required_css_class
         else:
             self.required_css_class = getattr(
                 field.form, 'required_css_class',
                 get_bootstrap_setting('required_css_class'))
-        if bound_css_class:
+        if bound_css_class is not None:
             self.success_css_class = bound_css_class
         else:
             self.success_css_class = getattr(
@@ -269,12 +281,9 @@ class FieldRenderer(BaseRenderer):
             widget = self.widget
         classes = widget.attrs.get('class', '')
         if isinstance(widget, ReadOnlyPasswordHashWidget):
-            classes = add_css_class(
-                classes, 'form-control-static', prepend=True)
-        elif not isinstance(widget, (CheckboxInput,
-                                     RadioSelect,
-                                     CheckboxSelectMultiple,
-                                     FileInput)):
+            # Render this is a static control
+            classes = add_css_class(classes, 'form-control-static', prepend=True)
+        elif not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
             classes = add_css_class(classes, 'form-control', prepend=True)
             # For these widget types, add the size class here
             classes = add_css_class(classes, self.get_size_class())
@@ -367,8 +376,9 @@ class FieldRenderer(BaseRenderer):
 
         """
         # TODO This needs improvement
-        return '<div class="row bootstrap3-multi-input">' + \
-               '<div class="col-xs-12">' + html + '</div></div>'
+        return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'.format(
+            html=html
+        )
 
     def post_widget_render(self, html):
         if isinstance(self.widget, RadioSelect):
@@ -393,21 +403,16 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def make_input_group(self, html):
-        if (
-                    (self.addon_before or self.addon_after) and
-                    isinstance(self.widget, (TextInput, DateInput, Select))
-        ):
+        if (self.addon_before or self.addon_after) and isinstance(self.widget, (TextInput, DateInput, Select)):
             before = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_before) if self.addon_before else ''
             after = '<span class="input-group-addon">{addon}</span>'.format(
                 addon=self.addon_after) if self.addon_after else ''
-            html = \
-                '<div class="input-group">' + \
-                '{before}{html}{after}</div>'.format(
-                    before=before,
-                    after=after,
-                    html=html
-                )
+            html = '<div class="input-group">{before}{html}{after}</div>'.format(
+                before=before,
+                after=after,
+                html=html
+            )
         return html
 
     def append_to_field(self, html):
@@ -416,7 +421,7 @@ class FieldRenderer(BaseRenderer):
             help_text_and_errors.append(self.field_help)
         help_text_and_errors += self.field_errors
         if help_text_and_errors:
-            help_html = render_template_to_unicode(
+            help_html = render_template_file(
                 'bootstrap3/field_help_text_and_errors.html',
                 context={
                     'field': self.field,

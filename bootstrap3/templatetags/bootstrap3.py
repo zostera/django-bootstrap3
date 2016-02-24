@@ -2,26 +2,34 @@
 from __future__ import unicode_literals
 
 import re
-
 from math import floor
 
 from django import template
-from django.template.loader import get_template
+from django.contrib.messages import constants as message_constants
+from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
+from django.template import Context
 from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
 )
-from ..utils import render_link_tag, render_tag, render_template_to_unicode
+from ..components import render_icon, render_alert
 from ..forms import (
     render_button, render_field, render_field_and_label, render_form,
     render_form_group, render_formset,
     render_label, render_form_errors, render_formset_errors
 )
-from ..components import render_icon, render_alert
-from ..utils import handle_var, parse_token_contents
 from ..text import force_text
+from ..utils import handle_var, parse_token_contents
+from ..utils import render_link_tag, render_tag, render_template_file
 
+MESSAGE_LEVEL_CLASSES = {
+    DEFAULT_MESSAGE_LEVELS.DEBUG: "alert alert-warning",
+    DEFAULT_MESSAGE_LEVELS.INFO: "alert alert-info",
+    DEFAULT_MESSAGE_LEVELS.SUCCESS: "alert alert-success",
+    DEFAULT_MESSAGE_LEVELS.WARNING: "alert alert-warning",
+    DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
+}
 
 register = template.Library()
 
@@ -34,6 +42,31 @@ def bootstrap_setting(value):
     templates.
     """
     return get_bootstrap_setting(value)
+
+
+@register.filter
+def bootstrap_message_classes(message):
+    """
+    Return the message classes for a message
+    """
+    extra_tags = None
+    try:
+        extra_tags = message.extra_tags
+    except AttributeError:
+        pass
+    if not extra_tags:
+        extra_tags = ""
+    classes = [extra_tags]
+    try:
+        level = message.level
+    except AttributeError:
+        pass
+    else:
+        try:
+            classes.append(MESSAGE_LEVEL_CLASSES[level])
+        except KeyError:
+            classes.append("alert alert-danger")
+    return ' '.join(classes).strip()
 
 
 @register.simple_tag
@@ -119,15 +152,15 @@ def bootstrap_theme_url():
 
     **Tag name**::
 
-        bootstrap_css_url
+        bootstrap_theme_url
 
     **Usage**::
 
-        {% bootstrap_css_url %}
+        {% bootstrap_theme_url %}
 
     **Example**::
 
-        {% bootstrap_css_url %}
+        {% bootstrap_theme_url %}
     """
     return theme_url()
 
@@ -628,7 +661,7 @@ def bootstrap_buttons(parser, token):
 
     """
     kwargs = parse_token_contents(parser, token)
-    kwargs['nodelist'] = parser.parse(('endbuttons', ))
+    kwargs['nodelist'] = parser.parse(('endbuttons',))
     parser.delete_first_token()
     return ButtonsNode(**kwargs)
 
@@ -693,7 +726,13 @@ def bootstrap_messages(context, *args, **kwargs):
         {% bootstrap_messages %}
 
     """
-    return render_template_to_unicode('bootstrap3/messages.html', context=context)
+
+    # Force Django 1.8+ style, so dicts and not Context
+    # TODO: This may be due to a bug in Django 1.8/1.9+
+    if Context and isinstance(context, Context):
+        context = context.flatten()
+    context.update({'message_constants': message_constants})
+    return render_template_file('bootstrap3/messages.html', context=context)
 
 
 @register.inclusion_tag('bootstrap3/pagination.html')
@@ -763,12 +802,13 @@ def get_pagination_context(page, pages_to_show=11,
     """
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError("Pagination pages_to_show should be a positive " +
-                         "integer, you specified {pages}".format(
-                             pages=pages_to_show))
+        raise ValueError(
+            "Pagination pages_to_show should be a positive integer, you specified {pages}".format(
+                pages=pages_to_show)
+        )
     num_pages = page.paginator.num_pages
     current_page = page.number
-    half_page_num = int(floor(pages_to_show / 2)) - 1
+    half_page_num = int(floor(pages_to_show / 2))
     if half_page_num < 0:
         half_page_num = 0
     first_page = current_page - half_page_num

@@ -18,7 +18,7 @@ The ``BOOTSTRAP3`` dict variable contains these settings and defaults:
         'jquery_url': '//code.jquery.com/jquery.min.js',
 
         # The Bootstrap base URL
-        'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/',
+        'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/',
 
         # The complete URL to the Bootstrap CSS file (None means derive it from base_url)
         'css_url': None,

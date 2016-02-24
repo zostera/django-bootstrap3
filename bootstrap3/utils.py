@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import re
 
 from django.forms.widgets import flatatt
-from django.template import Variable, VariableDoesNotExist, Template, Context
+from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
@@ -15,7 +15,6 @@ except ImportError:
     from .legacy import format_html_pre_18 as format_html
 
 from .text import text_value
-
 
 # RegEx for quoted string
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
@@ -131,12 +130,10 @@ def render_tag(tag, attrs=None, content=None, close=True):
     )
 
 
-def render_template_to_unicode(template, context=None):
+def render_template_file(template, context=None):
     """
     Render a Template to unicode
     """
-    if not isinstance(template, Template):
-        template = get_template(template)
-    if context is None:
-        context = {}
-    return template.render(Context(context))
+    assert type(context) == type({})
+    template = get_template(template)
+    return template.render(context)

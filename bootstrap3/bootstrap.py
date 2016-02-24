@@ -11,7 +11,7 @@ except ImportError:
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
     'jquery_url': '//code.jquery.com/jquery.min.js',
-    'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/',
+    'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/',
     'css_url': None,
     'theme_url': None,
     'javascript_url': None,

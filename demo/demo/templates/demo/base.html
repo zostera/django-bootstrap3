@@ -1,7 +1,5 @@
 {% extends 'demo/bootstrap.html' %}
 
-{% load url from future %}
-
 {% load bootstrap3 %}
 
 {% block bootstrap3_content %}
@@ -20,7 +18,7 @@
             <a href="{% url 'misc' %}">miscellaneous</a>
         </p>
 
-        {% bootstrap_messages %}
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
 
         {% block content %}(no content){% endblock %}
     </div>

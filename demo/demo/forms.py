@@ -50,6 +50,7 @@ class FilesForm(forms.Form):
     file1 = forms.FileField()
     file2 = forms.FileField(required=False)
     file3 = forms.FileField(widget=forms.ClearableFileInput)
+    file5 = forms.ImageField()
     file4 = forms.FileField(required=False, widget=forms.ClearableFileInput)
 
 

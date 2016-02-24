@@ -12,7 +12,6 @@ if BOOTSTRAP3_FOLDER not in sys.path:
     sys.path.insert(0, BOOTSTRAP3_FOLDER)
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = ()
 
@@ -99,11 +98,21 @@ ROOT_URLCONF = 'demo.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'demo.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            "django.contrib.auth.context_processors.auth",
+            "django.template.context_processors.debug",
+            "django.template.context_processors.i18n",
+            "django.template.context_processors.media",
+            "django.template.context_processors.static",
+            "django.template.context_processors.tz",
+            "django.contrib.messages.context_processors.messages"
+        ]
+    }
+}]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -112,10 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+
     'bootstrap3',
     'demo',
 )
