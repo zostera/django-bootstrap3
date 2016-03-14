@@ -4,7 +4,7 @@ History
 -------
 
 
-7.0.0 (in progress)
+7.0.0 (2016-02-24)
 +++++++++++++++++++
 
 * Dropped support for Django < 1.8
