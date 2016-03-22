@@ -2,10 +2,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-try:
-    from importlib import import_module
-except ImportError:
-    from django.utils.importlib import import_module
+from importlib import import_module
 
 
 # Default settings
