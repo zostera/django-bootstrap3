@@ -3,9 +3,14 @@
 History
 -------
 
+7.0.1 (2016-03-23)
+++++++++++++++++++
 
-7.0.0 (in progress)
-+++++++++++++++++++
+* Fixed bug with widget attrs consistency (@onysos)
+
+
+7.0.0 (2016-02-24)
+++++++++++++++++++
 
 * Dropped support for Django < 1.8
 * Dropped support for Python < 2.7
