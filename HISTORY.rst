@@ -3,6 +3,11 @@
 History
 -------
 
+7.0.1 (in progress)
++++++++++++++++++++
+
+* Fixed bug with widget attrs consistency (@onysos)
+
 
 7.0.0 (2016-02-24)
 +++++++++++++++++++
