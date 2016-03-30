@@ -500,7 +500,7 @@ def bootstrap_label(*args, **kwargs):
 
     **Example**::
 
-        {% bootstrap_label "Email address" for="exampleInputEmail1" %}
+        {% bootstrap_label "Email address" label_for="exampleInputEmail1" %}
 
     """
     return render_label(*args, **kwargs)
