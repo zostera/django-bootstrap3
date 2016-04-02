@@ -241,6 +241,8 @@ class FieldRenderer(BaseRenderer):
 
         self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
         self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
+        self.addon_before_class = kwargs.get('addon_before_class', self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
+        self.addon_after_class = kwargs.get('addon_after_class', self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
@@ -404,10 +406,10 @@ class FieldRenderer(BaseRenderer):
 
     def make_input_group(self, html):
         if (self.addon_before or self.addon_after) and isinstance(self.widget, (TextInput, DateInput, Select)):
-            before = '<span class="input-group-addon">{addon}</span>'.format(
-                addon=self.addon_before) if self.addon_before else ''
-            after = '<span class="input-group-addon">{addon}</span>'.format(
-                addon=self.addon_after) if self.addon_after else ''
+            before = '<span class="{input_class}">{addon}</span>'.format(
+                input_class=self.addon_before_class, addon=self.addon_before) if self.addon_before else ''
+            after = '<span class="{input_class}">{addon}</span>'.format(
+                input_class=self.addon_after_class, addon=self.addon_after) if self.addon_after else ''
             html = '<div class="input-group">{before}{html}{after}</div>'.format(
                 before=before,
                 after=after,
