@@ -28,7 +28,7 @@ def render_alert(content, alert_type=None, dismissable=True):
     if not alert_type:
         alert_type = 'info'
     css_classes = ['alert', 'alert-' + text_value(alert_type)]
-    if dismissable:
+    if str(dismissable)=='True':
         css_classes.append('alert-dismissable')
         button = '<button type="button" class="close" ' + \
                  'data-dismiss="alert" aria-hidden="true">&times;</button>'
