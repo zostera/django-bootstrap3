@@ -235,7 +235,7 @@ class FieldRenderer(BaseRenderer):
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
         if get_bootstrap_setting('set_placeholder'):
-            self.placeholder = field.label
+            self.placeholder = kwargs.get("placeholder", field.label)
         else:
             self.placeholder = ''
 
