@@ -180,7 +180,7 @@ class FormRenderer(BaseRenderer):
     def get_fields_errors(self):
         form_errors = []
         for field in self.form:
-            if field.is_hidden and field.errors:
+            if not field.is_hidden and field.errors:
                 form_errors += field.errors
         return form_errors
 
@@ -200,6 +200,7 @@ class FormRenderer(BaseRenderer):
                     'errors': form_errors,
                     'form': self.form,
                     'layout': self.layout,
+                    'type': type,
                 }
             )
 
@@ -427,6 +428,7 @@ class FieldRenderer(BaseRenderer):
                     'field': self.field,
                     'help_text_and_errors': help_text_and_errors,
                     'layout': self.layout,
+                    'show_help': self.show_help,
                 }
             )
             html += '<span class="help-block">{help}</span>'.format(help=help_html)
