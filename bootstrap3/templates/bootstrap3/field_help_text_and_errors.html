@@ -1,1 +1,4 @@
-{{ help_text_and_errors|join:' ' }}
+{# Reverse the messages, so that errors are printed first #}
+{% for text in help_text_and_errors reversed %}
+    <div class="help-block">{{ text }}</div>
+{% endfor %}
