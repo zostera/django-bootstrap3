@@ -8,7 +8,7 @@ from importlib import import_module
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
     'jquery_url': '//code.jquery.com/jquery.min.js',
-    'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/',
+    'base_url': '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/',
     'css_url': None,
     'theme_url': None,
     'javascript_url': None,
