@@ -3,7 +3,8 @@
     <ul class="{{ pagination_css_classes }}">
 
         <li class="prev{% if current_page == 1 %} disabled{% endif %}">
-            <a href="{% if current_page == 1 %}#{% else %}{{ bootstrap_pagination_url }}{{ parameter_name }}=1{% endif %}">&laquo;</a>
+            <a href="{% if current_page == 1 %}#
+                {% else %}{{ bootstrap_pagination_url }}{{ parameter_name }}=1{% endif %}">&laquo;</a>
         </li>
 
         {% if pages_back %}
@@ -13,9 +14,15 @@
         {% endif %}
 
         {% for p in pages_shown %}
-            <li{% if current_page == p %} class="active"{% endif %}>
-                <a href="{% if current_page == p %}#{% else %}{{ bootstrap_pagination_url }}{{ parameter_name }}={{ p }}{% endif %}">{{ p }}</a>
-            </li>
+            {% if current_page == p %}
+                <li class="active">
+                    <a>{{ p }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ bootstrap_pagination_url }}{{ parameter_name }}={{ p }}">{{ p }}</a>
+                </li>
+            {% endif %}
         {% endfor %}
 
         {% if pages_forward %}
@@ -25,7 +32,8 @@
         {% endif %}
 
         <li class="last{% if current_page == num_pages %} disabled{% endif %}">
-            <a href="{% if current_page == num_pages %}#{% else %}{{ bootstrap_pagination_url }}{{ parameter_name }}={{ num_pages }}{% endif %}">&raquo;</a>
+            <a href="{% if current_page == num_pages %}#
+                {% else %}{{ bootstrap_pagination_url }}{{ parameter_name }}={{ num_pages }}{% endif %}">&raquo;</a>
         </li>
 
     </ul>
