@@ -456,6 +456,10 @@ class FieldTest(TestCase):
         rendered_b = render_form_field("addon", context)
         self.assertEqual(rendered_a, rendered_b)
 
+    def test_label(self):
+        res = render_template_with_form('{% bootstrap_label "foobar" label_for="subject" %}')
+        self.assertEqual('<label for="subject">foobar</label>', res)
+
     def test_attributes_consistency(self):
         form = TestForm()
         attrs = form.fields['addon'].widget.attrs.copy()
