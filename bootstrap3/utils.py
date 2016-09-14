@@ -2,8 +2,16 @@
 from __future__ import unicode_literals
 
 import re
-from urllib import urlencode
-from urlparse import urlparse, parse_qs, urlunparse
+
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+
+try:
+    from urlparse import urlparse, parse_qs, urlunparse
+except ImportError:
+    from urllib.parse import urlparse, parse_qs, urlunparse
 
 from django.forms.widgets import flatatt
 from django.template import Variable, VariableDoesNotExist
