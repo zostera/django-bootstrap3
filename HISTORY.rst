@@ -3,6 +3,18 @@
 History
 -------
 
+DEVELOP
++++++++
+
+* Improved page urls in pagination (fixes #323)
+* Changed setup.py to allow `setup.py test` run tests
+* Removed link target from active page in pagination (fixes #328)
+* Fixed example for bootstrap_label (fixed #332)
+* Fixed tests to support Django 1.10 handling of required attribute, see #337 (needs fixing)
+* Added tests for Django 1.10
+* Bootstrap to 3.3.7
+
+
 7.0.1 (2016-03-23)
 ++++++++++++++++++
 
