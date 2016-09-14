@@ -91,6 +91,10 @@ class TestForm(forms.Form):
 
     required_css_class = 'bootstrap3-req'
 
+    # Set this to allow tests to work properly in Django 1.10+
+    # More information, see issue #337
+    use_required_attribute = False
+
     def clean(self):
         cleaned_data = super(TestForm, self).clean()
         raise forms.ValidationError(
