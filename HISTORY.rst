@@ -6,6 +6,7 @@ History
 DEVELOP
 +++++++
 
+* Print help text and errors in their own block (#329, thanks @Matoking)
 * Improved page urls in pagination (fixes #323)
 * Changed setup.py to allow `setup.py test` run tests
 * Removed link target from active page in pagination (fixes #328)
