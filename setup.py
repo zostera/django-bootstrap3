@@ -21,6 +21,12 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     sys.exit()
 
+if sys.argv[-1] == 'test':
+    print("Running tests only on current environment.")
+    print("Use `tox` for testing multiple environments.")
+    os.system('python manage.py test')
+    sys.exit()
+
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 

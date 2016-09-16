@@ -3,6 +3,16 @@ from __future__ import unicode_literals
 
 import re
 
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
+
+try:
+    from urlparse import urlparse, parse_qs, urlunparse
+except ImportError:
+    from urllib.parse import urlparse, parse_qs, urlunparse
+
 from django.forms.widgets import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
@@ -137,3 +147,21 @@ def render_template_file(template, context=None):
     assert type(context) == type({})
     template = get_template(template)
     return template.render(context)
+
+
+def url_replace_param(url, name, value):
+    """
+    Replace a GET parameter in an URL
+    """
+    url_components = urlparse(url)
+    query_params = parse_qs(url_components.query)
+    query_params[name] = value
+    query = urlencode(query_params, doseq=True)
+    return urlunparse([
+        url_components.scheme,
+        url_components.netloc,
+        url_components.path,
+        url_components.params,
+        query,
+        url_components.fragment,
+    ])
