@@ -3,8 +3,8 @@
 History
 -------
 
-DEVELOP
-+++++++
+7.1.0 (2016-09-16)
+++++++++++++++++++
 
 * Print help text and errors in their own block (#329, thanks @Matoking)
 * Improved page urls in pagination (fixes #323)
