@@ -38,6 +38,7 @@ class BaseRenderer(object):
         self.exclude = kwargs.get('exclude', '')
         self.set_required = kwargs.get('set_required', True)
         self.set_disabled = kwargs.get('set_disabled', False)
+        self.set_placeholder = kwargs.get('set_placeholder', True)
         self.size = self.parse_size(kwargs.get('size', ''))
         self.horizontal_label_class = kwargs.get(
             'horizontal_label_class',
@@ -104,6 +105,7 @@ class FormsetRenderer(BaseRenderer):
                 exclude=self.exclude,
                 set_required=self.set_required,
                 set_disabled=self.set_disabled,
+                set_placeholder=self.set_placeholder,
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
@@ -168,6 +170,7 @@ class FormRenderer(BaseRenderer):
                 exclude=self.exclude,
                 set_required=self.set_required,
                 set_disabled=self.set_disabled,
+                set_placeholder=self.set_placeholder,
                 size=self.size,
                 horizontal_label_class=self.horizontal_label_class,
                 horizontal_field_class=self.horizontal_field_class,
@@ -235,8 +238,9 @@ class FieldRenderer(BaseRenderer):
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
+        self.placeholder = kwargs.get("placeholder", "")
         if get_bootstrap_setting('set_placeholder'):
-            self.placeholder = kwargs.get("placeholder", field.label)
+            self.placeholder = field.label
         else:
             self.placeholder = ''
 
@@ -294,7 +298,7 @@ class FieldRenderer(BaseRenderer):
         if widget is None:
             widget = self.widget
         placeholder = widget.attrs.get('placeholder', self.placeholder)
-        if placeholder and is_widget_with_placeholder(widget):
+        if placeholder and self.set_placeholder and is_widget_with_placeholder(widget):
             # TODO: Should this be stripped and/or escaped?
             widget.attrs['placeholder'] = placeholder
 
