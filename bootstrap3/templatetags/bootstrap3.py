@@ -426,6 +426,8 @@ def bootstrap_field(*args, **kwargs):
                 * ``'medium'``
                 * ``'large'``
 
+        placeholder
+            Sets the placeholder text of a textbox
 
         horizontal_label_class
             Class used on the label when the ``layout`` is set to ``horizontal``.
