@@ -434,6 +434,26 @@ def bootstrap_field(*args, **kwargs):
             Text that should be appended to the form field. See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>`_
             for an example.
 
+        addon_before_class
+            Class used on the span when ``addon_before`` is used.
+
+            One of the following values:
+                
+                * ``'input-group-addon'``
+                * ``'input-group-btn'``
+
+            :default: ``input-group-addon``
+
+        addon_after_class
+            Class used on the span when ``addon_after`` is used.
+
+            One of the following values:
+                
+                * ``'input-group-addon'``
+                * ``'input-group-btn'``
+
+            :default: ``input-group-addon``
+
         error_css_class
             CSS class used when the field has an error
 

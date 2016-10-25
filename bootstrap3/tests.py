@@ -429,6 +429,12 @@ class FieldTest(TestCase):
         self.assertIn('class="input-group-addon">$', res)
         self.assertIn('class="input-group-addon">.00', res)
 
+    def test_input_group_addon_button(self):
+        res = render_template_with_form('{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-btn">$', res)
+        self.assertIn('class="input-group-btn">.00', res)
+
     def test_size(self):
         def _test_size(param, klass):
             res = render_template_with_form('{% bootstrap_field form.subject size="' + param + '" %}')
