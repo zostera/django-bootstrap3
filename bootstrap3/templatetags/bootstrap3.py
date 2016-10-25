@@ -438,12 +438,16 @@ def bootstrap_field(*args, **kwargs):
             :default: ``'col-md-9'``. Can be changed in :doc:`settings`
 
         addon_before
-            Text that should be prepended to the form field. See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>`_
-            for an example.
+            Text that should be prepended to the form field. Can also be an icon, e.g.
+            ``'<span class="glyphicon glyphicon-calendar"></span>'``
+            
+            See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         addon_after
-            Text that should be appended to the form field. See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>`_
-            for an example.
+            Text that should be appended to the form field. Can also be an icon, e.g.
+            ``'<span class="glyphicon glyphicon-calendar"></span>'``
+            
+            See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         error_css_class
             CSS class used when the field has an error
