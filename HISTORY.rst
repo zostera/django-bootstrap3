@@ -15,6 +15,7 @@ Develop
 * Fix handling of error class (#170)
 * No size class for checkboxes (#318, thanks @cybojenix)
 * Fix warnings during install (thanks @mfcovington)
+* Fix rare RunTimeError when working without database (#346, thanks @Mactory)
 * Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
 * Several improvements to documentation, tests, and comments. Thanks all!
 
