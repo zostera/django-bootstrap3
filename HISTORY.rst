@@ -8,8 +8,10 @@ Develop
 
 * **BREAKING** Remove everything to do with setting HTML `required` attribute (#337)
 * **BREAKING** Remove everything to do with setting HTML `disabled` attribute (#345)
-* Default button type to btn-default
-* Add addon_before_class and addon_after_class (#295, thanks @DanWright91 and others)
+* Add `id` parameter to bootstrap_button (#214)
+* Add `set_placeholder` to field and form renderers (#339, thanks @predatell)
+* Default button type to `btn-default`
+* Add `addon_before_class` and `addon_after_class` (#295, thanks @DanWright91 and others)
 * Fix handling of error class (#170)
 * No size class for checkboxes (#318, thanks @cybojenix)
 * Fix warnings during install (thanks @mfcovington)

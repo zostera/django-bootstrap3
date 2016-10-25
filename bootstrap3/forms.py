@@ -77,7 +77,7 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
 
 def render_button(
         content, button_type=None, icon=None, button_class='btn-default', size='',
-        href='', name=None, value=None, title=None, extra_classes=''):
+        href='', name=None, value=None, title=None, extra_classes='', id=''):
     """
     Render a button with content
     """
@@ -110,6 +110,8 @@ def render_button(
         tag = 'a'
     else:
         tag = 'button'
+    if id:
+        attrs['id'] = id
     if name:
         attrs['name'] = name
     if value:
