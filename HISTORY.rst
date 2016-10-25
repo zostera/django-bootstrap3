@@ -3,6 +3,12 @@
 History
 -------
 
+Develop
++++++++
+
+* Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
+
+
 7.1.0 (2016-09-16)
 ++++++++++++++++++
 
