@@ -164,8 +164,6 @@ def is_widget_required_attribute(widget):
     """
     Is this widget required?
     """
-    if not get_bootstrap_setting('set_required'):
-        return False
     if not widget.is_required:
         return False
     if isinstance(

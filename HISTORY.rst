@@ -6,6 +6,9 @@ History
 Develop
 +++++++
 
+* Remove everything to do with setting HTML `required` attribute (#337)
+* Remove everything to do with setting HTML `disabled` attribute (#345)
+* Fix warnings during install (thanks @mfcovington)
 * Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
 
 

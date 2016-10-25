@@ -16,8 +16,6 @@ BOOTSTRAP3_DEFAULTS = {
     'include_jquery': False,
     'horizontal_label_class': 'col-md-3',
     'horizontal_field_class': 'col-md-9',
-    'set_required': True,
-    'set_disabled': False,
     'set_placeholder': True,
     'required_css_class': '',
     'error_css_class': 'has-error',
