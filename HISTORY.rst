@@ -6,10 +6,11 @@ History
 Develop
 +++++++
 
+* **BREAKING** Remove everything to do with setting HTML `required` attribute (#337)
+* **BREAKING** Remove everything to do with setting HTML `disabled` attribute (#345)
+* Several improvements to documentation, tests, and comments. Thanks all!
 * Add addon_before_class and addon_after_class (#295, thanks @DanWright91 and others)
 * Fix handling of error class (#170)
-* Remove everything to do with setting HTML `required` attribute (#337)
-* Remove everything to do with setting HTML `disabled` attribute (#345)
 * No size class for checkboxes (#318, thanks @cybojenix)
 * Fix warnings during install (thanks @mfcovington)
 * Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
