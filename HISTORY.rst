@@ -6,6 +6,7 @@ History
 Develop
 +++++++
 
+* Add addon_before_class and addon_after_class (#295, thanks @DanWright91 and others)
 * Fix handling of error class (#170)
 * Remove everything to do with setting HTML `required` attribute (#337)
 * Remove everything to do with setting HTML `disabled` attribute (#345)
