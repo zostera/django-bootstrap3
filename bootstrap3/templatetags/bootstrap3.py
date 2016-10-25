@@ -558,6 +558,9 @@ def bootstrap_button(*args, **kwargs):
             Name of an icon to render in the button's visible content. See bootstrap_icon_ for acceptable values.
 
         button_class
+            The class of button to use. If none is given, btn-default will be used.
+
+        extra_classes
             Any extra CSS classes that should be added to the button.
 
         size
@@ -607,6 +610,12 @@ def bootstrap_icon(icon, **kwargs):
 
         icon
             Icon name. See the `Bootstrap docs <http://getbootstrap.com/components/#glyphicons>`_ for all icons.
+
+        extra_classes
+            Extra CSS classes to add to the icon HTML
+
+        title
+            A title for the icon (HTML title attrivute)
 
     **Usage**::
 

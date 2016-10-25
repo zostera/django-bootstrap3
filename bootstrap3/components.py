@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.forms.widgets import flatatt
 from django.utils.safestring import mark_safe
-from bootstrap3.utils import render_tag
+from bootstrap3.utils import render_tag, add_css_class
 
 from .text import text_value
 
@@ -12,15 +12,15 @@ def render_icon(icon, **kwargs):
     """
     Render a Bootstrap glyphicon icon
     """
-    classes = ['glyphicon glyphicon-{icon}'.format(icon=icon)]
-    if kwargs.get('add_class'):
-        classes.append(kwargs.get('add_class'))
     attrs = {
-        'class': ' '.join(classes),
+        'class': add_css_class(
+            'glyphicon glyphicon-{icon}'.format(icon=icon),
+            kwargs.get('extra_classes', ''),
+        )
     }
-    if kwargs.get('title'):
-        attrs['title'] = kwargs.get('title')
-
+    title = kwargs.get('title')
+    if title:
+        attrs['title'] = title
     return render_tag('span', attrs=attrs)
 
 

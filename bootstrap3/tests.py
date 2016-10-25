@@ -628,11 +628,11 @@ class ButtonTest(TestCase):
     def test_button(self):
         res = render_template_with_form("{% bootstrap_button 'button' size='lg' %}")
         self.assertEqual(
-            res.strip(), '<button class="btn btn-lg">button</button>')
+            res.strip(), '<button class="btn btn-default btn-lg">button</button>')
         res = render_template_with_form("{% bootstrap_button 'button' size='lg' href='#' %}")
         self.assertIn(
             res.strip(),
-            '<a class="btn btn-lg" href="#">button</a><a href="#" ' +
+            '<a class="btn btn-default btn-lg" href="#">button</a><a href="#" ' +
             'class="btn btn-lg">button</a>')
 
 
@@ -660,5 +660,19 @@ class ShowLabelTest(TestCase):
         )
         self.assertEqual(
             res.strip(),
-            '<button class="btn"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
+            '<button class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
+        )
+        res = render_template_with_form(
+            "{% bootstrap_button 'test' icon='info-sign' button_class='btn-primary' %}"
+        )
+        self.assertEqual(
+            res.strip(),
+            '<button class="btn btn-primary"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
+        )
+        res = render_template_with_form(
+            "{% bootstrap_button 'test' icon='info-sign' button_type='submit' %}"
+        )
+        self.assertEqual(
+            res.strip(),
+            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
         )
