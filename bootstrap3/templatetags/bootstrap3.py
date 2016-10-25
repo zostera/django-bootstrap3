@@ -31,6 +31,12 @@ MESSAGE_LEVEL_CLASSES = {
     DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
 }
 
+INTEGRITY = {
+    "css": r"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u",
+    "theme": r"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp",
+    "javascript": r"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa",
+}
+
 register = template.Library()
 
 
@@ -189,8 +195,12 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-    urls = [url for url in [bootstrap_css_url(), bootstrap_theme_url()] if url]
-    return mark_safe(''.join([render_link_tag(url) for url in urls]))
+    rendered_urls = render_link_tag(
+        bootstrap_css_url(), integrity=INTEGRITY['css'])
+    if bootstrap_theme_url():
+        rendered_urls.append(
+            render_link_tag(bootstrap_css_url(), integrity=INTEGRITY['theme']))
+    return mark_safe(''.join([url for url in rendered_urls]))
 
 
 @register.simple_tag
@@ -234,7 +244,11 @@ def bootstrap_javascript(jquery=None):
             javascript += render_tag('script', attrs={'src': url})
     url = bootstrap_javascript_url()
     if url:
-        javascript += render_tag('script', attrs={'src': url})
+        attrs = {'src': url}
+        if INTEGRITY['javascript']:
+            attrs['integrity'] = INTEGRITY['javascript']
+            attrs['crossorigin'] = 'anonymous'
+        javascript += render_tag('script', attrs=attrs)
     return mark_safe(javascript)
 
 

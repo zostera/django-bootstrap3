@@ -201,15 +201,16 @@ class SettingsTest(TestCase):
         res = render_template_with_form('{% bootstrap_javascript %}')
         self.assertEqual(
             res.strip(),
-            '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>'
+            '<script crossorigin="anonymous" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>'
         )
 
     def test_bootstrap_css_tag(self):
+        self.maxDiff = None
         res = render_template_with_form('{% bootstrap_css %}')
-        self.assertIn(res.strip(), [
-            '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">',
-            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">',
-        ])
+        self.assertEqual(
+            res.strip(),
+            '<link crossorigin="anonymous" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">'
+        )
 
     def test_settings_filter(self):
         res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
