@@ -6,8 +6,10 @@ History
 Develop
 +++++++
 
+* Fix handling of error class (#170)
 * Remove everything to do with setting HTML `required` attribute (#337)
 * Remove everything to do with setting HTML `disabled` attribute (#345)
+* No size class for checkboxes (#318, thanks @cybojenix)
 * Fix warnings during install (thanks @mfcovington)
 * Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
 
