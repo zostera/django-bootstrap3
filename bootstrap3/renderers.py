@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 try:
+    # If Django is set up without a database, importing this widget gives RuntimeError
     from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
 except RuntimeError:
     ReadOnlyPasswordHashWidget = None
@@ -20,7 +21,7 @@ from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
 from .forms import (
     render_form, render_field, render_label, render_form_group,
-    is_widget_with_placeholder, is_widget_required_attribute, FORM_GROUP_CLASS
+    is_widget_with_placeholder, FORM_GROUP_CLASS
 )
 from .text import text_value
 from .utils import add_css_class, render_template_file
@@ -129,12 +130,10 @@ class FormsetRenderer(BaseRenderer):
         return ''
 
     def _render(self):
-        return ''.join(
-            [
-                self.render_errors(),
-                self.render_management_form(),
-                self.render_forms(),
-            ]
+        return '{}{}{}'.format(
+            self.render_errors(),
+            self.render_management_form(),
+            self.render_forms(),
         )
 
 
@@ -241,8 +240,10 @@ class FieldRenderer(BaseRenderer):
 
         self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
         self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
-        self.addon_before_class = kwargs.get('addon_before_class', self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
-        self.addon_after_class = kwargs.get('addon_after_class', self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
+        self.addon_before_class = kwargs.get('addon_before_class',
+                                             self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
+        self.addon_after_class = kwargs.get('addon_after_class',
+                                            self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
@@ -254,21 +255,24 @@ class FieldRenderer(BaseRenderer):
         else:
             self.error_css_class = getattr(
                 field.form, 'error_css_class',
-                get_bootstrap_setting('error_css_class'))
+                get_bootstrap_setting('error_css_class')
+            )
         if required_css_class is not None:
             self.required_css_class = required_css_class
         else:
             self.required_css_class = getattr(
                 field.form, 'required_css_class',
-                get_bootstrap_setting('required_css_class'))
+                get_bootstrap_setting('required_css_class')
+            )
         if bound_css_class is not None:
             self.success_css_class = bound_css_class
         else:
             self.success_css_class = getattr(
                 field.form, 'bound_css_class',
-                get_bootstrap_setting('success_css_class'))
+                get_bootstrap_setting('success_css_class')
+            )
 
-        # Handle form.empty_permitted
+        # If the form is marked as form.empty_permitted, do not set required class
         if self.field.form.empty_permitted:
             self.required_css_class = ''
 

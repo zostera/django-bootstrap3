@@ -324,6 +324,9 @@ def bootstrap_form(*args, **kwargs):
         form
             The form that is to be rendered
 
+        exclude
+            A list of field names (comma separated) that should not be rendered
+            E.g. exclude=subject,bcc
 
         See bootstrap_field_ for other arguments
 
