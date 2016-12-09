@@ -11,6 +11,7 @@ from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
 from django.utils.safestring import mark_safe
+from django.template import Context
 
 from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
@@ -423,11 +424,11 @@ class FieldRenderer(BaseRenderer):
         if help_text_and_errors:
             help_html = render_template_file(
                 'bootstrap3/field_help_text_and_errors.html',
-                context={
+                context=Context({
                     'field': self.field,
                     'help_text_and_errors': help_text_and_errors,
                     'layout': self.layout,
-                }
+                })
             )
             html += '<span class="help-block">{help}</span>'.format(help=help_html)
         return html
