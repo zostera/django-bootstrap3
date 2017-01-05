@@ -502,7 +502,6 @@ class ComponentsTest(TestCase):
 
 class MessagesTest(TestCase):
     def test_messages(self):
-        self.maxDiff=None
         class FakeMessage(object):
             """
             Follows the `django.contrib.messages.storage.base.Message` API.
