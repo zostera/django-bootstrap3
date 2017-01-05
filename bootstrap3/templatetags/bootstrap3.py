@@ -457,7 +457,7 @@ def bootstrap_field(*args, **kwargs):
             Class used on the span when ``addon_before`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 
@@ -467,7 +467,7 @@ def bootstrap_field(*args, **kwargs):
             Class used on the span when ``addon_after`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 

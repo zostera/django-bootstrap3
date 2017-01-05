@@ -502,6 +502,7 @@ class ComponentsTest(TestCase):
 
 class MessagesTest(TestCase):
     def test_messages(self):
+        self.maxDiff=None
         class FakeMessage(object):
             """
             Follows the `django.contrib.messages.storage.base.Message` API.
@@ -521,7 +522,7 @@ class MessagesTest(TestCase):
         pattern = re.compile(r'\s+')
         messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.WARNING, "hello")]
         res = render_template_with_form(
-            '{% bootstrap_messages messages %}', {'messages': messages})
+            '{% bootstrap_messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-warning alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -536,7 +537,7 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello")]
         res = render_template_with_form(
-            '{% bootstrap_messages messages %}', {'messages': messages})
+            '{% bootstrap_messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -551,7 +552,7 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage(None, "hello")]
         res = render_template_with_form(
-            '{% bootstrap_messages messages %}', {'messages': messages})
+            '{% bootstrap_messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
@@ -567,7 +568,7 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello http://example.com")]
         res = render_template_with_form(
-            '{% bootstrap_messages messages %}', {'messages': messages})
+            '{% bootstrap_messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
@@ -580,12 +581,43 @@ class MessagesTest(TestCase):
 
         messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello\nthere")]
         res = render_template_with_form(
-            '{% bootstrap_messages messages %}', {'messages': messages})
+            '{% bootstrap_messages %}', {'messages': messages})
         expected = """
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert"
             aria-hidden="true">&#215;</button>
         hello there
+    </div>
+        """
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
+
+        link = '<a href="http://getbootstrap.com/">Get Bootstrap</a>'
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, link)]
+        res = render_template_with_form(
+            '{% bootstrap_messages %}', {'messages': messages})
+        expected = """
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
+        &lt;a href=&quot;http://getbootstrap.com/&quot;&gt;Get Bootstrap&lt;/a&gt;
+    </div>
+        """
+        self.assertEqual(
+            re.sub(pattern, '', res),
+            re.sub(pattern, '', expected)
+        )
+
+        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, link, extra_tags='is_safe')]
+        res = render_template_with_form(
+            '{% bootstrap_messages %}', {'messages': messages})
+        expected = """
+    <div class="is_safe alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert"
+            aria-hidden="true">&#215;</button>
+        <a href="http://getbootstrap.com/">Get Bootstrap</a>
     </div>
         """
         self.assertEqual(
