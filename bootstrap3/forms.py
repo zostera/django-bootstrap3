@@ -11,8 +11,8 @@ from django.utils.safestring import mark_safe
 
 from .bootstrap import (
     get_bootstrap_setting, get_form_renderer, get_field_renderer,
-    get_formset_renderer
-)
+    get_formset_renderer,
+    DJANGO_MAX_18)
 from .components import render_icon
 from .exceptions import BootstrapError
 from .text import text_concat, text_value
@@ -163,6 +163,8 @@ def is_widget_required_attribute(widget):
     """
     Is this widget required?
     """
+    if DJANGO_MAX_18 and not get_bootstrap_setting('set_required'):
+        return False
     if not widget.is_required:
         return False
     if isinstance(

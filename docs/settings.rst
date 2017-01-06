@@ -41,6 +41,12 @@ The ``BOOTSTRAP3`` dict variable contains these settings and defaults:
         # Field class to use in horizontal forms
         'horizontal_field_class': 'col-md-9',
 
+        # Set HTML required attribute on required fields, for Django <= 1.8 only
+        'set_required': True,
+
+        # Set HTML disabled attribute on disabled fields, for Django <= 1.8 only
+        'set_disabled': False,
+
         # Set placeholder attributes to label if no placeholder is provided
         'set_placeholder': True,
 

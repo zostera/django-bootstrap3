@@ -10,6 +10,7 @@ from django.forms.formsets import formset_factory
 from django.template import engines
 from django.test import TestCase
 
+from .bootstrap import DJANGO_MAX_18
 from .exceptions import BootstrapError
 from .text import text_value, text_concat
 from .utils import add_css_class, render_tag
@@ -37,6 +38,7 @@ MEDIA_CHOICES = (
      ),
     ('unknown', 'Unknown'),
 )
+
 
 
 class TestForm(forms.Form):
@@ -398,31 +400,50 @@ class FieldTest(TestCase):
         self.assertIn('placeholder="Password"', res)
 
     def test_required_field(self):
-        """
-        Does a required field get the CSS class for required?
-        """
-        required_css_class='bootstrap3-req'
-        required_field = render_form_field('subject')
-        self.assertIn(required_css_class, required_field)
-        not_required_field = render_form_field('message')
-        self.assertNotIn(required_css_class, not_required_field)
+        if DJANGO_MAX_18:
+            required_field = render_form_field('subject')
+            self.assertIn('required', required_field)
+            self.assertIn('bootstrap3-req', required_field)
+            not_required_field = render_form_field('message')
+            self.assertNotIn('required', not_required_field)
+            # Required field with required=0
+            form_field = 'form.subject'
+            rendered = render_template_with_form('{% bootstrap_field ' + form_field + ' set_required=0 %}')
+            self.assertNotIn('required', rendered)
+        else:
+            required_css_class = 'bootstrap3-req'
+            required_field = render_form_field('subject')
+            self.assertIn(required_css_class, required_field)
+            not_required_field = render_form_field('message')
+            self.assertNotIn(required_css_class, not_required_field)
         # Required settings in field
         form_field = 'form.subject'
         rendered = render_template_with_form(
-            '{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}')
+            '{% bootstrap_field ' + form_field + ' required_css_class="test-required" %}'
+        )
         self.assertIn('test-required', rendered)
 
     def test_empty_permitted(self):
         """
-        If a form has empty_permitted, no fields should get the CSS class for required
+        If a form has empty_permitted, no fields should get the CSS class for required.
+        Django <= 1.8, also check `required` attribute.
         """
-        required_css_class='bootstrap3-req'
-        form = TestForm()
-        res = render_form_field('subject', {'form': form})
-        self.assertIn(required_css_class, res)
-        form.empty_permitted = True
-        res = render_form_field('subject', {'form': form})
-        self.assertNotIn(required_css_class, res)
+        if DJANGO_MAX_18:
+            required_css_class = 'bootstrap3-req'
+            form = TestForm()
+            res = render_form_field('subject', {'form': form})
+            self.assertIn(required_css_class, res)
+            form.empty_permitted = True
+            res = render_form_field('subject', {'form': form})
+            self.assertNotIn(required_css_class, res)
+        else:
+            required_css_class = 'bootstrap3-req'
+            form = TestForm()
+            res = render_form_field('subject', {'form': form})
+            self.assertIn(required_css_class, res)
+            form.empty_permitted = True
+            res = render_form_field('subject', {'form': form})
+            self.assertNotIn(required_css_class, res)
 
     def test_input_group(self):
         res = render_template_with_form('{% bootstrap_field form.subject addon_before="$"  addon_after=".00" %}')
@@ -431,7 +452,8 @@ class FieldTest(TestCase):
         self.assertIn('class="input-group-addon">.00', res)
 
     def test_input_group_addon_button(self):
-        res = render_template_with_form('{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}')
+        res = render_template_with_form(
+            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}')
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-btn">$', res)
         self.assertIn('class="input-group-btn">.00', res)

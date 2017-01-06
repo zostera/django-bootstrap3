@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf import settings
 from importlib import import_module
 
+from django import VERSION as DJANGO_VERSION
+from django.conf import settings
+
+DJANGO_MAX_18 = DJANGO_VERSION[0] < 2 and DJANGO_VERSION[1] < 9
 
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
@@ -16,6 +19,7 @@ BOOTSTRAP3_DEFAULTS = {
     'include_jquery': False,
     'horizontal_label_class': 'col-md-3',
     'horizontal_field_class': 'col-md-9',
+
     'set_placeholder': True,
     'required_css_class': '',
     'error_css_class': 'has-error',
@@ -31,6 +35,12 @@ BOOTSTRAP3_DEFAULTS = {
         'inline': 'bootstrap3.renderers.InlineFieldRenderer',
     },
 }
+
+if DJANGO_MAX_18:
+    BOOTSTRAP3_DEFAULTS.update({
+        'set_required': True,
+        'set_disabled': False,
+    })
 
 # Start with a copy of default settings
 BOOTSTRAP3 = BOOTSTRAP3_DEFAULTS.copy()
@@ -65,7 +75,7 @@ def javascript_url():
     Return the full url to the Bootstrap JavaScript file
     """
     return get_bootstrap_setting('javascript_url') or \
-        bootstrap_url('js/bootstrap.min.js')
+           bootstrap_url('js/bootstrap.min.js')
 
 
 def css_url():
@@ -73,7 +83,7 @@ def css_url():
     Return the full url to the Bootstrap CSS file
     """
     return get_bootstrap_setting('css_url') or \
-        bootstrap_url('css/bootstrap.min.css')
+           bootstrap_url('css/bootstrap.min.css')
 
 
 def theme_url():
