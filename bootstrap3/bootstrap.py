@@ -6,7 +6,10 @@ from importlib import import_module
 from django import VERSION as DJANGO_VERSION
 from django.conf import settings
 
-DJANGO_MAX_18 = DJANGO_VERSION[0] < 2 and DJANGO_VERSION[1] < 9
+# Do we support set_required and set_disabled?
+# See GitHub issues 337 and 345
+# TODO: Get rid of this after support for Django 1.8 LTS ends
+DBS3_SET_REQUIRED_SET_DISABLED = DJANGO_VERSION[0] < 2 and DJANGO_VERSION[1] < 10
 
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
@@ -36,7 +39,7 @@ BOOTSTRAP3_DEFAULTS = {
     },
 }
 
-if DJANGO_MAX_18:
+if DBS3_SET_REQUIRED_SET_DISABLED:
     BOOTSTRAP3_DEFAULTS.update({
         'set_required': True,
         'set_disabled': False,

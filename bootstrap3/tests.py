@@ -10,7 +10,7 @@ from django.forms.formsets import formset_factory
 from django.template import engines
 from django.test import TestCase
 
-from .bootstrap import DJANGO_MAX_18
+from .bootstrap import DBS3_SET_REQUIRED_SET_DISABLED
 from .exceptions import BootstrapError
 from .text import text_value, text_concat
 from .utils import add_css_class, render_tag
@@ -400,7 +400,7 @@ class FieldTest(TestCase):
         self.assertIn('placeholder="Password"', res)
 
     def test_required_field(self):
-        if DJANGO_MAX_18:
+        if DBS3_SET_REQUIRED_SET_DISABLED:
             required_field = render_form_field('subject')
             self.assertIn('required', required_field)
             self.assertIn('bootstrap3-req', required_field)
@@ -428,7 +428,7 @@ class FieldTest(TestCase):
         If a form has empty_permitted, no fields should get the CSS class for required.
         Django <= 1.8, also check `required` attribute.
         """
-        if DJANGO_MAX_18:
+        if DBS3_SET_REQUIRED_SET_DISABLED:
             required_css_class = 'bootstrap3-req'
             form = TestForm()
             res = render_form_field('subject', {'form': form})
