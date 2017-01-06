@@ -3,10 +3,9 @@
 History
 -------
 
-Develop
-+++++++
 
-* TODO: set version in __init__.py when publishing new version
+8.0.0 (2017-01-06)
+++++++++++++++++++
 
 * **BREAKING** For Django >= 1.10 Remove everything to do with setting HTML attributes `required` (#337) and `disabled` (#345)
 * Add `id` parameter to bootstrap_button (#214)
