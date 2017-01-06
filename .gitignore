@@ -49,3 +49,5 @@ docs/_build
 # Django
 local_settings.py
 
+# pyenv
+.python-version
