@@ -5,8 +5,8 @@ import re
 from math import floor
 
 from django import template
-from django.contrib.messages import constants as message_constants
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
+from django.contrib.messages import constants as message_constants
 from django.template import Context
 from django.utils.safestring import mark_safe
 
@@ -29,12 +29,6 @@ MESSAGE_LEVEL_CLASSES = {
     DEFAULT_MESSAGE_LEVELS.SUCCESS: "alert alert-success",
     DEFAULT_MESSAGE_LEVELS.WARNING: "alert alert-warning",
     DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
-}
-
-INTEGRITY = {
-    "css": r"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u",
-    "theme": r"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp",
-    "javascript": r"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa",
 }
 
 register = template.Library()
@@ -195,11 +189,9 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-    rendered_urls = render_link_tag(
-        bootstrap_css_url(), integrity=INTEGRITY['css'])
+    rendered_urls = [render_link_tag(bootstrap_css_url()), ]
     if bootstrap_theme_url():
-        rendered_urls.append(
-            render_link_tag(bootstrap_css_url(), integrity=INTEGRITY['theme']))
+        rendered_urls.append(render_link_tag(bootstrap_css_url()))
     return mark_safe(''.join([url for url in rendered_urls]))
 
 
@@ -245,9 +237,6 @@ def bootstrap_javascript(jquery=None):
     url = bootstrap_javascript_url()
     if url:
         attrs = {'src': url}
-        if INTEGRITY['javascript']:
-            attrs['integrity'] = INTEGRITY['javascript']
-            attrs['crossorigin'] = 'anonymous'
         javascript += render_tag('script', attrs=attrs)
     return mark_safe(javascript)
 
@@ -432,7 +421,7 @@ def bootstrap_field(*args, **kwargs):
 
         set_disabled
             When set to ``True`` then the ``disabled`` attribute is set on the rendered field. This only
-            works up to Django 1.8.  Higher Django versions handle ``required`` natively.
+            works up to Django 1.8.  Higher Django versions handle ``disabled`` natively.
 
             :default: ``False``
 

@@ -112,7 +112,7 @@ def remove_css_class(css_classes, css_class):
     return ' '.join(classes_list)
 
 
-def render_link_tag(url, rel='stylesheet', integrity=None, media=None):
+def render_link_tag(url, rel='stylesheet', media=None):
     """
     Build a link tag
     """
@@ -120,9 +120,6 @@ def render_link_tag(url, rel='stylesheet', integrity=None, media=None):
         'href': url,
         'rel': rel,
     }
-    if integrity:
-        attrs['integrity'] = integrity
-        attrs['crossorigin'] = 'anonymous'
     if media:
         attrs['media'] = media
     return render_tag('link', attrs=attrs, close=False)
