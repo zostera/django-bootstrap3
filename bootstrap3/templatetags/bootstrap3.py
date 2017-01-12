@@ -432,7 +432,7 @@ def bootstrap_field(*args, **kwargs):
 
         set_disabled
             When set to ``True`` then the ``disabled`` attribute is set on the rendered field. This only
-            works up to Django 1.8.  Higher Django versions handle ``required`` natively.
+            works up to Django 1.8.  Higher Django versions handle ``disabled`` natively.
 
             :default: ``False``
 
