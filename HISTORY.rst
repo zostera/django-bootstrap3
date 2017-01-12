@@ -4,6 +4,13 @@ History
 -------
 
 
+8.1.0 (2017-01-12)
+++++++++++++++++++
+
+* Rolled back subresource integrity (see #353)
+* Documentation fix (thanks @clokep)
+
+
 8.0.0 (2017-01-06)
 ++++++++++++++++++
 
