@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import re
+from collections import Mapping
 
 try:
     from urllib import urlencode
@@ -144,7 +145,7 @@ def render_template_file(template, context=None):
     """
     Render a Template to unicode
     """
-    assert type(context) == type({})
+    assert isinstance(context, Mapping)
     template = get_template(template)
     return template.render(context)
 
