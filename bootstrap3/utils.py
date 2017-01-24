@@ -17,6 +17,7 @@ from django.forms.utils import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
+from django.utils.encoding import force_str, force_text
 from django.utils.safestring import mark_safe
 
 try:
@@ -153,15 +154,15 @@ def url_replace_param(url, name, value):
     """
     Replace a GET parameter in an URL
     """
-    url_components = urlparse(url)
+    url_components = urlparse(force_str(url))
     query_params = parse_qs(url_components.query)
     query_params[name] = value
     query = urlencode(query_params, doseq=True)
-    return urlunparse([
+    return force_text(urlunparse([
         url_components.scheme,
         url_components.netloc,
         url_components.path,
         url_components.params,
         query,
         url_components.fragment,
-    ])
+    ]))
