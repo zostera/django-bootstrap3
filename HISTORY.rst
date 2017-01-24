@@ -4,6 +4,13 @@ History
 -------
 
 
+Develop (2017-XX-XX)
+++++++++++++++++++++
+
+* Support for local languages in url_replace_param on Python 2 (#362, thanks @aamalev)
+* Correct checking Mapping instance (#363, thanks @aamalev)
+
+
 8.1.0 (2017-01-12)
 ++++++++++++++++++
 
