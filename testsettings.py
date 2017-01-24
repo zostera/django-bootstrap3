@@ -43,6 +43,7 @@ TEMPLATES = [{
 ROOT_URLCONF = None
 
 BOOTSTRAP3 = {
+    'theme_url': '//example.com/theme.css',
     'javascript_in_head': True,
     'required_css_class': 'bootstrap3-req',
     'error_css_class': 'bootstrap3-err',
