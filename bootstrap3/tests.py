@@ -527,6 +527,28 @@ class ComponentsTest(TestCase):
             '&times;</button>content</div>'
         )
 
+    def test_tabs(self):
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings" %}')
+        self.assertEqual(
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#home" aria-controls="home" role="tab" ' +
+            'data-toggle="tab">Home</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#profile" aria-controls="profile" role="tab" ' +
+            'data-toggle="tab">Profile</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#messages" aria-controls="messages" role="tab" ' +
+            'data-toggle="tab">Messages</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#settings" aria-controls="settings" role="tab" ' +
+            'data-toggle="tab">Settings</a></li>' +
+            '</ul>'
+            ,
+            res.strip()
+        )
+
 
 class MessagesTest(TestCase):
     def test_messages(self):

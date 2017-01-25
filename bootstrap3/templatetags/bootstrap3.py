@@ -921,3 +921,20 @@ def get_pagination_context(page, pages_to_show=11,
         'pagination_css_classes': ' '.join(pagination_css_classes),
         'parameter_name': parameter_name,
     }
+
+
+@register.inclusion_tag('bootstrap3/tabs.html')
+def bootstrap_tabs(*names, **kwargs):
+    tabs_kwargs = {'names': list(names)}
+    tabs_kwargs.update(kwargs)
+    return get_tabs_context(**tabs_kwargs)
+
+
+def get_tabs_context(names=None, active=None):
+    if not names:
+        raise ValueError('Must provide at least one name for the tabs')
+    active = active or names[0]
+    return {
+        'names': names,
+        'active': active
+    }
