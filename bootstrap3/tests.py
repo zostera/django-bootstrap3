@@ -548,6 +548,16 @@ class ComponentsTest(TestCase):
             ,
             res.strip()
         )
+        res = render_template_with_form(
+            '{% bootstrap_tabpanel "Home" active=True %}' +
+            '<p>Home content</p>' +
+            '{% endbootstrap_tabpanel %}'
+        )
+        self.assertEqual(
+            '<div class="tab-pane active" id="home" role="tabpanel">' +
+            '<p>Home content</p></div>',
+            res.strip()
+        )
 
 
 class MessagesTest(TestCase):

@@ -938,3 +938,31 @@ def get_tabs_context(names=None, active=None):
         'names': names,
         'active': active
     }
+
+
+@register.tag('bootstrap_tabpanel')
+def bootstrap_tabpanel(parser, token):
+    kwargs = parse_token_contents(parser, token)
+    kwargs['nodelist'] = parser.parse(('endbootstrap_tabpanel',))
+    parser.delete_first_token()
+    return TabPanelNode(**kwargs)
+
+
+class TabPanelNode(ButtonsNode):
+    def render(self, context):
+        css_classes = ['tab-pane']
+        id_name = self.args[0].var.lower()
+        active = self.kwargs.pop('active', False)
+        if active:
+            css_classes.append('active')
+        return mark_safe(
+            render_tag(
+                'div',
+                attrs={
+                    'role': 'tabpanel',
+                    'class': ' '.join(css_classes),
+                    'id': id_name,
+                },
+                content=self.nodelist.render(context)
+            )
+        )
