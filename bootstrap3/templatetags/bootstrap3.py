@@ -930,6 +930,57 @@ def get_pagination_context(page, pages_to_show=11,
 
 @register.inclusion_tag('bootstrap3/tabs.html')
 def bootstrap_tabs(*names, **kwargs):
+    """
+    Render bootstrap tabs
+
+    **Tag name**::
+
+        bootstrap_tabs
+
+    **Parameters**:
+
+        names
+            One or more names for the tabs as strings
+
+        active
+            Name corresponding to the tab that should be marked active
+
+            :default: The first name in the provided names
+
+        justified
+            Should the tabs be justified?
+            Does nothing if combined with ``vertical``
+
+            :default: ``False``
+
+        pills
+            Should we render pills instead of tabs?
+
+            :default: ``False``
+
+        vertical
+            Should the pills be rendered vertically?
+            Does nothing if pills is ``False``
+
+            :default: ``False``
+
+        disabled_tabs
+            Comma separated list of tab names that should be rendered disabled
+
+            :default: ``None``
+
+    **Usage**::
+
+        {% bootstrap_tabs "Home" "Profile" "Messages" "Settings" %}
+
+    **Example**::
+
+        {% bootstrap_tabs "View" "Edit" "Delete" disabled_tabs="Edit, Delete" %}
+
+    **See also**::
+
+        ``bootstrap_tabpanel``, ``bootstrap_tabs_js``
+    """
     tabs_kwargs = {'names': list(names)}
     tabs_kwargs.update(kwargs)
     return get_tabs_context(**tabs_kwargs)
@@ -970,6 +1021,35 @@ def get_tabs_context(names=None, active=None, justified=False, pills=False,
 
 @register.tag('bootstrap_tabpanel')
 def bootstrap_tabpanel(parser, token):
+    """
+    Render a tabpanel for bootstrap tabs
+
+    **Tag name**:
+
+        bootstrap_tabpanel
+
+    **Parameters**:
+
+        name
+            Name of the tab to be rendered. Keep consistent with the names
+            provided to ``bootstrap_tabs``.
+
+        active
+            Whether this tab panel is active
+
+            :default: ``False``
+
+    **Usage**::
+
+        {% bootstrap_tabpanel "Home"%}
+
+    **Example**::
+        {% bootstrap_tabpanel "Home" active=True %}
+
+    **See also**::
+        ``bootstrap_tabs``, ``bootstrap_tabs_js``
+
+    """
     kwargs = parse_token_contents(parser, token)
     kwargs['nodelist'] = parser.parse(('endbootstrap_tabpanel',))
     parser.delete_first_token()
@@ -998,6 +1078,28 @@ class TabPanelNode(ButtonsNode):
 
 @register.simple_tag
 def bootstrap_tabs_js():
+    """
+    Renders the javascript to invoke the actions when a tab is clicked
+
+    This implementation activates the click handler for all ul elements with
+    role attribute set to 'tablist'. It is a surrounded by a script tag.
+
+    **Tag name**::
+
+        bootstrap_tabs_js
+
+    **Usage**::
+
+        {% bootstrap_tabs_js %}
+
+    **Example**::
+
+        {% bootstrap_tabs_js %}
+
+    **See also**::
+
+        ``bootstrap_tabs``, ``bootstrap_tabpanel``
+    """
     return mark_safe(
         render_tag(
             'script',
