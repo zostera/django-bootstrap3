@@ -30,7 +30,12 @@ MESSAGE_LEVEL_CLASSES = {
     DEFAULT_MESSAGE_LEVELS.WARNING: "alert alert-warning",
     DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
 }
-
+BOOTSTRAP_TABS_JS = """
+    $("ul[role=tablist]).click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+    });
+"""
 register = template.Library()
 
 
@@ -966,3 +971,14 @@ class TabPanelNode(ButtonsNode):
                 content=self.nodelist.render(context)
             )
         )
+
+
+@register.simple_tag
+def bootstrap_tabs_js():
+    return mark_safe(
+        render_tag(
+            'script',
+            attrs={'type': 'text/javascript'},
+            content=mark_safe(BOOTSTRAP_TABS_JS)
+        )
+    )

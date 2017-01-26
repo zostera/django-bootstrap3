@@ -558,6 +558,17 @@ class ComponentsTest(TestCase):
             '<p>Home content</p></div>',
             res.strip()
         )
+        res = render_template_with_form(
+            '{% bootstrap_tabs_js %}'
+        )
+        self.assertEqual(
+            '<script type="text/javascript">\n' +
+            '    $("ul[role=tablist]).click(function (e) {\n' +
+            '        e.preventDefault();\n' +
+            '        $(this).tab("show");\n' +
+            '    });\n</script>',
+            res.strip()
+        )
 
 
 class MessagesTest(TestCase):
