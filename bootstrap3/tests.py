@@ -549,7 +549,41 @@ class ComponentsTest(TestCase):
             ,
             res.strip()
         )
+        # save for reuse
         tabs_expect = res.strip()
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' disabled_tabs="Messages, Settings" %}',
+        )
+        self.assertEqual(
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#home" aria-controls="home" role="tab" ' +
+            'data-toggle="tab">Home</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#profile" aria-controls="profile" role="tab" ' +
+            'data-toggle="tab">Profile</a></li>' +
+            '<li role="presentation" class="disabled">' +
+            '<a href="#messages" aria-controls="messages" role="tab" ' +
+            'data-toggle="tab">Messages</a></li>' +
+            '<li role="presentation" class="disabled">' +
+            '<a href="#settings" aria-controls="settings" role="tab" ' +
+            'data-toggle="tab">Settings</a></li>' +
+            '</ul>'
+            ,
+            res.strip()
+        )
+        disabled_expect = res.strip()
+        # adding active element to disabled should not work
+        # sneakily also testing missing whitespace
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' disabled_tabs="Home,Messages, Settings" %}',
+        )
+        self.assertEqual(
+            disabled_expect,
+            res.strip()
+        )
         # Vertical should do nothing on nav-tabs
         res = render_template_with_form(
             '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +

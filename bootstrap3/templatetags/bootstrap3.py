@@ -936,7 +936,7 @@ def bootstrap_tabs(*names, **kwargs):
 
 
 def get_tabs_context(names=None, active=None, justified=False, pills=False,
-                     vertical=False):
+                     vertical=False, disabled_tabs=None):
     if not names:
         raise ValueError('Must provide at least one name for the tabs')
     active = active or names[0]
@@ -951,12 +951,20 @@ def get_tabs_context(names=None, active=None, justified=False, pills=False,
     nav_justified = ''
     if justified and not vertical:
         nav_justified = ' nav-justified'
+    disabled = []
+    if disabled_tabs:
+        import re
+        tmp = re.split(',\s?', disabled_tabs)
+        for name in tmp:
+            if name in names and name != active:
+                disabled.append(name)
     return {
         'names': names,
         'active': active,
         'nav_tabs': nav_tabs,
         'tab_toggle': tab_toggle,
-        'nav_justified': nav_justified
+        'nav_justified': nav_justified,
+        'disabled_tabs': disabled,
     }
 
 
