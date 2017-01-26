@@ -563,7 +563,7 @@ class ComponentsTest(TestCase):
         )
         self.assertEqual(
             '<script type="text/javascript">\n' +
-            '    $("ul[role=tablist]).click(function (e) {\n' +
+            '    $(\'ul[role="tablist"]\').click(function (e) {\n' +
             '        e.preventDefault();\n' +
             '        $(this).tab("show");\n' +
             '    });\n</script>',

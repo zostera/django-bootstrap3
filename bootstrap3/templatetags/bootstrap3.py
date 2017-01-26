@@ -31,7 +31,7 @@ MESSAGE_LEVEL_CLASSES = {
     DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
 }
 BOOTSTRAP_TABS_JS = """
-    $("ul[role=tablist]).click(function (e) {
+    $('ul[role="tablist"]').click(function (e) {
         e.preventDefault();
         $(this).tab("show");
     });
