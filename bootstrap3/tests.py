@@ -529,7 +529,8 @@ class ComponentsTest(TestCase):
 
     def test_tabs(self):
         res = render_template_with_form(
-            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings" %}')
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings" %}'
+        )
         self.assertEqual(
             '<ul class="nav nav-tabs" role="tablist">' +
             '<li role="presentation" class="active">' +
@@ -546,6 +547,54 @@ class ComponentsTest(TestCase):
             'data-toggle="tab">Settings</a></li>' +
             '</ul>'
             ,
+            res.strip()
+        )
+        tabs_expect = res.strip()
+        # Vertical should do nothing on nav-tabs
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' vertical=True %}',
+        )
+        self.assertEqual(
+            tabs_expect,
+            res.strip()
+        )
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' justified=True %}',
+        )
+        self.assertEqual(
+            tabs_expect.replace('nav-tabs"', 'nav-tabs nav-justified"'),
+            res.strip()
+        )
+        # intentionally not refreshing tabs_expect
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True %}'
+        )
+        self.assertEqual(
+            tabs_expect.replace('nav-tabs', 'nav-pills').replace(
+                'data-toggle="tab"', 'data-toggle="pill"'
+            ),
+            res.strip()
+        )
+        pills_expect = res.strip()
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True vertical=True %}',
+        )
+        self.assertEqual(
+            pills_expect.replace('nav-pills"', 'nav-pills nav-stacked"'),
+            res.strip()
+        )
+        pills_expect = res.strip()
+        # justified should do nothing with vertical
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True vertical=True justified=True %}',
+        )
+        self.assertEqual(
+            pills_expect,
             res.strip()
         )
         res = render_template_with_form(

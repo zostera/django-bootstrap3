@@ -935,13 +935,28 @@ def bootstrap_tabs(*names, **kwargs):
     return get_tabs_context(**tabs_kwargs)
 
 
-def get_tabs_context(names=None, active=None):
+def get_tabs_context(names=None, active=None, justified=False, pills=False,
+                     vertical=False):
     if not names:
         raise ValueError('Must provide at least one name for the tabs')
     active = active or names[0]
+    if not pills:
+        nav_tabs = 'nav-tabs'
+        tab_toggle = 'tab'
+    else:
+        nav_tabs = 'nav-pills'
+        tab_toggle = 'pill'
+        if vertical:
+            nav_tabs += ' nav-stacked'
+    nav_justified = ''
+    if justified and not vertical:
+        nav_justified = ' nav-justified'
     return {
         'names': names,
-        'active': active
+        'active': active,
+        'nav_tabs': nav_tabs,
+        'tab_toggle': tab_toggle,
+        'nav_justified': nav_justified
     }
 
 

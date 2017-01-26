@@ -1,8 +1,8 @@
 {% spaceless %}
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav {{ nav_tabs }}{{ nav_justified }}" role="tablist">
 	{% for name in names %}
 		<li role="presentation"{% if active == name %} class="active"{% endif %}>
-			<a href="#{{ name|lower }}" aria-controls="{{ name|lower }}" role="tab" data-toggle="tab">{{ name }}</a>
+			<a href="#{{ name|lower }}" aria-controls="{{ name|lower }}" role="tab" data-toggle="{{ tab_toggle }}">{{ name }}</a>
 		</li>
 	{% endfor %}
 </ul>
