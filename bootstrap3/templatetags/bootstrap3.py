@@ -991,10 +991,9 @@ def get_tabs_context(names=None, active=None, justified=False, pills=False,
     if not names:
         raise ValueError('Must provide at least one name for the tabs')
     active = active or names[0]
-    if not pills:
-        nav_tabs = 'nav-tabs'
-        tab_toggle = 'tab'
-    else:
+    nav_tabs = 'nav-tabs'
+    tab_toggle = 'tab'
+    if pills:
         nav_tabs = 'nav-pills'
         tab_toggle = 'pill'
         if vertical:
