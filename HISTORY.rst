@@ -9,6 +9,8 @@ Develop (2017-XX-XX)
 
 * Support for local languages in url_replace_param on Python 2 (#362, thanks @aamalev)
 * Correct checking Mapping instance (#363, thanks @aamalev)
+* Fix Django 1.11 import bug (see #369)
+* Add Django 1.11 and Python 3.6 to tests
 
 
 8.1.0 (2017-01-12)
