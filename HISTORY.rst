@@ -4,10 +4,10 @@ History
 -------
 
 
-Develop (2017-XX-XX)
-++++++++++++++++++++
+8.2.0 (2017-02-23)
+++++++++++++++++++
 
-* Support for local languages in url_replace_param on Python 2 (#362, thanks @aamalev)
+* Support for local languages in `url_replace_param` on Python 2 (#362, thanks @aamalev)
 * Correct checking Mapping instance (#363, thanks @aamalev)
 * Fix Django 1.11 import bug (see #369)
 * Add Django 1.11 and Python 3.6 to tests
