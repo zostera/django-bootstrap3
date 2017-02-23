@@ -40,7 +40,6 @@ MEDIA_CHOICES = (
 )
 
 
-
 class TestForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
@@ -207,33 +206,40 @@ class SettingsTest(TestCase):
         )
 
     def test_bootstrap_css_tag(self):
-        self.maxDiff = None
-        res = render_template_with_form('{% bootstrap_css %}')
-        self.assertEqual(
-            res.strip(),
-            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">'
+        res = render_template_with_form('{% bootstrap_css %}').strip()
+        self.assertIn(
+            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">',
+            res
+        )
+        self.assertIn(
+            '<link href="//example.com/theme.css" rel="stylesheet">',
+            res
         )
 
-    def test_settings_filter(self):
-        res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
-        self.assertEqual(res.strip(), 'bootstrap3-req')
-        res = render_template_with_form('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
-        self.assertEqual(res.strip(), 'head')
 
-    def test_required_class(self):
-        form = TestForm()
-        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-        self.assertIn('bootstrap3-req', res)
+def test_settings_filter(self):
+    res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
+    self.assertEqual(res.strip(), 'bootstrap3-req')
+    res = render_template_with_form('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
+    self.assertEqual(res.strip(), 'head')
 
-    def test_error_class(self):
-        form = TestForm({})
-        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-        self.assertIn('bootstrap3-err', res)
 
-    def test_bound_class(self):
-        form = TestForm({'sender': 'sender'})
-        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-        self.assertIn('bootstrap3-bound', res)
+def test_required_class(self):
+    form = TestForm()
+    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+    self.assertIn('bootstrap3-req', res)
+
+
+def test_error_class(self):
+    form = TestForm({})
+    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+    self.assertIn('bootstrap3-err', res)
+
+
+def test_bound_class(self):
+    form = TestForm({'sender': 'sender'})
+    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+    self.assertIn('bootstrap3-bound', res)
 
 
 class TemplateTest(TestCase):
