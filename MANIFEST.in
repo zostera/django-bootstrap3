@@ -5,3 +5,4 @@ include LICENSE
 include README.rst
 recursive-include bootstrap3 *
 recursive-include demo *
+global-exclude *.pyc
