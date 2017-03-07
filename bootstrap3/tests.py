@@ -50,7 +50,7 @@ class TestForm(forms.Form):
         max_length=100,
         help_text='my_help_text',
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
+        widget=forms.TextInput(attrs={'placeholder': 'placeholdertest', 'value': 'Subject!'}),
     )
     password = forms.CharField(widget=forms.PasswordInput)
     message = forms.CharField(required=False, help_text='<i>my_help_text</i>')
@@ -399,6 +399,7 @@ class FieldTest(TestCase):
         res = render_form_field('subject')
         self.assertIn('type="text"', res)
         self.assertIn('placeholder="placeholdertest"', res)
+        self.assertIn('value="Subject!"', res)
 
     def test_password(self):
         res = render_form_field('password')

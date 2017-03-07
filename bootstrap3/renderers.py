@@ -247,6 +247,11 @@ class FieldRenderer(BaseRenderer):
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
+        if 'value' in kwargs:
+            self.value = kwargs['value']
+        else:
+            self.value = ''
+
         if 'placeholder' in kwargs:
             # Find the placeholder in kwargs, even if it's empty
             self.placeholder = kwargs['placeholder']
@@ -325,6 +330,13 @@ class FieldRenderer(BaseRenderer):
             # TODO: Should this be stripped and/or escaped?
             widget.attrs['placeholder'] = placeholder
 
+    def add_value_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        value = widget.attrs.get('value', self.value)
+        if value:
+            widget.attrs['value'] = value
+
     def add_help_attrs(self, widget=None):
         if widget is None:
             widget = self.widget
@@ -360,6 +372,7 @@ class FieldRenderer(BaseRenderer):
         for widget in widgets:
             self.add_class_attrs(widget)
             self.add_placeholder_attrs(widget)
+            self.add_value_attrs(widget)
             self.add_help_attrs(widget)
             if DBS3_SET_REQUIRED_SET_DISABLED:
                 self.add_required_attrs(widget)
