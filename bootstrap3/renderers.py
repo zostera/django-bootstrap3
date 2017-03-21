@@ -12,7 +12,7 @@ from django.forms import (
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
 from django.forms.extras import SelectDateWidget
-from django.forms.forms import BaseForm, BoundField
+from django.forms.forms import BaseForm
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
 from django.utils.safestring import mark_safe
@@ -27,6 +27,11 @@ from .forms import (
 from .text import text_value
 from .utils import add_css_class, render_template_file
 
+try:
+    from django.forms.form import BoundField
+except ImportError:
+    # django 1.9 moved BoundField to its own module
+    from django.forms.boundfield import BoundField
 
 class BaseRenderer(object):
     """
