@@ -161,6 +161,7 @@ class FormRenderer(BaseRenderer):
         if DBS3_SET_REQUIRED_SET_DISABLED and self.form.empty_permitted:
             self.set_required = False
 
+        self.errors_type = kwargs.get('errors_type', 'all')
         self.error_css_class = kwargs.get('error_css_class', None)
         self.required_css_class = kwargs.get('required_css_class', None)
         self.bound_css_class = kwargs.get('bound_css_class', None)
@@ -196,13 +197,15 @@ class FormRenderer(BaseRenderer):
                 form_errors += field.errors
         return form_errors
 
-    def render_errors(self, type='all'):
+    def render_errors(self):
         form_errors = None
-        if type == 'all':
-            form_errors = self.get_fields_errors() + self.form.non_field_errors()
-        elif type == 'fields':
+        if self.errors_type == 'all':
+            form_errors = (
+                self.get_fields_errors() + self.form.non_field_errors()
+            )
+        elif self.errors_type == 'fields':
             form_errors = self.get_fields_errors()
-        elif type == 'non_fields':
+        elif self.errors_type == 'non_fields':
             form_errors = self.form.non_field_errors()
 
         if form_errors:
@@ -212,7 +215,7 @@ class FormRenderer(BaseRenderer):
                     'errors': form_errors,
                     'form': self.form,
                     'layout': self.layout,
-                    'type': type,
+                    'type': self.errors_type,
                 }
             )
 
