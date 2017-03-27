@@ -463,7 +463,7 @@ class FieldRenderer(BaseRenderer):
                     'show_help': self.show_help,
                 }
             )
-            html += '<span class="help-block">{help}</span>'.format(help=help_html)
+            html += help_html
         return html
 
     def get_field_class(self):
