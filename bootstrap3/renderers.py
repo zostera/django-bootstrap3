@@ -11,7 +11,12 @@ from django.forms import (
     TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
-from django.forms.extras import SelectDateWidget
+# Django 1.9 moved SelectDateWidget to django.forms.widget from
+# django.forms.extras. Django 2.0 will remove the old import location.
+try:
+    from django.forms.widgets import SelectDateWidget
+except ImportError:
+    from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
