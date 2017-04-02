@@ -4,6 +4,12 @@ History
 -------
 
 
+IN PROGRESS
++++++++++++
+
+* fix DateWidget import for newer Django versions (thanks @clokep)
+
+
 8.2.1 (2017-02-23)
 ++++++++++++++++++
 
