@@ -261,6 +261,8 @@ class FieldRenderer(BaseRenderer):
         else:
             # Or just set it to empty
             self.placeholder = ''
+        if self.placeholder:
+            self.placeholder = text_value(mark_safe(self.placeholder))
 
         self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
         self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
