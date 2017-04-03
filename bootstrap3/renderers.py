@@ -11,7 +11,12 @@ from django.forms import (
     TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
     ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
 )
-from django.forms.extras import SelectDateWidget
+# Django 1.9 moved SelectDateWidget to django.forms.widget from
+# django.forms.extras. Django 2.0 will remove the old import location.
+try:
+    from django.forms.widgets import SelectDateWidget
+except ImportError:
+    from django.forms.extras import SelectDateWidget
 from django.forms.forms import BaseForm, BoundField
 from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
@@ -256,6 +261,8 @@ class FieldRenderer(BaseRenderer):
         else:
             # Or just set it to empty
             self.placeholder = ''
+        if self.placeholder:
+            self.placeholder = text_value(mark_safe(self.placeholder))
 
         self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
         self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
@@ -463,7 +470,7 @@ class FieldRenderer(BaseRenderer):
                     'show_help': self.show_help,
                 }
             )
-            html += '<span class="help-block">{help}</span>'.format(help=help_html)
+            html += help_html
         return html
 
     def get_field_class(self):

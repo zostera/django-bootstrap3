@@ -4,6 +4,14 @@ History
 -------
 
 
+8.2.2 (017-04-03)
++++++++++++++++++
+
+* Fix invalid HTML in help texts (thanks @luksen)
+* Added `mark_safe` to placeholder (thanks @ppo)
+* Fix DateWidget import for newer Django versions (thanks @clokep)
+
+
 8.2.1 (2017-02-23)
 ++++++++++++++++++
 
