@@ -4,7 +4,7 @@ History
 -------
 
 
-8.2.2 (017-04-03)
+8.2.2 (2017-04-03)
 +++++++++++++++++
 
 * Fix invalid HTML in help texts (thanks @luksen)
