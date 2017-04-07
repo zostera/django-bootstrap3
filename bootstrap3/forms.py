@@ -179,9 +179,6 @@ def is_widget_with_placeholder(widget):
     """
     Is this a widget that should have a placeholder?
     Only text, search, url, tel, e-mail, password, number have placeholders
-    These are all derived form TextInput, except for Textarea
     """
-    # PasswordInput inherits from Input in Django 1.4.
-    # It was changed to inherit from TextInput in 1.5.
     return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput,
                                URLInput, PasswordInput))
