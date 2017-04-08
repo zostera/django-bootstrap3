@@ -829,6 +829,7 @@ def bootstrap_pagination(page, **kwargs):
     **Example**::
 
         {% bootstrap_pagination lines url="/pagination?page=1" size="large" %}
+        {% bootstrap_pagination page_obj extra=request.GET.urlencode %}
 
     """
 
