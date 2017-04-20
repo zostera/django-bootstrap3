@@ -5,6 +5,7 @@ import re
 
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
+from django.contrib.gis import forms as gisforms
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
 from django.template import engines
@@ -89,6 +90,7 @@ class TestForm(forms.Form):
     addon = forms.CharField(
         widget=forms.TextInput(attrs={'addon_before': 'before', 'addon_after': 'after'}),
     )
+    polygon = gisforms.PointField()
 
     required_css_class = 'bootstrap3-req'
 
