@@ -59,7 +59,7 @@ class TestForm(forms.Form):
         label='Sender © unicode',
         help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
-    weird = forms.CharField(help_text=u'© ® ™')
+    weird = forms.CharField(help_text=u'wéird')
     cc_myself = forms.BooleanField(
         required=False,
         help_text='cc stands for "carbon copy." You will get a copy in your mailbox.'
