@@ -706,3 +706,9 @@ class ShowLabelTest(TestCase):
             res.strip(),
             '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
         )
+
+
+class ShowPlaceholderTest(TestCase):
+    def test_placeholder_set_from_label(self):
+        res = render_form_field('sender')
+        self.assertIn('placeholder="Sender © unicode"', res)
