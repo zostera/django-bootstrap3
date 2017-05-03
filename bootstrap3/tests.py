@@ -88,6 +88,8 @@ class TestForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         help_text='Check as many as you like.',
     )
+    number = forms.FloatField()
+    url = forms.URLField()
     addon = forms.CharField(
         widget=forms.TextInput(attrs={'addon_before': 'before', 'addon_after': 'after'}),
     )
@@ -715,3 +717,42 @@ class ShowPlaceholderTest(TestCase):
     def test_placeholder_set_from_label(self):
         res = render_form_field('sender')
         self.assertIn('placeholder="Sender © unicode"', res)
+
+
+class ShowAddonsTest(TestCase):
+
+    def test_show_addons_textinput(self):
+        res = render_template_with_form('{% bootstrap_field form.subject addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
+    def test_show_addons_select(self):
+        res = render_template_with_form('{% bootstrap_field form.select1 addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
+    def test_show_addons_dateinput(self):
+        res = render_template_with_form('{% bootstrap_field form.date addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
+    def test_show_addons_email(self):
+        res = render_template_with_form('{% bootstrap_field form.sender addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
+    def test_show_addons_number(self):
+        res = render_template_with_form('{% bootstrap_field form.number addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)
+
+    def test_show_addons_url(self):
+        res = render_template_with_form('{% bootstrap_field form.url addon_before="$"  addon_after=".00" %}')
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">$', res)
+        self.assertIn('class="input-group-addon">.00', res)

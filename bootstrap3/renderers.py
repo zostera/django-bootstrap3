@@ -8,8 +8,8 @@ except RuntimeError:
     ReadOnlyPasswordHashWidget = None
 
 from django.forms import (
-    TextInput, DateInput, FileInput, CheckboxInput, MultiWidget,
-    ClearableFileInput, Select, RadioSelect, CheckboxSelectMultiple
+    TextInput, DateInput, FileInput, CheckboxInput, MultiWidget, ClearableFileInput,
+    Select, RadioSelect, CheckboxSelectMultiple, NumberInput, EmailInput, URLInput
 )
 # Django 1.9 moved SelectDateWidget to django.forms.widget from
 # django.forms.extras. Django 2.0 will remove the old import location.
@@ -443,7 +443,8 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def make_input_group(self, html):
-        if (self.addon_before or self.addon_after) and isinstance(self.widget, (TextInput, DateInput, Select)):
+        if (self.addon_before or self.addon_after) and isinstance(
+                self.widget, (TextInput, NumberInput, EmailInput, URLInput, DateInput, Select)):
             before = '<span class="{input_class}">{addon}</span>'.format(
                 input_class=self.addon_before_class, addon=self.addon_before) if self.addon_before else ''
             after = '<span class="{input_class}">{addon}</span>'.format(
