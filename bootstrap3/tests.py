@@ -59,6 +59,7 @@ class TestForm(forms.Form):
         label='Sender © unicode',
         help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
+    weird = forms.CharField(help_text=u"“ ” ‘ ’ – — … ‐ ‒ ° © ® ™")
     cc_myself = forms.BooleanField(
         required=False,
         help_text='cc stands for "carbon copy." You will get a copy in your mailbox.'
@@ -90,7 +91,9 @@ class TestForm(forms.Form):
     addon = forms.CharField(
         widget=forms.TextInput(attrs={'addon_before': 'before', 'addon_after': 'after'}),
     )
-    polygon = gisforms.PointField()
+
+    # TODO: Re-enable this after Django 1.11 #28105 is available
+    # polygon = gisforms.PointField()
 
     required_css_class = 'bootstrap3-req'
 
