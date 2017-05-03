@@ -721,38 +721,34 @@ class ShowPlaceholderTest(TestCase):
 
 class ShowAddonsTest(TestCase):
 
-    def test_show_addons_textinput(self):
-        res = render_template_with_form('{% bootstrap_field form.subject addon_before="$"  addon_after=".00" %}')
+    def assertFieldHasAddons(self, field):
+        """Asserts that a given field has an after and before addon."""
+        addon_before = "bf"
+        addon_after = "af"
+
+        res = render_template_with_form(
+            '{{% bootstrap_field form.{0} addon_before="{1}"  addon_after="{2}" %}}'.format(
+                field, addon_before, addon_after)
+        )
+
         self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertIn('class="input-group-addon">{0}'.format(addon_before), res)
+        self.assertIn('class="input-group-addon">{0}'.format(addon_after), res)
+
+    def test_show_addons_textinput(self):
+        self.assertFieldHasAddons("subject")
 
     def test_show_addons_select(self):
-        res = render_template_with_form('{% bootstrap_field form.select1 addon_before="$"  addon_after=".00" %}')
-        self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertFieldHasAddons("select1")
 
     def test_show_addons_dateinput(self):
-        res = render_template_with_form('{% bootstrap_field form.date addon_before="$"  addon_after=".00" %}')
-        self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertFieldHasAddons("date")
 
     def test_show_addons_email(self):
-        res = render_template_with_form('{% bootstrap_field form.sender addon_before="$"  addon_after=".00" %}')
-        self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertFieldHasAddons("sender")
 
     def test_show_addons_number(self):
-        res = render_template_with_form('{% bootstrap_field form.number addon_before="$"  addon_after=".00" %}')
-        self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertFieldHasAddons("number")
 
     def test_show_addons_url(self):
-        res = render_template_with_form('{% bootstrap_field form.url addon_before="$"  addon_after=".00" %}')
-        self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">$', res)
-        self.assertIn('class="input-group-addon">.00', res)
+        self.assertFieldHasAddons("url")
