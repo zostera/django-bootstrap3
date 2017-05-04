@@ -7,8 +7,9 @@ History
 Development (unreleased)
 ++++++++++++++++++++++++
 
-* Fix invalid HTML in help texts (thanks @luksen)
-* Added `mark_safe` to placeholder (thanks @ppo)
+* Tweaks to tests and CI (see #400)
+* Prepared test for geometry fields (disabled, blocked by Django update)
+* Bug fixes for add ons and placeholders (thanks @jaimesanz, @cybojenix and @marc-gist)
 * Add unicode test for help_text
 * Dropped support for Python 3.2
 
