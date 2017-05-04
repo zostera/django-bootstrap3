@@ -4,6 +4,14 @@ History
 -------
 
 
+Development (unreleased)
+++++++++++++++++++++++++
+
+* Fix invalid HTML in help texts (thanks @luksen)
+* Added `mark_safe` to placeholder (thanks @ppo)
+* Add unicode test for help_text
+
+
 8.2.2 (2017-04-03)
 +++++++++++++++++
 

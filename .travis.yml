@@ -1,50 +1,14 @@
-# We do not use sudo
 sudo: false
-
-# Python versions for matrix
 language: python
+
 python:
-  - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+    - "2.7"
 
-# Django versions for matrix
-env:
-  - DJANGO_VERSION='>=1.8,<1.9'
-  - DJANGO_VERSION='>=1.9,<1.10'
-  - DJANGO_VERSION='>=1.10,<1.11'
-  - DJANGO_VERSION='>=1.11,<1.12'
-
-# Command to install dependencies, e.g. pip install -r requirements.txt
 install:
-  - pip install Django$DJANGO_VERSION
-  # Coverage 4.0 no longer supports py32. Install an older version before
-  # coveralls tries to install the latest
-  - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then travis_retry pip install 'coverage<4.0'; fi
-  - pip install coveralls
+    - pip install tox-travis coveralls
 
-# Command to run tests, e.g. python setup.py test
 script:
-  - coverage run --source=bootstrap3 manage.py test
+    - tox
 
-matrix:
-  exclude:
-    - python: "3.2"
-      env: DJANGO_VERSION='>=1.9,<1.10'
-    - python: "3.2"
-      env: DJANGO_VERSION='>=1.10,<1.11'
-    - python: "3.2"
-      env: DJANGO_VERSION='>=1.11,<1.12'
-    - python: "3.3"
-      env: DJANGO_VERSION='>=1.9,<1.10'
-    - python: "3.3"
-      env: DJANGO_VERSION='>=1.10,<1.11'
-    - python: "3.3"
-      env: DJANGO_VERSION='>=1.11,<1.12'
-
-# Report to coveralls
 after_success:
-  - coveralls
+    - coveralls
