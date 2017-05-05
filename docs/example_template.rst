@@ -3,6 +3,9 @@
   {# Load the tag library #}
   {% load bootstrap3 %}
 
+  {# Load jQuery (required for bootstrap_javascript) #}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  
   {# Load CSS and JavaScript #}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
