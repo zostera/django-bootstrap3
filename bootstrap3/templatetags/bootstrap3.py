@@ -318,6 +318,17 @@ def bootstrap_form(*args, **kwargs):
             A list of field names (comma separated) that should not be rendered
             E.g. exclude=subject,bcc
 
+        errors_type
+            Control which type of errors should be rendered.
+
+            One of the following values:
+
+                * ``'all'``
+                * ``'fields'``
+                * ``'non_fields'``
+
+            :default: ``'all'``
+
         See bootstrap_field_ for other arguments
 
     **Usage**::
