@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
 
     # We test this one
     'bootstrap3',
@@ -41,6 +42,8 @@ TEMPLATES = [{
 }]
 
 ROOT_URLCONF = None
+
+STATIC_URL = '/static/'
 
 BOOTSTRAP3 = {
     'theme_url': '//example.com/theme.css',

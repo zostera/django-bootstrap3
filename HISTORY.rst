@@ -4,8 +4,20 @@ History
 -------
 
 
-8.2.2 (017-04-03)
-+++++++++++++++++
+8.2.3 (2017-05-05)
+++++++++++++++++++
+
+* Renamed requirements.txt to requirements-dev.txt
+* Tweaks to tests and CI (see #400)
+* Prepared test for geometry fields (disabled, blocked by Django update, see #392)
+* Bug fixes for add ons and placeholders (thanks @jaimesanz, @cybojenix and @marc-gist)
+* Improve documentation for pagination with GET parameters (thanks @nspo)
+* Add unicode test for help_text
+* Removed tests for Python 3.2 from tox and Travis CI (no longer supported by Django 1.8)
+
+
+8.2.2 (2017-04-03)
+++++++++++++++++++
 
 * Fix invalid HTML in help texts (thanks @luksen)
 * Added `mark_safe` to placeholder (thanks @ppo)

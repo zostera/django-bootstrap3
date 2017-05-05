@@ -286,7 +286,8 @@ def bootstrap_formset_errors(*args, **kwargs):
             The formset that is being rendered
 
         layout
-            Context value that is available in the template ``bootstrap3/form_errors.html`` as ``layout``.
+            Context value that is available in the template ``bootstrap3/form_errors.html``
+            as ``layout``.
 
     **Usage**::
 
@@ -803,7 +804,8 @@ def bootstrap_pagination(page, **kwargs):
             :default: ``None``
 
         size
-            Controls the size of the pagination through CSS. Defaults to being normal sized.
+            Controls the size of the pagination through CSS.
+            Defaults to being normal sized.
 
             One of the following:
 

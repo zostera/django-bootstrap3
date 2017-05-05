@@ -5,6 +5,7 @@ import re
 
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
+from django.contrib.gis import forms as gisforms
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
 from django.template import engines
@@ -58,6 +59,7 @@ class TestForm(forms.Form):
         label='Sender © unicode',
         help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
+    weird = forms.CharField(help_text=u"strings are now utf-8 \u03BCnico\u0394é!")
     cc_myself = forms.BooleanField(
         required=False,
         help_text='cc stands for "carbon copy." You will get a copy in your mailbox.'
@@ -86,9 +88,14 @@ class TestForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         help_text='Check as many as you like.',
     )
+    number = forms.FloatField()
+    url = forms.URLField()
     addon = forms.CharField(
         widget=forms.TextInput(attrs={'addon_before': 'before', 'addon_after': 'after'}),
     )
+
+    # TODO: Re-enable this after Django 1.11 #28105 is available
+    # polygon = gisforms.PointField()
 
     required_css_class = 'bootstrap3-req'
 
@@ -704,3 +711,44 @@ class ShowLabelTest(TestCase):
             res.strip(),
             '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
         )
+
+
+class ShowPlaceholderTest(TestCase):
+    def test_placeholder_set_from_label(self):
+        res = render_form_field('sender')
+        self.assertIn('placeholder="Sender © unicode"', res)
+
+
+class ShowAddonsTest(TestCase):
+
+    def assertFieldHasAddons(self, field):
+        """Asserts that a given field has an after and before addon."""
+        addon_before = "bf"
+        addon_after = "af"
+
+        res = render_template_with_form(
+            '{{% bootstrap_field form.{0} addon_before="{1}"  addon_after="{2}" %}}'.format(
+                field, addon_before, addon_after)
+        )
+
+        self.assertIn('class="input-group"', res)
+        self.assertIn('class="input-group-addon">{0}'.format(addon_before), res)
+        self.assertIn('class="input-group-addon">{0}'.format(addon_after), res)
+
+    def test_show_addons_textinput(self):
+        self.assertFieldHasAddons("subject")
+
+    def test_show_addons_select(self):
+        self.assertFieldHasAddons("select1")
+
+    def test_show_addons_dateinput(self):
+        self.assertFieldHasAddons("date")
+
+    def test_show_addons_email(self):
+        self.assertFieldHasAddons("sender")
+
+    def test_show_addons_number(self):
+        self.assertFieldHasAddons("number")
+
+    def test_show_addons_url(self):
+        self.assertFieldHasAddons("url")

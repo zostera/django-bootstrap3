@@ -23,8 +23,9 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
 Requirements
 ------------
 
-- Python 2.7, 3.2, 3.3, 3.4, or 3.5
+- Python 2.7, 3.3, 3.4, or 3.5
 - Django >= 1.8
+- For details, see https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
 
 *The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
 
