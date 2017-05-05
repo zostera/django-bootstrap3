@@ -347,7 +347,7 @@ class FieldRenderer(BaseRenderer):
         """
         if widget is None:
             widget = self.widget
-        if self.set_required and is_widget_required_attribute(widget):
+        if not hasattr(widget, 'autocomplete') and self.set_required and is_widget_required_attribute(widget):
             widget.attrs['required'] = 'required'
 
     def add_disabled_attrs(self, widget=None):
