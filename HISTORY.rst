@@ -7,6 +7,7 @@ History
 8.2.3 (2017-05-05)
 ++++++++++++++++++
 
+* Renamed requirements.txt to requirements-dev.txt
 * Tweaks to tests and CI (see #400)
 * Prepared test for geometry fields (disabled, blocked by Django update, see #392)
 * Bug fixes for add ons and placeholders (thanks @jaimesanz, @cybojenix and @marc-gist)
