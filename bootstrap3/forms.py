@@ -20,6 +20,14 @@ from .utils import add_css_class, render_tag
 
 FORM_GROUP_CLASS = 'form-group'
 
+WIDGETS_NO_REQUIRED = (
+    AdminFileWidget,
+    HiddenInput,
+    FileInput,
+    CheckboxInput,
+    CheckboxSelectMultiple
+)
+
 
 def render_formset(formset, **kwargs):
     """
@@ -167,10 +175,7 @@ def is_widget_required_attribute(widget):
         return False
     if not widget.is_required:
         return False
-    if isinstance(
-            widget, (
-                    AdminFileWidget, HiddenInput, FileInput,
-                    CheckboxInput, CheckboxSelectMultiple)):
+    if isinstance(widget, WIDGETS_NO_REQUIRED):
         return False
     return True
 

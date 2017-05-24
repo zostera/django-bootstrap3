@@ -451,20 +451,20 @@ def bootstrap_field(*args, **kwargs):
         addon_before
             Text that should be prepended to the form field. Can also be an icon, e.g.
             ``'<span class="glyphicon glyphicon-calendar"></span>'``
-            
+
             See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         addon_after
             Text that should be appended to the form field. Can also be an icon, e.g.
             ``'<span class="glyphicon glyphicon-calendar"></span>'``
-            
+
             See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         addon_before_class
             Class used on the span when ``addon_before`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 
@@ -474,7 +474,7 @@ def bootstrap_field(*args, **kwargs):
             Class used on the span when ``addon_after`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 

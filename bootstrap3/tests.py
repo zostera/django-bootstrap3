@@ -5,7 +5,6 @@ import re
 
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
-from django.contrib.gis import forms as gisforms
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
 from django.template import engines
@@ -30,13 +29,11 @@ MEDIA_CHOICES = (
     ('Audio', (
         ('vinyl', 'Vinyl'),
         ('cd', 'CD'),
-    )
-     ),
+    )),
     ('Video', (
         ('vhs', 'VHS Tape'),
         ('dvd', 'DVD'),
-    )
-     ),
+    )),
     ('unknown', 'Unknown'),
 )
 
@@ -466,7 +463,7 @@ class FieldTest(TestCase):
 
     def test_input_group_addon_button(self):
         res = render_template_with_form(
-            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}')
+            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}')  # noqa
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-btn">$', res)
         self.assertIn('class="input-group-btn">.00', res)
@@ -508,8 +505,6 @@ class FieldTest(TestCase):
     def test_attributes_consistency(self):
         form = TestForm()
         attrs = form.fields['addon'].widget.attrs.copy()
-        context = dict(form=form)
-        field_alone = render_form_field("addon", context)
         self.assertEqual(attrs, form.fields['addon'].widget.attrs)
 
 
@@ -707,9 +702,14 @@ class ShowLabelTest(TestCase):
         res = render_template_with_form(
             "{% bootstrap_button 'test' icon='info-sign' button_type='submit' %}"
         )
-        self.assertEqual(
-            res.strip(),
-            '<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-info-sign"></span> test</button>'
+        self.assertHTMLEqual(
+            res,
+            '<button'
+            ' class="btn btn-default"'
+            ' type="submit">'
+            '<span'
+            ' class="glyphicon glyphicon-info-sign"></span>'
+            ' test</button>'
         )
 
 
@@ -720,7 +720,6 @@ class ShowPlaceholderTest(TestCase):
 
 
 class ShowAddonsTest(TestCase):
-
     def assertFieldHasAddons(self, field):
         """Asserts that a given field has an after and before addon."""
         addon_before = "bf"
