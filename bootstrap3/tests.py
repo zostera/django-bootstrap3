@@ -529,6 +529,132 @@ class ComponentsTest(TestCase):
             '&times;</button>content</div>'
         )
 
+    def test_tabs(self):
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings" %}'
+        )
+        self.assertEqual(
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#home" aria-controls="home" role="tab" ' +
+            'data-toggle="tab">Home</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#profile" aria-controls="profile" role="tab" ' +
+            'data-toggle="tab">Profile</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#messages" aria-controls="messages" role="tab" ' +
+            'data-toggle="tab">Messages</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#settings" aria-controls="settings" role="tab" ' +
+            'data-toggle="tab">Settings</a></li>' +
+            '</ul>'
+            ,
+            res.strip()
+        )
+        # save for reuse
+        tabs_expect = res.strip()
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' disabled_tabs="Messages, Settings" %}',
+        )
+        self.assertEqual(
+            '<ul class="nav nav-tabs" role="tablist">' +
+            '<li role="presentation" class="active">' +
+            '<a href="#home" aria-controls="home" role="tab" ' +
+            'data-toggle="tab">Home</a></li>' +
+            '<li role="presentation">' +
+            '<a href="#profile" aria-controls="profile" role="tab" ' +
+            'data-toggle="tab">Profile</a></li>' +
+            '<li role="presentation" class="disabled">' +
+            '<a href="#messages" aria-controls="messages" role="tab" ' +
+            'data-toggle="tab">Messages</a></li>' +
+            '<li role="presentation" class="disabled">' +
+            '<a href="#settings" aria-controls="settings" role="tab" ' +
+            'data-toggle="tab">Settings</a></li>' +
+            '</ul>'
+            ,
+            res.strip()
+        )
+        disabled_expect = res.strip()
+        # adding active element to disabled should not work
+        # sneakily also testing missing whitespace
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' disabled_tabs="Home,Messages, Settings" %}',
+        )
+        self.assertEqual(
+            disabled_expect,
+            res.strip()
+        )
+        # Vertical should do nothing on nav-tabs
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' vertical=True %}',
+        )
+        self.assertEqual(
+            tabs_expect,
+            res.strip()
+        )
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' justified=True %}',
+        )
+        self.assertEqual(
+            tabs_expect.replace('nav-tabs"', 'nav-tabs nav-justified"'),
+            res.strip()
+        )
+        # intentionally not refreshing tabs_expect
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True %}'
+        )
+        self.assertEqual(
+            tabs_expect.replace('nav-tabs', 'nav-pills').replace(
+                'data-toggle="tab"', 'data-toggle="pill"'
+            ),
+            res.strip()
+        )
+        pills_expect = res.strip()
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True vertical=True %}',
+        )
+        self.assertEqual(
+            pills_expect.replace('nav-pills"', 'nav-pills nav-stacked"'),
+            res.strip()
+        )
+        pills_expect = res.strip()
+        # justified should do nothing with vertical
+        res = render_template_with_form(
+            '{% bootstrap_tabs "Home" "Profile" "Messages" "Settings"' +
+            ' pills=True vertical=True justified=True %}',
+        )
+        self.assertEqual(
+            pills_expect,
+            res.strip()
+        )
+        res = render_template_with_form(
+            '{% bootstrap_tabpanel "Home" active=True %}' +
+            '<p>Home content</p>' +
+            '{% endbootstrap_tabpanel %}'
+        )
+        self.assertEqual(
+            '<div class="tab-pane active" id="home" role="tabpanel">' +
+            '<p>Home content</p></div>',
+            res.strip()
+        )
+        res = render_template_with_form(
+            '{% bootstrap_tabs_js %}'
+        )
+        self.assertEqual(
+            '<script type="text/javascript">\n' +
+            '    $(\'ul[role="tablist"]\').click(function (e) {\n' +
+            '        e.preventDefault();\n' +
+            '        $(this).tab("show");\n' +
+            '    });\n</script>',
+            res.strip()
+        )
+
 
 class MessagesTest(TestCase):
     def test_messages(self):
