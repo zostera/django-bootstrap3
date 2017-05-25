@@ -4,6 +4,12 @@ History
 -------
 
 
+Development (in progress)
++++++++++++++++++++++++++
+
+* Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
+
+
 8.2.3 (2017-05-05)
 ++++++++++++++++++
 
