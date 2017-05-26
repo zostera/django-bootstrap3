@@ -426,6 +426,9 @@ def bootstrap_field(*args, **kwargs):
 
             :default: ``False``
 
+       value
+            Sets the starting value of the field
+
         size
             Controls the size of the rendered ``div.form-group`` through the use of CSS classes.
 
