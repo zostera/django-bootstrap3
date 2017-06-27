@@ -22,6 +22,7 @@ Contributors
 * Jordan Starcher <jstarcher@gmail.com>
 * Juan Carlos <juancarlospaco@gmail.com>
 * Markus Holtermann <info@markusholtermann.eu>
+* Martin Koistinen <mkoistinen@gmail.com>
 * Nick S <nsmith448@gmail.com>
 * Owais Lone <loneowais@gmail.com>
 * pmav99 <pmav99@users.noreply.github.com>
