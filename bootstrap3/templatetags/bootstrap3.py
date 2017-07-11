@@ -318,6 +318,13 @@ def bootstrap_form(*args, **kwargs):
             A list of field names (comma separated) that should not be rendered
             E.g. exclude=subject,bcc
 
+        error_types
+            This controls the types of errors that are rendered above the form.
+            Choices are: "all", "field_errors", "non_field_errors" or "none". This will not
+            affect the display of errors on the fields themselves.
+
+            Default is "non_field_errors".
+
         See bootstrap_field_ for other arguments
 
     **Usage**::
@@ -345,16 +352,16 @@ def bootstrap_form_errors(*args, **kwargs):
         form
             The form that is to be rendered
 
-        type
+        error_types
             Control which type of errors should be rendered.
 
             One of the following values:
 
                 * ``'all'``
-                * ``'fields'``
-                * ``'non_fields'``
+                * ``'field_errors'``
+                * ``'non_field_errors'``
 
-            :default: ``'all'``
+            :default: ``'non_field_errors'``
 
         layout
             Context value that is available in the template ``bootstrap3/form_errors.html`` as ``layout``.
@@ -451,20 +458,20 @@ def bootstrap_field(*args, **kwargs):
         addon_before
             Text that should be prepended to the form field. Can also be an icon, e.g.
             ``'<span class="glyphicon glyphicon-calendar"></span>'``
-            
+
             See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         addon_after
             Text that should be appended to the form field. Can also be an icon, e.g.
             ``'<span class="glyphicon glyphicon-calendar"></span>'``
-            
+
             See the `Bootstrap docs <http://getbootstrap.com/components/#input-groups-basic>` for more examples.
 
         addon_before_class
             Class used on the span when ``addon_before`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 
@@ -474,7 +481,7 @@ def bootstrap_field(*args, **kwargs):
             Class used on the span when ``addon_after`` is used.
 
             One of the following values:
-                
+
                 * ``'input-group-addon'``
                 * ``'input-group-btn'``
 

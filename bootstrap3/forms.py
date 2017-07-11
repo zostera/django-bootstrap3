@@ -20,6 +20,14 @@ from .utils import add_css_class, render_tag
 
 FORM_GROUP_CLASS = 'form-group'
 
+WIDGETS_NO_REQUIRED = (
+    AdminFileWidget,
+    HiddenInput,
+    FileInput,
+    CheckboxInput,
+    CheckboxSelectMultiple
+)
+
 
 def render_formset(formset, **kwargs):
     """
@@ -45,12 +53,12 @@ def render_form(form, **kwargs):
     return renderer_cls(form, **kwargs).render()
 
 
-def render_form_errors(form, type='all', **kwargs):
+def render_form_errors(form, error_types='non_field_errors', **kwargs):
     """
     Render form errors to a Bootstrap layout
     """
     renderer_cls = get_form_renderer(**kwargs)
-    return renderer_cls(form, **kwargs).render_errors(type)
+    return renderer_cls(form, **kwargs).render_errors(error_types)
 
 
 def render_field(field, **kwargs):
@@ -167,10 +175,7 @@ def is_widget_required_attribute(widget):
         return False
     if not widget.is_required:
         return False
-    if isinstance(
-            widget, (
-                    AdminFileWidget, HiddenInput, FileInput,
-                    CheckboxInput, CheckboxSelectMultiple)):
+    if isinstance(widget, WIDGETS_NO_REQUIRED):
         return False
     return True
 

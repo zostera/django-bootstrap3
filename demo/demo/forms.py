@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 
-
 from bootstrap3.tests import TestForm
 
 RADIO_CHOICES = (
@@ -16,13 +15,11 @@ MEDIA_CHOICES = (
     ('Audio', (
         ('vinyl', 'Vinyl'),
         ('cd', 'CD'),
-    )
-    ),
+    )),
     ('Video', (
         ('vhs', 'VHS Tape'),
         ('dvd', 'DVD'),
-    )
-    ),
+    )),
     ('unknown', 'Unknown'),
 )
 
@@ -38,6 +35,7 @@ class ContactBaseFormSet(BaseFormSet):
     def clean(self):
         super(ContactBaseFormSet, self).clean()
         raise forms.ValidationError("This error was added to show the non form errors styling")
+
 
 ContactFormSet = formset_factory(TestForm, formset=ContactBaseFormSet,
                                  extra=2,
