@@ -166,7 +166,7 @@ class FormRenderer(BaseRenderer):
         if DBS3_SET_REQUIRED_SET_DISABLED and self.form.empty_permitted:
             self.set_required = False
 
-        self.errors_type = kwargs.get('errors_type', 'all')
+        self.error_types = kwargs.get('error_types', 'non_field_errors')
         self.error_css_class = kwargs.get('error_css_class', None)
         self.required_css_class = kwargs.get('required_css_class', None)
         self.bound_css_class = kwargs.get('bound_css_class', None)
@@ -202,14 +202,16 @@ class FormRenderer(BaseRenderer):
                 form_errors += field.errors
         return form_errors
 
-    def render_errors(self, type='all'):
+    def render_errors(self, error_types='all'):
         form_errors = []
-        if type == 'all':
+        if error_types == 'all':
             form_errors = self.get_fields_errors() + self.form.non_field_errors()
-        elif type == 'fields':
+        elif error_types == 'field_errors':
             form_errors = self.get_fields_errors()
-        elif type == 'non_fields':
+        elif error_types == 'non_field_errors':
             form_errors = self.form.non_field_errors()
+        elif error_types and error_types != 'none':
+            raise Exception('Illegal value "{}" for error_types.')
 
         if form_errors:
             return render_template_file(
@@ -218,14 +220,14 @@ class FormRenderer(BaseRenderer):
                     'errors': form_errors,
                     'form': self.form,
                     'layout': self.layout,
-                    'type': type,
+                    'error_types': error_types,
                 }
             )
 
         return ''
 
     def _render(self):
-        return self.render_errors(self.errors_type) + self.render_fields()
+        return self.render_errors(self.error_types) + self.render_fields()
 
 
 class FieldRenderer(BaseRenderer):

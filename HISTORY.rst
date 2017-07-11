@@ -8,7 +8,7 @@ Development (in progress)
 +++++++++++++++++++++++++
 
 * Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
-* Added 'errors_type' support on bootstrap3_form (thanks @mkoistinen)
+* Added 'error_types' support on bootstrap3_form (thanks @mkoistinen and @ickam)
 
 
 8.2.3 (2017-05-05)

@@ -318,12 +318,12 @@ def bootstrap_form(*args, **kwargs):
             A list of field names (comma separated) that should not be rendered
             E.g. exclude=subject,bcc
 
-        errors_type
+        error_types
             This controls the types of errors that are rendered above the form.
-            Choices are: "all", "fields", "non_fields" or "none". This will not
+            Choices are: "all", "field_errors", "non_field_errors" or "none". This will not
             affect the display of errors on the fields themselves.
 
-            Default is "all".
+            Default is "non_field_errors".
 
         See bootstrap_field_ for other arguments
 
@@ -352,16 +352,16 @@ def bootstrap_form_errors(*args, **kwargs):
         form
             The form that is to be rendered
 
-        type
+        error_types
             Control which type of errors should be rendered.
 
             One of the following values:
 
                 * ``'all'``
-                * ``'fields'``
-                * ``'non_fields'``
+                * ``'field_errors'``
+                * ``'non_field_errors'``
 
-            :default: ``'all'``
+            :default: ``'non_field_errors'``
 
         layout
             Context value that is available in the template ``bootstrap3/form_errors.html`` as ``layout``.

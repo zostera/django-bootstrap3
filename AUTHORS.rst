@@ -17,6 +17,7 @@ Contributors
 * Caio Ariede <caio.ariede@gmail.com>
 * Fabio C. Barrionuevo da Luz <bnafta@gmail.com>
 * Fabio Perfetti <perfabio87@gmail.com>
+* Irving Ckam <https://github.com/ickam>
 * Jay Pipes <jaypipes@gmail.com>
 * Jonas Hagstedt <hagstedt@gmail.com>
 * Jordan Starcher <jstarcher@gmail.com>

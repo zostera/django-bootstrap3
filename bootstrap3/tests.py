@@ -38,6 +38,24 @@ MEDIA_CHOICES = (
 )
 
 
+class SmallTestForm(forms.Form):
+    sender = forms.EmailField(
+        label='Sender © unicode',
+        help_text='E.g., "me@example.com"')
+    subject = forms.CharField(
+        max_length=100,
+        help_text='my_help_text',
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'placeholdertest'}),
+    )
+
+    def clean(self):
+        cleaned_data = super(SmallTestForm, self).clean()
+        raise forms.ValidationError(
+            "This error was added to show the non field errors styling.")
+        return cleaned_data
+
+
 class TestForm(forms.Form):
     """
     Form with a variety of widgets to test bootstrap3 rendering.
@@ -220,30 +238,26 @@ class SettingsTest(TestCase):
             res
         )
 
+    def test_settings_filter(self):
+        res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
+        self.assertEqual(res.strip(), 'bootstrap3-req')
+        res = render_template_with_form('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
+        self.assertEqual(res.strip(), 'head')
 
-def test_settings_filter(self):
-    res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
-    self.assertEqual(res.strip(), 'bootstrap3-req')
-    res = render_template_with_form('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
-    self.assertEqual(res.strip(), 'head')
+    def test_required_class(self):
+        form = TestForm()
+        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+        self.assertIn('bootstrap3-req', res)
 
+    def test_error_class(self):
+        form = TestForm({})
+        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+        self.assertIn('bootstrap3-err', res)
 
-def test_required_class(self):
-    form = TestForm()
-    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-    self.assertIn('bootstrap3-req', res)
-
-
-def test_error_class(self):
-    form = TestForm({})
-    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-    self.assertIn('bootstrap3-err', res)
-
-
-def test_bound_class(self):
-    form = TestForm({'sender': 'sender'})
-    res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-    self.assertIn('bootstrap3-bound', res)
+    def test_bound_class(self):
+        form = TestForm({'sender': 'sender'})
+        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
+        self.assertIn('bootstrap3-bound', res)
 
 
 class TemplateTest(TestCase):
@@ -378,6 +392,64 @@ class FormTest(TestCase):
             {'form': form}
         )
         self.assertNotIn('bootstrap3-bound', res)
+
+    def test_error_types(self):
+        form = SmallTestForm({'sender': 'sender'})
+
+        pattern = re.compile(r'\s')
+
+        res = render_template_with_form(
+            '{% bootstrap_form form error_types="all" %}',
+            {'form': form}
+        )
+        expected = """
+            <div class="alert alert-danger alert-dismissable alert-link">
+               <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+               Enter a valid email address.<br>
+               This field is required.<br>
+               This error was added to show the non field errors styling.
+           </div>
+        """
+        self.assertIn(
+            re.sub(pattern, '', expected),
+            re.sub(pattern, '', res)
+        )
+
+        res = render_template_with_form(
+            '{% bootstrap_form form error_types="non_field_errors" %}',
+            {'form': form}
+        )
+        expected = """
+            <div class="alert alert-danger alert-dismissable alert-link">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+                This error was added to show the non field errors styling.
+            </div>
+     """
+        self.assertIn(
+            re.sub(pattern, '', expected),
+            re.sub(pattern, '', res)
+        )
+        res2 = render_template_with_form(
+            '{% bootstrap_form form %}',
+            {'form': form}
+        )
+        self.assertEqual(res, res2)
+
+        res = render_template_with_form(
+            '{% bootstrap_form form error_types="field_errors" %}',
+            {'form': form}
+        )
+        expected = """
+         <div class="alert alert-danger alert-dismissable alert-link">
+            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
+            Enter a valid email address.<br>
+            This field is required.
+        </div>
+     """
+        self.assertIn(
+            re.sub(pattern, '', expected),
+            re.sub(pattern, '', res)
+        )
 
 
 class FieldTest(TestCase):
