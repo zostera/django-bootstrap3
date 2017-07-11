@@ -8,7 +8,8 @@ History
 ++++++++++++++++++
 
 * Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
-* Added 'error_types' support on bootstrap3_form (thanks @mkoistinen and @ickam)
+* Added `error_types` support on bootstrap3_form (thanks @mkoistinen and @ickam)
+* **BREAKING** Default setting of `error_types` to `non_field_errors` is different fro behavior in versions < 9
 
 
 8.2.3 (2017-05-05)
