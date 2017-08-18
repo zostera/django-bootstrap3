@@ -20,6 +20,12 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
     :alt: Number of PyPI downloads per month
 
 
+Looking for Bootstrap 4?
+------------------------
+
+See https://github.zom/zostera/django-bootstrap4.
+
+
 Requirements
 ------------
 
