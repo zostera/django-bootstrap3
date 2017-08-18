@@ -51,8 +51,6 @@ Installation
 
 3. In your templates, load the ``bootstrap3`` library and use the ``bootstrap_*`` tags:
 
-This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
-
 
 Example template
 ----------------
