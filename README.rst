@@ -23,7 +23,7 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
 Looking for Bootstrap 4?
 ------------------------
 
-See https://github.zom/zostera/django-bootstrap4.
+See https://github.com/zostera/django-bootstrap4.
 
 
 Requirements
