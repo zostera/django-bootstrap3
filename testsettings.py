@@ -23,7 +23,10 @@ INSTALLED_APPS = (
     'bootstrap3',
 )
 
-MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES
+try:
+    MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES
+except AttributeError:
+    pass
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
