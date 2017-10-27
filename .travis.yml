@@ -9,6 +9,7 @@ python:
     - "3.6"
 
 install:
+    - sudo apt-get install libgdal-dev
     - pip install tox-travis coveralls
 
 script:
