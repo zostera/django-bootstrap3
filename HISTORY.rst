@@ -4,8 +4,8 @@ History
 -------
 
 
-development (in progress)
-+++++++++++++++++++++++++
+9.1.0
++++++
 
 * Mention `django-bootstrap4 <https://github.com/zostera/django-bootstrap4/>`_ in README
 * Rewrite `tox` test matrix to focus on Django releases rather than Python versions
