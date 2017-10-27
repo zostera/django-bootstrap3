@@ -14,8 +14,6 @@
 import os
 import sys
 
-import bootstrap3
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -24,6 +22,9 @@ import bootstrap3
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'testsettings'
+
+# Import bootstrap3 after sys.path has been tweaked
+import bootstrap3  # noqa
 
 # -- General configuration -----------------------------------------------------
 

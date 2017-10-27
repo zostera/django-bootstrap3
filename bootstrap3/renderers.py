@@ -255,12 +255,14 @@ class FieldRenderer(BaseRenderer):
         self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ''
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
+        self.label = kwargs.get('label', field.label)
+
         if 'placeholder' in kwargs:
             # Find the placeholder in kwargs, even if it's empty
             self.placeholder = kwargs['placeholder']
         elif get_bootstrap_setting('set_placeholder'):
             # If not found, see if we set the label
-            self.placeholder = field.label
+            self.placeholder = self.label
         else:
             # Or just set it to empty
             self.placeholder = ''
@@ -390,7 +392,7 @@ class FieldRenderer(BaseRenderer):
     def put_inside_label(self, html):
         content = '{field} {label}'.format(
             field=html,
-            label=self.field.label,
+            label=self.label,
         )
         return render_label(
             content=mark_safe(content),
@@ -503,7 +505,7 @@ class FieldRenderer(BaseRenderer):
         if isinstance(self.widget, CheckboxInput):
             label = None
         else:
-            label = self.field.label
+            label = self.label
         if self.layout == 'horizontal' and not label:
             return mark_safe('&#160;')
         return label

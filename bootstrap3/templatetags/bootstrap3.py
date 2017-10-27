@@ -443,7 +443,10 @@ def bootstrap_field(*args, **kwargs):
                 * ``'large'``
 
         placeholder
-            Sets the placeholder text of a textbox
+            Set/overwrite the field's placeholder.
+
+        label
+            Overwrite the field's label.
 
         horizontal_label_class
             Class used on the label when the ``layout`` is set to ``horizontal``.
@@ -679,7 +682,7 @@ def bootstrap_alert(content, alert_type='info', dismissable=True):
 
     **Example**::
 
-        {% bootstrap_alert "Something went wrong" alert_type='error' %}
+        {% bootstrap_alert "Something went wrong" alert_type='danger' %}
 
     """
     return render_alert(content, alert_type, dismissable)

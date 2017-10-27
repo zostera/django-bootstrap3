@@ -17,13 +17,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
 
     # We test this one
     'bootstrap3',
 )
 
-MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES
+try:
+    MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES
+except AttributeError:
+    pass
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
