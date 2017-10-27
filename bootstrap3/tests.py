@@ -131,7 +131,7 @@ class TestFormWithoutRequiredClass(TestForm):
 
 def render_template(text, context=None):
     """
-    Create a template ``text`` that first loads bootstrap3.
+    Create a template ``text``
     """
     template = engines['django'].from_string(text)
     if not context:
