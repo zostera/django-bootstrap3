@@ -8,7 +8,7 @@ from django.contrib.admin.widgets import AdminSplitDateTime
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
 from django.template import engines
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from .bootstrap import DBS3_SET_REQUIRED_SET_DISABLED
 from .exceptions import BootstrapError
@@ -578,6 +578,25 @@ class FieldTest(TestCase):
         form = TestForm()
         attrs = form.fields['addon'].widget.attrs.copy()
         self.assertEqual(attrs, form.fields['addon'].widget.attrs)
+
+    def test_placeholder(self):
+        res = render_template_with_form('{% bootstrap_field form.sender %}')
+        self.assertIn('placeholder="Sender', res)
+
+    def test_overwrite_placeholder(self):
+        res = render_template_with_form('{% bootstrap_field form.sender placeholder="foo" %}')
+        self.assertIn('placeholder="foo', res)
+
+        # If set_placeholder is set, also consider label override for placeholder
+        res = render_template_with_form('{% bootstrap_field form.sender label="foo" %}')
+        self.assertNotIn('Sender', res)
+        self.assertIn('placeholder="foo', res)
+        self.assertIn('foo</label>', res)
+
+    def test_overwrite_label(self):
+        res = render_template_with_form('{% bootstrap_field form.sender label="foo" %}')
+        self.assertNotIn('Sender', res)
+        self.assertIn('foo', res)
 
 
 class ComponentsTest(TestCase):

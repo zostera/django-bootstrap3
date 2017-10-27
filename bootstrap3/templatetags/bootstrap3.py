@@ -443,7 +443,10 @@ def bootstrap_field(*args, **kwargs):
                 * ``'large'``
 
         placeholder
-            Sets the placeholder text of a textbox
+            Set/overwrite the field's placeholder.
+
+        label
+            Overwrite the field's label.
 
         horizontal_label_class
             Class used on the label when the ``layout`` is set to ``horizontal``.
