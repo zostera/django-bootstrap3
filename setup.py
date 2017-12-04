@@ -11,7 +11,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = bootstrap3.__version__
+VERSION = bootstrap3.__version__
 
 if sys.argv[-1] == 'publish':
     os.system('cd docs && make html')
@@ -21,7 +21,6 @@ if sys.argv[-1] == 'publish':
     message = '\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap4/{version})'
     print(message.format(version=VERSION))
     sys.exit()
-
 
 if sys.argv[-1] == 'test':
     print("Running tests only on current environment.")
@@ -37,7 +36,7 @@ with open('HISTORY.rst') as history_file:
 
 setup(
     name='django-bootstrap3',
-    version=version,
+    version=VERSION,
     description="""Bootstrap support for Django projects""",
     long_description=readme + '\n\n' + history,
     author='Dylan Verheul',
