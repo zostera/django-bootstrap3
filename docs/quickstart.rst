@@ -30,5 +30,5 @@ Demo application
 
 The demo application provides a number of useful examples.
 
-https://github.com/dyve/django-bootstrap3/tree/develop/demo
+https://github.com/dyve/django-bootstrap3/tree/master/demo
 

@@ -11,14 +11,15 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = bootstrap3.__version__
+VERSION = bootstrap3.__version__
 
 if sys.argv[-1] == 'publish':
     os.system('cd docs && make html')
-    os.system('python setup.py sdist upload')
-    print("You probably want to also tag the version now:")
-    print("  git tag -a %s -m 'version %s'" % (version, version))
-    print("  git push --tags")
+    os.system('python setup.py sdist')
+    os.system('twine upload dist/django-bootstrap4-{}.tar.gz'.format(VERSION))
+
+    message = '\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap4/{version})'
+    print(message.format(version=VERSION))
     sys.exit()
 
 if sys.argv[-1] == 'test':
@@ -35,7 +36,7 @@ with open('HISTORY.rst') as history_file:
 
 setup(
     name='django-bootstrap3',
-    version=version,
+    version=VERSION,
     description="""Bootstrap support for Django projects""",
     long_description=readme + '\n\n' + history,
     author='Dylan Verheul',

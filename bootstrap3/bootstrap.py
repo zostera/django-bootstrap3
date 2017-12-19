@@ -77,16 +77,16 @@ def javascript_url():
     """
     Return the full url to the Bootstrap JavaScript file
     """
-    return get_bootstrap_setting('javascript_url') or \
-           bootstrap_url('js/bootstrap.min.js')
+    url = get_bootstrap_setting('javascript_url')
+    return url if url else bootstrap_url('js/bootstrap.min.js')
 
 
 def css_url():
     """
     Return the full url to the Bootstrap CSS file
     """
-    return get_bootstrap_setting('css_url') or \
-           bootstrap_url('css/bootstrap.min.css')
+    url = get_bootstrap_setting('css_url')
+    return url if url else bootstrap_url('css/bootstrap.min.css')
 
 
 def theme_url():

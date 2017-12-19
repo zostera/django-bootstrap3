@@ -3,6 +3,49 @@
 History
 -------
 
+In Progress
++++++++++++
+
+* Switched to master as main branch, deleted other branches
+* Switched to twine for publication on PyPI
+
+
+9.1.0 (2017-10-27)
+++++++++++++++++++
+
+* Mention `django-bootstrap4 <https://github.com/zostera/django-bootstrap4/>`_ in README
+* Rewrite `tox` test matrix to focus on Django releases rather than Python versions
+* Add tests for Django master branch (>= 2)
+* Add `label` override for `{% bootstrap_field %}`
+
+
+9.0.0 (2017-07-11)
+++++++++++++++++++
+
+* Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
+* Added `error_types` support on bootstrap3_form (thanks @mkoistinen and @ickam)
+* **BREAKING** Default setting of `error_types` to `non_field_errors` is different fro behavior in versions < 9
+
+
+8.2.3 (2017-05-05)
+++++++++++++++++++
+
+* Renamed requirements.txt to requirements-dev.txt
+* Tweaks to tests and CI (see #400)
+* Prepared test for geometry fields (disabled, blocked by Django update, see #392)
+* Bug fixes for add ons and placeholders (thanks @jaimesanz, @cybojenix and @marc-gist)
+* Improve documentation for pagination with GET parameters (thanks @nspo)
+* Add unicode test for help_text
+* Removed tests for Python 3.2 from tox and Travis CI (no longer supported by Django 1.8)
+
+
+8.2.2 (2017-04-03)
+++++++++++++++++++
+
+* Fix invalid HTML in help texts (thanks @luksen)
+* Added `mark_safe` to placeholder (thanks @ppo)
+* Fix DateWidget import for newer Django versions (thanks @clokep)
+
 
 8.2.1 (2017-02-23)
 ++++++++++++++++++

@@ -47,7 +47,8 @@ The ``BOOTSTRAP3`` dict variable contains these settings and defaults:
         # Set HTML disabled attribute on disabled fields, for Django <= 1.8 only
         'set_disabled': False,
 
-        # Set placeholder attributes to label if no placeholder is provided
+        # Set placeholder attributes to label if no placeholder is provided.
+        # This also considers the 'label' option of {% bootstrap_field %} tags.
         'set_placeholder': True,
 
         # Class to indicate required (better to set this in your Django form)

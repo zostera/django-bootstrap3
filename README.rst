@@ -20,11 +20,18 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
     :alt: Number of PyPI downloads per month
 
 
+Looking for Bootstrap 4?
+------------------------
+
+See https://github.com/zostera/django-bootstrap4.
+
+
 Requirements
 ------------
 
-- Python 2.7, 3.2, 3.3, 3.4, or 3.5
+- Python 2.7, 3.3, 3.4, or 3.5
 - Django >= 1.8
+- For details, see https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
 
 *The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
 
@@ -43,8 +50,6 @@ Installation
    ``'bootstrap3',``
 
 3. In your templates, load the ``bootstrap3`` library and use the ``bootstrap_*`` tags:
-
-This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
 
 
 Example template
