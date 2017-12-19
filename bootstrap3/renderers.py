@@ -202,17 +202,6 @@ class FormRenderer(BaseRenderer):
                 form_errors += field.errors
         return form_errors
 
-<<<<<<< HEAD
-    def render_errors(self):
-        form_errors = None
-        if self.errors_type == 'all':
-            form_errors = (
-                self.get_fields_errors() + self.form.non_field_errors()
-            )
-        elif self.errors_type == 'fields':
-            form_errors = self.get_fields_errors()
-        elif self.errors_type == 'non_fields':
-=======
     def render_errors(self, error_types='all'):
         form_errors = []
         if error_types == 'all':
@@ -220,7 +209,6 @@ class FormRenderer(BaseRenderer):
         elif error_types == 'field_errors':
             form_errors = self.get_fields_errors()
         elif error_types == 'non_field_errors':
->>>>>>> upstream/master
             form_errors = self.form.non_field_errors()
         elif error_types and error_types != 'none':
             raise Exception('Illegal value "{}" for error_types.')
@@ -232,11 +220,7 @@ class FormRenderer(BaseRenderer):
                     'errors': form_errors,
                     'form': self.form,
                     'layout': self.layout,
-<<<<<<< HEAD
-                    'type': self.errors_type,
-=======
                     'error_types': error_types,
->>>>>>> upstream/master
                 }
             )
 
