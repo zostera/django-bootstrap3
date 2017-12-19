@@ -393,31 +393,6 @@ class FormTest(TestCase):
         )
         self.assertNotIn('bootstrap3-bound', res)
 
-<<<<<<< HEAD
-    def test_errors_type(self):
-        form = TestForm({'sender': 'sender'})
-
-        res = render_template_with_form('{% bootstrap_form form %}', {'form': form})
-        pattern = re.compile(r'\s+')
-        expected = """
-    <div class="alert alert-danger alert-dismissable alert-link">
-        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
-        This field is required.<br>
-        This field is required.<br>
-        Enter a valid email address.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This error was added to show the non field errors styling.
-    </div>
-"""
-=======
     def test_error_types(self):
         form = SmallTestForm({'sender': 'sender'})
 
@@ -435,24 +410,12 @@ class FormTest(TestCase):
                This error was added to show the non field errors styling.
            </div>
         """
->>>>>>> upstream/master
         self.assertIn(
             re.sub(pattern, '', expected),
             re.sub(pattern, '', res)
         )
 
         res = render_template_with_form(
-<<<<<<< HEAD
-            '{% bootstrap_form form errors_type="non_fields" %}',
-            {'form': form}
-        )
-        expected = """
-    <div class="alert alert-danger alert-dismissable alert-link">
-        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
-        This error was added to show the non field errors styling.
-    </div>
-"""
-=======
             '{% bootstrap_form form error_types="non_field_errors" %}',
             {'form': form}
         )
@@ -462,35 +425,10 @@ class FormTest(TestCase):
                 This error was added to show the non field errors styling.
             </div>
      """
->>>>>>> upstream/master
         self.assertIn(
             re.sub(pattern, '', expected),
             re.sub(pattern, '', res)
         )
-<<<<<<< HEAD
-
-        res = render_template_with_form(
-            '{% bootstrap_form form errors_type="fields" %}',
-            {'form': form}
-        )
-        expected = """
-    <div class="alert alert-danger alert-dismissable alert-link">
-        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&#215;</button>
-        This field is required.<br>
-        This field is required.<br>
-        Enter a valid email address.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.<br>
-        This field is required.
-    </div>
-"""
-=======
         res2 = render_template_with_form(
             '{% bootstrap_form form %}',
             {'form': form}
@@ -508,7 +446,6 @@ class FormTest(TestCase):
             This field is required.
         </div>
      """
->>>>>>> upstream/master
         self.assertIn(
             re.sub(pattern, '', expected),
             re.sub(pattern, '', res)
