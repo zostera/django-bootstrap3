@@ -269,12 +269,37 @@ class FieldRenderer(BaseRenderer):
         if self.placeholder:
             self.placeholder = text_value(mark_safe(self.placeholder))
 
-        self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
-        self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
-        self.addon_before_class = kwargs.get('addon_before_class',
-                                             self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
-        self.addon_after_class = kwargs.get('addon_after_class',
-                                            self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
+        if self.is_multi_widget:
+            self.addon_before = []
+            self.addon_after = []
+            self.addon_before_class = []
+            self.addon_after_class = []
+
+            for widget in self.widget.widgets:
+                self.addon_before.append(kwargs.get('addon_before', widget.attrs.pop('addon_before', '')))
+                self.addon_after.append(kwargs.get('addon_after', widget.attrs.pop('addon_after', '')))
+
+                self.addon_before_class.append(kwargs.get(
+                    'addon_before_class',
+                    widget.attrs.pop(
+                        'addon_before_class', 'input-group-addon'
+                    )
+                ))
+
+                self.addon_after_class.append(kwargs.get(
+                    'addon_after_class',
+                    widget.attrs.pop(
+                        'addon_after_class', 'input-group-addon'
+                    )
+                ))
+        else:
+            self.addon_before = kwargs.get('addon_before', self.widget.attrs.pop('addon_before', ''))
+            self.addon_after = kwargs.get('addon_after', self.widget.attrs.pop('addon_after', ''))
+
+            self.addon_before_class = kwargs.get('addon_before_class',
+                                                 self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
+            self.addon_after_class = kwargs.get('addon_after_class',
+                                                self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
@@ -457,6 +482,33 @@ class FieldRenderer(BaseRenderer):
             html = '<div class="input-group">{before}{html}{after}</div>'.format(
                 before=before,
                 after=after,
+                html=html
+            )
+        elif isinstance(self.widget, MultiWidget):
+            inputs = html.split('<input')
+            col_class = 'col-xs-12 col-sm-{}'.format(int(12 / len(self.widget.widgets)))
+
+            for i, widget in enumerate(self.widget.widgets):
+                if self.addon_before[i] or self.addon_after[i]:
+                    before = '<span class="{input_class}">{addon}</span>'.format(
+                        input_class=self.addon_before_class[i], addon=self.addon_before[i]) if self.addon_before[i] else ''
+                    after = '<span class="{input_class}">{addon}</span>'.format(
+                        input_class=self.addon_after_class[i], addon=self.addon_after[i]) if self.addon_after[i] else ''
+                    content = '<div class="{col_class}"><div class="input-group">{before}<input{html}{after}</div></div>'.format(
+                        col_class=col_class,
+                        before=before,
+                        after=after,
+                        html=inputs[i + 1]
+                    )
+                    html = html.replace('<input' + inputs[i + 1], content)
+                else:
+                    content = '<div class="{col_class}"><input{html}</div>'.format(
+                        col_class=col_class,
+                        html=inputs[i + 1]
+                    )
+                    html = html.replace('<input' + inputs[i + 1], content)
+
+            html = '<div class="row">{html}</div>'.format(
                 html=html
             )
         return html
