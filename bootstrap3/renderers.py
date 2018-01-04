@@ -178,8 +178,8 @@ class FormRenderer(BaseRenderer):
                 field,
                 layout=self.layout,
                 form_group_class=self.form_group_class,
-                field_class=self.field_class,
-                label_class=self.label_class,
+                field_class=field.field.widget.attrs.pop('field_class',self.field_class),
+                label_class=field.field.widget.attrs.pop('label_class',self.label_class),
                 show_label=self.show_label,
                 show_help=self.show_help,
                 exclude=self.exclude,
@@ -275,13 +275,7 @@ class FieldRenderer(BaseRenderer):
                                              self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
         self.addon_after_class = kwargs.get('addon_after_class',
                                             self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
-        
-        if kwargs['field_class'].strip() == "" and ('field_class' in self.widget.attrs):
-            self.field_class = self.widget.attrs.pop('field_class')
-    
-        if kwargs['label_class'].strip() == "" and ('label_class' in self.widget.attrs):
-            self.label_class = self.widget.attrs.pop('label_class')
-
+       
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
         error_css_class = kwargs.get('error_css_class', None)
