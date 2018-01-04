@@ -275,6 +275,12 @@ class FieldRenderer(BaseRenderer):
                                              self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
         self.addon_after_class = kwargs.get('addon_after_class',
                                             self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
+        
+        if kwargs['field_class'].strip() == "" and ('field_class' in self.widget.attrs):
+            self.field_class = self.widget.attrs.pop('field_class')
+    
+        if kwargs['label_class'].strip() == "" and ('label_class' in self.widget.attrs):
+            self.label_class = self.widget.attrs.pop('label_class')
 
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
