@@ -3,13 +3,14 @@
 History
 -------
 
-In Progress
-+++++++++++
+10.0.0 (2018-05-01)
++++++++++++++++++++
 
 * Drop support for Django 1.8 (#434)
+* Fix bug in demo app (#430)
+* Remove unnecessary `len` call (#424)
 * Switched to master as main branch, deleted other branches
 * Switched to twine for publication on PyPI
-
 
 9.1.0 (2017-10-27)
 ++++++++++++++++++
