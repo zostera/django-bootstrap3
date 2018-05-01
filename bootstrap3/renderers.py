@@ -62,6 +62,10 @@ class BaseRenderer(object):
             'horizontal_field_class',
             get_bootstrap_setting('horizontal_field_class')
         )
+        self.start_row = kwargs.get('start_row', False)
+        self.end_row = kwargs.get('end_row', False)
+        
+        self.group_code = kwargs.get('group_code', None)
 
     def parse_size(self, size):
         size = text_value(size).lower().strip()
@@ -173,13 +177,16 @@ class FormRenderer(BaseRenderer):
 
     def render_fields(self):
         rendered_fields = []
-        for field in self.form:
+        fields_to_render = self.form
+        if (self.group_code is not None):
+            fields_to_render = [field for field in self.form if field.field.widget.attrs.get('group_code', '') == self.group_code]
+        for field in fields_to_render:
             rendered_fields.append(render_field(
                 field,
                 layout=self.layout,
-                form_group_class=self.form_group_class,
-                field_class=self.field_class,
-                label_class=self.label_class,
+                form_group_class=field.field.widget.attrs.pop('form_group_class',self.form_group_class),
+                field_class=field.field.widget.attrs.pop('field_class',self.field_class),
+                label_class=field.field.widget.attrs.pop('label_class',self.label_class),
                 show_label=self.show_label,
                 show_help=self.show_help,
                 exclude=self.exclude,
@@ -192,6 +199,8 @@ class FormRenderer(BaseRenderer):
                 error_css_class=self.error_css_class,
                 required_css_class=self.required_css_class,
                 bound_css_class=self.bound_css_class,
+                start_row = field.field.widget.attrs.pop('start_row',False),
+                end_row = field.field.widget.attrs.pop('end_row', False),
             ))
         return '\n'.join(rendered_fields)
 
@@ -275,7 +284,7 @@ class FieldRenderer(BaseRenderer):
                                              self.widget.attrs.pop('addon_before_class', 'input-group-addon'))
         self.addon_after_class = kwargs.get('addon_after_class',
                                             self.widget.attrs.pop('addon_after_class', 'input-group-addon'))
-
+       
         # These are set in Django or in the global BOOTSTRAP3 settings, and
         # they can be overwritten in the template
         error_css_class = kwargs.get('error_css_class', None)
@@ -538,6 +547,14 @@ class FieldRenderer(BaseRenderer):
 
     def wrap_label_and_field(self, html):
         return render_form_group(html, self.get_form_group_class())
+    
+    def wrap_with_row(self, content):
+        html = content
+        if self.start_row:
+            html = '<div class="row">{html}'.format(html=html)
+        if self.end_row:
+            html = '{html}</div>'.format(html=html)
+        return html
 
     def _render(self):
         # See if we're not excluded
@@ -558,6 +575,7 @@ class FieldRenderer(BaseRenderer):
         html = self.wrap_field(html)
         html = self.add_label(html)
         html = self.wrap_label_and_field(html)
+        html = self.wrap_with_row(html)
         return html
 
 
