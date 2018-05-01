@@ -18,7 +18,7 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist')
     os.system('twine upload dist/django-bootstrap4-{}.tar.gz'.format(VERSION))
 
-    message = '\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap4/{version})'
+    message = '\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap3/{version})'
     print(message.format(version=VERSION))
     sys.exit()
 
