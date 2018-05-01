@@ -6,6 +6,7 @@ History
 In Progress
 +++++++++++
 
+* Drop support for Django 1.8 (#434)
 * Switched to master as main branch, deleted other branches
 * Switched to twine for publication on PyPI
 

@@ -315,7 +315,7 @@ class FormTest(TestCase):
         form = TestForm()
         res = render_form(form)
         self.assertIn('<div class="input-group"><span class="input-group-addon">before</span><input', res)
-        self.assertIn('/><span class="input-group-addon">after</span></div>', res)
+        self.assertIn('><span class="input-group-addon">after</span></div>', res)
 
     def test_exclude(self):
         form = TestForm()
