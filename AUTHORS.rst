@@ -19,6 +19,7 @@ Contributors
 * Fabio Perfetti <perfabio87@gmail.com>
 * Irving Ckam <https://github.com/ickam>
 * Jay Pipes <jaypipes@gmail.com>
+* Jieter Waagmeester <jieter@jieter.nl>
 * Jonas Hagstedt <hagstedt@gmail.com>
 * Jordan Starcher <jstarcher@gmail.com>
 * Juan Carlos <juancarlospaco@gmail.com>
