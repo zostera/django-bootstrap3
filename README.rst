@@ -15,10 +15,10 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
     :target: https://pypi.python.org/pypi/django-bootstrap3
     :alt: Latest PyPI version
 
-.. image:: https://img.shields.io/pypi/dm/django-bootstrap3.svg
+.. image:: https://img.shields.io/pypi/status/django-bootstrap3.svg
     :target: https://pypi.python.org/pypi/django-bootstrap3
-    :alt: Number of PyPI downloads per month
-
+    :alt: Status
+    
 
 Looking for Bootstrap 4?
 ------------------------
