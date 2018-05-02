@@ -29,11 +29,10 @@ See https://github.com/zostera/django-bootstrap4.
 Requirements
 ------------
 
-- Python 2.7, 3.3, 3.4, or 3.5
-- Django >= 1.8
+- Django >= 1.11 with a matching Python version.
 - For details, see https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
-
-*The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
+- *The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
+- *The latest version supporting Django < 1.11 is the 9.x.x branch.*
 
 
 Installation
