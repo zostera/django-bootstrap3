@@ -16,7 +16,7 @@ VERSION = bootstrap3.__version__
 if sys.argv[-1] == 'publish':
     os.system('cd docs && make html')
     os.system('python setup.py sdist')
-    os.system('twine upload dist/django-bootstrap4-{}.tar.gz'.format(VERSION))
+    os.system('twine upload dist/django-bootstrap3-{}.tar.gz'.format(VERSION))
 
     message = '\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap3/{version})'
     print(message.format(version=VERSION))
