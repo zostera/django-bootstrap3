@@ -150,6 +150,23 @@ def render_template_file(template, context=None):
     return template.render(context)
 
 
+def _convert_data_attrs_key(key):
+    if key.startswith("data_"):
+        return key.replace("_", "-")
+    return key
+
+
+def convert_data_attrs(attrs):
+    """
+    Replace "_" with "-" for keys that start with "data_".
+    Used to allow passing HTML data attributes (that must contain a "-") as
+    templatetag parameters (that may not contain a "-").
+    """
+    return {
+        _convert_data_attrs_key(k): v for k, v in attrs.items()
+    }
+
+
 def url_replace_param(url, name, value):
     """
     Replace a GET parameter in an URL

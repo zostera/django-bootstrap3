@@ -16,7 +16,7 @@ from .bootstrap import (
 from .components import render_icon
 from .exceptions import BootstrapError
 from .text import text_concat, text_value
-from .utils import add_css_class, render_tag
+from .utils import add_css_class, render_tag, convert_data_attrs
 
 FORM_GROUP_CLASS = 'form-group'
 
@@ -69,7 +69,8 @@ def render_field(field, **kwargs):
     return renderer_cls(field, **kwargs).render()
 
 
-def render_label(content, label_for=None, label_class=None, label_title=''):
+def render_label(content, label_for=None, label_class=None, label_title='',
+                 **kwargs):
     """
     Render a label with content
     """
@@ -80,12 +81,15 @@ def render_label(content, label_for=None, label_class=None, label_title=''):
         attrs['class'] = label_class
     if label_title:
         attrs['title'] = label_title
+    # allow any other tag attributes to be specified as arguments to
+    # `bootstrap_label`
+    attrs.update(convert_data_attrs(kwargs))
     return render_tag('label', attrs=attrs, content=content)
 
 
 def render_button(
         content, button_type=None, icon=None, button_class='btn-default', size='',
-        href='', name=None, value=None, title=None, extra_classes='', id=''):
+        href='', name=None, value=None, title=None, extra_classes='', id='', **kwargs):
     """
     Render a button with content
     """
@@ -126,6 +130,9 @@ def render_button(
         attrs['value'] = value
     if title:
         attrs['title'] = title
+    # allow any other tag attributes to be specified as arguments to
+    # `bootstrap_button`
+    attrs.update(convert_data_attrs(kwargs))
     return render_tag(
         tag,
         attrs=attrs,

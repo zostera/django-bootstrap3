@@ -539,6 +539,12 @@ def bootstrap_label(*args, **kwargs):
         label_title
             The value that will be in the ``title`` attribute of the rendered ``<label>``
 
+        \*\*kwargs
+            Additional attributes that will be set on the generated HTML tag.
+            Keys starting with ``"data_"`` will have *all* underscores
+            (``"_"``) replaced with hyphens (``"-"``) for compatibility with
+            data attributes.
+
     **Usage**::
 
         {% bootstrap_label content %}
@@ -605,6 +611,12 @@ def bootstrap_button(*args, **kwargs):
 
         value
             Value of the ``value`` attribute of the rendered element.
+
+        \*\*kwargs
+            Additional attributes that will be set on the generated HTML tag.
+            Keys starting with ``"data_"`` will have *all* underscores
+            (``"_"``) replaced with hyphens (``"-"``) for compatibility with
+            data attributes.
 
     **Usage**::
 

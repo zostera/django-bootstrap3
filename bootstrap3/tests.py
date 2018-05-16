@@ -13,7 +13,7 @@ from django.test import TestCase, override_settings
 from .bootstrap import DBS3_SET_REQUIRED_SET_DISABLED
 from .exceptions import BootstrapError
 from .text import text_value, text_concat
-from .utils import add_css_class, render_tag
+from .utils import add_css_class, render_tag, convert_data_attrs
 
 try:
     from html.parser import HTMLParser
@@ -574,6 +574,12 @@ class FieldTest(TestCase):
         res = render_template_with_form('{% bootstrap_label "foobar" label_for="subject" %}')
         self.assertEqual('<label for="subject">foobar</label>', res)
 
+    def test_extra_label_attributes(self):
+        res = render_template_with_form('{% bootstrap_label "spam" data_attr_quest="to_seek_the_holy_grail" %}')
+        self.assertIn('data-attr-quest="to_seek_the_holy_grail"', res)
+        res = render_template_with_form('{% bootstrap_label "swallow" african_or_european="unknown" %}')
+        self.assertIn('african_or_european="unknown"', res)
+
     def test_attributes_consistency(self):
         form = TestForm()
         attrs = form.fields['addon'].widget.attrs.copy()
@@ -744,6 +750,18 @@ class UtilsTest(TestCase):
             '<span bar="123">foo</span>'
         )
 
+    def test_convert_data_attrs(self):
+        self.assertEqual(
+            convert_data_attrs({
+                "spam_eggs": "spam",
+                "data_camelot_place_type": "silly",
+            }),
+            {
+                "spam_eggs": "spam",
+                "data-camelot-place-type": "silly",
+            }
+        )
+
 
 class ButtonTest(TestCase):
     def test_button(self):
@@ -755,6 +773,12 @@ class ButtonTest(TestCase):
             res.strip(),
             '<a class="btn btn-default btn-lg" href="#">button</a><a href="#" ' +
             'class="btn btn-lg">button</a>')
+
+    def test_additional_attributes(self):
+        res = render_template_with_form("{% bootstrap_button 'button' 'submit' formaction='test_formaction' %}")
+        self.assertIn('formaction="test_formaction"', res.strip())
+        res = render_template_with_form("{% bootstrap_button 'button' data_attr_beast_location='caerbannog' %}")
+        self.assertIn('data-attr-beast-location="caerbannog"', res.strip())
 
 
 class ShowLabelTest(TestCase):
