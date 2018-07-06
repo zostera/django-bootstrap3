@@ -18,7 +18,10 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
 .. image:: https://img.shields.io/pypi/status/django-bootstrap3.svg
     :target: https://pypi.python.org/pypi/django-bootstrap3
     :alt: Status
-    
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/ambv/black
+
 
 Looking for Bootstrap 4?
 ------------------------
