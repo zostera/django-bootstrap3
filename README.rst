@@ -10,15 +10,15 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
 .. image:: https://readthedocs.org/projects/django-bootstrap3/badge/?version=latest
     :target: https://django-bootstrap3.readthedocs.io/en/latest/
 
-.. image:: https://img.shields.io/coveralls/github/dyve/django-bootstrap3.svg
-  :target: https://coveralls.io/r/dyve/django-bootstrap3
-
 .. image:: https://img.shields.io/pypi/v/django-bootstrap3.svg
     :target: https://pypi.org/project/django-bootstrap3/
     :alt: Latest PyPI version
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
+
+.. image:: https://coveralls.io/repos/github/dyve/django-bootstrap3/badge.svg
+  :target: https://coveralls.io/r/dyve/django-bootstrap3
 
 
 Looking for Bootstrap 4?
