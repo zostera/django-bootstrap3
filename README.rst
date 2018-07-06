@@ -4,11 +4,14 @@ Bootstrap 3 for Django
 
 Write Django as usual, and let ``django-bootstrap3`` make template output into Bootstrap 3 code.
 
-.. image:: https://img.shields.io/travis/dyve/django-bootstrap3.svg
+.. image:: https://travis-ci.org/dyve/django-bootstrap3.svg
     :target: https://travis-ci.org/dyve/django-bootstrap3
 
+.. image:: https://readthedocs.org/projects/django-bootstrap3/badge/?version=latest
+    :target: https://django-bootstrap3.readthedocs.io/en/latest/
+
 .. image:: https://img.shields.io/coveralls/github/dyve/django-bootstrap3.svg
-  :target: https://coveralls.io/r/dyve/django-bootstrap3?branch=master
+  :target: https://coveralls.io/r/dyve/django-bootstrap3
 
 .. image:: https://img.shields.io/pypi/v/django-bootstrap3.svg
     :target: https://pypi.org/project/django-bootstrap3/
@@ -72,7 +75,7 @@ Example template
 Documentation
 -------------
 
-The full documentation is at http://django-bootstrap3.readthedocs.org/.
+The full documentation is at https://django-bootstrap3.readthedocs.org/.
 
 
 Bugs and suggestions
