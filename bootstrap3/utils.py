@@ -43,7 +43,7 @@ def handle_var(value, context):
     # http://djangosnippets.org/snippets/886
     stringval = QUOTED_STRING.search(value)
     if stringval:
-        return stringval.group('noquotes')
+        return stringval.group("noquotes")
     # Resolve variable or return string value
     try:
         return Variable(value).resolve(context)
@@ -60,32 +60,26 @@ def parse_token_contents(parser, token):
     args = []
     kwargs = {}
     asvar = None
-    if len(bits) >= 2 and bits[-2] == 'as':
+    if len(bits) >= 2 and bits[-2] == "as":
         asvar = bits[-1]
         bits = bits[:-2]
     for bit in bits:
         match = kwarg_re.match(bit)
         if not match:
-            raise TemplateSyntaxError(
-                'Malformed arguments to tag "{}"'.format(tag))
+            raise TemplateSyntaxError('Malformed arguments to tag "{}"'.format(tag))
         name, value = match.groups()
         if name:
             kwargs[name] = parser.compile_filter(value)
         else:
             args.append(parser.compile_filter(value))
-    return {
-        'tag': tag,
-        'args': args,
-        'kwargs': kwargs,
-        'asvar': asvar,
-    }
+    return {"tag": tag, "args": args, "kwargs": kwargs, "asvar": asvar}
 
 
 def split_css_classes(css_classes):
     """
     Turn string into a list of CSS classes
     """
-    classes_list = text_value(css_classes).split(' ')
+    classes_list = text_value(css_classes).split(" ")
     return [c for c in classes_list if c]
 
 
@@ -94,13 +88,12 @@ def add_css_class(css_classes, css_class, prepend=False):
     Add a CSS class to a string of CSS classes
     """
     classes_list = split_css_classes(css_classes)
-    classes_to_add = [c for c in split_css_classes(css_class)
-                      if c not in classes_list]
+    classes_to_add = [c for c in split_css_classes(css_class) if c not in classes_list]
     if prepend:
         classes_list = classes_to_add + classes_list
     else:
         classes_list += classes_to_add
-    return ' '.join(classes_list)
+    return " ".join(classes_list)
 
 
 def remove_css_class(css_classes, css_class):
@@ -108,35 +101,31 @@ def remove_css_class(css_classes, css_class):
     Remove a CSS class from a string of CSS classes
     """
     remove = set(split_css_classes(css_class))
-    classes_list = [c for c in split_css_classes(css_classes)
-                    if c not in remove]
-    return ' '.join(classes_list)
+    classes_list = [c for c in split_css_classes(css_classes) if c not in remove]
+    return " ".join(classes_list)
 
 
-def render_link_tag(url, rel='stylesheet', media=None):
+def render_link_tag(url, rel="stylesheet", media=None):
     """
     Build a link tag
     """
-    attrs = {
-        'href': url,
-        'rel': rel,
-    }
+    attrs = {"href": url, "rel": rel}
     if media:
-        attrs['media'] = media
-    return render_tag('link', attrs=attrs, close=False)
+        attrs["media"] = media
+    return render_tag("link", attrs=attrs, close=False)
 
 
 def render_tag(tag, attrs=None, content=None, close=True):
     """
     Render a HTML tag
     """
-    builder = '<{tag}{attrs}>{content}'
+    builder = "<{tag}{attrs}>{content}"
     if content or close:
-        builder += '</{tag}>'
+        builder += "</{tag}>"
     return format_html(
         builder,
         tag=tag,
-        attrs=mark_safe(flatatt(attrs)) if attrs else '',
+        attrs=mark_safe(flatatt(attrs)) if attrs else "",
         content=text_value(content),
     )
 
@@ -158,11 +147,15 @@ def url_replace_param(url, name, value):
     query_params = parse_qs(url_components.query)
     query_params[name] = value
     query = urlencode(query_params, doseq=True)
-    return force_text(urlunparse([
-        url_components.scheme,
-        url_components.netloc,
-        url_components.path,
-        url_components.params,
-        query,
-        url_components.fragment,
-    ]))
+    return force_text(
+        urlunparse(
+            [
+                url_components.scheme,
+                url_components.netloc,
+                url_components.path,
+                url_components.params,
+                query,
+                url_components.fragment,
+            ]
+        )
+    )

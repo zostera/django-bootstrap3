@@ -11,13 +11,23 @@ from django.template import Context
 from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
-    css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting
+    css_url,
+    javascript_url,
+    jquery_url,
+    theme_url,
+    get_bootstrap_setting,
 )
 from ..components import render_icon, render_alert
 from ..forms import (
-    render_button, render_field, render_field_and_label, render_form,
-    render_form_group, render_formset,
-    render_label, render_form_errors, render_formset_errors
+    render_button,
+    render_field,
+    render_field_and_label,
+    render_form,
+    render_form_group,
+    render_formset,
+    render_label,
+    render_form_errors,
+    render_formset_errors,
 )
 from ..text import force_text
 from ..utils import handle_var, parse_token_contents, url_replace_param
@@ -66,7 +76,7 @@ def bootstrap_message_classes(message):
             classes.append(MESSAGE_LEVEL_CLASSES[level])
         except KeyError:
             classes.append("alert alert-danger")
-    return ' '.join(classes).strip()
+    return " ".join(classes).strip()
 
 
 @register.simple_tag
@@ -189,10 +199,10 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-    rendered_urls = [render_link_tag(bootstrap_css_url()), ]
+    rendered_urls = [render_link_tag(bootstrap_css_url())]
     if bootstrap_theme_url():
         rendered_urls.append(render_link_tag(bootstrap_theme_url()))
-    return mark_safe(''.join([url for url in rendered_urls]))
+    return mark_safe("".join([url for url in rendered_urls]))
 
 
 @register.simple_tag
@@ -225,19 +235,19 @@ def bootstrap_javascript(jquery=None):
         {% bootstrap_javascript jquery=1 %}
     """
 
-    javascript = ''
+    javascript = ""
     # See if we have to include jQuery
     if jquery is None:
-        jquery = get_bootstrap_setting('include_jquery', False)
+        jquery = get_bootstrap_setting("include_jquery", False)
     # NOTE: No async on scripts, not mature enough. See issue #52 and #56
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-            javascript += render_tag('script', attrs={'src': url})
+            javascript += render_tag("script", attrs={"src": url})
     url = bootstrap_javascript_url()
     if url:
-        attrs = {'src': url}
-        javascript += render_tag('script', attrs=attrs)
+        attrs = {"src": url}
+        javascript += render_tag("script", attrs=attrs)
     return mark_safe(javascript)
 
 
@@ -650,7 +660,7 @@ def bootstrap_icon(icon, **kwargs):
 
 
 @register.simple_tag
-def bootstrap_alert(content, alert_type='info', dismissable=True):
+def bootstrap_alert(content, alert_type="info", dismissable=True):
     """
     Render an alert
 
@@ -688,7 +698,7 @@ def bootstrap_alert(content, alert_type='info', dismissable=True):
     return render_alert(content, alert_type, dismissable)
 
 
-@register.tag('buttons')
+@register.tag("buttons")
 def bootstrap_buttons(parser, token):
     """
     Render buttons for form
@@ -715,7 +725,7 @@ def bootstrap_buttons(parser, token):
 
     """
     kwargs = parse_token_contents(parser, token)
-    kwargs['nodelist'] = parser.parse(('endbuttons',))
+    kwargs["nodelist"] = parser.parse(("endbuttons",))
     parser.delete_first_token()
     return ButtonsNode(**kwargs)
 
@@ -732,21 +742,18 @@ class ButtonsNode(template.Node):
         for key in self.kwargs:
             output_kwargs[key] = handle_var(self.kwargs[key], context)
         buttons = []
-        submit = output_kwargs.get('submit', None)
-        reset = output_kwargs.get('reset', None)
+        submit = output_kwargs.get("submit", None)
+        reset = output_kwargs.get("reset", None)
         if submit:
-            buttons.append(bootstrap_button(submit, 'submit'))
+            buttons.append(bootstrap_button(submit, "submit"))
         if reset:
-            buttons.append(bootstrap_button(reset, 'reset'))
-        buttons = ' '.join(buttons) + self.nodelist.render(context)
-        output_kwargs.update({
-            'label': None,
-            'field': buttons,
-        })
+            buttons.append(bootstrap_button(reset, "reset"))
+        buttons = " ".join(buttons) + self.nodelist.render(context)
+        output_kwargs.update({"label": None, "field": buttons})
         output = render_form_group(render_field_and_label(**output_kwargs))
         if self.asvar:
             context[self.asvar] = output
-            return ''
+            return ""
         else:
             return output
 
@@ -785,11 +792,11 @@ def bootstrap_messages(context, *args, **kwargs):
     # TODO: This may be due to a bug in Django 1.8/1.9+
     if Context and isinstance(context, Context):
         context = context.flatten()
-    context.update({'message_constants': message_constants})
-    return render_template_file('bootstrap3/messages.html', context=context)
+    context.update({"message_constants": message_constants})
+    return render_template_file("bootstrap3/messages.html", context=context)
 
 
-@register.inclusion_tag('bootstrap3/pagination.html')
+@register.inclusion_tag("bootstrap3/pagination.html")
 def bootstrap_pagination(page, **kwargs):
     """
     Render pagination for a page
@@ -846,7 +853,7 @@ def bootstrap_pagination(page, **kwargs):
     """
 
     pagination_kwargs = kwargs.copy()
-    pagination_kwargs['page'] = page
+    pagination_kwargs["page"] = page
     return get_pagination_context(**pagination_kwargs)
 
 
@@ -855,9 +862,9 @@ def bootstrap_url_replace_param(url, name, value):
     return url_replace_param(url, name, value)
 
 
-def get_pagination_context(page, pages_to_show=11,
-                           url=None, size=None, extra=None,
-                           parameter_name='page'):
+def get_pagination_context(
+    page, pages_to_show=11, url=None, size=None, extra=None, parameter_name="page"
+):
     """
     Generate Bootstrap pagination context from a page object
     """
@@ -865,7 +872,8 @@ def get_pagination_context(page, pages_to_show=11,
     if pages_to_show < 1:
         raise ValueError(
             "Pagination pages_to_show should be a positive integer, you specified {pages}".format(
-                pages=pages_to_show)
+                pages=pages_to_show
+            )
         )
     num_pages = page.paginator.num_pages
     current_page = page.number
@@ -905,36 +913,36 @@ def get_pagination_context(page, pages_to_show=11,
     if url:
         # Remove existing page GET parameters
         url = force_text(url)
-        url = re.sub(r'\?{0}\=[^\&]+'.format(parameter_name), '?', url)
-        url = re.sub(r'\&{0}\=[^\&]+'.format(parameter_name), '', url)
+        url = re.sub(r"\?{0}\=[^\&]+".format(parameter_name), "?", url)
+        url = re.sub(r"\&{0}\=[^\&]+".format(parameter_name), "", url)
         # Append proper separator
-        if '?' in url:
-            url += '&'
+        if "?" in url:
+            url += "&"
         else:
-            url += '?'
+            url += "?"
             # Append extra string to url
     if extra:
         if not url:
-            url = '?'
-        url += force_text(extra) + '&'
+            url = "?"
+        url += force_text(extra) + "&"
     if url:
-        url = url.replace('?&', '?')
+        url = url.replace("?&", "?")
     # Set CSS classes, see http://getbootstrap.com/components/#pagination
-    pagination_css_classes = ['pagination']
-    if size == 'small':
-        pagination_css_classes.append('pagination-sm')
-    elif size == 'large':
-        pagination_css_classes.append('pagination-lg')
+    pagination_css_classes = ["pagination"]
+    if size == "small":
+        pagination_css_classes.append("pagination-sm")
+    elif size == "large":
+        pagination_css_classes.append("pagination-lg")
         # Build context object
     return {
-        'bootstrap_pagination_url': url,
-        'num_pages': num_pages,
-        'current_page': current_page,
-        'first_page': first_page,
-        'last_page': last_page,
-        'pages_shown': pages_shown,
-        'pages_back': pages_back,
-        'pages_forward': pages_forward,
-        'pagination_css_classes': ' '.join(pagination_css_classes),
-        'parameter_name': parameter_name,
+        "bootstrap_pagination_url": url,
+        "num_pages": num_pages,
+        "current_page": current_page,
+        "first_page": first_page,
+        "last_page": last_page,
+        "pages_shown": pages_shown,
+        "pages_back": pages_back,
+        "pages_forward": pages_forward,
+        "pagination_css_classes": " ".join(pagination_css_classes),
+        "parameter_name": parameter_name,
     }

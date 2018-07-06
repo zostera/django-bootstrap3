@@ -16,68 +16,66 @@ class FakeField(object):
     storage = default_storage
 
 
-fieldfile = FieldFile(None, FakeField, 'dummy.txt')
+fieldfile = FieldFile(None, FakeField, "dummy.txt")
 
 
 class HomePageView(TemplateView):
-    template_name = 'demo/home.html'
+    template_name = "demo/home.html"
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        messages.info(self.request, 'hello http://example.com')
+        messages.info(self.request, "hello http://example.com")
         return context
 
 
 class DefaultFormsetView(FormView):
-    template_name = 'demo/formset.html'
+    template_name = "demo/formset.html"
     form_class = ContactFormSet
 
 
 class DefaultFormView(FormView):
-    template_name = 'demo/form.html'
+    template_name = "demo/form.html"
     form_class = ContactForm
 
 
 class DefaultFormByFieldView(FormView):
-    template_name = 'demo/form_by_field.html'
+    template_name = "demo/form_by_field.html"
     form_class = ContactForm
 
 
 class FormHorizontalView(FormView):
-    template_name = 'demo/form_horizontal.html'
+    template_name = "demo/form_horizontal.html"
     form_class = ContactForm
 
 
 class FormInlineView(FormView):
-    template_name = 'demo/form_inline.html'
+    template_name = "demo/form_inline.html"
     form_class = ContactForm
 
 
 class FormWithFilesView(FormView):
-    template_name = 'demo/form_with_files.html'
+    template_name = "demo/form_with_files.html"
     form_class = FilesForm
 
     def get_context_data(self, **kwargs):
         context = super(FormWithFilesView, self).get_context_data(**kwargs)
-        context['layout'] = self.request.GET.get('layout', 'vertical')
+        context["layout"] = self.request.GET.get("layout", "vertical")
         return context
 
     def get_initial(self):
-        return {
-            'file4': fieldfile,
-        }
+        return {"file4": fieldfile}
 
 
 class PaginationView(TemplateView):
-    template_name = 'demo/pagination.html'
+    template_name = "demo/pagination.html"
 
     def get_context_data(self, **kwargs):
         context = super(PaginationView, self).get_context_data(**kwargs)
         lines = []
         for i in range(200):
-            lines.append('Line %s' % (i + 1))
+            lines.append("Line %s" % (i + 1))
         paginator = Paginator(lines, 10)
-        page = self.request.GET.get('page')
+        page = self.request.GET.get("page")
         try:
             show_lines = paginator.page(page)
         except PageNotAnInteger:
@@ -86,9 +84,9 @@ class PaginationView(TemplateView):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             show_lines = paginator.page(paginator.num_pages)
-        context['lines'] = show_lines
+        context["lines"] = show_lines
         return context
 
 
 class MiscView(TemplateView):
-    template_name = 'demo/misc.html'
+    template_name = "demo/misc.html"
