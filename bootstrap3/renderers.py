@@ -20,6 +20,7 @@ from django.forms import (
     NumberInput,
     EmailInput,
     URLInput,
+    PasswordInput,
 )
 
 # Django 1.9 moved SelectDateWidget to django.forms.widget from
@@ -482,7 +483,7 @@ class FieldRenderer(BaseRenderer):
     def make_input_group(self, html):
         if (self.addon_before or self.addon_after) and isinstance(
             self.widget,
-            (TextInput, NumberInput, EmailInput, URLInput, DateInput, Select),
+            (TextInput, NumberInput, EmailInput, URLInput, DateInput, Select, PasswordInput),
         ):
             before = (
                 '<span class="{input_class}">{addon}</span>'.format(
