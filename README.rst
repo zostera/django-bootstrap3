@@ -2,8 +2,6 @@
 Bootstrap 3 for Django
 ======================
 
-Write Django as usual, and let ``django-bootstrap3`` make template output into Bootstrap 3 code.
-
 .. image:: https://travis-ci.org/dyve/django-bootstrap3.svg
     :target: https://travis-ci.org/dyve/django-bootstrap3
 
@@ -21,8 +19,14 @@ Write Django as usual, and let ``django-bootstrap3`` make template output into B
   :target: https://coveralls.io/r/dyve/django-bootstrap3
 
 
-Looking for Bootstrap 4?
-------------------------
+Bootstrap 3 integration for Django.
+
+Goal
+----
+
+The goal of this project is to seamlessly blend Django and Bootstrap 3.
+
+**Want to use Bootstrap 4 in Django?**
 
 See https://github.com/zostera/django-bootstrap4.
 
@@ -32,8 +36,8 @@ Requirements
 
 - Django 1.11 or Django >= 2.0 with a matching Python version.
 - For details, see https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
-- *The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
-- *The latest version supporting Django < 1.11 is the 9.x.x branch.*
+- *The latest version supporting Python 2.6 and Django < 1.8 is 6.x.x.*
+- *The latest version supporting Django < 1.11 is 9.x.x.*
 
 
 Installation
