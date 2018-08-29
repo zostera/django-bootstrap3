@@ -2,6 +2,12 @@
 
 History
 -------
+- Switch to explicit Travis tests (#444)
+
+Development
++++++++++++++++++++
+
+* Fix PyPI classifiers
 
 10.0.1 (2018-05-02)
 +++++++++++++++++++

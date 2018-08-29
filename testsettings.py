@@ -1,5 +1,3 @@
-import django.conf.global_settings as DEFAULT_SETTINGS
-
 SECRET_KEY = "bootstrap3isawesome"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
@@ -15,6 +13,11 @@ INSTALLED_APPS = (
     # We test this one
     "bootstrap3",
 )
+
+MIDDLEWARE = [
+    "django.contrib.auth.middleware.AuthenticationMiddleware",  # required for django.contrib.admin
+    "django.contrib.messages.middleware.MessageMiddleware",  # required for django.contrib.admin
+]
 
 TEMPLATES = [
     {
