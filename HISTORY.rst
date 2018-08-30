@@ -2,11 +2,12 @@
 
 History
 -------
-- Switch to explicit Travis tests (#444)
 
 Development
 +++++++++++++++++++
 
+* Remove setting `base_url`, support `crossorigin` and `integrity` in urls (#443)
+* Switch to explicit Travis tests (#444)
 * Fix PyPI classifiers
 
 10.0.1 (2018-05-02)
