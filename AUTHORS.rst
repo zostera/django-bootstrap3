@@ -27,5 +27,5 @@ Contributors
 * Martin Koistinen <mkoistinen@gmail.com>
 * Nick S <nsmith448@gmail.com>
 * Owais Lone <loneowais@gmail.com>
-* pmav99 <pmav99@users.noreply.github.com>
+* pmav99 <https://github.com/pmav99>
 * Richard Hajdu <tuskone16@gmail.com>
