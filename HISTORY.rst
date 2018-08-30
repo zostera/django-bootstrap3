@@ -3,8 +3,8 @@
 History
 -------
 
-Development
-+++++++++++
+11.0.0 (2018-08-30)
++++++++++++++++++++
 
 * Support `crossorigin` and `integrity` in urls (#443)
 * Switch to explicit Travis tests (#444)
