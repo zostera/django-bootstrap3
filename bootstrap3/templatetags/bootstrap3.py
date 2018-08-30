@@ -30,7 +30,12 @@ from ..forms import (
     render_formset_errors,
 )
 from ..text import force_text
-from ..utils import handle_var, parse_token_contents, url_replace_param
+from ..utils import (
+    handle_var,
+    parse_token_contents,
+    url_replace_param,
+    render_script_tag,
+)
 from ..utils import render_link_tag, render_tag, render_template_file
 
 MESSAGE_LEVEL_CLASSES = {
@@ -243,11 +248,10 @@ def bootstrap_javascript(jquery=None):
     if jquery:
         url = bootstrap_jquery_url()
         if url:
-            javascript += render_tag("script", attrs={"src": url})
+            javascript += render_script_tag(url)
     url = bootstrap_javascript_url()
     if url:
-        attrs = {"src": url}
-        javascript += render_tag("script", attrs=attrs)
+        javascript += render_script_tag(url)
     return mark_safe(javascript)
 
 

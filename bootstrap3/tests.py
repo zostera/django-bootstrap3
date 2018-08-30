@@ -8,12 +8,12 @@ from django.contrib.admin.widgets import AdminSplitDateTime
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms.formsets import formset_factory
 from django.template import engines
-from django.test import TestCase, override_settings
+from django.test import TestCase
 
-from .bootstrap import DBS3_SET_REQUIRED_SET_DISABLED
+from .bootstrap import DBS3_SET_REQUIRED_SET_DISABLED, get_bootstrap_setting
 from .exceptions import BootstrapError
 from .text import text_value, text_concat
-from .utils import add_css_class, render_tag
+from .utils import add_css_class, render_tag, url_to_attrs_dict
 
 try:
     from html.parser import HTMLParser
@@ -215,18 +215,24 @@ class SettingsTest(TestCase):
 
     def test_bootstrap_javascript_tag(self):
         res = render_template_with_form("{% bootstrap_javascript %}")
-        self.assertEqual(
-            res.strip(),
-            '<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>',
+        javascript_url = get_bootstrap_setting("javascript_url")
+        self.assertHTMLEqual(
+            res,
+            '<script src="{url}" crossorigin="{crossorigin}" integrity="{integrity}"></script>'.format(
+                **javascript_url
+            ),
         )
 
     def test_bootstrap_css_tag(self):
         res = render_template_with_form("{% bootstrap_css %}").strip()
-        self.assertIn(
-            '<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">',
-            res,
+        css_url = get_bootstrap_setting("css_url")
+        expected_html = (
+            '<link href="{url}" crossorigin="{crossorigin}" integrity="{integrity}" rel="stylesheet">'.format(
+                **css_url
+            )
+            + '<link href="//example.com/theme.css" rel="stylesheet">'
         )
-        self.assertIn('<link href="//example.com/theme.css" rel="stylesheet">', res)
+        self.assertHTMLEqual(expected_html, res)
 
     def test_settings_filter(self):
         res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
@@ -531,7 +537,8 @@ class FieldTest(TestCase):
 
     def test_input_group_addon_button(self):
         res = render_template_with_form(
-            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}'  # noqa
+            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}'
+            # noqa
         )
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-btn">$', res)
@@ -750,6 +757,21 @@ class UtilsTest(TestCase):
             render_tag("span", attrs={"bar": 123}, content="foo"),
             '<span bar="123">foo</span>',
         )
+
+    def test_url_to_attrs_dict(self):
+        self.assertEqual(url_to_attrs_dict("my_link", "src"), {"src": "my_link"})
+        self.assertEqual(
+            url_to_attrs_dict({"url": "my_link"}, "src"), {"src": "my_link"}
+        )
+        self.assertEqual(
+            url_to_attrs_dict(
+                {"url": "my_link", "crossorigin": "anonymous", "integrity": "super"},
+                "src",
+            ),
+            {"src": "my_link", "crossorigin": "anonymous", "integrity": "super"},
+        )
+        with self.assertRaises(BootstrapError):
+            url_to_attrs_dict(123, "src")
 
 
 class ButtonTest(TestCase):

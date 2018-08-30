@@ -4,6 +4,10 @@ from __future__ import unicode_literals
 import re
 from collections import Mapping
 
+from django.utils import six
+
+from bootstrap3.exceptions import BootstrapError
+
 try:
     from urllib import urlencode
 except ImportError:
@@ -105,14 +109,24 @@ def remove_css_class(css_classes, css_class):
     return " ".join(classes_list)
 
 
+def render_script_tag(url):
+    """
+    Build a script tag
+    """
+    url_dict = url_to_attrs_dict(url, url_attr="src")
+    return render_tag("script", url_dict)
+
+
 def render_link_tag(url, rel="stylesheet", media=None):
     """
     Build a link tag
     """
-    attrs = {"href": url, "rel": rel}
+    url_dict = url_to_attrs_dict(url, url_attr="href")
+    url_dict.setdefault("href", url_dict.pop("url", None))
+    url_dict["rel"] = rel
     if media:
-        attrs["media"] = media
-    return render_tag("link", attrs=attrs, close=False)
+        url_dict["media"] = media
+    return render_tag("link", attrs=url_dict, close=False)
 
 
 def render_tag(tag, attrs=None, content=None, close=True):
@@ -159,3 +173,28 @@ def url_replace_param(url, name, value):
             ]
         )
     )
+
+
+def url_to_attrs_dict(url, url_attr):
+    """
+    Sanitize url dict as used in django-bootstrap3 settings.
+    """
+    result = dict()
+    # If url is not a string, it should be a dict
+    if isinstance(url, six.string_types):
+        url_value = url
+    else:
+        try:
+            url_value = url["url"]
+        except TypeError:
+            raise BootstrapError(
+                'Function "url_to_attrs_dict" expects a string or a dict with key "url".'
+            )
+        crossorigin = url.get("crossorigin", None)
+        integrity = url.get("integrity", None)
+        if crossorigin:
+            result["crossorigin"] = crossorigin
+        if integrity:
+            result["integrity"] = integrity
+    result[url_attr] = url_value
+    return result

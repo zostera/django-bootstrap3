@@ -13,11 +13,18 @@ DBS3_SET_REQUIRED_SET_DISABLED = DJANGO_VERSION[0] < 2 and DJANGO_VERSION[1] < 1
 
 # Default settings
 BOOTSTRAP3_DEFAULTS = {
-    "jquery_url": "//code.jquery.com/jquery.min.js",
-    "base_url": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/",
-    "css_url": None,
+    "css_url": {
+        "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+        "integrity": "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u",
+        "crossorigin": "anonymous",
+    },
     "theme_url": None,
-    "javascript_url": None,
+    "javascript_url": {
+        "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
+        "integrity": "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa",
+        "crossorigin": "anonymous",
+    },
+    "jquery_url": "//code.jquery.com/jquery.min.js",
     "javascript_in_head": False,
     "include_jquery": False,
     "horizontal_label_class": "col-md-3",
@@ -51,13 +58,6 @@ def get_bootstrap_setting(setting, default=None):
     return BOOTSTRAP3.get(setting, default)
 
 
-def bootstrap_url(postfix):
-    """
-    Prefix a relative url with the bootstrap base url
-    """
-    return get_bootstrap_setting("base_url") + postfix
-
-
 def jquery_url():
     """
     Return the full url to jQuery file to use
@@ -69,16 +69,14 @@ def javascript_url():
     """
     Return the full url to the Bootstrap JavaScript file
     """
-    url = get_bootstrap_setting("javascript_url")
-    return url if url else bootstrap_url("js/bootstrap.min.js")
+    return get_bootstrap_setting("javascript_url")
 
 
 def css_url():
     """
     Return the full url to the Bootstrap CSS file
     """
-    url = get_bootstrap_setting("css_url")
-    return url if url else bootstrap_url("css/bootstrap.min.css")
+    return get_bootstrap_setting("css_url")
 
 
 def theme_url():
