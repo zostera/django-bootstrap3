@@ -537,8 +537,7 @@ class FieldTest(TestCase):
 
     def test_input_group_addon_button(self):
         res = render_template_with_form(
-            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}'
-            # noqa
+            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}'  # noqa
         )
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-btn">$', res)
