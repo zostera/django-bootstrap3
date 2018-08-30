@@ -33,7 +33,7 @@ from django.forms.formsets import BaseFormSet
 from django.utils.html import conditional_escape, escape, strip_tags
 from django.utils.safestring import mark_safe
 
-from .bootstrap import get_bootstrap_setting, DBS3_SET_REQUIRED_SET_DISABLED
+from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
 from .forms import (
     render_form,
@@ -61,10 +61,6 @@ class BaseRenderer(object):
         self.show_help = kwargs.get("show_help", True)
         self.show_label = kwargs.get("show_label", True)
         self.exclude = kwargs.get("exclude", "")
-
-        # Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
-        self.set_required = kwargs.get("set_required", True)
-        self.set_disabled = kwargs.get("set_disabled", False)
 
         self.set_placeholder = kwargs.get("set_placeholder", True)
         self.size = self.parse_size(kwargs.get("size", ""))
@@ -134,8 +130,6 @@ class FormsetRenderer(BaseRenderer):
                     show_label=self.show_label,
                     show_help=self.show_help,
                     exclude=self.exclude,
-                    set_required=self.set_required,  # Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
-                    set_disabled=self.set_disabled,  # Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
                     set_placeholder=self.set_placeholder,
                     size=self.size,
                     horizontal_label_class=self.horizontal_label_class,
@@ -176,11 +170,6 @@ class FormRenderer(BaseRenderer):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super(FormRenderer, self).__init__(*args, **kwargs)
-
-        # Handle form.empty_permitted
-        if DBS3_SET_REQUIRED_SET_DISABLED and self.form.empty_permitted:
-            self.set_required = False
-
         self.error_types = kwargs.get("error_types", "non_field_errors")
         self.error_css_class = kwargs.get("error_css_class", None)
         self.required_css_class = kwargs.get("required_css_class", None)
@@ -199,8 +188,6 @@ class FormRenderer(BaseRenderer):
                     show_label=self.show_label,
                     show_help=self.show_help,
                     exclude=self.exclude,
-                    set_required=self.set_required,  # Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
-                    set_disabled=self.set_disabled,  # Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
                     set_placeholder=self.set_placeholder,
                     size=self.size,
                     horizontal_label_class=self.horizontal_label_class,
@@ -341,12 +328,6 @@ class FieldRenderer(BaseRenderer):
         if self.field.form.empty_permitted:
             self.required_css_class = ""
 
-        # Special case to support Django 1.8 required / disabled
-        if DBS3_SET_REQUIRED_SET_DISABLED:
-            if self.field.form.empty_permitted:
-                self.set_required = False
-            self.set_disabled = kwargs.get("set_disabled", False)
-
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs.copy()
 
@@ -381,24 +362,6 @@ class FieldRenderer(BaseRenderer):
                 "title", escape(strip_tags(self.field_help))
             )
 
-    def add_required_attrs(self, widget=None):
-        """
-        Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
-        """
-        if widget is None:
-            widget = self.widget
-        if self.set_required and is_widget_required_attribute(widget):
-            widget.attrs["required"] = "required"
-
-    def add_disabled_attrs(self, widget=None):
-        """
-        Only relevant if DBS3_SET_REQUIRED_SET_DISABLED
-        """
-        if widget is None:
-            widget = self.widget
-        if self.set_disabled:
-            widget.attrs["disabled"] = "disabled"
-
     def add_widget_attrs(self):
         if self.is_multi_widget:
             widgets = self.widget.widgets
@@ -408,9 +371,6 @@ class FieldRenderer(BaseRenderer):
             self.add_class_attrs(widget)
             self.add_placeholder_attrs(widget)
             self.add_help_attrs(widget)
-            if DBS3_SET_REQUIRED_SET_DISABLED:
-                self.add_required_attrs(widget)
-                self.add_disabled_attrs(widget)
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())

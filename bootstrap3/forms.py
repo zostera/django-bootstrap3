@@ -21,7 +21,6 @@ from .bootstrap import (
     get_form_renderer,
     get_field_renderer,
     get_formset_renderer,
-    DBS3_SET_REQUIRED_SET_DISABLED,
 )
 from .components import render_icon
 from .exceptions import BootstrapError
@@ -190,8 +189,6 @@ def is_widget_required_attribute(widget):
     """
     Is this widget required?
     """
-    if DBS3_SET_REQUIRED_SET_DISABLED and not get_bootstrap_setting("set_required"):
-        return False
     if not widget.is_required:
         return False
     if isinstance(widget, WIDGETS_NO_REQUIRED):

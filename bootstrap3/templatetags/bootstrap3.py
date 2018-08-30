@@ -434,19 +434,6 @@ def bootstrap_field(*args, **kwargs):
         exclude
             A list of field names that should not be rendered
 
-        set_required
-            When set to ``True`` and the field is required then the ``required`` attribute is set on the
-            rendered field. This only works up to Django 1.8. Higher Django versions handle ``required``
-            natively.
-
-            :default: ``True``
-
-        set_disabled
-            When set to ``True`` then the ``disabled`` attribute is set on the rendered field. This only
-            works up to Django 1.8.  Higher Django versions handle ``disabled`` natively.
-
-            :default: ``False``
-
         size
             Controls the size of the rendered ``div.form-group`` through the use of CSS classes.
 

@@ -24,11 +24,7 @@ from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
 from django.template.loader import get_template
 from django.utils.encoding import force_str, force_text
 from django.utils.safestring import mark_safe
-
-try:
-    from django.utils.html import format_html
-except ImportError:
-    from .legacy import format_html_pre_18 as format_html
+from django.utils.html import format_html
 
 from .text import text_value
 
