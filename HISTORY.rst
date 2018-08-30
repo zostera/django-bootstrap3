@@ -4,11 +4,14 @@ History
 -------
 
 Development
-+++++++++++++++++++
++++++++++++
 
-* Remove setting `base_url`, support `crossorigin` and `integrity` in urls (#443)
+* Support `crossorigin` and `integrity` in urls (#443)
 * Switch to explicit Travis tests (#444)
 * Fix PyPI classifiers
+* Remove obsolete code for Django <=8 1.8 (#446)
+* Remove obsolete settings `set_required` and `set_disabled` (#445)
+* Remove setting `base_url` (#443)
 
 10.0.1 (2018-05-02)
 +++++++++++++++++++
