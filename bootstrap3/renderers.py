@@ -443,7 +443,15 @@ class FieldRenderer(BaseRenderer):
     def make_input_group(self, html):
         if (self.addon_before or self.addon_after) and isinstance(
             self.widget,
-            (TextInput, NumberInput, EmailInput, URLInput, DateInput, Select, PasswordInput),
+            (
+                TextInput,
+                NumberInput,
+                EmailInput,
+                URLInput,
+                DateInput,
+                Select,
+                PasswordInput,
+            ),
         ):
             before = (
                 '<span class="{input_class}">{addon}</span>'.format(
