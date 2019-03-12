@@ -9,7 +9,7 @@ History
 * Support `crossorigin` and `integrity` in urls (#443)
 * Switch to explicit Travis tests (#444)
 * Fix PyPI classifiers
-* Remove obsolete code for Django <=8 1.8 (#446)
+* Remove obsolete code for Django <= 1.8 (#446)
 * Remove obsolete settings `set_required` and `set_disabled` (#445)
 * Remove setting `base_url` (#443)
 
@@ -41,7 +41,7 @@ History
 
 * Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
 * Added `error_types` support on bootstrap3_form (thanks @mkoistinen and @ickam)
-* **BREAKING** Default setting of `error_types` to `non_field_errors` is different fro behavior in versions < 9
+* **BREAKING** Default setting of `error_types` to `non_field_errors` is different from behavior in versions < 9
 
 
 8.2.3 (2017-05-05)
