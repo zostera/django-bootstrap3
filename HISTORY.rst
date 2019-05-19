@@ -3,6 +3,13 @@
 History
 -------
 
+12.0.0 (in development)
++++++++++++++++++++++++
+
+* Drop support for Python 2.7, Django 1.11 and Django 2.0 (#456)
+* Fix Deprecationwarning in Python 3.7 (#455)
+* Introduce `setup.py reformat` to format code
+
 11.1.0 (2019-08-09)
 +++++++++++++++++++
 

@@ -15,6 +15,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = [
+    "django.contrib.sessions.middleware.SessionMiddleware",  # required for django.contrib.admin
     "django.contrib.auth.middleware.AuthenticationMiddleware",  # required for django.contrib.admin
     "django.contrib.messages.middleware.MessageMiddleware",  # required for django.contrib.admin
 ]

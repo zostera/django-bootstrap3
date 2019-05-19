@@ -16,7 +16,7 @@ Bootstrap 3 for Django
     :target: https://github.com/ambv/black
 
 .. image:: https://coveralls.io/repos/github/dyve/django-bootstrap3/badge.svg
-  :target: https://coveralls.io/r/dyve/django-bootstrap3
+    :target: https://coveralls.io/r/dyve/django-bootstrap3
 
 
 Bootstrap 3 integration for Django.
@@ -34,10 +34,18 @@ See https://github.com/zostera/django-bootstrap4.
 Requirements
 ------------
 
-- Django 1.11 or Django >= 2.0 with a matching Python version.
-- For details, see https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support
-- *The latest version supporting Python 2.6 and Django < 1.8 is 6.x.x.*
+- Python >= 3.6, Django >= 2.1 (see also https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support)
+
+Need older versions?
+++++++++++++++++++++
+
+- Version 11.x.x can be used for Python 2.7.x with Django 1.11, but you are encouraged to upgrade.
+
+If you need even older versions, this is our history of dropping support for Python and Django versions. Note that this information is "as is", and you should really update to newer Python and Django versions. Using unsupported versions will lead to security risks and broken software.
+
+- *The latest version supporting Django 2.0 is 11.x.x.*
 - *The latest version supporting Django < 1.11 is 9.x.x.*
+- *The latest version supporting Python 2.6 and Django < 1.8 is 6.x.x.*
 
 
 Installation
@@ -93,8 +101,7 @@ https://github.com/dyve/django-bootstrap3/issues
 License
 -------
 
-You can use this under Apache 2.0. See `LICENSE
-<LICENSE>`_ file for details.
+You can use this under BSD-3-Clause. See `LICENSE <LICENSE>`_ file for details.
 
 
 Author
