@@ -1,14 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from django.contrib import messages
 from django.core.files.storage import default_storage
-
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models.fields.files import FieldFile
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
-from django.contrib import messages
 
-from .forms import ContactForm, FilesForm, ContactFormSet
+from .forms import ContactForm, ContactFormSet, FilesForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/

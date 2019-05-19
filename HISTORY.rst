@@ -3,10 +3,13 @@
 History
 -------
 
-11.2.0 (in development)
+12.0.0 (in development)
 +++++++++++++++++++++++
 
+* Drop support for Python 2.7, Django 1.11 and Django 2.0 (#456)
+* Fix Deprecationwarning in Python 3.7 (#455)
 * Add label class support to form field checkboxes (#453)
+* Move development tasks from `setup.py` to `Makefile`
 
 11.1.0 (2019-08-09)
 +++++++++++++++++++
