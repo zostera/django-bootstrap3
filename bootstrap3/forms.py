@@ -106,12 +106,13 @@ def render_button(
     elif size == "md" or size == "medium":
         pass
     elif size:
-        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or ' + 'empty ("{}" given).'.format(size))
+        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty ("{}" given).'.format(size))
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):
             raise BootstrapError(
-                'Parameter "button_type" should be "submit", "reset", '
-                + '"button", "link" or empty  ("{}" given).'.format(button_type)
+                'Parameter "button_type" should be "submit", "reset", "button", "link" or empty  ("{}" given).'.format(
+                    button_type
+                )
             )
         attrs["type"] = button_type
     classes = add_css_class(classes, extra_classes)

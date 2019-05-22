@@ -26,7 +26,7 @@ def render_alert(content, alert_type=None, dismissable=True):
     css_classes = ["alert", "alert-" + text_value(alert_type)]
     if dismissable:
         css_classes.append("alert-dismissable")
-        button = '<button type="button" class="close" ' + 'data-dismiss="alert" aria-hidden="true">&times;</button>'
+        button = '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
     button_placeholder = "__BUTTON__"
     return mark_safe(
         render_tag(

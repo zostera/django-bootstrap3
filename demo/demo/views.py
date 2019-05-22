@@ -20,7 +20,7 @@ class HomePageView(TemplateView):
     template_name = "demo/home.html"
 
     def get_context_data(self, **kwargs):
-        context = super(HomePageView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         messages.info(self.request, "hello http://example.com")
         return context
 
@@ -55,7 +55,7 @@ class FormWithFilesView(FormView):
     form_class = FilesForm
 
     def get_context_data(self, **kwargs):
-        context = super(FormWithFilesView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["layout"] = self.request.GET.get("layout", "vertical")
         return context
 
@@ -67,7 +67,7 @@ class PaginationView(TemplateView):
     template_name = "demo/pagination.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PaginationView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         lines = []
         for i in range(200):
             lines.append("Line %s" % (i + 1))
