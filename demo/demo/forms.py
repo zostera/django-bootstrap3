@@ -18,10 +18,10 @@ class ContactForm(TestForm):
 
 class ContactBaseFormSet(BaseFormSet):
     def add_fields(self, form, index):
-        super(ContactBaseFormSet, self).add_fields(form, index)
+        super().add_fields(form, index)
 
     def clean(self):
-        super(ContactBaseFormSet, self).clean()
+        super().clean()
         raise forms.ValidationError("This error was added to show the non form errors styling")
 
 
@@ -42,6 +42,6 @@ class ArticleForm(forms.Form):
     pub_date = forms.DateField()
 
     def clean(self):
-        cleaned_data = super(ArticleForm, self).clean()
+        cleaned_data = super().clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data

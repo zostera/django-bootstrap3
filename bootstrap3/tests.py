@@ -32,7 +32,7 @@ class SmallTestForm(forms.Form):
     )
 
     def clean(self):
-        cleaned_data = super(SmallTestForm, self).clean()
+        cleaned_data = super().clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data
 
@@ -84,7 +84,7 @@ class TestForm(forms.Form):
     use_required_attribute = False
 
     def clean(self):
-        cleaned_data = super(TestForm, self).clean()
+        cleaned_data = super().clean()
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data
 
@@ -659,7 +659,7 @@ class ButtonTest(TestCase):
         res = render_template_with_form("{% bootstrap_button 'button' size='lg' href='#' %}")
         self.assertIn(
             res.strip(),
-            '<a class="btn btn-default btn-lg" href="#">button</a><a href="#" ' + 'class="btn btn-lg">button</a>',
+            '<a class="btn btn-default btn-lg" href="#">button</a><a href="#" class="btn btn-lg">button</a>',
         )
 
 
