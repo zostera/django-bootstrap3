@@ -10,29 +10,6 @@ from setuptools import setup
 
 VERSION = bootstrap3.__version__
 
-if sys.argv[-1] == "publish":
-    os.system("cd docs && make html")
-    os.system("python setup.py sdist")
-    os.system("twine upload dist/django-bootstrap3-{}.tar.gz".format(VERSION))
-
-    message = "\nreleased [{version}](https://pypi.python.org/pypi/django-bootstrap3/{version})"
-    print(message.format(version=VERSION))
-    sys.exit()
-
-if sys.argv[-1] == "test":
-    print("Running tests only on current environment.")
-    print("Use `tox` for testing multiple environments.")
-    os.system("python manage.py test")
-    sys.exit()
-
-if sys.argv[-1] == "reformat":
-    os.system("isort -rc bootstrap3")
-    os.system("isort -rc demo")
-    os.system("autoflake -ir bootstrap3 demo --remove-all-unused-imports")
-    os.system("black .")
-    os.system("flake8 bootstrap3 demo")
-    sys.exit()
-
 with open("README.rst") as readme_file:
     readme = readme_file.read()
 
