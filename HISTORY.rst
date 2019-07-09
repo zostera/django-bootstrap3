@@ -3,6 +3,12 @@
 History
 -------
 
+11.1.0 (2019-08-09)
++++++++++++++++++++
+
+* Update Bootstrap to 3.4.1 (#459)
+* **NOTE** Version 12 will drop support for Python 2.x.x and Django 1.x.x
+
 11.0.0 (2018-08-30)
 +++++++++++++++++++
 
