@@ -1,5 +1,4 @@
 import re
-from collections.abc import Mapping
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from django.forms.utils import flatatt
@@ -125,7 +124,6 @@ def render_template_file(template, context=None):
     """
     Render a Template to unicode
     """
-    assert isinstance(context, Mapping)
     template = get_template(template)
     return template.render(context)
 
