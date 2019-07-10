@@ -1,3 +1,5 @@
+.PHONY: clean test tox reformat publish
+
 clean:
 	rm -rf build dist *.egg-info
 
@@ -15,6 +17,6 @@ reformat:
 	black .
 	flake8 bootstrap3 demo
 
-publish:
+publish: clean
 	cd docs && make html
 	python setup.py sdist bdist_wheel upload
