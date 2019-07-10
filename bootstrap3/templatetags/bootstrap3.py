@@ -769,10 +769,9 @@ def bootstrap_messages(context, *args, **kwargs):
         {% bootstrap_messages %}
 
     """
-
-    # Force Django 1.8+ style, so dicts and not Context
-    # TODO: This may be due to a bug in Django 1.8/1.9+
-    if Context and isinstance(context, Context):
+    # Custom template tags with takes_context=True somehow return Context objects. These
+    # should be forced to dict, using Context.flatten()
+    if isinstance(context, Context):
         context = context.flatten()
     context.update({"message_constants": message_constants})
     return render_template_file("bootstrap3/messages.html", context=context)

@@ -430,7 +430,6 @@ class FieldTest(TestCase):
     def test_empty_permitted(self):
         """
         If a form has empty_permitted, no fields should get the CSS class for required.
-        Django <= 1.8, also check `required` attribute.
         """
         required_css_class = "bootstrap3-req"
         form = TestForm()
