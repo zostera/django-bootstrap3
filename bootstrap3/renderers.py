@@ -40,7 +40,7 @@ except RuntimeError:
     ReadOnlyPasswordHashWidget = None
 
 
-class BaseRenderer(object):
+class BaseRenderer:
     """
     A content renderer
     """

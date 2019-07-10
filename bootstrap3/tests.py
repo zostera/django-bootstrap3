@@ -539,7 +539,7 @@ class ComponentsTest(TestCase):
 
 class MessagesTest(TestCase):
     def test_messages(self):
-        class FakeMessage(object):
+        class FakeMessage:
             """
             Follows the `django.contrib.messages.storage.base.Message` API.
             """
