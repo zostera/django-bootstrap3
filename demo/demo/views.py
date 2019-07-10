@@ -9,7 +9,7 @@ from .forms import ContactForm, ContactFormSet, FilesForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
-class FakeField(object):
+class FakeField:
     storage = default_storage
 
 
