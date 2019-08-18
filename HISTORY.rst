@@ -3,6 +3,11 @@
 History
 -------
 
+11.2.0 (in development)
++++++++++++++++++++++++
+
+* Add label class support to form field checkboxes (#453)
+
 11.1.0 (2019-08-09)
 +++++++++++++++++++
 
