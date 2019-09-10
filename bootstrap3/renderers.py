@@ -386,7 +386,7 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def put_inside_label(self, html):
-        content = "{field} {label}".format(field=html, label=self.label)
+        content = "{field} {label}".format(field=html, label=self.label if self.show_label else '')
         return render_label(
             content=mark_safe(content),
             label_for=self.field.id_for_label,
