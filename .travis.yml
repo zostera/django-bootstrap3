@@ -1,34 +1,13 @@
+dist: xenial
+sudo: false
 language: python
-cache:
-  pip: true
 addons:
-  postgresql: 9.6
+  postgresql: "9.6"
   apt:
     packages:
      - postgresql-9.6-postgis-2.3
-
-install: pip install tox tox-travis
+python:
+  - "3.6"
+  - "3.7"
+install: pip install tox-travis
 script: tox
-
-matrix:
-  include:
-    - { python: 2.7, env: TOXENV=py27-1.11 }
-    - { python: 3.4, env: TOXENV=py34-1.11 }
-    - { python: 3.4, env: TOXENV=py34-2.0 }
-    - { python: 3.5, env: TOXENV=py35-1.11 }
-    - { python: 3.5, env: TOXENV=py35-2.0 }
-    - { python: 3.5, env: TOXENV=py35-2.1 }
-    - { python: 3.5, env: TOXENV=py35-master }
-    - { python: 3.6, env: TOXENV=py36-2.0 }
-    - { python: 3.6, env: TOXENV=py36-2.1 }
-    - { python: 3.6, env: TOXENV=py36-master }
-    - { python: 3.7-dev, env: TOXENV=py37-2.1 }
-    - { python: 3.7-dev, env: TOXENV=py37-master }
-    - { python: 3.6, env: TOXENV=docs }
-    - { python: 3.6, env: TOXENV=flake8 }
-
-  # we allow failures for versions which are not yet released:
-  allow_failures:
-      - env: TOXENV=py35-master
-      - env: TOXENV=py36-master
-      - env: TOXENV=py37-master

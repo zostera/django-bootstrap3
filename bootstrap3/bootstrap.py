@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from importlib import import_module
 
-from django import VERSION as DJANGO_VERSION
 from django.conf import settings
 
 # Default settings

@@ -1,30 +1,15 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import re
-from collections import Mapping
-
-from django.utils import six
-
-from bootstrap3.exceptions import BootstrapError
-
-try:
-    from urllib import urlencode
-except ImportError:
-    from urllib.parse import urlencode
-
-try:
-    from urlparse import urlparse, parse_qs, urlunparse
-except ImportError:
-    from urllib.parse import urlparse, parse_qs, urlunparse
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from django.forms.utils import flatatt
 from django.template import Variable, VariableDoesNotExist
-from django.template.base import FilterExpression, kwarg_re, TemplateSyntaxError
+from django.template.base import FilterExpression, TemplateSyntaxError, kwarg_re
 from django.template.loader import get_template
 from django.utils.encoding import force_str, force_text
-from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+
+from bootstrap3.exceptions import BootstrapError
 
 from .text import text_value
 
@@ -132,19 +117,13 @@ def render_tag(tag, attrs=None, content=None, close=True):
     builder = "<{tag}{attrs}>{content}"
     if content or close:
         builder += "</{tag}>"
-    return format_html(
-        builder,
-        tag=tag,
-        attrs=mark_safe(flatatt(attrs)) if attrs else "",
-        content=text_value(content),
-    )
+    return format_html(builder, tag=tag, attrs=mark_safe(flatatt(attrs)) if attrs else "", content=text_value(content))
 
 
 def render_template_file(template, context=None):
     """
     Render a Template to unicode
     """
-    assert isinstance(context, Mapping)
     template = get_template(template)
     return template.render(context)
 
@@ -177,15 +156,13 @@ def url_to_attrs_dict(url, url_attr):
     """
     result = dict()
     # If url is not a string, it should be a dict
-    if isinstance(url, six.string_types):
+    if isinstance(url, str):
         url_value = url
     else:
         try:
             url_value = url["url"]
         except TypeError:
-            raise BootstrapError(
-                'Function "url_to_attrs_dict" expects a string or a dict with key "url".'
-            )
+            raise BootstrapError('Function "url_to_attrs_dict" expects a string or a dict with key "url".')
         crossorigin = url.get("crossorigin", None)
         integrity = url.get("integrity", None)
         if crossorigin:

@@ -1,49 +1,40 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import re
 from math import floor
 
 from django import template
-from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.contrib.messages import constants as message_constants
 from django.template import Context
 from django.utils.safestring import mark_safe
 
-from ..bootstrap import (
-    css_url,
-    javascript_url,
-    jquery_url,
-    theme_url,
-    get_bootstrap_setting,
-)
-from ..components import render_icon, render_alert
+from ..bootstrap import css_url, get_bootstrap_setting, javascript_url, jquery_url, theme_url
+from ..components import render_alert, render_icon
 from ..forms import (
     render_button,
     render_field,
     render_field_and_label,
     render_form,
+    render_form_errors,
     render_form_group,
     render_formset,
-    render_label,
-    render_form_errors,
     render_formset_errors,
+    render_label,
 )
 from ..text import force_text
 from ..utils import (
     handle_var,
     parse_token_contents,
-    url_replace_param,
+    render_link_tag,
     render_script_tag,
+    render_template_file,
+    url_replace_param,
 )
-from ..utils import render_link_tag, render_tag, render_template_file
 
 MESSAGE_LEVEL_CLASSES = {
-    DEFAULT_MESSAGE_LEVELS.DEBUG: "alert alert-warning",
-    DEFAULT_MESSAGE_LEVELS.INFO: "alert alert-info",
-    DEFAULT_MESSAGE_LEVELS.SUCCESS: "alert alert-success",
-    DEFAULT_MESSAGE_LEVELS.WARNING: "alert alert-warning",
-    DEFAULT_MESSAGE_LEVELS.ERROR: "alert alert-danger",
+    message_constants.DEBUG: "alert alert-warning",
+    message_constants.INFO: "alert alert-info",
+    message_constants.SUCCESS: "alert alert-success",
+    message_constants.WARNING: "alert alert-warning",
+    message_constants.ERROR: "alert alert-danger",
 }
 
 register = template.Library()
@@ -778,10 +769,9 @@ def bootstrap_messages(context, *args, **kwargs):
         {% bootstrap_messages %}
 
     """
-
-    # Force Django 1.8+ style, so dicts and not Context
-    # TODO: This may be due to a bug in Django 1.8/1.9+
-    if Context and isinstance(context, Context):
+    # Custom template tags with takes_context=True somehow return Context objects. These
+    # should be forced to dict, using Context.flatten()
+    if isinstance(context, Context):
         context = context.flatten()
     context.update({"message_constants": message_constants})
     return render_template_file("bootstrap3/messages.html", context=context)
@@ -853,18 +843,14 @@ def bootstrap_url_replace_param(url, name, value):
     return url_replace_param(url, name, value)
 
 
-def get_pagination_context(
-    page, pages_to_show=11, url=None, size=None, extra=None, parameter_name="page"
-):
+def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=None, parameter_name="page"):
     """
     Generate Bootstrap pagination context from a page object
     """
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
         raise ValueError(
-            "Pagination pages_to_show should be a positive integer, you specified {pages}".format(
-                pages=pages_to_show
-            )
+            "Pagination pages_to_show should be a positive integer, you specified {pages}".format(pages=pages_to_show)
         )
     num_pages = page.paginator.num_pages
     current_page = page.number

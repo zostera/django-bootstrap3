@@ -74,14 +74,15 @@ Ready to contribute? Here's how to set up `django-bootstrap3` for local developm
 
 Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-tests, including testing other Python versions with tox::
+5. When you're done making changes, apply reformat and check that your changes pass the tests::
 
-    $ flake8 bootstrap3 tests
-    $ python setup.py test
-    $ tox
+    $ make reformat
+    $ make test
+    $ make tox
 
-To get flake8 and tox, just pip install them into your virtualenv. 
+See which commands are being run in Makefile. Note that `make test` runs on your local environment, and that `make tox` runs a separate virtualenv for all supported configurations.
+
+The packages required for development are in `requirements.txt`.
 
 6. Commit your changes and push your branch to GitHub::
 

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 
@@ -21,18 +18,14 @@ class ContactForm(TestForm):
 
 class ContactBaseFormSet(BaseFormSet):
     def add_fields(self, form, index):
-        super(ContactBaseFormSet, self).add_fields(form, index)
+        super().add_fields(form, index)
 
     def clean(self):
-        super(ContactBaseFormSet, self).clean()
-        raise forms.ValidationError(
-            "This error was added to show the non form errors styling"
-        )
+        super().clean()
+        raise forms.ValidationError("This error was added to show the non form errors styling")
 
 
-ContactFormSet = formset_factory(
-    TestForm, formset=ContactBaseFormSet, extra=2, max_num=4, validate_max=True
-)
+ContactFormSet = formset_factory(TestForm, formset=ContactBaseFormSet, extra=2, max_num=4, validate_max=True)
 
 
 class FilesForm(forms.Form):
@@ -49,8 +42,6 @@ class ArticleForm(forms.Form):
     pub_date = forms.DateField()
 
     def clean(self):
-        cleaned_data = super(ArticleForm, self).clean()
-        raise forms.ValidationError(
-            "This error was added to show the non field errors styling."
-        )
+        cleaned_data = super().clean()
+        raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data

@@ -1,27 +1,19 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import (
-    HiddenInput,
-    FileInput,
     CheckboxSelectMultiple,
+    EmailInput,
+    FileInput,
+    HiddenInput,
+    NumberInput,
+    PasswordInput,
     Textarea,
     TextInput,
-    PasswordInput,
-    NumberInput,
-    EmailInput,
     URLInput,
 )
 from django.forms.widgets import CheckboxInput
 from django.utils.safestring import mark_safe
 
-from .bootstrap import (
-    get_bootstrap_setting,
-    get_form_renderer,
-    get_field_renderer,
-    get_formset_renderer,
-)
+from .bootstrap import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
 from .components import render_icon
 from .exceptions import BootstrapError
 from .text import text_concat, text_value
@@ -29,13 +21,7 @@ from .utils import add_css_class, render_tag
 
 FORM_GROUP_CLASS = "form-group"
 
-WIDGETS_NO_REQUIRED = (
-    AdminFileWidget,
-    HiddenInput,
-    FileInput,
-    CheckboxInput,
-    CheckboxSelectMultiple,
-)
+WIDGETS_NO_REQUIRED = (AdminFileWidget, HiddenInput, FileInput, CheckboxInput, CheckboxSelectMultiple)
 
 
 def render_formset(formset, **kwargs):
@@ -120,15 +106,13 @@ def render_button(
     elif size == "md" or size == "medium":
         pass
     elif size:
-        raise BootstrapError(
-            'Parameter "size" should be "xs", "sm", "lg" or '
-            + 'empty ("{}" given).'.format(size)
-        )
+        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty ("{}" given).'.format(size))
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):
             raise BootstrapError(
-                'Parameter "button_type" should be "submit", "reset", '
-                + '"button", "link" or empty  ("{}" given).'.format(button_type)
+                'Parameter "button_type" should be "submit", "reset", "button", "link" or empty  ("{}" given).'.format(
+                    button_type
+                )
             )
         attrs["type"] = button_type
     classes = add_css_class(classes, extra_classes)
@@ -147,16 +131,10 @@ def render_button(
         attrs["value"] = value
     if title:
         attrs["title"] = title
-    return render_tag(
-        tag,
-        attrs=attrs,
-        content=mark_safe(text_concat(icon_content, content, separator=" ")),
-    )
+    return render_tag(tag, attrs=attrs, content=mark_safe(text_concat(icon_content, content, separator=" ")))
 
 
-def render_field_and_label(
-    field, label, field_class="", label_for=None, label_class="", layout="", **kwargs
-):
+def render_field_and_label(field, label, field_class="", label_for=None, label_class="", layout="", **kwargs):
     """
     Render a field with its label
     """
@@ -180,9 +158,7 @@ def render_form_group(content, css_class=FORM_GROUP_CLASS):
     """
     Render a Bootstrap form group
     """
-    return '<div class="{klass}">{content}</div>'.format(
-        klass=css_class, content=content
-    )
+    return '<div class="{klass}">{content}</div>'.format(klass=css_class, content=content)
 
 
 def is_widget_required_attribute(widget):
@@ -201,6 +177,4 @@ def is_widget_with_placeholder(widget):
     Is this a widget that should have a placeholder?
     Only text, search, url, tel, e-mail, password, number have placeholders
     """
-    return isinstance(
-        widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput)
-    )
+    return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput))
