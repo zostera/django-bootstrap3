@@ -6,7 +6,7 @@ from django.contrib.admin.widgets import AdminSplitDateTime
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms import formset_factory
 from django.template import engines
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
@@ -227,6 +227,18 @@ class SettingsTest(TestCase):
         form = TestForm({"sender": "sender"})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
         self.assertIn("bootstrap3-bound", res)
+
+    @override_settings(BOOTSTRAP3={"css_url": None})
+    def test_setting_to_none(self):
+        css_url = get_bootstrap_setting("css_url")
+        self.assertEqual(
+            css_url,
+            {
+                "url": "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",
+                "integrity": "sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu",
+                "crossorigin": "anonymous",
+            },
+        )
 
 
 class TemplateTest(TestCase):
