@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
-from django.forms.formsets import formset_factory
+from django.forms import formset_factory
 from django.template import engines
 from django.test import TestCase
 
