@@ -1,4 +1,4 @@
-Django==2.2.3
+Django==2.2.4
 Sphinx==2.1.2
 sphinx_rtd_theme==0.4.3
 Sphinx==2.1.2
