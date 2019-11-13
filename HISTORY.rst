@@ -10,6 +10,9 @@ History
 * Fix Deprecationwarning in Python 3.7 (#455)
 * Add label class support to form field checkboxes (#453)
 * Move development tasks from `setup.py` to `Makefile`
+* Fix compatibility with Django 3.0 and master
+* Add Django 3.0 to `tox.ini`
+* Update versions in `requirements.txt`
 
 11.1.0 (2019-08-09)
 +++++++++++++++++++
