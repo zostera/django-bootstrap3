@@ -38,9 +38,7 @@ class SmallTestForm(forms.Form):
 
 
 class TestForm(forms.Form):
-    """
-    Form with a variety of widgets to test bootstrap3 rendering.
-    """
+    """Form with a variety of widgets to test bootstrap3 rendering."""
 
     date = forms.DateField(required=False)
     datetime = forms.SplitDateTimeField(widget=AdminSplitDateTime(), required=False)
@@ -94,9 +92,7 @@ class TestFormWithoutRequiredClass(TestForm):
 
 
 def render_template(text, context=None):
-    """
-    Create a template ``text``
-    """
+    """Create a template ``text``."""
     template = engines["django"].from_string(text)
     if not context:
         context = {}
@@ -104,18 +100,14 @@ def render_template(text, context=None):
 
 
 def render_template_with_bootstrap(text, context=None):
-    """
-    Create a template ``text`` that first loads bootstrap3.
-    """
+    """Create a template ``text`` that first loads bootstrap3."""
     if not context:
         context = {}
     return render_template("{% load bootstrap3 %}" + text, context)
 
 
 def render_template_with_form(text, context=None):
-    """
-    Create a template ``text`` that first loads bootstrap3.
-    """
+    """Create a template ``text`` that first loads bootstrap3."""
     if not context:
         context = {}
     if "form" not in context:
@@ -124,9 +116,7 @@ def render_template_with_form(text, context=None):
 
 
 def render_formset(formset=None, context=None):
-    """
-    Create a template that renders a formset
-    """
+    """Create a template that renders a formset."""
     if not context:
         context = {}
     context["formset"] = formset
@@ -134,9 +124,7 @@ def render_formset(formset=None, context=None):
 
 
 def render_form(form=None, context=None):
-    """
-    Create a template that renders a form
-    """
+    """Create a template that renders a form."""
     if not context:
         context = {}
     if form:
@@ -145,17 +133,13 @@ def render_form(form=None, context=None):
 
 
 def render_form_field(field, context=None):
-    """
-    Create a template that renders a field
-    """
+    """Create a template that renders a field."""
     form_field = "form.%s" % field
     return render_template_with_form("{% bootstrap_field " + form_field + " %}", context)
 
 
 def render_field(field, context=None):
-    """
-    Create a template that renders a field
-    """
+    """Create a template that renders a field."""
     if not context:
         context = {}
     context["field"] = field
@@ -440,9 +424,7 @@ class FieldTest(TestCase):
         self.assertIn("test-required", rendered)
 
     def test_empty_permitted(self):
-        """
-        If a form has empty_permitted, no fields should get the CSS class for required.
-        """
+        """If a form has empty_permitted, no fields should get the CSS class for required."""
         required_css_class = "bootstrap3-req"
         form = TestForm()
         res = render_form_field("subject", {"form": form})
@@ -551,9 +533,7 @@ class ComponentsTest(TestCase):
 class MessagesTest(TestCase):
     def test_messages(self):
         class FakeMessage:
-            """
-            Follows the `django.contrib.messages.storage.base.Message` API.
-            """
+            """Follows the `django.contrib.messages.storage.base.Message` API."""
 
             level = None
             message = None
@@ -717,7 +697,7 @@ class ShowPlaceholderTest(TestCase):
 
 class ShowAddonsTest(TestCase):
     def assertFieldHasAddons(self, field):
-        """Asserts that a given field has an after and before addon."""
+        """Assert that a given field has an after and before addon."""
         addon_before = "bf"
         addon_after = "af"
 

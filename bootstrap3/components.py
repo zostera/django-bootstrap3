@@ -6,9 +6,7 @@ from .text import text_value
 
 
 def render_icon(icon, **kwargs):
-    """
-    Render a Bootstrap glyphicon icon
-    """
+    """Render a Bootstrap glyphicon icon."""
     attrs = {"class": add_css_class("glyphicon glyphicon-{icon}".format(icon=icon), kwargs.get("extra_classes", ""))}
     title = kwargs.get("title")
     if title:
@@ -17,9 +15,7 @@ def render_icon(icon, **kwargs):
 
 
 def render_alert(content, alert_type=None, dismissable=True):
-    """
-    Render a Bootstrap alert
-    """
+    """Render a Bootstrap alert."""
     button = ""
     if not alert_type:
         alert_type = "info"

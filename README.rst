@@ -34,7 +34,7 @@ See https://github.com/zostera/django-bootstrap4.
 Requirements
 ------------
 
-- Python >= 3.6, Django >= 2.1 (see also https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support)
+- Python >= 3.5, Django >= 2.1 (see also https://docs.djangoproject.com/en/dev/faq/install/#faq-python-version-support)
 
 Need older versions?
 ++++++++++++++++++++

@@ -1,10 +1,6 @@
 class BootstrapException(Exception):
-    """
-    Any exception from this package
-    """
+    """Any exception from this package."""
 
 
 class BootstrapError(BootstrapException):
-    """
-    Any exception that is an error
-    """
+    """Any exception that is an error."""

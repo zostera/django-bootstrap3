@@ -25,49 +25,37 @@ WIDGETS_NO_REQUIRED = (AdminFileWidget, HiddenInput, FileInput, CheckboxInput, C
 
 
 def render_formset(formset, **kwargs):
-    """
-    Render a formset to a Bootstrap layout
-    """
+    """Render a formset to a Bootstrap layout."""
     renderer_cls = get_formset_renderer(**kwargs)
     return renderer_cls(formset, **kwargs).render()
 
 
 def render_formset_errors(formset, **kwargs):
-    """
-    Render formset errors to a Bootstrap layout
-    """
+    """Render formset errors to a Bootstrap layout."""
     renderer_cls = get_formset_renderer(**kwargs)
     return renderer_cls(formset, **kwargs).render_errors()
 
 
 def render_form(form, **kwargs):
-    """
-    Render a form to a Bootstrap layout
-    """
+    """Render a form to a Bootstrap layout."""
     renderer_cls = get_form_renderer(**kwargs)
     return renderer_cls(form, **kwargs).render()
 
 
 def render_form_errors(form, error_types="non_field_errors", **kwargs):
-    """
-    Render form errors to a Bootstrap layout
-    """
+    """Render form errors to a Bootstrap layout."""
     renderer_cls = get_form_renderer(**kwargs)
     return renderer_cls(form, **kwargs).render_errors(error_types)
 
 
 def render_field(field, **kwargs):
-    """
-    Render a field to a Bootstrap layout
-    """
+    """Render a field to a Bootstrap layout."""
     renderer_cls = get_field_renderer(**kwargs)
     return renderer_cls(field, **kwargs).render()
 
 
 def render_label(content, label_for=None, label_class=None, label_title=""):
-    """
-    Render a label with content
-    """
+    """Render a label with content."""
     attrs = {}
     if label_for:
         attrs["for"] = label_for
@@ -91,9 +79,7 @@ def render_button(
     extra_classes="",
     id="",
 ):
-    """
-    Render a button with content
-    """
+    """Render a button with content."""
     attrs = {}
     classes = add_css_class("btn", button_class)
     size = text_value(size).lower().strip()
@@ -135,9 +121,7 @@ def render_button(
 
 
 def render_field_and_label(field, label, field_class="", label_for=None, label_class="", layout="", **kwargs):
-    """
-    Render a field with its label
-    """
+    """Render a field with its label."""
     if layout == "horizontal":
         if not label_class:
             label_class = get_bootstrap_setting("horizontal_label_class")
@@ -155,16 +139,12 @@ def render_field_and_label(field, label, field_class="", label_for=None, label_c
 
 
 def render_form_group(content, css_class=FORM_GROUP_CLASS):
-    """
-    Render a Bootstrap form group
-    """
+    """Render a Bootstrap form group."""
     return '<div class="{klass}">{content}</div>'.format(klass=css_class, content=content)
 
 
 def is_widget_required_attribute(widget):
-    """
-    Is this widget required?
-    """
+    """Return whether this widget is required."""
     if not widget.is_required:
         return False
     if isinstance(widget, WIDGETS_NO_REQUIRED):
@@ -174,7 +154,8 @@ def is_widget_required_attribute(widget):
 
 def is_widget_with_placeholder(widget):
     """
-    Is this a widget that should have a placeholder?
+    Return whether this a widget that should have a placeholder.
+
     Only text, search, url, tel, e-mail, password, number have placeholders
     """
     return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput))
