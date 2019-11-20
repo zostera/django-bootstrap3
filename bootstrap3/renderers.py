@@ -24,7 +24,6 @@ from .bootstrap import get_bootstrap_setting
 from .exceptions import BootstrapError
 from .forms import (
     FORM_GROUP_CLASS,
-    is_widget_required_attribute,
     is_widget_with_placeholder,
     render_field,
     render_form,
@@ -42,9 +41,7 @@ except RuntimeError:
 
 
 class BaseRenderer:
-    """
-    A content renderer
-    """
+    """A content renderer."""
 
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get("layout", "")
@@ -89,9 +86,7 @@ class BaseRenderer:
 
 
 class FormsetRenderer(BaseRenderer):
-    """
-    Default formset renderer
-    """
+    """Default formset renderer."""
 
     def __init__(self, formset, *args, **kwargs):
         if not isinstance(formset, BaseFormSet):
@@ -143,9 +138,7 @@ class FormsetRenderer(BaseRenderer):
 
 
 class FormRenderer(BaseRenderer):
-    """
-    Default form renderer
-    """
+    """Default form renderer."""
 
     def __init__(self, form, *args, **kwargs):
         if not isinstance(form, BaseForm):
@@ -212,9 +205,7 @@ class FormRenderer(BaseRenderer):
 
 
 class FieldRenderer(BaseRenderer):
-    """
-    Default field renderer
-    """
+    """Default field renderer."""
 
     # These widgets will not be wrapped in a form-control class
     WIDGETS_NO_FORM_CONTROL = (CheckboxInput, RadioSelect, CheckboxSelectMultiple, FileInput)
@@ -348,7 +339,8 @@ class FieldRenderer(BaseRenderer):
 
     def fix_clearable_file_input(self, html):
         """
-        Fix a clearable file input
+        Fix a clearable file input.
+
         TODO: This needs improvement
 
         Currently Django returns
@@ -359,7 +351,6 @@ class FieldRenderer(BaseRenderer):
         Change: <input id="id_file4" name="file4" type="file" />
         <span class=help-block></span>
         </div>
-
         """
         # TODO This needs improvement
         return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'.format(html=html)
@@ -499,9 +490,7 @@ class FieldRenderer(BaseRenderer):
 
 
 class InlineFieldRenderer(FieldRenderer):
-    """
-    Inline field renderer
-    """
+    """Inline field renderer."""
 
     def add_error_attrs(self):
         field_title = self.widget.attrs.get("title", "")

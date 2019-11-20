@@ -40,37 +40,27 @@ BOOTSTRAP3.update(getattr(settings, "BOOTSTRAP3", {}))
 
 
 def get_bootstrap_setting(setting, default=None):
-    """
-    Read a setting
-    """
+    """Read a setting."""
     return BOOTSTRAP3.get(setting, default)
 
 
 def jquery_url():
-    """
-    Return the full url to jQuery file to use
-    """
+    """Return the full url to jQuery file to use."""
     return get_bootstrap_setting("jquery_url")
 
 
 def javascript_url():
-    """
-    Return the full url to the Bootstrap JavaScript file
-    """
+    """Return the full url to the Bootstrap JavaScript file."""
     return get_bootstrap_setting("javascript_url")
 
 
 def css_url():
-    """
-    Return the full url to the Bootstrap CSS file
-    """
+    """Return the full url to the Bootstrap CSS file."""
     return get_bootstrap_setting("css_url")
 
 
 def theme_url():
-    """
-    Return the full url to the theme CSS file
-    """
+    """Return the full url to the theme CSS file."""
     return get_bootstrap_setting("theme_url")
 
 

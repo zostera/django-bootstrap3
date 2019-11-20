@@ -13,6 +13,7 @@ History
 * Fix compatibility with Django 3.0 and master
 * Add Django 3.0 to `tox.ini`
 * Update versions in `requirements.txt`
+* Use Makefile for common tasks
 
 11.1.0 (2019-08-09)
 +++++++++++++++++++

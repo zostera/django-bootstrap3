@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 
 
-import os
-import sys
+from setuptools import setup
 
 import bootstrap3
-
-from setuptools import setup
 
 VERSION = bootstrap3.__version__
 
@@ -21,6 +18,7 @@ setup(
     version=VERSION,
     description="""Bootstrap support for Django projects""",
     long_description=readme + "\n\n" + history,
+    long_description_content_type="text/x-rst",
     author="Dylan Verheul",
     author_email="dylan@dyve.net",
     url="https://github.com/dyve/django-bootstrap3",
