@@ -10,15 +10,20 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # We test this one
+    # Our tests
     "bootstrap3",
+    "tests",
 )
+
+ROOT_URLCONF = "tests.app.urls"
 
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",  # required for django.contrib.admin
     "django.contrib.auth.middleware.AuthenticationMiddleware",  # required for django.contrib.admin
     "django.contrib.messages.middleware.MessageMiddleware",  # required for django.contrib.admin
 ]
+
+STATIC_URL = "/static/"
 
 TEMPLATES = [
     {
@@ -37,10 +42,6 @@ TEMPLATES = [
         },
     }
 ]
-
-ROOT_URLCONF = None
-
-STATIC_URL = "/static/"
 
 BOOTSTRAP3 = {
     "theme_url": "//example.com/theme.css",

@@ -3,8 +3,8 @@
 History
 -------
 
-12.0.0 (in development)
-+++++++++++++++++++++++
+12.0.0 (2019-12-04)
++++++++++++++++++++
 
 * Drop support for Python 2.7, Django 1.11 and Django 2.0 (#456)
 * Fix Deprecationwarning in Python 3.7 (#455)
@@ -14,6 +14,8 @@ History
 * Add Django 3.0 to `tox.ini`
 * Update versions in `requirements.txt`
 * Use Makefile for common tasks
+* Drop `MANIFEST.in`, use `setuptools_scm`
+* Drop `_version.py`, use version from git tag
 
 11.1.0 (2019-08-09)
 +++++++++++++++++++

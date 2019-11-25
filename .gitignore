@@ -18,6 +18,7 @@ develop-eggs
 lib
 lib64
 .pip-wheel-metadata
+.eggs
 
 # Installer logs
 pip-log.txt

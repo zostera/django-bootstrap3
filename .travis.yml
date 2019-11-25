@@ -1,13 +1,19 @@
-dist: xenial
-sudo: false
+dist: bionic
 language: python
+
 addons:
-  postgresql: "9.6"
+  postgresql: "9.4"
   apt:
     packages:
-     - postgresql-9.6-postgis-2.3
+      - postgresql-9.4-postgis-2.4
+services:
+  - postgresql
+
 python:
+  - "3.5"
   - "3.6"
   - "3.7"
+  - "3.8"
+
 install: pip install tox-travis
 script: tox

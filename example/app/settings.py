@@ -85,10 +85,10 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
-ROOT_URLCONF = "demo.urls"
+ROOT_URLCONF = "app.urls"
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = "demo.wsgi.application"
+WSGI_APPLICATION = "app.wsgi.application"
 
 TEMPLATES = [
     {
@@ -117,7 +117,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.admin",
     "bootstrap3",
-    "demo",
+    "app",
 )
 
 # A sample logging configuration. The only tangible logging
