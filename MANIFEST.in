@@ -1,8 +1,0 @@
-include AUTHORS.rst
-include CONTRIBUTING.rst
-include HISTORY.rst
-include LICENSE
-include README.rst
-recursive-include bootstrap3 *
-recursive-include demo *
-global-exclude *.pyc

@@ -25,10 +25,10 @@ Settings
 You can set defaults for ``django-bootstrap3`` in your settings file. Refer to :doc:`settings` for more information.
 
 
-Demo application
-----------------
+Example application
+-------------------
 
-The demo application provides a number of useful examples.
+The example application provides a number of useful examples.
 
-https://github.com/dyve/django-bootstrap3/tree/master/demo
+https://github.com/dyve/django-bootstrap3/tree/master/example
 
