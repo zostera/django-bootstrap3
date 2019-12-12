@@ -21,7 +21,7 @@ setup(
     author_email="dylan@dyve.net",
     url="https://github.com/dyve/django-bootstrap3",
     license="BSD-3-Clause",
-    use_scm_version=True,
+    use_scm_version={"write_to": "src/bootstrap3/_version.py"},
     setup_requires=["setuptools_scm"],
     packages=find_packages(where="src"),
     package_dir={"": "src"},
