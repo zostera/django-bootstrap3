@@ -3,6 +3,12 @@
 History
 -------
 
+12.0.1 (2019-12-12)
++++++++++++++++++++
+
+* Reinstate ``bootstrap3.__version__`` (fixes #486)
+*	Update Makefile, travis and tox configuration (#470)  
+
 12.0.0 (2019-12-04)
 +++++++++++++++++++
 
