@@ -1,8 +1,8 @@
 from django.test import TestCase
 
 
-class UtilsTest(TestCase):
-    """Test the Font Awesome Renderer."""
+class VersionTest(TestCase):
+    """Test presence of package version."""
 
     def test_version(self):
         import bootstrap3
