@@ -623,7 +623,7 @@ def bootstrap_icon(icon, **kwargs):
             Extra CSS classes to add to the icon HTML
 
         title
-            A title for the icon (HTML title attrivute)
+            A title for the icon (HTML title attribute)
 
     **Usage**::
 
