@@ -327,7 +327,6 @@ class FieldRenderer(BaseRenderer):
             content=mark_safe(content),
             label_for=self.field.id_for_label,
             label_title=escape(strip_tags(self.field_help)),
-            label_class=self.get_label_class(),
         )
 
     def fix_date_select_input(self, html):
