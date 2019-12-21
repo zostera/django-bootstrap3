@@ -1,11 +1,9 @@
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 
 def text_value(value):
     """Force a value to text, render None as an empty string."""
-    if value is None:
-        return ""
-    return force_text(value)
+    return "" if value is None else force_str(value)
 
 
 def text_concat(*args, **kwargs):

@@ -4,6 +4,7 @@ from math import floor
 from django import template
 from django.contrib.messages import constants as message_constants
 from django.template import Context
+from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 
 from ..bootstrap import css_url, get_bootstrap_setting, javascript_url, jquery_url, theme_url
@@ -19,7 +20,6 @@ from ..forms import (
     render_formset_errors,
     render_label,
 )
-from ..text import force_text
 from ..utils import (
     handle_var,
     parse_token_contents,
@@ -878,7 +878,7 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
         # Append proper character to url
     if url:
         # Remove existing page GET parameters
-        url = force_text(url)
+        url = force_str(url)
         url = re.sub(r"\?{0}\=[^\&]+".format(parameter_name), "?", url)
         url = re.sub(r"\&{0}\=[^\&]+".format(parameter_name), "", url)
         # Append proper separator
@@ -890,7 +890,7 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     if extra:
         if not url:
             url = "?"
-        url += force_text(extra) + "&"
+        url += force_str(extra) + "&"
     if url:
         url = url.replace("?&", "?")
     # Set CSS classes, see http://getbootstrap.com/components/#pagination

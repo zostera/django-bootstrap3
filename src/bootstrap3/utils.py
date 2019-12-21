@@ -5,7 +5,7 @@ from django.forms.utils import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, TemplateSyntaxError, kwarg_re
 from django.template.loader import get_template
-from django.utils.encoding import force_str, force_text
+from django.utils.encoding import force_str
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
@@ -116,7 +116,7 @@ def url_replace_param(url, name, value):
     query_params = parse_qs(url_components.query)
     query_params[name] = value
     query = urlencode(query_params, doseq=True)
-    return force_text(
+    return force_str(
         urlunparse(
             [
                 url_components.scheme,
