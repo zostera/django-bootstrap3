@@ -3,6 +3,10 @@
 History
 -------
 
+12.0.2 (2019-12-21)
++++++++++++++++++++
+* Revert of #453, which turned out to break checkboxes (fixes #467)
+
 12.0.1 (2019-12-12)
 +++++++++++++++++++
 
