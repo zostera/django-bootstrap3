@@ -151,6 +151,22 @@ class FieldTest(TestCase):
         with self.assertRaises(BootstrapError):
             render_field(field="illegal")
 
+    def test_checkbox(self):
+        res = render_form_field("cc_myself")
+        self.assertHTMLEqual(
+            """
+<div class="form-group">
+    <div class="checkbox">
+        <label for="id_cc_myself" title="cc stands for &quot;carbon copy.&quot; You will get a copy in your mailbox.">
+        <input type="checkbox" name="cc_myself" class="" id="id_cc_myself"> Cc myself
+        </label>
+    </div>
+    <div class="help-block">cc stands for "carbon copy." You will get a copy in your mailbox.</div>
+</div>
+        """,
+            res,
+        )
+
     def test_show_help(self):
         res = render_form_field("subject")
         self.assertIn("my_help_text", res)
@@ -206,7 +222,9 @@ class FieldTest(TestCase):
 
     def test_input_group_addon_button(self):
         res = render_template_with_form(
-            '{% bootstrap_field form.subject addon_before="$" addon_before_class="input-group-btn" addon_after=".00" addon_after_class="input-group-btn" %}'  # noqa
+            "{% bootstrap_field form.subject "
+            'addon_before="$" addon_before_class="input-group-btn" '
+            'addon_after=".00" addon_after_class="input-group-btn" %}'
         )
         self.assertIn('class="input-group"', res)
         self.assertIn('class="input-group-btn">$', res)
