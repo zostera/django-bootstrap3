@@ -3,16 +3,19 @@
 History
 -------
 
-In development
-++++++++++++++
+12.1.0 (2020-05-01)
++++++++++++++++++++
+
 * Distinguish between help text and errors (fixes #479)
 
 12.0.3 (2019-12-21)
 +++++++++++++++++++
+
 * Update changelog
 
 12.0.2 (2019-12-21)
 +++++++++++++++++++
+
 * Revert of #453, which turned out to break checkboxes (fixes #467)
 * Update requirements and fix `make docs`
 * Replace `force_text` with `force_str`, removes warnings
@@ -21,7 +24,7 @@ In development
 +++++++++++++++++++
 
 * Reinstate ``bootstrap3.__version__`` (fixes #486)
-*	Update Makefile, travis and tox configuration (#470)  
+* Update Makefile, travis and tox configuration (#470)
 
 12.0.0 (2019-12-04)
 +++++++++++++++++++
