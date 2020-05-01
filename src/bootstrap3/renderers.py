@@ -405,6 +405,8 @@ class FieldRenderer(BaseRenderer):
                 "bootstrap3/field_help_text_and_errors.html",
                 context={
                     "field": self.field,
+                    "errors": self.field_errors,
+                    "help_text": self.field_help,
                     "help_text_and_errors": help_text_and_errors,
                     "layout": self.layout,
                     "show_help": self.show_help,

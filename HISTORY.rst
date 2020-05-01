@@ -3,6 +3,10 @@
 History
 -------
 
+In development
+++++++++++++++
+* Distinguish between help text and errors (fixes #479)
+
 12.0.3 (2019-12-21)
 +++++++++++++++++++
 * Update changelog
