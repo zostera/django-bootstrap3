@@ -32,16 +32,19 @@ BOOTSTRAP3_DEFAULTS = {
     },
 }
 
-# Start with a copy of default settings
-BOOTSTRAP3 = BOOTSTRAP3_DEFAULTS.copy()
 
-# Override with user settings from settings.py
-BOOTSTRAP3.update(getattr(settings, "BOOTSTRAP3", {}))
-
-
-def get_bootstrap_setting(setting, default=None):
+def get_bootstrap_setting(name, default=None):
     """Read a setting."""
-    return BOOTSTRAP3.get(setting, default)
+    # Start with a copy of default settings
+    bootstrap3 = BOOTSTRAP3_DEFAULTS.copy()
+
+    # Override with user settings from settings.py
+    bootstrap3.update(getattr(settings, "BOOTSTRAP3", {}))
+
+    # Update use_i18n
+    bootstrap3["use_i18n"] = i18n_enabled()
+
+    return bootstrap3.get(name, default)
 
 
 def jquery_url():
@@ -62,6 +65,11 @@ def css_url():
 def theme_url():
     """Return the full url to the theme CSS file."""
     return get_bootstrap_setting("theme_url")
+
+
+def i18n_enabled():
+    """Return the projects i18n setting."""
+    return getattr(settings, "USE_I18N", False)
 
 
 def get_renderer(renderers, **kwargs):

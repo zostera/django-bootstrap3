@@ -1,50 +1,27 @@
 import os
-import sys
-from pkg_resources import get_distribution
 
-sys.path.insert(0, os.path.abspath(".."))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
-os.environ["DJANGO_SETTINGS_MODULE"] = "tests.app.settings"
+try:
+    from importlib.metadata import metadata
+except ImportError:
+    from importlib_metadata import metadata
 
-project = "django-bootstrap3"
-copyright = "2014-2019, Dylan Verheul"
+PROJECT_NAME = "django-bootstrap3"
 
-release = get_distribution(project).version
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+project_metadata = metadata(PROJECT_NAME)
+
+project = project_metadata["name"]
+author = project_metadata["author"]
+copyright = f"2020, {author}"
+
+# The full version, including alpha/beta/rc tags, in x.y.z.misc format
+release = project_metadata["version"]
+# The short X.Y version.
 version = ".".join(release.split(".")[:2])
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode"]
-
-templates_path = ["_templates"]
-
-source_suffix = ".rst"
-
-master_doc = "index"
-
-exclude_patterns = ["_build"]
-
 pygments_style = "sphinx"
-
-html_theme = "default"
-
-htmlhelp_basename = "{project}-doc".format(project=project)
-
-latex_documents = [("index", "django-bootstrap3.tex", "django-bootstrap3 Documentation", "Dylan Verheul", "manual")]
-
-man_pages = [("index", "django-bootstrap3", "django-bootstrap3 Documentation", ["Dylan Verheul"], 1)]
-
-texinfo_documents = [
-    (
-        "index",
-        "django-bootstrap3",
-        "django-bootstrap3 Documentation",
-        "Dylan Verheul",
-        "django-bootstrap3",
-        "One line description of project.",
-        "Miscellaneous",
-    )
-]
-
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+htmlhelp_basename = f"{PROJECT_NAME}-doc"
 
 if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme

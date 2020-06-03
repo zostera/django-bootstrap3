@@ -3,6 +3,12 @@
 History
 -------
 
+13.0.0 (2020-06-03)
++++++++++++++++++++
+
+* Use poetry (https://python-poetry.org/) for dependency management and packaging.
+* Drop support for Python 3.5 and Django 2.1.
+
 12.1.0 (2020-05-01)
 +++++++++++++++++++
 
