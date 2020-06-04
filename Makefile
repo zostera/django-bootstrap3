@@ -28,8 +28,7 @@ docs:
 	cd docs && sphinx-build -b html -d _build/doctrees . _build/html
 
 build: clean docs
-	python setup.py sdist bdist_wheel
-	twine check dist/*
+	poetry build
 
 publish: build
-	twine upload dist/*
+	poetry publish
