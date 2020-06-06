@@ -1,5 +1,5 @@
 -r docs/requirements.txt
-Django==3.0.5
+Django==3.0.7
 black
 isort==4.3.21
 autoflake==1.3.1
