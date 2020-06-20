@@ -15,9 +15,8 @@ Bootstrap 3 for Django
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
-.. image:: https://coveralls.io/repos/github/zostera/django-bootstrap3/badge.svg
-    :target: https://coveralls.io/r/zostera/django-bootstrap3
-
+.. image:: https://coveralls.io/repos/github/zostera/django-bootstrap3/badge.svg?branch=main
+    :target: https://coveralls.io/github/zostera/django-bootstrap3?branch=main
 
 Bootstrap 3 integration for Django.
 
