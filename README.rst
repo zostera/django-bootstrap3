@@ -2,8 +2,8 @@
 Bootstrap 3 for Django
 ======================
 
-.. image:: https://travis-ci.org/dyve/django-bootstrap3.svg
-    :target: https://travis-ci.org/dyve/django-bootstrap3
+.. image:: https://travis-ci.org/zostera/django-bootstrap3.svg
+    :target: https://travis-ci.org/zostera/django-bootstrap3
 
 .. image:: https://readthedocs.org/projects/django-bootstrap3/badge/?version=latest
     :target: https://django-bootstrap3.readthedocs.io/en/latest/
@@ -15,8 +15,8 @@ Bootstrap 3 for Django
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
-.. image:: https://coveralls.io/repos/github/dyve/django-bootstrap3/badge.svg
-    :target: https://coveralls.io/r/dyve/django-bootstrap3
+.. image:: https://coveralls.io/repos/github/zostera/django-bootstrap3/badge.svg
+    :target: https://coveralls.io/r/zostera/django-bootstrap3
 
 
 Bootstrap 3 integration for Django.
