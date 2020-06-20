@@ -1,16 +1,12 @@
-=======
-Authors
-=======
+# Authors
 
 This application is developed and maintained by `Zostera <https://zostera.nl>`_.
 
-Development Lead
-----------------
+## Original author
 
 * Dylan Verheul <dylan@dyve.net>
 
-Contributors
-------------
+## Contributors
 
 * Allard Stijnman <a.g.stijnman@gmail.com>
 * Austin Whittier <austin.whitt@gmail.com>
