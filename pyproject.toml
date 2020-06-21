@@ -1,3 +1,68 @@
+[tool.poetry]
+name = "django-bootstrap3"
+version = "14.0.0-alpha.0"
+description = "Bootstrap 3 support for Django projects"
+homepage = "https://github.com/zostera/django-bootstrap3"
+repository = "https://github.com/zostera/django-bootstrap3"
+documentation = "https://django-bootstrap3.readthedocs.io/"
+authors = ["Dylan Verheul <dylan@zostera.nl>"]
+license = "BSD-3-Clause"
+readme = "README.md"
+keywords= ["django", "django-bootstrap3", "bootstrap3", "bootstrap"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django :: 2.2",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+]
+packages = [
+    { include = "bootstrap3", from = "src" },
+]
+include = ["LICENSE"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+django = "^2.2 || ^3.0"
+importlib-metadata = { version = "^1.5.0", python = "<3.8", optional = true }
+
+# docs
+sphinx = { version = "^2.4", optional = true }
+sphinx_rtd_theme = { version = "^0.4.3", optional = true }
+m2r = { version = "^0.2.1", optional = true }
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+isort = "^4.3.21"
+autoflake = "^1.3.1"
+flake8 = "^3.7.9"
+docformatter = "^1.3.1"
+pydocstyle = "^5.0.2"
+coverage = {extras = ["toml"], version = "^5.0.4"}
+
+[tool.poetry.extras]
+docs = ["sphinx", "sphinx_rtd_theme", "m2r"]
+
 [tool.black]
 line-length = 120
 target-version = ["py36"]
+
+[tool.coverage.run]
+source = ["src/django_bootstrap3"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

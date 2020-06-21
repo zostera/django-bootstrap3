@@ -1,10 +1,7 @@
-.PHONY: clean test tox reformat lint docs build publish
+.PHONY: test tox reformat lint docs porcelain branch build publish
 
 PROJECT_DIR=src/bootstrap3
 PYTHON_SOURCES=${PROJECT_DIR} tests *.py
-
-clean:
-	rm -rf build dist *.egg-info
 
 test:
 	coverage run manage.py test
@@ -27,9 +24,24 @@ lint:
 docs:
 	cd docs && sphinx-build -b html -d _build/doctrees . _build/html
 
-build: clean docs
-	python setup.py sdist bdist_wheel
-	twine check dist/*
+porcelain:
+ifeq ($(shell git status --porcelain),)
+	@echo "Working directory is clean."
+else
+	@echo "Error - working directory is dirty. Commit those changes!";
+	@exit 1;
+endif
 
-publish: build
-	twine upload dist/*
+branch:
+ifeq ($(shell git rev-parse --abbrev-ref HEAD),main)
+	@echo "On branch main."
+else
+	@echo "Error - Not on branch main!"
+	@exit 1;
+endif
+
+build: docs
+	poetry build
+
+publish: porcelain branch build
+	poetry publish

@@ -11,6 +11,5 @@ Contents:
    templatetags
    settings
    templates
-   contributing
    authors
-   history
+   changelog

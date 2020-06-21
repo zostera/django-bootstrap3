@@ -1,20 +1,22 @@
 dist: bionic
+
 language: python
 
-addons:
-  postgresql: 9.6
-  apt:
-    packages:
-    - postgresql-9.6-postgis-2.5
-
-services:
-  - postgresql
-
 python:
-  - "3.5"
   - "3.6"
   - "3.7"
   - "3.8"
 
+addons:
+  apt:
+    packages:
+      - postgresql-11
+      - postgresql-11-postgis-2.5
+      - postgresql-11-postgis-2.5-scripts
+  postgresql: "11"
+
+services: postgresql
+
+before_install: pip install poetry
 install: pip install tox-travis
 script: tox

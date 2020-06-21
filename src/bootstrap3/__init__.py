@@ -1,10 +1,13 @@
-try:
-    from ._version import version
-except ImportError:
-    try:
-        from setuptools_scm import get_version
+__all__ = [
+    "__version__",
+]
 
-        version = get_version()
-    except ImportError:
-        version = "???"
-__version__ = version
+PACKAGE_NAME = "django-bootstrap3"
+
+try:
+    from importlib.metadata import metadata
+except ImportError:
+    from importlib_metadata import metadata
+
+package_metadata = metadata(PACKAGE_NAME)
+__version__ = package_metadata["Version"]

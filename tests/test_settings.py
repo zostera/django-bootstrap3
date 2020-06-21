@@ -6,9 +6,9 @@ from tests.app.forms import TestForm, render_template_with_form
 
 class SettingsTest(TestCase):
     def test_settings(self):
-        from bootstrap3.bootstrap import BOOTSTRAP3
+        from bootstrap3.bootstrap import get_bootstrap_setting
 
-        self.assertTrue(BOOTSTRAP3)
+        self.assertTrue(get_bootstrap_setting("set_placeholder"))
 
     def test_bootstrap_javascript_tag(self):
         res = render_template_with_form("{% bootstrap_javascript %}")
@@ -53,11 +53,4 @@ class SettingsTest(TestCase):
     @override_settings(BOOTSTRAP3={"css_url": None})
     def test_setting_to_none(self):
         css_url = get_bootstrap_setting("css_url")
-        self.assertEqual(
-            css_url,
-            {
-                "url": "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",
-                "integrity": "sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu",
-                "crossorigin": "anonymous",
-            },
-        )
+        self.assertIsNone(css_url)
