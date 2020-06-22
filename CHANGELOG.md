@@ -1,6 +1,6 @@
 # Changelog
 
-## [13.0.0] - (unreleased)
+## [13.0.0] - (2020-06-22)
 
 - Drop support for Python 3.5 and Django 2.1.
 - Use Poetry (https://python-poetry.org/) for dependency management and packaging.

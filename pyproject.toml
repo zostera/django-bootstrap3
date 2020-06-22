@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-bootstrap3"
-version = "14.0.0-alpha.0"
+version = "14.0.0"
 description = "Bootstrap 3 support for Django projects"
 homepage = "https://github.com/zostera/django-bootstrap3"
 repository = "https://github.com/zostera/django-bootstrap3"
@@ -48,6 +48,9 @@ flake8 = "^3.7.9"
 docformatter = "^1.3.1"
 pydocstyle = "^5.0.2"
 coverage = {extras = ["toml"], version = "^5.0.4"}
+sphinx = { version = "^2.4", optional = true }
+sphinx_rtd_theme = { version = "^0.4.3", optional = true }
+m2r = { version = "^0.2.1", optional = true }
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx_rtd_theme", "m2r"]
