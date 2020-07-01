@@ -15,7 +15,7 @@ Want to use Bootstrap 4 in Django? See https://github.com/zostera/django-bootstr
 
 ## Requirements
 
-Django 2.2 or 3.0 with Python 3.6 or higher.
+Python 3.6 or newer with Django >= 2.2 or newer.
 
 ## Documentation
 
