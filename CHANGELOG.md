@@ -1,6 +1,6 @@
 # Changelog
 
-## [14.1.0] - 2020-07-01
+## [14.1.0] - 2020-07-02
 
 - Fix coveralls.
 - Explicitly support Django 3.1 in tox matrix.
