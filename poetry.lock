@@ -667,7 +667,7 @@ docs = ["sphinx", "sphinx_rtd_theme", "m2r2"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "e0ed328abda4b768ac9c8bc69f0433a206f17fd8691bc181a1d05ad658113fc4"
+content-hash = "b49a662454c601f16bc8836d00001e108da384be748b75a3aa6b37593956b684"
 
 [metadata.files]
 alabaster = [

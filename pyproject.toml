@@ -38,7 +38,7 @@ importlib-metadata = { version = "^1.5.0", python = "<3.8", optional = true }
 # docs
 sphinx = { version = "^2.4", optional = true }
 sphinx_rtd_theme = { version = "^0.4.3", optional = true }
-m2r2 = { version = "^0.2.1", optional = true }
+m2r2 = { version = "^0.2.5", optional = true }
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
