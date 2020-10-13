@@ -1,6 +1,6 @@
 # Changelog
 
-## 14.2.0 - In development
+## 14.2.0 - 2020-10-13
 
 - Reformat CHANGELOG.
 - Fix Django 3.1 warning in test app settings.
