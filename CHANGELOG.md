@@ -6,6 +6,7 @@
 - Fix Django 3.1 warning in test app settings.
 - Update black.
 - Replace m2r with m2r2 to support Sphinx3.
+- Add Python 3.9 to test matrix.
 
 ## 14.1.0 - 2020-07-02
 
