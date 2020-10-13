@@ -13,7 +13,7 @@ tox:
 
 reformat:
 	autoflake -ir --remove-all-unused-imports ${PYTHON_SOURCES}
-	isort -rc ${PYTHON_SOURCES}
+	isort ${PYTHON_SOURCES}
 	docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${PYTHON_SOURCES}
 	black .
 
