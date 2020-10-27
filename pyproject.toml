@@ -27,6 +27,8 @@ classifiers = [
 ]
 packages = [
     { include = "bootstrap3", from = "src" },
+    { include = "docs", format = "sdist" },
+    { include = "tests", format = "sdist" },
 ]
 include = ["LICENSE"]
 
