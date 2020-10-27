@@ -1,5 +1,9 @@
 # Changelog
 
+## 14.3.0 - In development
+
+- Use poetry-core instead of poetry.
+
 ## 14.2.0 - 2020-10-13
 
 - Reformat CHANGELOG.
