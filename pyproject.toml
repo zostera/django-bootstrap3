@@ -59,8 +59,17 @@ docs = ["sphinx", "sphinx_rtd_theme", "m2r2"]
 line-length = 120
 target-version = ["py36"]
 
+[tool.black]
+line-length = 120
+target-version = ["py36"]
+
 [tool.coverage.run]
-source = ["src/django_bootstrap3"]
+branch = true
+source = ["django_bootstrap3"]
+relative_files = true
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
 
 [tool.coverage.report]
 show_missing = true
