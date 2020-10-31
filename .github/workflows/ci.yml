@@ -1,0 +1,66 @@
+name: CI
+
+on: [push]
+
+jobs:
+
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 5
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install GDAL binaries
+        run: |
+          sudo apt-get install binutils libproj-dev gdal-bin
+
+      - run: pip install -U pip
+      - run: pip install -U poetry tox coverage
+
+      - name: Test with tox
+        run: tox -e py
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage${{ matrix.group }}
+          path: .coverage*
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - run: pip install -U pip
+      - run: pip install -U poetry tox coverage coveralls
+
+      - name: Download coverage
+        uses: actions/download-artifact@v2
+
+      - name: Combine coverage
+        run: coverage combine coverage*/.coverage*
+
+      - name: Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m coveralls
