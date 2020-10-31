@@ -59,10 +59,6 @@ docs = ["sphinx", "sphinx_rtd_theme", "m2r2"]
 line-length = 120
 target-version = ["py36"]
 
-[tool.black]
-line-length = 120
-target-version = ["py36"]
-
 [tool.coverage.run]
 branch = true
 source = ["django_bootstrap3"]
