@@ -43,7 +43,7 @@ sphinx_rtd_theme = { version = "^0.4.3", optional = true }
 m2r2 = { version = "^0.2.5", optional = true }
 
 [tool.poetry.dev-dependencies]
-black = "^20.8b1"
+black = {version = "^20.8b1", allow-prereleases = true}
 isort = "^5.6.3"
 autoflake = "^1.4"
 flake8 = "^3.8.4"
@@ -60,7 +60,12 @@ line-length = 120
 target-version = ["py36"]
 
 [tool.coverage.run]
-source = ["src/django_bootstrap3"]
+branch = true
+source = ["django_bootstrap3"]
+relative_files = true
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
 
 [tool.coverage.report]
 show_missing = true
