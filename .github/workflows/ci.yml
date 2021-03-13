@@ -4,13 +4,40 @@ on: [push]
 
 jobs:
 
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+            python-version: 3.8
+      - uses: actions/checkout@v2
+
+      - run: pip install -U tox
+
+      - name: Test with tox
+        run: tox -e docs
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+            python-version: 3.8
+      - uses: actions/checkout@v2
+
+      - run: pip install -U tox
+
+      - name: Test with tox
+        run: tox -e lint
+
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
 
     steps:
       - name: Checkout code
@@ -21,12 +48,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install GDAL binaries
-        run: |
-          sudo apt-get install binutils libproj-dev gdal-bin
-
-      - run: pip install -U pip
-      - run: pip install -U poetry tox coverage coveralls
+      - run: pip install -U tox coverage coveralls
 
       - name: Test with tox
         run: tox -e py
@@ -41,7 +63,7 @@ jobs:
         env:
           COVERALLS_PARALLEL: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls
+        run: coveralls --service=github
 
   coveralls:
     needs: test
