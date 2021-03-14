@@ -35,7 +35,7 @@ include = ["LICENSE"]
 [tool.poetry.dependencies]
 python = "^3.6"
 django = "^2.2 || ^3.0"
-importlib-metadata = { version = "^1.5.0", python = "<3.8", optional = true }
+importlib-metadata = { version = ">=1.5,<3.0", python = "<3.8", optional = true }
 
 # docs
 sphinx = { version = "^2.4", optional = true }
