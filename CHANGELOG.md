@@ -2,8 +2,9 @@
 
 ## 14.3.0 - In development
 
+- Rename AUTHORS.md to AUTHORS, remove authors section from documentation.
+- Revert to setuptools for packaging.
 - Add docs and tests to sdist (#494).
-- Use build system poetry-core instead of poetry.
 - Use GitHub Actions for CI.
 
 ## 14.2.0 - 2020-10-13

@@ -1,0 +1,16 @@
+global-exclude *.py[co]
+include LICENSE
+include MANIFEST.in
+include AUTHORS
+include tox.ini
+include manage.py
+exclude .*
+exclude Makefile
+exclude requirements-dev.txt
+exclude CHANGELOG.md
+exclude CONTRIBUTING.md
+graft src
+graft tests
+graft docs
+prune docs/_build
+prune example

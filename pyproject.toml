@@ -1,59 +1,6 @@
-[tool.poetry]
-name = "django-bootstrap3"
-version = "14.3.0"
-description = "Bootstrap 3 support for Django projects"
-homepage = "https://github.com/zostera/django-bootstrap3"
-repository = "https://github.com/zostera/django-bootstrap3"
-documentation = "https://django-bootstrap3.readthedocs.io/"
-authors = ["Dylan Verheul <dylan@zostera.nl>"]
-license = "BSD-3-Clause"
-readme = "README.md"
-keywords= ["django", "django-bootstrap3", "bootstrap3", "bootstrap"]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Web Environment",
-    "Framework :: Django :: 2.2",
-    "Framework :: Django :: 3.0",
-    "Framework :: Django",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: BSD License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Utilities",
-]
-packages = [
-    { include = "bootstrap3", from = "src" },
-    { include = "docs", format = "sdist" },
-    { include = "tests", format = "sdist" },
-]
-include = ["LICENSE"]
-
-[tool.poetry.dependencies]
-python = "^3.6"
-django = "^2.2 || ^3.0"
-importlib-metadata = { version = "^1.5.0", python = "<3.8", optional = true }
-
-# docs
-sphinx = { version = "^2.4", optional = true }
-sphinx_rtd_theme = { version = "^0.4.3", optional = true }
-m2r2 = { version = "^0.2.5", optional = true }
-
-[tool.poetry.dev-dependencies]
-black = {version = "^20.8b1", allow-prereleases = true}
-isort = "^5.6.3"
-autoflake = "^1.4"
-flake8 = "^3.8.4"
-docformatter = "^1.3.1"
-pydocstyle = "^5.1.1"
-coverage = {extras = ["toml"], version = "^5.0.4"}
-tox = "^3.20.1"
-
-[tool.poetry.extras]
-docs = ["sphinx", "sphinx_rtd_theme", "m2r2"]
+[build-system]
+requires = ["setuptools >= 40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 120
@@ -61,7 +8,7 @@ target-version = ["py36"]
 
 [tool.coverage.run]
 branch = true
-source = ["django_bootstrap3"]
+source = ["bootstrap3"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
@@ -70,6 +17,14 @@ source = ["src", ".tox/*/site-packages"]
 show_missing = true
 skip_covered = true
 
-[build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+line_length = 120
+skip_glob = "*/migrations/*.py"
+known_first_party = ["bootstrap3"]
+known_third_party = ["django"]
+src_paths = ["*.py", "bootstrap3", "tests", "example"]

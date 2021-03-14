@@ -1,7 +1,7 @@
 .PHONY: test tox reformat lint docs porcelain branch build publish
 
 PROJECT_DIR=src/bootstrap3
-PYTHON_SOURCES=${PROJECT_DIR} tests *.py
+PYTHON_SOURCES=${PROJECT_DIR} tests example *.py
 
 test:
 	coverage run manage.py test
@@ -41,7 +41,8 @@ else
 endif
 
 build: docs
-	poetry build
+	rm -rf build
+	python setup.py sdist bdist_wheel
 
 publish: porcelain branch build
-	poetry publish
+	twine upload dist/*

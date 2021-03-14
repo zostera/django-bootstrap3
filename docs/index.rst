@@ -11,5 +11,4 @@ Contents:
    templatetags
    settings
    templates
-   authors
    changelog

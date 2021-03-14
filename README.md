@@ -88,4 +88,4 @@ Original author: [Dylan Verheul](https://github.com/dyve).
 
 Thanks to everybody that has contributed pull requests, ideas, issues, comments and kind words.
 
-Please see [AUTHORS.md](AUTHORS.md) for a list of contributors.
+Please see [AUTHORS](AUTHORS) for a list of contributors.
