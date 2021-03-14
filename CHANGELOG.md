@@ -2,6 +2,7 @@
 
 ## 14.3.0 - In development
 
+- Fix `render_alert` (#488)
 - Rename AUTHORS.md to AUTHORS, remove authors section from documentation.
 - Revert to setuptools for packaging.
 - Add docs and tests to sdist (#494).
