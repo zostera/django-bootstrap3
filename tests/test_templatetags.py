@@ -312,6 +312,16 @@ class ComponentsTest(TestCase):
             + "&times;</button>content</div>",
         )
 
+    def test_alert_with_safe_html(self):
+        res = render_template_with_form('{% bootstrap_alert "Foo<br>Bar"|safe %}')
+        self.assertEqual(
+            res.strip(),
+            '<div class="alert alert-info alert-dismissable">'
+            + '<button type="button" class="close" data-dismiss="alert" '
+            + 'aria-hidden="true">'
+            + "&times;</button>Foo<br>Bar</div>",
+        )
+
 
 class MessagesTest(TestCase):
     def test_messages(self):
