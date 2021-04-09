@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: [ push ]
 
 jobs:
 
@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v2
         with:
-            python-version: 3.8
+          python-version: 3.8
       - uses: actions/checkout@v2
 
       - run: pip install -U tox
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v2
         with:
-            python-version: 3.8
+          python-version: 3.8
       - uses: actions/checkout@v2
 
       - run: pip install -U tox
@@ -33,7 +33,6 @@ jobs:
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
-
     strategy:
       max-parallel: 5
       matrix:
@@ -48,6 +47,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install GDAL binaries
+        run: |
+          sudo apt-get install binutils libproj-dev gdal-bin
+
+      - run: pip install -U pip
       - run: pip install -U tox coverage coveralls
 
       - name: Test with tox
@@ -70,8 +74,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
