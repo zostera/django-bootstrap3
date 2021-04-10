@@ -1,9 +1,9 @@
 -r docs/requirements.txt
-django==3.1.7
+django==3.2
 black==20.8b1
-isort==5.7.0
-flake8==3.8.4
-pydocstyle==5.1.1
+isort==5.8.0
+flake8==3.9.0
+pydocstyle==6.0.0
 docformatter==1.4
 coverage==5.5
 autoflake==1.4
