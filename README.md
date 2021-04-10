@@ -11,7 +11,8 @@ Bootstrap 3 integration for Django.
 
 The goal of this project is to seamlessly blend Django and Bootstrap 3.
 
-Want to use Bootstrap 4 in Django? See https://github.com/zostera/django-bootstrap4.
+- Want to use Bootstrap 4 in Django? See https://github.com/zostera/django-bootstrap4.
+- Want to use Bootstrap 5 in Django? See https://github.com/zostera/django-bootstrap5.
 
 ## Requirements
 
