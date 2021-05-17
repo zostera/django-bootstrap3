@@ -478,6 +478,8 @@ class FieldRenderer(BaseRenderer):
         # Render the widget
         self.add_widget_attrs()
         html = self.field.as_widget(attrs=self.widget.attrs)
+        if self.field.field.show_hidden_initial:
+            html += self.field.as_hidden(only_initial=True)
         self.restore_widget_attrs()
         # Start post render
         html = self.post_widget_render(html)
