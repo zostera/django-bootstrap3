@@ -3,7 +3,7 @@ django==3.2.3
 black==21.5b1
 isort==5.8.0
 flake8==3.9.2
-pydocstyle==6.0.0
+pydocstyle==6.1.1
 docformatter==1.4
 coverage==5.5
 autoflake==1.4
