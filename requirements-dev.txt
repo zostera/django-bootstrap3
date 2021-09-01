@@ -1,6 +1,6 @@
 -r docs/requirements.txt
 django==3.2.7
-black==21.6b0
+black==21.8b0
 isort==5.9.3
 flake8==3.9.2
 pydocstyle==6.1.1
