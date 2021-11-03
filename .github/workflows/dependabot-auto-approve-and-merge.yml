@@ -1,4 +1,4 @@
-name: Dependabot Pull Request Approve and Merge
+name: Dependabot PR Approve and Merge
 # Source: https://blog.somewhatabstract.com/2021/10/11/setting-up-dependabot-with-github-actions-to-approve-and-merge/?utm_source=pocket_mylist
 # See also: https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/automating-dependabot-with-github-actions#approve-a-pull-request
 
