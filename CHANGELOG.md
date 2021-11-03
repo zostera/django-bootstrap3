@@ -1,6 +1,10 @@
 # Changelog
 
-## 15.0.0 - 2021-04-10
+## 21.1 (2021-11-03)
+
+- Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
+- Add support for Django 4 and Python 3.10 (#579).
+## 15.0.0 (2021-04-10)
 
 - Drop support for Django 3.0, extended support stopped on 2021-04-01).
 - Add support for Django 3.2.
@@ -10,7 +14,7 @@
 - Add docs and tests to sdist (#494).
 - Use GitHub Actions for CI.
 
-## 14.2.0 - 2020-10-13
+## 14.2.0 (2020-10-13)
 
 - Reformat CHANGELOG.
 - Fix Django 3.1 warning in test app settings.
@@ -18,12 +22,12 @@
 - Replace m2r with m2r2 to support Sphinx3.
 - Add Python 3.9 to test matrix.
 
-## 14.1.0 - 2020-07-02
+## 14.1.0 (2020-07-02)
 
 - Fix coveralls.
 - Explicitly support Django 3.1 in tox matrix.
 
-## 14.0.0 - 2020-06-22
+## 14.0.0 (2020-06-22)
 
 - Drop support for Python 3.5 and Django 2.1.
 - Use Poetry (https://python-poetry.org/) for dependency management and packaging.
@@ -33,26 +37,26 @@
 - Fix Travis, ReadTheDocs and tox configurations.
 - Update Makefile with lessons learned from other packages.
 
-## 12.1.0 - 2020-05-01
+## 12.1.0 (2020-05-01)
 
 - Distinguish between help text and errors (fixes #479)
 
-## 12.0.3 - 2019-12-21
+## 12.0.3 (2019-12-21)
 
 - Update changelog
 
-## 12.0.2 - 2019-12-21
+## 12.0.2 (2019-12-21)
 
 - Revert of #453, which turned out to break checkboxes (fixes #467)
 - Update requirements and fix `make docs`
 - Replace `force_text` with `force_str`, removes warnings
 
-## 12.0.1 - 2019-12-12
+## 12.0.1 (2019-12-12)
 
 - Reinstate ``bootstrap3.__version__`` (fixes #486)
 - Update Makefile, travis and tox configuration (#470)
 
-## 12.0.0 - 2019-12-04
+## 12.0.0 (2019-12-04)
 
 - Drop support for Python 2.7, Django 1.11 and Django 2.0 (#456)
 - Fix Deprecationwarning in Python 3.7 (#455)
@@ -65,12 +69,12 @@
 - Drop `MANIFEST.in`, use `setuptools_scm`
 - Drop `_version.py`, use version from git tag
 
-## 11.1.0 - 2019-08-09
+## 11.1.0 (2019-08-09)
 
 - Update Bootstrap to 3.4.1 (#459)
 - **NOTE** Version 12 will drop support for Python 2.x.x and Django 1.x.x
 
-## 11.0.0 - 2018-08-30
+## 11.0.0 (2018-08-30)
 
 - Support `crossorigin` and `integrity` in urls (#443)
 - Switch to explicit Travis tests (#444)
@@ -79,11 +83,11 @@
 - Remove obsolete settings `set_required` and `set_disabled` (#445)
 - Remove setting `base_url` (#443)
 
-## 10.0.1 - 2018-05-02
+## 10.0.1 (2018-05-02)
 
 - Fix PyPI classifiers
 
-## 10.0.0 - 2018-05-01
+## 10.0.0 (2018-05-01)
 
 - Drop support for Django 1.8 (#434)
 - Fix bug in demo app (#430)
@@ -91,20 +95,20 @@
 - Switched to master as main branch, deleted other branches
 - Switched to twine for publication on PyPI
 
-## 9.1.0 - 2017-10-27
+## 9.1.0 (2017-10-27)
 
 - Mention django-bootstrap4 (https://github.com/zostera/django-bootstrap4) in README
 - Rewrite `tox` test matrix to focus on Django releases rather than Python versions
 - Add tests for Django master branch (>= 2)
 - Add `label` override for `{% bootstrap_field %}`
 
-## 9.0.0 - 2017-07-11
+## 9.0.0 (2017-07-11)
 
 - Renamed requirements-dev.txt back to requirements.txt because that suits ReadTheDocs better
 - Added `error_types` support on `bootstrap3_form` (thanks @mkoistinen and @ickam)
 - **BREAKING** Default setting of `error_types` to `non_field_errors` is different from behavior in versions < 9
 
-## 8.2.3 - 2017-05-05
+## 8.2.3 (2017-05-05)
 
 - Renamed requirements.txt to requirements-dev.txt
 - Tweaks to tests and CI (see #400)
@@ -114,13 +118,13 @@
 - Add unicode test for help_text
 - Removed tests for Python 3.2 from tox and Travis CI (no longer supported by Django 1.8)
 
-## 8.2.2 - 2017-04-03
+## 8.2.2 (2017-04-03)
 
 - Fix invalid HTML in help texts (thanks @luksen)
 - Added `mark_safe` to placeholder (thanks @ppo)
 - Fix DateWidget import for newer Django versions (thanks @clokep)
 
-## 8.2.1 - 2017-02-23
+## 8.2.1 (2017-02-23)
 
 - Support for local languages in `url_replace_param` on Python 2 (#362, thanks @aamalev)
 - Correct checking Mapping instance (#363, thanks @aamalev)
@@ -128,12 +132,12 @@
 - Add Django 1.11 and Python 3.6 to tests
 - Fix sdist issue with .pyc files
 
-## 8.1.0 - 2017-01-12
+## 8.1.0 (2017-01-12)
 
 - Rolled back subresource integrity (see #353)
 - Documentation fix (thanks @clokep)
 
-## 8.0.0 - 2017-01-06
+## 8.0.0 (2017-01-06)
 
 - **BREAKING** For Django >= 1.10 Remove everything to do with setting HTML attributes `required` (#337) and `disabled` (#345)
 - Add `id` parameter to bootstrap_button (#214)
@@ -147,7 +151,7 @@
 - Add subresource integrity to external components (thanks @mfcovington and @Alex131089)
 - Several improvements to documentation, tests, and comments. Thanks all!
 
-## 7.1.0 - 2016-09-16
+## 7.1.0 (2016-09-16)
 
 - Print help text and errors in their own block (#329, thanks @Matoking)
 - Improved page urls in pagination (fixes #323)
@@ -158,11 +162,11 @@
 - Added tests for Django 1.10
 - Bootstrap to 3.3.7
 
-## 7.0.1 - 2016-03-23
+## 7.0.1 (2016-03-23)
 
 - Fixed bug with widget attrs consistency (@onysos)
 
-## 7.0.0 - 2016-02-24
+## 7.0.0 (2016-02-24)
 
 - Dropped support for Django < 1.8
 - Dropped support for Python < 2.7
@@ -175,201 +179,201 @@
 - Better Travis CI Django versions (thanks @jonashaag)
 - Improved handling of messages in `bootstrap_messages` (thanks @frewsxcv and @rjsparks)
 
-## 6.2.2 - 2015-08-20
+## 6.2.2 (2015-08-20)
 
 - Bug fix for escaped icons in buttons (reported by @jlec)
 
-## 6.2.1 - 2015-08-19
+## 6.2.1 (2015-08-19)
 
 - Bug fix for whitespace in label placeholders (@Grelek)
 
-## 6.2.0 - 2015-08-15
+## 6.2.0 (2015-08-15)
 
 - Improved tests
 - Make simple_tag output safe in Django 1.9
 - Better support for MultiWidgets (@xrmx)
 - Better documentation (@Moustacha)
 
-## 6.1.0 - 2015-06-25
+## 6.1.0 (2015-06-25)
 
 - Upgrade to Bootstrap 3.3.5
 - Properly quote help text (@joshkel)
 
-## 6.0.0 - 2015-04-21
+## 6.0.0 (2015-04-21)
 
 - No more media="screen" in CSS tags, complying to Bootstraps examples
 
-## 5.4.0 - 2015-04-21
+## 5.4.0 (2015-04-21)
 
 - No more forcing btn-primary when another button class is specified (@takuchanno2)
 - Added value option to buttons (@TyVik)
 - Switched CDN to //maxcdn.bootstrapcdn.com/bootstrap/3.3.4/ (@djangoic)
 
-## 5.3.1 - 2015-04-08
+## 5.3.1 (2015-04-08)
 
 - Fix Django 1.8 importlib warnings
 - Set defaults for horizontal-form to col-md-3 for label, col-md-9 for field
 - Various bug fixes
 - Fix version number typo
 
-## 5.2.0 - 2015-03-25
+## 5.2.0 (2015-03-25)
 
 - Upgrade to Bootstrap 3.3.4
 - Fix required bug for checkboxes
 - Various bug fixes
 
-## 5.1.1 - 2015-01-22
+## 5.1.1 (2015-01-22)
 
 - Fix checkbox display bug
 
-## 5.1.0 - 2015-01-22
+## 5.1.0 (2015-01-22)
 
 - Make Bootstrap 3.3.2 default
 - Fix issue #140 (bad behaviour in Python 3)
 
-## 5.0.3 - 2014-12-02
+## 5.0.3 (2014-12-02)
 
 - Fixing tests for older Django and Python versions
 
-## 5.0.2 - 2014-11-24
+## 5.0.2 (2014-11-24)
 
 - Cleaning up some mess in 5.0.1 created by PyPI malfunction
 
-## 5.0.1 - 2014-11-21
+## 5.0.1 (2014-11-21)
 
 - Bug fixes and update to Bootstrap 3.3.1
 
-## 4.11.0 - 2014-08-19
+## 4.11.0 (2014-08-19)
 
 - Improved handling and control of form classes for error and success
 
-## 4.10.1 - 2014-08-18
+## 4.10.1 (2014-08-18)
 
 - Bug fixes, test fixes, documentation fixes
 
-## 4.10.0 - 2014-08-12
+## 4.10.0 (2014-08-12)
 
 - Template tag `bootstrap_icon` now supports a `title` parameter
 
-## 4.9.2 - 2014-08-11
+## 4.9.2 (2014-08-11)
 
 - Fixed bug causing problems with setting classes for horizontal forms
 
-## 4.9.1 - 2014-08-10
+## 4.9.1 (2014-08-10)
 
 - Fixed test for Django 1.4
 
-## 4.9.0 - 2014-08-09
+## 4.9.0 (2014-08-09)
 
 - New parameter `href` for `bootstrap_button`, if provided will render `a` tag instead of `button` tag
 
-## 4.8.2 - 2014-07-10
+## 4.8.2 (2014-07-10)
 
 - Internal fixes to master branch
 
-## 4.8.1 - 2014-07-10
+## 4.8.1 (2014-07-10)
 
 - Make extra classes override bootstrap defaults
 
-## 4.8.0 - 2014-07-10
+## 4.8.0 (2014-07-10)
 
 - Introduced new setting `set_placeholder`, default True
 
-## 4.7.1 - 2014-07-07
+## 4.7.1 (2014-07-07)
 
 - Fixed rendering of various sizes (as introduced in 4.7.0)
 - Upgrade to Bootstrap 3.2.0 as default version
 
-## 4.7.0 - 2014-06-04
+## 4.7.0 (2014-06-04)
 
 - `size` option added to formsets, forms, fields and buttons
 
-## 4.6.0 - 2014-05-22
+## 4.6.0 (2014-05-22)
 
 - new `bootstrap_formset_errors` tag
 
-## 4.5.0 - 2014-05-21
+## 4.5.0 (2014-05-21)
 
 - bug fixes in formsets
 - new formset renderer
 - new `bootstrap_form_errors` tag
 
-## 4.4.2 - 2014-05-20
+## 4.4.2 (2014-05-20)
 
 - documentation now mentions templates
 
-## 4.4.1 - 2014-05-08
+## 4.4.1 (2014-05-08)
 
 - bug fixes
 - documentation fixes
 - test coverage on coveralls.io
 
-## 4.4.0 - 2014-05-01
+## 4.4.0 (2014-05-01)
 
 - added `bootstrap_alert` template tag
 
-## 4.3.0 - 2014-04-25
+## 4.3.0 (2014-04-25)
 
 - added `required_css_class` and `error_css_class` as optional settings (global) and parameters (form and field rendering)
 
-## 4.2.0 - 2014-04-06
+## 4.2.0 (2014-04-06)
 
 - moved styling of form level errors to template
 - bug fixes
 
-## 4.1.1 - 2014-04-06
+## 4.1.1 (2014-04-06)
 
 - moved all text conversions to text_value
 
-## 4.1.0 - 2014-04-05
+## 4.1.0 (2014-04-05)
 
 - typo fix and internal branching changes
 
-## 4.0.3 - 2014-04-03
+## 4.0.3 (2014-04-03)
 
 - fixed checkbox label bug in vertical and inline forms
 
-## 4.0.2 - 2014-04-02
+## 4.0.2 (2014-04-02)
 
 - fixed bug in vertical form rendering
 
-## 4.0.1 - 2014-03-29
+## 4.0.1 (2014-03-29)
 
 - fixed unicode bug and added unicode label to tests
 
-## 4.0.0 - 2014-03-28
+## 4.0.0 (2014-03-28)
 
 - use renderer classes for generating HTML
 - several bug fixes
 
-## 3.3.0 - 2014-03-19
+## 3.3.0 (2014-03-19)
 
 - use Django forms css classes for indicating required and error on fields
 
-## 3.2.1 - 2014-03-16
+## 3.2.1 (2014-03-16)
 
 - improved form rendering
 
-## 3.2.0 - 2014-03-11
+## 3.2.0 (2014-03-11)
 
 - support for addons
 
-## 3.1.0 - 2014-03-03
+## 3.1.0 (2014-03-03)
 
 - improve compatibility with Django < 1.5
 
-## 3.0.0 - 2014-02-28
+## 3.0.0 (2014-02-28)
 
 - added support for themes (fix issue #74)
 - show inline form errors in field title (fix issue #81)
 - fixed bugs in demo application
 - update to newest Bootstrap (fix issue #83)
 
-## 2.6.0 - 2014-02-20
+## 2.6.0 (2014-02-20)
 
 - new setting `set_required` to control setting of HTML `required` attribute (fix issue #76)
 
-## 2.5.6 - 2014-01-23
+## 2.5.6 (2014-01-23)
 
 - project refactored
 - added skeleton for creating documentation (fix issue #30)
