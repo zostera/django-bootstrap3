@@ -9,4 +9,4 @@ class VersionTest(TestCase):
 
         version = bootstrap3.__version__
         version_parts = version.split(".")
-        self.assertTrue(len(version_parts) >= 2)
+        self.assertEqual(len(version_parts), 2)
