@@ -12,4 +12,4 @@ pur==5.4.2
 wheel==0.37.0
 setuptools==58.3.0
 twine==3.4.2
-pillow==8.3.2
+pillow==8.4.0
