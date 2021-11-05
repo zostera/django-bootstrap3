@@ -7,10 +7,10 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v2
 
       - run: pip install -U tox
 
@@ -20,17 +20,17 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v2
 
       - run: pip install -U tox
 
       - name: Test with tox
         run: tox -e lint
 
-  test:
+  tests_matrix:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -40,10 +40,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.2.2
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -52,7 +52,7 @@ jobs:
           sudo apt-get install binutils libproj-dev gdal-bin
 
       - run: pip install -U pip
-      - run: pip install -U tox coverage coveralls
+      - run: pip install -U tox coverage[toml] coveralls
 
       - name: Test with tox
         run: tox -e py
@@ -69,8 +69,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: coveralls --service=github
 
+  tests:
+      if: ${{ always() }}
+      runs-on: ubuntu-latest
+      needs: tests_matrix
+      steps:
+        - name: Check test matrix status
+          if: ${{ needs.tests_matrix.result != 'success' }}
+          run: exit 1
+
   coveralls:
-    needs: test
+    needs: tests
     runs-on: ubuntu-latest
 
     steps:
