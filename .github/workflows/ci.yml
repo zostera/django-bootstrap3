@@ -52,7 +52,7 @@ jobs:
           sudo apt-get install binutils libproj-dev gdal-bin
 
       - run: pip install -U pip
-      - run: pip install -U tox coverage[toml] coveralls
+      - run: pip install -U tox tox-gh-actions coverage[toml] coveralls
 
       - name: Test with tox
         run: tox -e py
