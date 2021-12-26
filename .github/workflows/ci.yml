@@ -55,7 +55,7 @@ jobs:
       - run: pip install -U tox tox-gh-actions coverage[toml] coveralls
 
       - name: Test with tox
-        run: tox -e py
+        run: tox
 
       - name: Coverage combine
         run: coverage combine
