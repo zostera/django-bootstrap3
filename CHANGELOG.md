@@ -1,5 +1,11 @@
 # Changelog
 
+## In development
+
+- Drop support for Django 3.1 (EOL).
+- Drop support for Python 3.6 (EOL).
+- Fix CI.
+
 ## 21.1 (2021-11-03)
 
 - Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
