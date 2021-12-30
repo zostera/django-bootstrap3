@@ -4,32 +4,6 @@ on: [ push ]
 
 jobs:
 
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - uses: actions/checkout@v2
-
-      - run: pip install -U tox
-
-      - name: Test with tox
-        run: tox -e docs
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - uses: actions/checkout@v2
-
-      - run: pip install -U tox
-
-      - name: Test with tox
-        run: tox -e lint
-
   tests_matrix:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
@@ -40,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.3.1
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -59,9 +33,6 @@ jobs:
 
       - name: Coverage combine
         run: coverage combine
-
-      - name: Coverage report
-        run: coverage report
 
       - name: Upload coveralls
         env:
