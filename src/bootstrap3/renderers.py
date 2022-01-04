@@ -134,7 +134,7 @@ class FormsetRenderer(BaseRenderer):
         return ""
 
     def _render(self):
-        return "{}{}{}".format(self.render_errors(), self.render_management_form(), self.render_forms())
+        return f"{self.render_errors()}{self.render_management_form()}{self.render_forms()}"
 
 
 class FormRenderer(BaseRenderer):
@@ -314,7 +314,7 @@ class FieldRenderer(BaseRenderer):
         mapping = [
             ("<ul", "<div"),
             ("</ul>", "</div>"),
-            ("<li", '<div class="{klass}"'.format(klass=classes)),
+            ("<li", f'<div class="{classes}"'),
             ("</li>", "</div>"),
         ]
         for k, v in mapping:
@@ -322,7 +322,7 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def put_inside_label(self, html):
-        content = "{field} {label}".format(field=html, label=self.label)
+        content = f"{html} {self.label}"
         return render_label(
             content=mark_safe(content),
             label_for=self.field.id_for_label,
@@ -352,7 +352,7 @@ class FieldRenderer(BaseRenderer):
         </div>
         """
         # TODO This needs improvement
-        return '<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'.format(html=html)
+        return f'<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'
 
     def post_widget_render(self, html):
         if isinstance(self.widget, RadioSelect):
@@ -371,7 +371,7 @@ class FieldRenderer(BaseRenderer):
         if isinstance(self.widget, CheckboxInput):
             # Wrap checkboxes
             # Note checkboxes do not get size classes, see #318
-            html = '<div class="checkbox">{content}</div>'.format(content=html)
+            html = f'<div class="checkbox">{html}</div>'
         return html
 
     def make_input_group(self, html):
@@ -392,7 +392,7 @@ class FieldRenderer(BaseRenderer):
                 if self.addon_after
                 else ""
             )
-            html = '<div class="input-group">{before}{html}{after}</div>'.format(before=before, after=after, html=html)
+            html = f'<div class="input-group">{before}{html}{after}</div>'
         return html
 
     def append_to_field(self, html):
@@ -424,7 +424,7 @@ class FieldRenderer(BaseRenderer):
     def wrap_field(self, html):
         field_class = self.get_field_class()
         if field_class:
-            html = '<div class="{klass}">{html}</div>'.format(klass=field_class, html=html)
+            html = f'<div class="{field_class}">{html}</div>'
         return html
 
     def get_label_class(self):
