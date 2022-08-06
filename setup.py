@@ -28,9 +28,9 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
         "Framework :: Django :: 3.2",
         "Framework :: Django :: 4.0",
+        "Framework :: Django :: 4.1",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
@@ -44,7 +44,7 @@ setup(
     ],
     python_requires=">=3.7",
     install_requires=[
-        "Django>=2.2",
+        "Django>=3.2",
         'importlib-metadata<3; python_version<"3.8"',
     ],
 )
