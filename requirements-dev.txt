@@ -11,5 +11,5 @@ tox==3.25.0
 pur==7.0.0
 wheel==0.37.1
 setuptools==60.10.0
-twine==3.8.0
+twine==4.0.1
 pillow==9.1.1
