@@ -10,6 +10,6 @@ autoflake==1.4
 tox==3.25.1
 pur==7.0.0
 wheel==0.37.1
-setuptools==60.10.0
+setuptools==63.4.1
 twine==4.0.1
 pillow==9.2.0
