@@ -1,9 +1,9 @@
 # Changelog
 
-## 22.1 (in development)
+## 22.1 (2022-08-08)
 
-- Add support for Django 4.1.
-- Drop support for Django 2.2 (EOL).
+- Add support for Django 4.1 (#718).
+- Drop support for Django 2.2 (EOL) (#718).
 
 ## 21.2 (2021-12-27)
 
