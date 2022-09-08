@@ -7,7 +7,7 @@ pydocstyle==6.1.1
 docformatter==1.5.0
 coverage==6.4.4
 autoflake==1.5.3
-tox==3.25.1
+tox==3.26.0
 pur==7.0.0
 wheel==0.37.1
 setuptools==63.4.3
