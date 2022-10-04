@@ -1,5 +1,5 @@
 -r docs/requirements.txt
-django==4.1.1
+django==4.1.2
 black==22.8.0
 isort==5.10.1
 flake8==5.0.4
