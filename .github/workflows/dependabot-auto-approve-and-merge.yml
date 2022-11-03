@@ -17,7 +17,7 @@ jobs:
       # This step will fail (without approval) if there's no metadata.
       - name: Dependabot metadata
         id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.3.4
+        uses: dependabot/fetch-metadata@v1.3.5
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       # Approve the PR.
