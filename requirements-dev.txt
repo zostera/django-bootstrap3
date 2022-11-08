@@ -9,7 +9,7 @@ coverage==6.5.0
 autoflake==1.7.7
 tox==3.27.0
 pur==7.0.0
-wheel==0.38.1
+wheel==0.38.2
 setuptools==63.4.3
 twine==4.0.1
 pillow==9.3.0
