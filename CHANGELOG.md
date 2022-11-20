@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.2 (in development)
+
+- Add support for Python 3.11.
+
 ## 22.1 (2022-08-08)
 
 - Add support for Django 4.1 (#718).
