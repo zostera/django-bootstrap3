@@ -1,8 +1,8 @@
 # Changelog
 
-## 22.2 (in development)
+## 22.2 (2022-11-22)
 
-- Add support for Python 3.11.
+- Add support Python 3.11 (#775).
 
 ## 22.1 (2022-08-08)
 
