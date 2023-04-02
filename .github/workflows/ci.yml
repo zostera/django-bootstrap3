@@ -26,19 +26,10 @@ jobs:
           sudo apt-get install binutils libproj-dev gdal-bin
 
       - run: pip install -U pip
-      - run: pip install -U tox tox-gh-actions coverage[toml] coveralls
+      - run: pip install -U tox tox-gh-actions coverage[toml]
 
       - name: Test with tox
         run: tox
-
-      - name: Coverage combine
-        run: coverage combine
-
-      - name: Upload coveralls
-        env:
-          COVERALLS_PARALLEL: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: coveralls --service=github
 
   tests:
       if: ${{ always() }}
@@ -48,14 +39,3 @@ jobs:
         - name: Check test matrix status
           if: ${{ needs.tests_matrix.result != 'success' }}
           run: exit 1
-
-  coveralls:
-    needs: tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true

@@ -1,5 +1,10 @@
 # Changelog
 
+## 23.1 (in development)
+
+- Update requirements and packages (#828).
+- Stop using coveralls (#829).
+
 ## 22.2 (2022-11-22)
 
 - Add support Python 3.11 (#775).
