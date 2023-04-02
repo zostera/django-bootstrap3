@@ -1,7 +1,8 @@
 # Changelog
 
-## 23.1 (in development)
+## 23.1 (2023-04-02)
 
+- Add support for Django 4.2 (#828).
 - Update requirements and packages (#828).
 - Stop using coveralls (#829).
 
