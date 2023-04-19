@@ -6,7 +6,7 @@ flake8==6.0.0
 pydocstyle==6.3.0
 docformatter==1.6.0
 coverage==7.2.3
-autoflake==2.1.0
+autoflake==2.1.1
 tox==4.4.12
 pur==7.1.0
 wheel==0.40.0
