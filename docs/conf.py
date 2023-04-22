@@ -19,7 +19,11 @@ release = project_metadata["version"]
 # The short X.Y version.
 version = ".".join(release.split(".")[:2])
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode", "m2r2"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx_mdinclude",
+]
 pygments_style = "sphinx"
 htmlhelp_basename = f"{PROJECT_NAME}-doc"
 
