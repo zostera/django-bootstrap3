@@ -2,8 +2,8 @@
 
 ## 23.2 (in development)
 
-- Remove version restriction on importlib-metadata (#).
-- Replace m2r2 with sphinx-mdinclude (#).
+- Remove version restriction on importlib-metadata (#843).
+- Replace m2r2 with sphinx-mdinclude (#842).
 
 ## 23.1 (2023-04-02)
 
