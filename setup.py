@@ -47,6 +47,6 @@ setup(
     python_requires=">=3.7",
     install_requires=[
         "Django>=3.2",
-        'importlib-metadata<3; python_version<"3.8"',
+        'importlib-metadata; python_version<"3.8"',
     ],
 )
