@@ -2,7 +2,7 @@
 
 ## 23.2 (in development)
 
-- Fix readthedocs config (#).
+- Fix readthedocs config (#844).
 - Remove version restriction on importlib-metadata (#843).
 - Replace m2r2 with sphinx-mdinclude (#842).
 
