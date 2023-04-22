@@ -229,7 +229,6 @@ def bootstrap_javascript(jquery=None):
 
         {% bootstrap_javascript jquery=1 %}
     """
-
     javascript = ""
     # See if we have to include jQuery
     if jquery is None:
@@ -823,7 +822,6 @@ def bootstrap_pagination(page, **kwargs):
         {% bootstrap_pagination lines url="/pagination?page=1" size="large" %}
         {% bootstrap_pagination page_obj extra=request.GET.urlencode %}
     """
-
     pagination_kwargs = kwargs.copy()
     pagination_kwargs["page"] = page
     return get_pagination_context(**pagination_kwargs)
