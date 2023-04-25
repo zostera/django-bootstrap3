@@ -8,7 +8,7 @@ target_version = ["py37", "py38", "py39", "py310", "py311"]
 
 [tool.coverage.run]
 branch = true
-source = ["django_bootstrap3"]
+source = ["bootstrap3"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
@@ -47,5 +47,5 @@ unfixable = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["django_bootstrap3", "app"]
+known-first-party = ["bootstrap3", "app"]
 known-third-party = ["django"]
