@@ -7,7 +7,7 @@ from .text import text_value
 
 def render_icon(icon, **kwargs):
     """Render a Bootstrap glyphicon icon."""
-    attrs = {"class": add_css_class("glyphicon glyphicon-{icon}".format(icon=icon), kwargs.get("extra_classes", ""))}
+    attrs = {"class": add_css_class(f"glyphicon glyphicon-{icon}", kwargs.get("extra_classes", ""))}
     title = kwargs.get("title")
     if title:
         attrs["title"] = title

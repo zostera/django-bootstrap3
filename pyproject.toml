@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools >= 40.6.0", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 120
-target_version = ["py37", "py38", "py39", "py310"]
+target_version = ["py37", "py38", "py39", "py310", "py311"]
 
 [tool.coverage.run]
 branch = true
@@ -17,14 +17,35 @@ source = ["src", ".tox/*/site-packages"]
 show_missing = true
 skip_covered = true
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-combine_as_imports = true
-line_length = 120
-skip_glob = "*/migrations/*.py"
-known_first_party = ["bootstrap3"]
-known_third_party = ["django"]
-src_paths = ["*.py", "bootstrap3", "tests", "example"]
+[tool.ruff]
+src = ["src"]
+target-version = "py37"
+line-length = 120
+select = [
+    "D",     # pydocstyle
+    "E",     # pycodestyle
+    "F",     # flake8
+    "I",     # isort
+    "UP",    # pyupgrade
+]
+ignore = [
+    "D1",    # D1: Missing docstring error codes (because not every function and class has a docstring)
+    "D203",  # D203: 1 blank line required before class docstring (conflicts with D211 and should be disabled, see https://github.com/PyCQA/pydocstyle/pull/91)
+    "D212",  # D212: Multi-line docstring summary should start at the first line
+    "D301",  # D301: Use r”“” if any backslashes in a docstring (unclear how else to handle backslashes in docstrings)
+]
+
+fix = false
+fixable = [
+    "I001",  # isort (sorting)
+    "F",     # flake8
+    "D",     # docformatter
+    "UP",    # pyupgrade
+]
+unfixable = [
+    "F8",    # names in flake8, such as defined but unused variables
+]
+
+[tool.ruff.isort]
+known-first-party = ["bootstrap3", "app"]
+known-third-party = ["django"]

@@ -1,15 +1,10 @@
 -r docs/requirements.txt
 django==4.2
 black==23.3.0
-isort==5.12.0
-flake8==6.0.0
-pydocstyle==6.3.0
-docformatter==1.6.4
-coverage==7.2.3
-autoflake==2.1.1
+coverage[toml]==7.2.3
 tox==4.5.1
-pur==7.1.0
-wheel==0.40.0
 setuptools==67.7.2
 twine==4.0.2
 pillow==9.5.0
+check-manifest==0.49
+ruff==0.0.263

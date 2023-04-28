@@ -836,9 +836,7 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError(
-            "Pagination pages_to_show should be a positive integer, you specified {pages}".format(pages=pages_to_show)
-        )
+        raise ValueError(f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}")
     num_pages = page.paginator.num_pages
     current_page = page.number
     half_page_num = int(floor(pages_to_show / 2))
@@ -877,8 +875,8 @@ def get_pagination_context(page, pages_to_show=11, url=None, size=None, extra=No
     if url:
         # Remove existing page GET parameters
         url = force_str(url)
-        url = re.sub(r"\?{0}\=[^\&]+".format(parameter_name), "?", url)
-        url = re.sub(r"\&{0}\=[^\&]+".format(parameter_name), "", url)
+        url = re.sub(rf"\?{parameter_name}\=[^\&]+", "?", url)
+        url = re.sub(rf"\&{parameter_name}\=[^\&]+", "", url)
         # Append proper separator
         if "?" in url:
             url += "&"

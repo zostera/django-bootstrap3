@@ -495,14 +495,14 @@ class ShowAddonsTest(TestCase):
         addon_after = "af"
 
         res = render_template_with_form(
-            '{{% bootstrap_field form.{0} addon_before="{1}"  addon_after="{2}" %}}'.format(
+            '{{% bootstrap_field form.{} addon_before="{}"  addon_after="{}" %}}'.format(
                 field, addon_before, addon_after
             )
         )
 
         self.assertIn('class="input-group"', res)
-        self.assertIn('class="input-group-addon">{0}'.format(addon_before), res)
-        self.assertIn('class="input-group-addon">{0}'.format(addon_after), res)
+        self.assertIn(f'class="input-group-addon">{addon_before}', res)
+        self.assertIn(f'class="input-group-addon">{addon_after}', res)
 
     def test_show_addons_textinput(self):
         self.assertFieldHasAddons("subject")

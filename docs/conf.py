@@ -1,23 +1,26 @@
+import importlib
 import os
-
-try:
-    from importlib.metadata import metadata
-except ImportError:
-    from importlib_metadata import metadata
-
-PROJECT_NAME = "django-bootstrap3"
+from configparser import ConfigParser
+from datetime import datetime
 
 on_rtd = os.environ.get("READTHEDOCS", None) == "True"
-project_metadata = metadata(PROJECT_NAME)
 
-project = project_metadata["name"]
-author = project_metadata["author"]
-copyright = f"2020, {author}"
+config_parser = ConfigParser()
+config_parser.read("../setup.cfg")
+metadata = config_parser["metadata"]
 
+project = "bootstrap3"
+project_with_underscores = project.replace("-", "_")
+
+module = importlib.import_module(f"{project_with_underscores}")
 # The full version, including alpha/beta/rc tags, in x.y.z.misc format
-release = project_metadata["version"]
+release = module.__version__
 # The short X.Y version.
 version = ".".join(release.split(".")[:2])
+
+author = metadata["author"]
+year = datetime.now().year
+copyright = f"{year}, {author}"
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -25,7 +28,7 @@ extensions = [
     "sphinx_mdinclude",
 ]
 pygments_style = "sphinx"
-htmlhelp_basename = f"{PROJECT_NAME}-doc"
+htmlhelp_basename = f"{project}-doc"
 
 if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
