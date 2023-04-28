@@ -45,38 +45,44 @@ Ready to contribute? Here\'s how to set up `django-bootstrap3` for local develop
 
 You will need some knowledge of git, github, and Python/Django development. Using a Python virtual environment is advised.
 
-1. Fork and clone `django-bootstrap3` repo on GitHub. There is an excellent guide at <https://guides.github.com/activities/forking/>.
-2. Install [poetry](https://python-poetry.org).
-3. Inside your local `django-bootstrap3` folder, run
-    ```shell script
-    $ poetry install
-    ```
-4. Create a branch for local development:
-    ```shell script
-    $ git checkout -b name-of-your-bugfix-or-feature
-    ```
-    Now you can make your changes locally.
-5. When you\'re done making changes, check that your changes pass the tests.
-    Run the unit tests in your virtual environment with the `manage.py` command:
-    ```shell script
-    $ python manage.py test
-    ````
-    Run the extended tests with `tox`:
-    ```shell script
-    $ make tox
-    ```
-6. Commit your changes and push your branch to GitHub:
-    ```shell script
-    $ git add .
-    $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
-    ```
-7. Submit a pull request through the GitHub website.
+### Local installation
+
+This section assumes you know about local Python versions and virtual environments.
+
+To clone the repository and install the requirements for local development:
+
+```shell-script
+git clone git://github.com/zostera/django-icons.git
+cd django-icons
+pip install -e .
+pip install -U pip -r requirements-dev.txt
+```
+
+### Running the example app
+
+You can run the example app:
+
+```shell-script
+cd example && python manage.py runserver
+```
+
+### Running the tests
+
+The test suite requires tox to be installed. Run the complete test suite like this:
+
+```shell-script
+make tox
+```
+
+Test for the current environment can be run with the Django manage.py command.
+
+```shell-script
+python manage.py test
+```
 
 ## Pull Request Guidelines
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include tests.
+1. The pull request should include tests for new or changed functionality, and pass all tests.
 2. If the pull request adds functionality, the docs should be updated. Put your new functionality into a function with a docstring, and add the feature to the list in CHANGELOG.md.
-3. The pull request should pass the Continuous Integration tests. Check <https://travis-ci.org/zostera/django-bootstrap3/pull_requests> and make sure that all tests pass. You can run the tests locally using `tox`.
