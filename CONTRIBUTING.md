@@ -52,8 +52,8 @@ This section assumes you know about local Python versions and virtual environmen
 To clone the repository and install the requirements for local development:
 
 ```shell-script
-git clone git://github.com/zostera/django-icons.git
-cd django-icons
+git clone git://github.com/zostera/django-bootstrap3.git
+cd django-bootstrap3
 pip install -e .
 pip install -U pip -r requirements-dev.txt
 ```
