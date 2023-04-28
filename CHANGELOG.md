@@ -5,6 +5,8 @@
 - Fix readthedocs config (#844).
 - Remove version restriction on importlib-metadata (#843).
 - Replace m2r2 with sphinx-mdinclude (#842).
+- Update packaging, reduce dependencies (#849).
+- Drop support for Django 4.0 (#849).
 
 ## 23.1 (2023-04-02)
 
