@@ -1,7 +1,7 @@
 -r docs/requirements.txt
 django==4.2
 black==23.3.0
-coverage[toml]==7.2.3
+coverage[toml]==7.2.4
 tox==4.5.1
 setuptools==67.7.2
 twine==4.0.2
