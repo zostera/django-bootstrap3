@@ -52,8 +52,8 @@ This section assumes you know about local Python versions and virtual environmen
 To clone the repository and install the requirements for local development:
 
 ```shell-script
-git clone git://github.com/zostera/django-icons.git
-cd django-icons
+git clone git://github.com/zostera/django-bootstrap3.git
+cd django-bootstrap3
 pip install -e .
 pip install -U pip -r requirements-dev.txt
 ```
@@ -68,16 +68,18 @@ cd example && python manage.py runserver
 
 ### Running the tests
 
-The test suite requires tox to be installed. Run the complete test suite like this:
+The test suite requires tox to be installed.
+
+To run the complete test suite:
 
 ```shell-script
 make tox
 ```
 
-Test for the current environment can be run with the Django manage.py command.
+To run the tests in your current environment:
 
 ```shell-script
-python manage.py test
+make test
 ```
 
 ## Pull Request Guidelines
