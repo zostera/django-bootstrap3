@@ -2,9 +2,9 @@
 django==4.2
 black==23.3.0
 coverage[toml]==7.2.3
-tox==4.4.12
+tox==4.5.0
 setuptools==67.7.2
 twine==4.0.2
 pillow==9.5.0
 check-manifest==0.49
-ruff==0.0.262
+ruff==0.0.263
