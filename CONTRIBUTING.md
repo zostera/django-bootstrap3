@@ -68,16 +68,18 @@ cd example && python manage.py runserver
 
 ### Running the tests
 
-The test suite requires tox to be installed. Run the complete test suite like this:
+The test suite requires tox to be installed.
+
+To run the complete test suite:
 
 ```shell-script
 make tox
 ```
 
-Test for the current environment can be run with the Django manage.py command.
+To run the tests in your current environment:
 
 ```shell-script
-python manage.py test
+make test
 ```
 
 ## Pull Request Guidelines
