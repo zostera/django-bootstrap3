@@ -7,4 +7,4 @@ setuptools==67.8.0
 twine==4.0.2
 pillow==9.5.0
 check-manifest==0.49
-ruff==0.0.269
+ruff==0.0.270
