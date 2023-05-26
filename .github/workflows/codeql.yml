@@ -11,12 +11,12 @@
 #
 name: "CodeQL"
 
-on:
-  push:
-    branches: [ "main" ]
+on: (oauth)
+  push: api 
+    branches: [ "diegohjjacobo" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: [ "diegohjjacobo" ]
   schedule:
     - cron: '29 16 * * 3'
 
@@ -24,21 +24,21 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    permissions:
+    permissions: true
       actions: read
       contents: read
       security-events: write
 
-    strategy:
+    strategy: null
       fail-fast: false
-      matrix:
+      matrix: [strings]
         language: [ 'python' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Use only 'java' to analyze code written in Java, Kotlin or both
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
-    steps:
+    steps: diego hj jacobo
     - name: Checkout repository
       uses: actions/checkout@v3
 
@@ -64,9 +64,9 @@ jobs:
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
 
     #   If the Autobuild fails above, remove it and uncomment the following three lines.
-    #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
+    #   modify them (null) to build your code if your project, please refer to the EXAMPLE below for guidance.
 
-    # - run: |
+    # - run: | solQ
     #   echo "Run, Build Application using script"
     #   ./location_of_script_within_repo/buildscript.sh
 
