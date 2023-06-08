@@ -1,0 +1,79 @@
+name: test
+
+on: [ push ]
+
+concurrency:
+  group: test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUNBUFFERED: "1"
+  FORCE_COLOR: "1"
+
+jobs:
+
+  static_tests:
+    name: Static Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install latest pip and Hatch
+        run: pip install --upgrade pip hatch
+      - name: Lint
+        run: hatch run lint:all
+      - name: Docs
+        run: hatch run docs:build
+      - name: Build
+        run: hatch build
+
+  tests_matrix:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install latest pip, Hatch and coveralls
+      run: pip install --upgrade pip hatch coveralls
+
+    - name: Install GDAL binaries
+      run: sudo apt-get install binutils libproj-dev gdal-bin
+
+    - name: Run tests
+      run: hatch run test-cov
+
+    - name: Coverage combine
+      run: coverage combine
+
+    - name: Upload coveralls (parallel)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_PARALLEL: true
+      run: coveralls --service=github
+
+  tests:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [ static_tests, tests_matrix ]
+    steps:
+      - name: Check tests matrix status
+        if: needs.tests_matrix.result != 'success'
+        run: exit 1
+      - name: Finish parallel build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
