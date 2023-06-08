@@ -2,6 +2,8 @@
 
 ## 23.2 (in development)
 
+- Switch to Hatch (#880).
+- Reinstate coveralls (#880).
 - Fix readthedocs config (#844).
 - Remove version restriction on importlib-metadata (#843).
 - Replace m2r2 with sphinx-mdinclude (#842).
