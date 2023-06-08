@@ -143,8 +143,8 @@ fmt = [
   "style",
 ]
 style = [
-  "ruff {args:.}",
   "black --check --diff {args:.}",
+  "ruff {args:.}",
 ]
 
 [tool.black]
