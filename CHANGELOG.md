@@ -1,6 +1,6 @@
 # Changelog
 
-## 23.2 (in development)
+## 23.2 (2023-06-08)
 
 - Switch to Hatch (#880).
 - Reinstate coveralls (#880).
