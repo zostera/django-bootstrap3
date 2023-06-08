@@ -5,7 +5,7 @@
 [![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap3.svg)](https://pypi.python.org/pypi/django-bootstrap3)
 [![Any color you like](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Bootstrap 3 integration for Django.
+Bootstrap 3 for Django.
 
 ## Goal
 
