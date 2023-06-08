@@ -62,10 +62,10 @@ The full documentation is at https://django-bootstrap3.readthedocs.io/
 </form>
 ```
 
-Demo
-----
+Example app
+-----------
 
-A demo app is provided in `demo`. You can run it from your virtualenv with `python manage.py runserver`.
+An example app is provided in `example`. You can run it with `make example`.
 
 
 Bugs and suggestions
