@@ -1,5 +1,9 @@
 # Changelog
 
+## 23.3 (in development)
+
+- Drop support for Python 3.7 (EOL) ().
+
 ## 23.2 (2023-06-08)
 
 - Switch to Hatch (#880).
