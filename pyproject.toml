@@ -17,7 +17,6 @@ classifiers = [
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -36,7 +35,7 @@ dynamic = [
 license = "BSD-3-Clause"
 name = "django-bootstrap3"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap3/blob/main/CHANGELOG.md"
@@ -73,10 +72,6 @@ cov-report = [
 ]
 test = "python manage.py test {args:tests}"
 test-cov = "coverage run manage.py test {args:tests}"
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2"]
-python = ["3.7"]
 
 [[tool.hatch.envs.all.matrix]]
 django = ["3.2", "4.1", "4.2"]
@@ -149,7 +144,7 @@ style = [
 
 [tool.black]
 line-length = 120
-target_version = ["py37", "py38", "py39", "py310", "py311"]
+target_version = ["py38", "py39", "py310", "py311"]
 
 [tool.ruff]
 fix = false
@@ -174,7 +169,7 @@ select = [
   "UP", # pyupgrade
 ]
 src = ["src"]
-target-version = "py37"
+target-version = "py38"
 unfixable = [
   "F8", # names in flake8, such as defined but unused variables
 ]
