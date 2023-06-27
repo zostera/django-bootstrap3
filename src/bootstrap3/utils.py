@@ -1,6 +1,7 @@
 import re
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
+from django import get_version
 from django.forms.utils import flatatt
 from django.template import Variable, VariableDoesNotExist
 from django.template.base import FilterExpression, TemplateSyntaxError, kwarg_re
@@ -12,6 +13,10 @@ from django.utils.safestring import mark_safe
 from bootstrap3.exceptions import BootstrapError
 
 from .text import text_value
+
+# TODO: Remove after support for Django 3.2 ends
+IS_PRE_DJANGO4 = get_version() < "4"
+
 
 # RegEx for quoted string
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')

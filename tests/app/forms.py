@@ -13,6 +13,10 @@ MEDIA_CHOICES = (
 )
 
 
+class RadioSetTestForm(forms.Form):
+    radio = forms.ChoiceField(widget=forms.RadioSelect, choices=RADIO_CHOICES)
+
+
 class SmallTestForm(forms.Form):
     sender = forms.EmailField(label="Sender © unicode", help_text='E.g., "me@example.com"')
     subject = forms.CharField(
