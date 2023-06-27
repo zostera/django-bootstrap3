@@ -315,21 +315,15 @@ class FieldRenderer(BaseRenderer):
         classes = add_css_class(klass, self.get_size_class())
         if IS_PRE_DJANGO4:
             return self._list_to_class_pre_django4(html, classes)
-        return self._list_to_class(html, classes)
-
-    def _list_to_class(self, html, classes):
         return re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
 
     def _list_to_class_pre_django4(self, html, classes):
-        mapping = [
-            ("<ul", "<div"),
-            ("</ul>", "</div>"),
-            ("<li", f'<div class="{classes}"'),
-            ("</li>", "</div>"),
-        ]
-        for k, v in mapping:
-            html = html.replace(k, v)
-        return html
+        return (
+            html.replace("<ul", "<div")
+            .replace("</ul>", "</div>")
+            .replace("<li", f'<div class="{classes}"')
+            .replace("</li>", "</div>")
+        )
 
     def put_inside_label(self, html):
         content = f"{html} {self.label}"
