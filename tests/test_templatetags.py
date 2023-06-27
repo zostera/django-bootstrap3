@@ -6,7 +6,7 @@ from django.test import TestCase
 
 from bootstrap3.exceptions import BootstrapError
 from bootstrap3.text import text_concat, text_value
-from bootstrap3.utils import DJANGO3, add_css_class, render_tag, url_to_attrs_dict
+from bootstrap3.utils import IS_PRE_DJANGO4, add_css_class, render_tag, url_to_attrs_dict
 from tests.app.forms import (
     RadioSetTestForm,
     SmallTestForm,
@@ -545,7 +545,7 @@ class InlineLayoutTestCase(TestCase):
             </div>
             </div>
             """
-        if DJANGO3:
+        if IS_PRE_DJANGO4:
             expected = expected.replace(
                 '<label class="sr-only">Radio</label>',
                 '<label class="sr-only" for="id_radio_0">Radio</label>',

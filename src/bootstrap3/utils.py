@@ -15,7 +15,7 @@ from bootstrap3.exceptions import BootstrapError
 from .text import text_value
 
 # TODO: Remove after support for Django 3.2 ends
-DJANGO3 = get_version() < "4"
+IS_PRE_DJANGO4 = get_version() < "4"
 
 
 # RegEx for quoted string

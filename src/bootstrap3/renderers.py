@@ -33,7 +33,7 @@ from .forms import (
     render_label,
 )
 from .text import text_value
-from .utils import DJANGO3, add_css_class, render_template_file
+from .utils import IS_PRE_DJANGO4, add_css_class, render_template_file
 
 try:
     # If Django is set up without a database, importing this widget gives RuntimeError
@@ -313,11 +313,15 @@ class FieldRenderer(BaseRenderer):
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
-        if DJANGO3:
-            return self._list_to_class_django3(html, classes)
-        return self._list_to_class_django4(html, classes)
+        if IS_PRE_DJANGO4:
+            return self._list_to_class_pre_django4(html, classes)
+        return self._list_to_class(html, classes)
 
-    def _list_to_class_django3(self, html, classes):
+    def _list_to_class(self, html, classes):
+        html = re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
+        return html
+
+    def _list_to_class_pre_django4(self, html, classes):
         mapping = [
             ("<ul", "<div"),
             ("</ul>", "</div>"),
@@ -326,10 +330,6 @@ class FieldRenderer(BaseRenderer):
         ]
         for k, v in mapping:
             html = html.replace(k, v)
-        return html
-
-    def _list_to_class_django4(self, html, classes):
-        html = re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
         return html
 
     def put_inside_label(self, html):
