@@ -1,9 +1,11 @@
 # Changelog
 
-## 23.3 (in development)
+## 23.3 (2023-06-27)
 
-- Fix example (#886)
+- Fix example (#886).
 - Remove support for Python 3.7 (EOL) (#889).
+- Fix radio buttons in Django 4 (#887).
+- Fix check order of CheckboxSelectMultiple and RadioSelect (#859).
 
 ## 23.2 (2023-06-08)
 
