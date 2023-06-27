@@ -359,10 +359,10 @@ class FieldRenderer(BaseRenderer):
         return f'<div class="row bootstrap3-multi-input"><div class="col-xs-12">{html}</div></div>'
 
     def post_widget_render(self, html):
-        if isinstance(self.widget, RadioSelect):
-            html = self.list_to_class(html, "radio")
-        elif isinstance(self.widget, CheckboxSelectMultiple):
+        if isinstance(self.widget, CheckboxSelectMultiple):
             html = self.list_to_class(html, "checkbox")
+        elif isinstance(self.widget, RadioSelect):
+            html = self.list_to_class(html, "radio")
         elif isinstance(self.widget, SelectDateWidget):
             html = self.fix_date_select_input(html)
         elif isinstance(self.widget, ClearableFileInput):
