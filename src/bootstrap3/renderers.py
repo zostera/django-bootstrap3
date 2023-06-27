@@ -318,8 +318,7 @@ class FieldRenderer(BaseRenderer):
         return self._list_to_class(html, classes)
 
     def _list_to_class(self, html, classes):
-        html = re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
-        return html
+        return re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
 
     def _list_to_class_pre_django4(self, html, classes):
         mapping = [
