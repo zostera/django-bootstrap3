@@ -329,7 +329,7 @@ class FieldRenderer(BaseRenderer):
         return html
 
     def _list_to_class_django4(self, html, classes):
-        html = re.sub("<div>(\s*)<label", f'<div class="{classes}"><label', html)
+        html = re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
         return html
 
     def put_inside_label(self, html):
