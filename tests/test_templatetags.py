@@ -530,7 +530,7 @@ class InlineLayoutTestCase(TestCase):
         res = render_template_with_form("{% bootstrap_form form layout='inline' %}", {"form": form})
         expected = """
             <div class="form-group bootstrap3-req">
-            <label class="sr-only" for="id_radio_0">Radio</label>
+            <label class="sr-only">Radio</label>
             <div id="id_radio">
             <div class="radio">
             <label for="id_radio_0">
@@ -545,9 +545,9 @@ class InlineLayoutTestCase(TestCase):
             </div>
             </div>
             """
-        if not DJANGO3:
+        if DJANGO3:
             expected = expected.replace(
-                '<label class="sr-only" for="id_radio_0">Radio</label>',
                 '<label class="sr-only">Radio</label>',
+                '<label class="sr-only" for="id_radio_0">Radio</label>',
             )
         self.assertHTMLEqual(res, expected)
