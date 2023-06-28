@@ -1,12 +1,6 @@
 import os
-import sys
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
-# Include BOOTSTRAP3_FOLDER in path
-BOOTSTRAP3_FOLDER = os.path.abspath(os.path.join(BASE_DIR, "..", "bootstrap3"))
-if BOOTSTRAP3_FOLDER not in sys.path:
-    sys.path.insert(0, BOOTSTRAP3_FOLDER)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
 DEBUG = True
 
