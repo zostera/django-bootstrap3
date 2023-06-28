@@ -1,6 +1,6 @@
 # Changelog
 
-## 23.4 (in development)
+## 23.4 (2023-06-28)
 
 - Fix inline form spacing (#892).
 
