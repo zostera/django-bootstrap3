@@ -530,19 +530,21 @@ class InlineLayoutTestCase(TestCase):
         res = render_template_with_form("{% bootstrap_form form layout='inline' %}", {"form": form})
         expected = """
             <div class="form-group bootstrap3-req">
-            <label class="sr-only">Radio</label>
-            <div id="id_radio">
-            <div class="radio">
-            <label for="id_radio_0">
-            <input type="radio" name="radio" value="1" class="" title="" required id="id_radio_0">Radio 1
-            </label>
-            </div>
-            <div class="radio">
-            <label for="id_radio_1">
-            <input type="radio" name="radio" value="2" class="" title="" required id="id_radio_1">Radio 2
-            </label>
-            </div>
-            </div>
+              <label class="sr-only">Radio</label>
+              <div id="id_radio">
+                <div class="radio">
+                  <label for="id_radio_0">
+                    <input type="radio" name="radio" value="1" class="" title="" required id="id_radio_0">
+                    Radio 1
+                  </label>
+                </div>
+                <div class="radio">
+                  <label for="id_radio_1">
+                    <input type="radio" name="radio" value="2" class="" title="" required id="id_radio_1">
+                    Radio 2
+                  </label>
+                </div>
+              </div>
             </div>
             """
         if IS_PRE_DJANGO4:
@@ -551,3 +553,4 @@ class InlineLayoutTestCase(TestCase):
                 '<label class="sr-only" for="id_radio_0">Radio</label>',
             )
         self.assertHTMLEqual(res, expected)
+        self.assertIn(' <div class="radio">', res, msg="Missing relevant whitespace for inline rendering.")
