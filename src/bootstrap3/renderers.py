@@ -315,7 +315,7 @@ class FieldRenderer(BaseRenderer):
         classes = add_css_class(klass, self.get_size_class())
         if IS_PRE_DJANGO4:
             return self._list_to_class_pre_django4(html, classes)
-        return re.sub("<div>\s*<label", f'<div class="{classes}"><label', html)
+        return re.sub("\s*<div>\s*<label", f' <div class="{classes}"><label', html)
 
     def _list_to_class_pre_django4(self, html, classes):
         return (
