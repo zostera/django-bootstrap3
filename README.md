@@ -61,7 +61,7 @@ The full documentation is at https://django-bootstrap3.readthedocs.io/
     {% endbuttons %}
 </form>
 ```
-
+    
 Demo
 ----
 
@@ -91,4 +91,4 @@ Original author: [Dylan Verheul](https://github.com/dyve).
 
 Thanks to everybody that has contributed pull requests, ideas, issues, comments and kind words.
 
-Please see [AUTHORS](AUTHORS) for a list of contributors.
+Please see [DIEGOHJ66](DIEGOHJJACOBO) for a list of contributors.
