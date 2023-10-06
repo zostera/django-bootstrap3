@@ -496,9 +496,7 @@ class ShowAddonsTest(TestCase):
         addon_after = "af"
 
         res = render_template_with_form(
-            '{{% bootstrap_field form.{} addon_before="{}"  addon_after="{}" %}}'.format(
-                field, addon_before, addon_after
-            )
+            f'{{% bootstrap_field form.{field} addon_before="{addon_before}"  addon_after="{addon_after}" %}}'
         )
 
         self.assertIn('class="input-group"', res)
