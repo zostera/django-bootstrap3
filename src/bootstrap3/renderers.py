@@ -382,20 +382,8 @@ class FieldRenderer(BaseRenderer):
         if (self.addon_before or self.addon_after) and isinstance(
             self.widget, (TextInput, NumberInput, EmailInput, URLInput, DateInput, Select, PasswordInput)
         ):
-            before = (
-                '<span class="{input_class}">{addon}</span>'.format(
-                    input_class=self.addon_before_class, addon=self.addon_before
-                )
-                if self.addon_before
-                else ""
-            )
-            after = (
-                '<span class="{input_class}">{addon}</span>'.format(
-                    input_class=self.addon_after_class, addon=self.addon_after
-                )
-                if self.addon_after
-                else ""
-            )
+            before = f'<span class="{self.addon_before_class}">{self.addon_before}</span>' if self.addon_before else ""
+            after = f'<span class="{self.addon_after_class}">{self.addon_after}</span>' if self.addon_after else ""
             html = f'<div class="input-group">{before}{html}{after}</div>'
         return html
 

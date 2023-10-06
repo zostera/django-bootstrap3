@@ -123,8 +123,8 @@ clean = "rm -rf docs/_build"
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "black>=23.3.0",
-  "ruff>=0.0.270",
+  "black>=23.9.1",
+  "ruff>=0.0.292",
 ]
 detached = true
 
