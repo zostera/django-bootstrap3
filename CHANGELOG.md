@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Fix Django versions in test matrix (#900).
+
 ## 23.4 (2023-06-28)
 
 - Fix inline form spacing (#892).

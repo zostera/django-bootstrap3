@@ -88,8 +88,8 @@ python = ["3.11"]
 [tool.hatch.envs.all.overrides]
 matrix.django.dependencies = [
   {value = "django~=3.2.0", if = ["3.2"]},
-  {value = "django~=4.0.0", if = ["4.0"]},
   {value = "django~=4.1.0", if = ["4.1"]},
+  {value = "django~=4.2.0", if = ["4.2"]},
   {value = "django @ git+https://github.com/django/django.git", if = ["main"]},
 ]
 
