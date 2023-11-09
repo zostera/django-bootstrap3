@@ -2,6 +2,7 @@
 
 ## In development
 
+- Use ruff instead of black for formatting (#901).
 - Fix Django versions in test matrix (#900).
 
 ## 23.4 (2023-06-28)

@@ -123,7 +123,6 @@ clean = "rm -rf docs/_build"
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "black>=23.9.1",
   "ruff>=0.0.292",
 ]
 detached = true
@@ -133,18 +132,13 @@ all = [
   "style",
 ]
 fmt = [
-  "black {args:.}",
   "ruff --fix {args:.}",
+  "ruff format {args:.}",
   "style",
 ]
 style = [
-  "black --check --diff {args:.}",
   "ruff {args:.}",
 ]
-
-[tool.black]
-line-length = 120
-target_version = ["py38", "py39", "py310", "py311"]
 
 [tool.ruff]
 fix = false
