@@ -6,7 +6,13 @@ from django.test import TestCase
 
 from bootstrap3.exceptions import BootstrapError
 from bootstrap3.text import text_concat, text_value
-from bootstrap3.utils import IS_PRE_DJANGO4, add_css_class, render_tag, url_to_attrs_dict
+from bootstrap3.utils import (
+    IS_DJANGO5,
+    IS_PRE_DJANGO4,
+    add_css_class,
+    render_tag,
+    url_to_attrs_dict,
+)
 from tests.app.forms import (
     RadioSetTestForm,
     SmallTestForm,
@@ -45,7 +51,10 @@ class FormTest(TestCase):
     def test_field_addons(self):
         form = TestForm()
         res = render_form(form)
-        self.assertIn('<div class="input-group"><span class="input-group-addon">before</span><input', res)
+        self.assertIn(
+            '<div class="input-group"><span class="input-group-addon">before</span><input',
+            res,
+        )
         self.assertIn('><span class="input-group-addon">after</span></div>', res)
 
     def test_exclude(self):
@@ -78,7 +87,10 @@ class FormTest(TestCase):
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
         self.assertIn("bootstrap3-err", res)
 
-        res = render_template_with_form('{% bootstrap_form form error_css_class="successful-test" %}', {"form": form})
+        res = render_template_with_form(
+            '{% bootstrap_form form error_css_class="successful-test" %}',
+            {"form": form},
+        )
         self.assertIn("successful-test", res)
 
         res = render_template_with_form('{% bootstrap_form form error_css_class="" %}', {"form": form})
@@ -90,7 +102,8 @@ class FormTest(TestCase):
         self.assertIn("bootstrap3-req", res)
 
         res = render_template_with_form(
-            '{% bootstrap_form form required_css_class="successful-test" %}', {"form": form}
+            '{% bootstrap_form form required_css_class="successful-test" %}',
+            {"form": form},
         )
         self.assertIn("successful-test", res)
 
@@ -103,7 +116,10 @@ class FormTest(TestCase):
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
         self.assertIn("bootstrap3-bound", res)
 
-        res = render_template_with_form('{% bootstrap_form form bound_css_class="successful-test" %}', {"form": form})
+        res = render_template_with_form(
+            '{% bootstrap_form form bound_css_class="successful-test" %}',
+            {"form": form},
+        )
         self.assertIn("successful-test", res)
 
         res = render_template_with_form('{% bootstrap_form form bound_css_class="" %}', {"form": form})
@@ -154,6 +170,8 @@ class FieldTest(TestCase):
 
     def test_checkbox(self):
         res = render_form_field("cc_myself")
+        if IS_DJANGO5:
+            res = res.replace('aria-describedby="id_cc_myself_helptext"', "")
         self.assertHTMLEqual(
             """
 <div class="form-group">
@@ -424,13 +442,19 @@ class UtilsTest(TestCase):
     def test_render_tag(self):
         self.assertEqual(render_tag("span"), "<span></span>")
         self.assertEqual(render_tag("span", content="foo"), "<span>foo</span>")
-        self.assertEqual(render_tag("span", attrs={"bar": 123}, content="foo"), '<span bar="123">foo</span>')
+        self.assertEqual(
+            render_tag("span", attrs={"bar": 123}, content="foo"),
+            '<span bar="123">foo</span>',
+        )
 
     def test_url_to_attrs_dict(self):
         self.assertEqual(url_to_attrs_dict("my_link", "src"), {"src": "my_link"})
         self.assertEqual(url_to_attrs_dict({"url": "my_link"}, "src"), {"src": "my_link"})
         self.assertEqual(
-            url_to_attrs_dict({"url": "my_link", "crossorigin": "anonymous", "integrity": "super"}, "src"),
+            url_to_attrs_dict(
+                {"url": "my_link", "crossorigin": "anonymous", "integrity": "super"},
+                "src",
+            ),
             {"src": "my_link", "crossorigin": "anonymous", "integrity": "super"},
         )
         with self.assertRaises(BootstrapError):
@@ -457,7 +481,10 @@ class ShowLabelTest(TestCase):
     def test_for_formset(self):
         TestFormSet = formset_factory(TestForm, extra=1)
         test_formset = TestFormSet()
-        res = render_template_with_form("{% bootstrap_formset formset show_label=False %}", {"formset": test_formset})
+        res = render_template_with_form(
+            "{% bootstrap_formset formset show_label=False %}",
+            {"formset": test_formset},
+        )
         self.assertIn("sr-only", res)
 
     def test_button_with_icon(self):
@@ -551,4 +578,8 @@ class InlineLayoutTestCase(TestCase):
                 '<label class="sr-only" for="id_radio_0">Radio</label>',
             )
         self.assertHTMLEqual(res, expected)
-        self.assertIn(' <div class="radio">', res, msg="Missing relevant whitespace for inline rendering.")
+        self.assertIn(
+            ' <div class="radio">',
+            res,
+            msg="Missing relevant whitespace for inline rendering.",
+        )

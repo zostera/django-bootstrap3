@@ -14,9 +14,10 @@ from bootstrap3.exceptions import BootstrapError
 
 from .text import text_value
 
-# TODO: Remove after support for Django 3.2 ends
-IS_PRE_DJANGO4 = get_version() < "4"
-
+DJANGO_VERSION = get_version()
+# TODO: Remove after support for Django 3.x ends
+IS_PRE_DJANGO4 = DJANGO_VERSION < "4"
+IS_DJANGO5 = DJANGO_VERSION >= "5"
 
 # RegEx for quoted string
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
@@ -106,7 +107,12 @@ def render_tag(tag, attrs=None, content=None, close=True):
     builder = "<{tag}{attrs}>{content}"
     if content or close:
         builder += "</{tag}>"
-    return format_html(builder, tag=tag, attrs=mark_safe(flatatt(attrs)) if attrs else "", content=text_value(content))
+    return format_html(
+        builder,
+        tag=tag,
+        attrs=mark_safe(flatatt(attrs)) if attrs else "",
+        content=text_value(content),
+    )
 
 
 def render_template_file(template, context=None):
