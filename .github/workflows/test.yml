@@ -50,7 +50,9 @@ jobs:
       run: pip install --upgrade pip hatch coveralls
 
     - name: Install GDAL binaries
-      run: sudo apt-get install binutils libproj-dev gdal-bin
+      run: |
+        sudo apt-get update
+        sudo apt-get install binutils libproj-dev gdal-bin
 
     - name: Run tests
       run: hatch run test-cov
