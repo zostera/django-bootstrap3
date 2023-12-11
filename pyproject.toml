@@ -79,15 +79,15 @@ django = ["3.2", "4.1", "4.2"]
 python = ["3.8", "3.9"]
 
 [[tool.hatch.envs.all.matrix]]
-django = ["3.2", "4.1", "4.2", "main"]
+django = ["3.2", "4.1", "4.2", "5.0", "main"]
 python = ["3.10"]
 
 [[tool.hatch.envs.all.matrix]]
-django = ["4.1", "4.2", "main"]
+django = ["4.1", "4.2", "5.0", "main"]
 python = ["3.11"]
 
 [[tool.hatch.envs.all.matrix]]
-django = ["4.2", "main"]
+django = ["4.2", "5.0", "main"]
 python = ["3.12"]
 
 [tool.hatch.envs.all.overrides]
