@@ -21,6 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
@@ -84,6 +85,10 @@ python = ["3.10"]
 [[tool.hatch.envs.all.matrix]]
 django = ["4.1", "4.2", "main"]
 python = ["3.11"]
+
+[[tool.hatch.envs.all.matrix]]
+django = ["4.2", "main"]
+python = ["3.12"]
 
 [tool.hatch.envs.all.overrides]
 matrix.django.dependencies = [
