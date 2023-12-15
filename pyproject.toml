@@ -56,13 +56,13 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/bootstrap3"]
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.test]
 dependencies = [
   "coverage[toml]>=7.2.6",
 ]
 matrix-name-format = "dj{value}"
 
-[tool.hatch.envs.default.scripts]
+[tool.hatch.envs.test.scripts]
 cov = [
   "test-cov",
   "cov-report",
@@ -74,23 +74,23 @@ cov-report = [
 test = "python manage.py test {args:tests}"
 test-cov = "coverage run manage.py test {args:tests}"
 
-[[tool.hatch.envs.all.matrix]]
+[[tool.hatch.envs.test.matrix]]
 django = ["3.2", "4.1", "4.2"]
 python = ["3.8", "3.9"]
 
-[[tool.hatch.envs.all.matrix]]
+[[tool.hatch.envs.test.matrix]]
 django = ["3.2", "4.1", "4.2", "5.0", "main"]
 python = ["3.10"]
 
-[[tool.hatch.envs.all.matrix]]
+[[tool.hatch.envs.test.matrix]]
 django = ["4.1", "4.2", "5.0", "main"]
 python = ["3.11"]
 
-[[tool.hatch.envs.all.matrix]]
+[[tool.hatch.envs.test.matrix]]
 django = ["4.2", "5.0", "main"]
 python = ["3.12"]
 
-[tool.hatch.envs.all.overrides]
+[tool.hatch.envs.test.overrides]
 matrix.django.dependencies = [
   {value = "django~=3.2.0", if = ["3.2"]},
   {value = "django~=4.1.0", if = ["4.1"]},
