@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
 
 [project]
 authors = [
@@ -30,13 +30,11 @@ dependencies = [
   "beautifulsoup4>=4.8.0",
 ]
 description = "Bootstrap 3 for Django"
-dynamic = [
-  "version",
-]
-license = "BSD-3-Clause"
+license = {file = "LICENSE"}
 name = "django-bootstrap3"
 readme = "README.md"
 requires-python = ">=3.8"
+version = "23.5.dev1"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap3/blob/main/CHANGELOG.md"
@@ -44,17 +42,6 @@ Documentation = "https://django-bootstrap3.readthedocs.io/"
 Homepage = "https://github.com/zostera/django-bootstrap3"
 Issues = "https://github.com/zostera/django-bootstrap3/issues"
 Source = "https://github.com/zostera/django-bootstrap3"
-
-[tool.hatch.version]
-path = "src/bootstrap3/__about__.py"
-
-[tool.hatch.build.targets.sdist]
-include = [
-  "/src",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/bootstrap3"]
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -131,19 +118,6 @@ dependencies = [
   "ruff>0.1",
 ]
 detached = true
-
-[tool.hatch.envs.lint.scripts]
-all = [
-  "style",
-]
-fmt = [
-  "ruff --fix {args:.}",
-  "ruff format {args:.}",
-  "style",
-]
-style = [
-  "ruff {args:.}",
-]
 
 [tool.ruff]
 fix = false
