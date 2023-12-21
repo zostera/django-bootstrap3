@@ -1,35 +1,36 @@
-VERSION := $(shell hatch version)
+VERSION := $(shell python -c "import bootstrap3;print(bootstrap3.__version__)")
 
 .PHONY: test
 test:
-	hatch run test
+	python manage.py test
 
 .PHONY: tests
 tests:
-	hatch run all:test
+	nox
 
 .PHONY: reformat
 reformat:
-	hatch run lint:fmt
+	ruff --fix .
+	ruff format .
 
 .PHONY: lint
 lint:
-	hatch run lint:style
+	ruff .
 
 .PHONY: docs
-docs:
-	hatch run docs:build
+docs: clean
+	cd docs && sphinx-build -b html -d _build/doctrees . _build/html
 
 .PHONY: example
 example:
-	hatch run example:runserver
+	cd example && python manage.py runserver
 
 .PHONY: porcelain
 porcelain:
 ifeq ($(shell git status --porcelain),)
 	@echo "Working directory is clean."
 else
-	@echo "Error - working directory is dirty. Commit those changes!";
+	@echo "Error - working directory is dirty. Commit your changes.";
 	@exit 1;
 endif
 
@@ -38,17 +39,25 @@ branch:
 ifeq ($(shell git rev-parse --abbrev-ref HEAD),main)
 	@echo "On branch main."
 else
-	@echo "Error - Not on branch main!"
+	@echo "Error - Not on branch main."
 	@exit 1;
 endif
 
 .PHONY: build
 build: docs
-	rm -rf build dist src/*.egg-info
-	hatch build
+	python -m build
 
 .PHONY: publish
 publish: porcelain branch build
-	hatch publish
+	twine check dist/*
+	twine upload dist/*
 	git tag -a v${VERSION} -m "Release ${VERSION}"
 	git push origin --tags
+
+.PHONY: clean
+clean: docs
+	rm -rf build dist src/*.egg-info .coverage*
+
+.PHONY: version
+version:
+	@echo ${VERSION}

@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
 
 [project]
 authors = [
@@ -30,13 +30,11 @@ dependencies = [
   "beautifulsoup4>=4.8.0",
 ]
 description = "Bootstrap 3 for Django"
-dynamic = [
-  "version",
-]
-license = "BSD-3-Clause"
+license = {file = "LICENSE"}
 name = "django-bootstrap3"
 readme = "README.md"
 requires-python = ">=3.8"
+version = "23.5.dev1"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap3/blob/main/CHANGELOG.md"
@@ -44,106 +42,6 @@ Documentation = "https://django-bootstrap3.readthedocs.io/"
 Homepage = "https://github.com/zostera/django-bootstrap3"
 Issues = "https://github.com/zostera/django-bootstrap3/issues"
 Source = "https://github.com/zostera/django-bootstrap3"
-
-[tool.hatch.version]
-path = "src/bootstrap3/__about__.py"
-
-[tool.hatch.build.targets.sdist]
-include = [
-  "/src",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/bootstrap3"]
-
-[tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=7.2.6",
-]
-matrix-name-format = "dj{value}"
-
-[tool.hatch.envs.default.scripts]
-cov = [
-  "test-cov",
-  "cov-report",
-]
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-test = "python manage.py test {args:tests}"
-test-cov = "coverage run manage.py test {args:tests}"
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2", "4.1", "4.2"]
-python = ["3.8", "3.9"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2", "4.1", "4.2", "5.0", "main"]
-python = ["3.10"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["4.1", "4.2", "5.0", "main"]
-python = ["3.11"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["4.2", "5.0", "main"]
-python = ["3.12"]
-
-[tool.hatch.envs.all.overrides]
-matrix.django.dependencies = [
-  {value = "django~=3.2.0", if = ["3.2"]},
-  {value = "django~=4.1.0", if = ["4.1"]},
-  {value = "django~=4.2.0", if = ["4.2"]},
-  {value = "django @ git+https://github.com/django/django.git", if = ["main"]},
-]
-
-[tool.hatch.envs.example]
-dependencies = [
-  "django>=3.2",
-]
-python = "3.11"
-template = "example"
-
-[tool.hatch.envs.example.scripts]
-runserver = [
-  "cd example && python manage.py migrate && python manage.py runserver",
-]
-
-[tool.hatch.envs.docs]
-dependencies = [
-  "sphinx>=7.0.1",
-  "sphinx-mdinclude>=0.5.3",
-  "furo>=2023.05.20",
-]
-python = "3.11"
-template = "docs"
-
-[tool.hatch.envs.docs.scripts]
-build = [
-  "clean",
-  "cd docs && sphinx-build -b html -d _build/doctrees . _build/html",
-]
-clean = "rm -rf docs/_build"
-
-[tool.hatch.envs.lint]
-dependencies = [
-  "ruff>0.1",
-]
-detached = true
-
-[tool.hatch.envs.lint.scripts]
-all = [
-  "style",
-]
-fmt = [
-  "ruff --fix {args:.}",
-  "ruff format {args:.}",
-  "style",
-]
-style = [
-  "ruff {args:.}",
-]
 
 [tool.ruff]
 fix = false
