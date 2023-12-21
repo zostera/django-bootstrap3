@@ -5,6 +5,6 @@ build:
   tools:
     python: "3.11"
   commands:
-    - pip install -U pip hatch
-    - hatch run docs:build
+    - pip install -U pip -r docs/requirements.txt
+    - make docs
     - mv docs/_build $READTHEDOCS_OUTPUT
