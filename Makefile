@@ -2,7 +2,8 @@ VERSION := $(shell python -c "import bootstrap3;print(bootstrap3.__version__)")
 
 .PHONY: test
 test:
-	python manage.py test
+	coverage run manage.py test
+	coverage report
 
 .PHONY: tests
 tests:
