@@ -77,8 +77,7 @@ known-third-party = ["django"]
 
 [tool.coverage.run]
 branch = true
-parallel = true
-source = ["src"]
+source = ["src", "tests"]
 
 [tool.coverage.paths]
 package = ["src/bootstrap3", "*/django_bootstrap3/src/bootstrap3"]
@@ -86,6 +85,3 @@ package = ["src/bootstrap3", "*/django_bootstrap3/src/bootstrap3"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-
-[tool.sphinx.x-conf]
-module = "bootstrap3"
