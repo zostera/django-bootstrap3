@@ -45,8 +45,6 @@ Ready to contribute? Here\'s how to set up `django-bootstrap3` for local develop
 
 You will need some knowledge of git, github, and Python/Django development. Using a Python virtual environment is advised.
 
-This project uses [Hatch](https://github.com/pypa/hatch) for environments and builds.
-
 ### Local installation
 
 This section assumes you know about local Python versions and virtual environments.
@@ -56,7 +54,7 @@ To clone the repository and install the requirements for local development:
 ```console
 git clone git://github.com/zostera/django-bootstrap3.git
 cd django-bootstrap3
-pip install -U pip hatch
+pip install -U pip -r requirements-dev.txt
 pip install -e .
 ```
 

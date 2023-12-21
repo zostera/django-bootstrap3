@@ -2,8 +2,11 @@
 
 ## In development
 
-- Use ruff instead of black for formatting (#901).
 - Fix Django versions in test matrix (#900).
+- Use ruff instead of black for formatting (#901).
+- Add support for Python 3.12 (#905).
+- Add support for Django 5.0 (#904, #906).
+- Revert packaging tools to setuptools, build, tox and twine (#908).
 
 ## 23.4 (2023-06-28)
 

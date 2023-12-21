@@ -1,4 +1,4 @@
-VERSION := $(shell hatch version)
+VERSION := $(shell python -c "import bootstrap3;print(bootstrap3.__version__)")
 
 .PHONY: test
 test:
@@ -23,7 +23,7 @@ docs: clean
 
 .PHONY: example
 example:
-	hatch run example:runserver
+	cd example && python manage.py runserver
 
 .PHONY: porcelain
 porcelain:
@@ -49,10 +49,15 @@ build: docs
 
 .PHONY: publish
 publish: porcelain branch build
-	hatch publish
+	twine check dist/*
+	twine upload dist/*
 	git tag -a v${VERSION} -m "Release ${VERSION}"
 	git push origin --tags
 
 .PHONY: clean
 clean: docs
 	rm -rf build dist src/*.egg-info .coverage*
+
+.PHONY: version
+version:
+	@echo ${VERSION}
