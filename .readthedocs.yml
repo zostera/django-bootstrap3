@@ -5,6 +5,8 @@ build:
   tools:
     python: "3.11"
   commands:
-    - pip install -U pip -r docs/requirements.txt
+    - pip install -U pip
+    - pip install -U -r docs/requirements.txt
+    - pip install -e .
     - make docs
     - mv docs/_build $READTHEDOCS_OUTPUT
