@@ -28,7 +28,6 @@ classifiers = [
 ]
 dependencies = [
   "Django>=3.2",
-  "beautifulsoup4>=4.8.0",
 ]
 description = "Bootstrap 3 for Django"
 license = {file = "LICENSE"}
