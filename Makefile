@@ -11,8 +11,8 @@ tests:
 
 .PHONY: reformat
 reformat:
-	ruff --fix .
 	ruff format .
+	ruff --fix .
 
 .PHONY: lint
 lint:
