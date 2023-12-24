@@ -1,3 +1,5 @@
 -r requirements-test.txt
 -r docs/requirements.txt
 twine==4.0.2
+build==1.0.3
+setuptools==69.0.3

@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 23.5 (2023-12-24)
 
 - Fix Django versions in test matrix (#900).
 - Use ruff instead of black for formatting (#901).
