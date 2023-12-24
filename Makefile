@@ -1,4 +1,4 @@
-VERSION := $(shell python -c "import bootstrap3;print(bootstrap3.__version__)")
+VERSION := $(shell sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml)
 
 .PHONY: test
 test:
@@ -7,7 +7,7 @@ test:
 
 .PHONY: tests
 tests:
-	nox
+	tox
 
 .PHONY: reformat
 reformat:

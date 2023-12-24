@@ -1,2 +1,3 @@
 -r requirements-test.txt
 -r docs/requirements.txt
+twine==4.0.2
