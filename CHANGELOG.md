@@ -1,8 +1,8 @@
 # Changelog
 
-## 23.5 (2023-12-28)
+## 23.6 (2023-12-28)
 
-- Use setuptools-scm to build package content (#900).
+- Use setuptools-scm to build package content (#920).
 
 ## 23.5 (2023-12-24)
 
