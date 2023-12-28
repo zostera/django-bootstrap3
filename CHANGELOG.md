@@ -2,7 +2,7 @@
 
 ## 23.6 (2023-12-28)
 
-- Use setuptools-scm to build package content (#920).
+- Use setuptools_scm to build package content (#920).
 
 ## 23.5 (2023-12-24)
 
