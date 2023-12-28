@@ -56,7 +56,7 @@ publish: porcelain branch build
 	git push origin --tags
 
 .PHONY: clean
-clean: docs
+clean:
 	rm -rf build dist src/*.egg-info .coverage*
 
 .PHONY: version
