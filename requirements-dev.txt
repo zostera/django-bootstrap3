@@ -1,6 +1,6 @@
 -r requirements-test.txt
 -r docs/requirements.txt
 twine==4.0.2
-build==1.0.3
+build==1.1.1
 setuptools==69.1.1
 setuptools_scm==8.0.4
