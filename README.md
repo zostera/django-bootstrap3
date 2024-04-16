@@ -12,6 +12,11 @@ The goal of this project is to seamlessly blend Django and Bootstrap 3.
 
 - Want to use Bootstrap 4 in Django? See https://github.com/zostera/django-bootstrap4.
 - Want to use Bootstrap 5 in Django? See https://github.com/zostera/django-bootstrap5.
+- Need icons in your Django project? Use https://github.com/zostera/django-icons.
+
+## Status
+
+This project will receive updates for supported Python and Django versions. Otherwise, we will probably not accept any changes.
 
 ## Requirements
 
