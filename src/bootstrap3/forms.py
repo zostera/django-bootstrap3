@@ -103,7 +103,9 @@ def render_button(
     elif size == "md" or size == "medium":
         pass
     elif size:
-        raise BootstrapError(f'Parameter "size" should be "xs", "sm", "lg" or empty ("{size}" given).')
+        raise BootstrapError(
+            f'Parameter "size" should be "xs", "sm", "lg" or empty ("{size}" given).'
+        )
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):
             raise BootstrapError(
@@ -134,7 +136,9 @@ def render_button(
     )
 
 
-def render_field_and_label(field, label, field_class="", label_for=None, label_class="", layout="", **kwargs):
+def render_field_and_label(
+    field, label, field_class="", label_for=None, label_class="", layout="", **kwargs
+):
     """Render a field with its label."""
     if layout == "horizontal":
         if not label_class:
@@ -172,4 +176,6 @@ def is_widget_with_placeholder(widget):
 
     Only text, search, url, tel, e-mail, password, number have placeholders
     """
-    return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput))
+    return isinstance(
+        widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput)
+    )
