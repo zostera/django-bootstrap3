@@ -41,7 +41,7 @@ class TestForm(forms.Form):
     message = forms.CharField(required=False, help_text="<i>my_help_text</i>")
     sender = forms.EmailField(label="Sender © unicode", help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
-    weird = forms.CharField(help_text="strings are now utf-8 \u03BCnico\u0394é!")
+    weird = forms.CharField(help_text="strings are now utf-8 \u03bcnico\u0394é!")
     cc_myself = forms.BooleanField(
         required=False, help_text='cc stands for "carbon copy." You will get a copy in your mailbox.'
     )

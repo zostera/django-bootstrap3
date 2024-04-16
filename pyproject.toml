@@ -45,33 +45,33 @@ Source = "https://github.com/zostera/django-bootstrap3"
 
 [tool.ruff]
 fix = false
-fixable = [
+line-length = 120
+lint.fixable = [
   "I001", # isort (sorting)
   "F", # flake8
   "D", # docformatter
   "UP", # pyupgrade
 ]
-ignore = [
+lint.ignore = [
   "D1", # D1: Missing docstring error codes (because not every function and class has a docstring)
   "D203", # D203: 1 blank line required before class docstring (conflicts with D211 and should be disabled, see https://github.com/PyCQA/pydocstyle/pull/91)
   "D212", # D212: Multi-line docstring summary should start at the first line
   "D301", # D301: Use r”“” if any backslashes in a docstring (unclear how else to handle backslashes in docstrings)
 ]
-line-length = 120
-select = [
+lint.select = [
   "D", # pydocstyle
   "E", # pycodestyle
   "F", # flake8
   "I", # isort
   "UP", # pyupgrade
 ]
-src = ["src"]
-target-version = "py38"
-unfixable = [
+lint.unfixable = [
   "F8", # names in flake8, such as defined but unused variables
 ]
+src = ["src"]
+target-version = "py38"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["bootstrap3", "app"]
 known-third-party = ["django"]
 

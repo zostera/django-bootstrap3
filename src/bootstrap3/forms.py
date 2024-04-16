@@ -13,7 +13,12 @@ from django.forms import (
 from django.forms.widgets import CheckboxInput
 from django.utils.safestring import mark_safe
 
-from .bootstrap import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
+from .bootstrap import (
+    get_bootstrap_setting,
+    get_field_renderer,
+    get_form_renderer,
+    get_formset_renderer,
+)
 from .components import render_icon
 from .exceptions import BootstrapError
 from .text import text_concat, text_value
@@ -21,7 +26,13 @@ from .utils import add_css_class, render_tag
 
 FORM_GROUP_CLASS = "form-group"
 
-WIDGETS_NO_REQUIRED = (AdminFileWidget, HiddenInput, FileInput, CheckboxInput, CheckboxSelectMultiple)
+WIDGETS_NO_REQUIRED = (
+    AdminFileWidget,
+    HiddenInput,
+    FileInput,
+    CheckboxInput,
+    CheckboxSelectMultiple,
+)
 
 
 def render_formset(formset, **kwargs):
@@ -96,9 +107,8 @@ def render_button(
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):
             raise BootstrapError(
-                'Parameter "button_type" should be "submit", "reset", "button", "link" or empty  ("{}" given).'.format(
-                    button_type
-                )
+                'Parameter "button_type" should be "submit", "reset", "button", "link" or empty '
+                + f'("{button_type}" given).'
             )
         attrs["type"] = button_type
     classes = add_css_class(classes, extra_classes)
@@ -117,7 +127,11 @@ def render_button(
         attrs["value"] = value
     if title:
         attrs["title"] = title
-    return render_tag(tag, attrs=attrs, content=mark_safe(text_concat(icon_content, content, separator=" ")))
+    return render_tag(
+        tag,
+        attrs=attrs,
+        content=mark_safe(text_concat(icon_content, content, separator=" ")),
+    )
 
 
 def render_field_and_label(field, label, field_class="", label_for=None, label_class="", layout="", **kwargs):
