@@ -15,7 +15,7 @@ copyright = f"{year}, {author}"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    "sphinx_mdinclude",
+    "myst_parser",
 ]
 
 htmlhelp_basename = f"{project}-doc"
