@@ -15,15 +15,12 @@ jobs:
 
   tests_matrix:
     runs-on: ubuntu-latest
+    needs: [ ruff ]
     strategy:
       matrix:
         python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
-        django-version: [4.1, 4.2, 5.0, "main"]
+        django-version: [4.2, 5.0, "main"]
         exclude:
-            # Django 4.1
-            - python-version: 3.12
-              django-version: 4.1
-
             # Django 4.2
             - python-version: 3.12
               django-version: 4.2
@@ -64,6 +61,7 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    needs: [ tests_matrix ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -71,15 +69,31 @@ jobs:
             python-version: "3.11"
             cache: 'pip'
             cache-dependency-path: docs/requirements.txt
-      - name: Install and build
+      - name: Build documentation
         run: |
           python -m pip install -r docs/requirements.txt
           make docs
 
+  build:
+    runs-on: ubuntu-latest
+    needs: [ tests_matrix ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+            python-version: "3.11"
+            cache: 'pip'
+            cache-dependency-path: requirements-dev.txt
+      - name: Build package
+        run: |
+          python -m pip install -r requirements-dev.txt
+          make build
+
+
   tests:
     if: always()
     runs-on: ubuntu-latest
-    needs: [ tests_matrix, ruff, docs ]
+    needs: [ tests_matrix, ruff, docs, build ]
     steps:
       - name: Check tests matrix status
         if: needs.tests_matrix.result != 'success'
