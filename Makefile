@@ -12,11 +12,11 @@ tests:
 .PHONY: reformat
 reformat:
 	ruff format .
-	ruff check . --fix
+	ruff --fix .
 
 .PHONY: lint
 lint:
-	ruff check .
+	ruff .
 
 .PHONY: docs
 docs: clean
@@ -45,12 +45,15 @@ else
 endif
 
 .PHONY: build
-build: docs
+build:
 	python -m build
+	twine check dist/*
+	check-manifest
+	pyroma .
+	check-wheel-contents dist
 
 .PHONY: publish
-publish: porcelain branch build
-	twine check dist/*
+publish: porcelain branch docs build
 	twine upload dist/*
 	git tag -a v${VERSION} -m "Release ${VERSION}"
 	git push origin --tags
