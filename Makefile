@@ -12,11 +12,11 @@ tests:
 .PHONY: reformat
 reformat:
 	ruff format .
-	ruff --fix .
+	ruff check . --fix
 
 .PHONY: lint
 lint:
-	ruff .
+	ruff check .
 
 .PHONY: docs
 docs: clean
