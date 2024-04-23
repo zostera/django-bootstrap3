@@ -8,7 +8,6 @@ from bootstrap3.exceptions import BootstrapError
 from bootstrap3.text import text_concat, text_value
 from bootstrap3.utils import (
     IS_DJANGO5,
-    IS_PRE_DJANGO4,
     add_css_class,
     render_tag,
     url_to_attrs_dict,
@@ -572,11 +571,6 @@ class InlineLayoutTestCase(TestCase):
               </div>
             </div>
             """
-        if IS_PRE_DJANGO4:
-            expected = expected.replace(
-                '<label class="sr-only">Radio</label>',
-                '<label class="sr-only" for="id_radio_0">Radio</label>',
-            )
         self.assertHTMLEqual(res, expected)
         self.assertIn(
             ' <div class="radio">',

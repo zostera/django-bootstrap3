@@ -15,8 +15,6 @@ from bootstrap3.exceptions import BootstrapError
 from .text import text_value
 
 DJANGO_VERSION = get_version()
-# TODO: Remove after support for Django 3.x ends
-IS_PRE_DJANGO4 = DJANGO_VERSION < "4"
 IS_DJANGO5 = DJANGO_VERSION >= "5"
 
 # RegEx for quoted string
