@@ -129,7 +129,7 @@ def render_form(form=None, context=None):
 
 def render_form_field(field, context=None):
     """Create a template that renders a field."""
-    form_field = "form.%s" % field
+    form_field = f"form.{field}"
     return render_template_with_form("{% bootstrap_field " + form_field + " %}", context)
 
 

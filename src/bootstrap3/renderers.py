@@ -71,7 +71,7 @@ class BaseRenderer:
             return "large"
         if size in ("md", "medium", ""):
             return "medium"
-        raise BootstrapError('Invalid value "%s" for parameter "size" (expected "sm", "md", "lg" or "").' % size)
+        raise BootstrapError(f'Invalid value "{size}" for parameter "size" (expected "sm", "md", "lg" or "").')
 
     def get_size_class(self, prefix="input"):
         if self.size == "small":

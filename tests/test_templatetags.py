@@ -45,7 +45,7 @@ class FormTest(TestCase):
                 self.assertIn('name="datetime_0"', res)
                 self.assertIn('name="datetime_1"', res)
             else:
-                self.assertIn('name="%s"' % field.name, res)
+                self.assertIn(f'name="{field.name}"', res)
 
     def test_field_addons(self):
         form = TestForm()
