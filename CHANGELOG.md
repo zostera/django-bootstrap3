@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleases
+
+- Add support for Django 5.1 (#1013)
+
 ## 24.2 (2024-04-17)
 
 - Reinstate setuptools_scm for build (#965).
