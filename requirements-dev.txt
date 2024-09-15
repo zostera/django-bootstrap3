@@ -1,8 +1,8 @@
 -r requirements-test.txt
 -r docs/requirements.txt
 twine==5.1.1
-build==1.2.1
-setuptools==72.1.0
+build==1.2.2
+setuptools==74.1.2
 check-manifest==0.49
 pyroma==4.2
 check-wheel-contents==0.6.0
