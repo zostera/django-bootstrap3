@@ -313,7 +313,7 @@ class FieldRenderer(BaseRenderer):
 
     def list_to_class(self, html, klass):
         classes = add_css_class(klass, self.get_size_class())
-        return re.sub("\s*<div>\s*<label", f' <div class="{classes}"><label', html)
+        return re.sub(r"\s*<div>\s*<label", f' <div class="{classes}"><label', html)
 
     def put_inside_label(self, html):
         content = f"{html} {self.label}"
