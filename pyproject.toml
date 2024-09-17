@@ -25,9 +25,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
-dependencies = [
-  "Django>=4.2",
-]
+dependencies = ["Django>=4.2"]
 description = "Bootstrap 3 for Django"
 keywords = ["django", "bootstrap", "bootstrap3"]
 license = {file = "LICENSE"}
