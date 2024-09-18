@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleases
+## 24.3 (2024-09-18)
 
 - Add support for Django 5.1 (#1013)
 
