@@ -1,8 +1,12 @@
 # Changelog
 
+## In development
+
+- Drop support for Python 3.8 (EOL) (#1061).
+
 ## 24.3 (2024-09-18)
 
-- Add support for Django 5.1 (#1013)
+- Add support for Django 5.1 (#1013).
 
 ## 24.2 (2024-04-17)
 
