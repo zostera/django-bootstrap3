@@ -18,24 +18,18 @@ jobs:
     needs: [ ruff ]
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
+        python-version: [3.9, "3.10", 3.11, 3.12]
         django-version: [4.2, 5.0, 5.1, "main"]
         exclude:
             # Django 5.0
-            - python-version: 3.8
-              django-version: 5.0
             - python-version: 3.9
               django-version: 5.0
 
             # Django 5.1
-            - python-version: 3.8
-              django-version: 5.1
             - python-version: 3.9
               django-version: 5.1
 
             # Django main
-            - python-version: 3.8
-              django-version: "main"
             - python-version: 3.9
               django-version: "main"
 
