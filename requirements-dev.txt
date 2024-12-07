@@ -1,6 +1,6 @@
 -r requirements-test.txt
 -r docs/requirements.txt
-twine==5.1.1
+twine==6.0.1
 build==1.2.2.post1
 setuptools==75.6.0
 check-manifest==0.50
