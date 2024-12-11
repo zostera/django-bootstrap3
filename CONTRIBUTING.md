@@ -47,15 +47,14 @@ You will need some knowledge of git, github, and Python/Django development. Usin
 
 ### Local installation
 
-This section assumes you know about local Python versions and virtual environments.
+This package uses [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just).
 
-To clone the repository and install the requirements for local development:
+After installing both, check out this repository and type `just bootstrap` to bootstrap a development environment.
 
 ```console
 git clone git://github.com/zostera/django-bootstrap3.git
 cd django-bootstrap3
-pip install -U pip -r requirements-dev.txt
-pip install -e .
+just bootstrap
 ```
 
 ### Running the tests
@@ -63,13 +62,13 @@ pip install -e .
 To run the tests:
 
 ```console
-make test
+just test
 ```
 
 To run the tests on all supported Python/Django combinations:
 
 ```console
-make tests
+just tests
 ```
 
 ## Pull Request Guidelines

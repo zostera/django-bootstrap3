@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=64"]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
 authors = [
@@ -84,3 +84,22 @@ package = ["src/bootstrap3", "*/django_bootstrap3/src/bootstrap3"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+
+[dependency-groups]
+dev = [
+  "check-manifest>=0.50",
+  "check-wheel-contents>=0.6.0",
+  "coverage[toml]>=7.6.1",
+  "pyroma>=4.2",
+  "ruff>=0.7.1",
+  "tox-uv>=1.13.1",
+  "twine>=5.1.1",
+]
+docs = [
+  "furo>=2024.8.6",
+  "myst-parser>=3.0.1",
+  "sphinx>=7.1.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bootstrap3"]
