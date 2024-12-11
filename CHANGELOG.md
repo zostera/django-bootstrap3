@@ -2,6 +2,8 @@
 
 ## In development
 
+- Add support for Python 3.13 (#1064, #1065).
+- Use uv and just for package management (#1064).
 - Drop support for Python 3.8 (EOL) (#1061).
 
 ## 24.3 (2024-09-18)
