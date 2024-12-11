@@ -100,3 +100,6 @@ docs = [
   "myst-parser>=3.0.1",
   "sphinx>=7.1.2",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bootstrap3"]
