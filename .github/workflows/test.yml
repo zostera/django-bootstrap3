@@ -35,6 +35,10 @@ jobs:
             # Django main
             - python-version: 3.9
               django-version: "main"
+            - python-version: "3.10"
+              django-version: "main"
+            - python-version: 3.11
+              django-version: "main"
 
     steps:
     - uses: actions/checkout@v4
