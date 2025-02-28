@@ -33,7 +33,11 @@ jobs:
               django-version: 5.1
 
             # Django main
-            - python-version: [3.9, "3.10", 3.11]
+            - python-version: 3.9
+              django-version: "main"
+            - python-version: "3.10"
+              django-version: "main"
+            - python-version: 3.11
               django-version: "main"
 
     steps:
