@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 25.1 (2025-02-28)
 
 - Add support for Python 3.13 (#1064, #1065).
 - Use uv and just for package management (#1064).

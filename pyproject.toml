@@ -32,7 +32,7 @@ license = {file = "LICENSE"}
 name = "django-bootstrap3"
 readme = "README.md"
 requires-python = ">=3.9"
-version = "24.3"
+version = "25.1"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap3/blob/main/CHANGELOG.md"
