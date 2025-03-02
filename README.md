@@ -10,13 +10,15 @@ Bootstrap 3 for Django.
 
 The goal of this project is to seamlessly blend Django and Bootstrap 3.
 
-- Want to use Bootstrap 4 in Django? See https://github.com/zostera/django-bootstrap4.
-- Want to use Bootstrap 5 in Django? See https://github.com/zostera/django-bootstrap5.
-- Need icons in your Django project? Use https://github.com/zostera/django-icons.
+## Roadmap
 
-## Status
+Bootstrap 3 has been superseded by Bootstrap 4, which has since been superseded by Bootstrap 5. As a result, this package is now in maintenance mode and will only receive bug fixes and security updates. No new features or enhancements will be added. We recommend that new projects use Bootstrap 5 and encourage existing projects to consider migrating when feasible.
 
-This project will receive updates for supported Python and Django versions. Otherwise, we will probably not accept any changes.
+For Bootstrap 4, please refer to our dedicated package: [django-bootstrap4](https://github.com/zostera/django-bootstrap4).
+
+For Bootstrap 5, please refer to our dedicated package: [django-bootstrap5](https://github.com/zostera/django-bootstrap5).
+
+For icons, we recommend our dedicated package: [django-icons](https://github.com/zostera/django-icons).
 
 ## Requirements
 
