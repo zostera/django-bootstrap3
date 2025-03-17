@@ -96,7 +96,7 @@ jobs:
             pyproject.toml
 
       - name: Set up just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: Build documentation
         run: just docs
@@ -116,7 +116,7 @@ jobs:
             pyproject.toml
 
       - name: Set up just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: Build package
         run: just build
