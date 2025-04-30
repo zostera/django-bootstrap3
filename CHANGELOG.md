@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Symlink CHANGELOG.md into docs for Sphinx ($1076).
+
 ## 25.1 (2025-02-28)
 
 - Add support for Python 3.13 (#1064, #1065).
@@ -79,6 +83,7 @@
 
 - Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
 - Add support for Django 4 and Python 3.10 (#579).
+
 ## 15.0.0 (2021-04-10)
 
 - Drop support for Django 3.0, extended support stopped on 2021-04-01).
@@ -105,7 +110,7 @@
 ## 14.0.0 (2020-06-22)
 
 - Drop support for Python 3.5 and Django 2.1.
-- Use Poetry (https://python-poetry.org/) for dependency management and packaging.
+- Use Poetry (<https://python-poetry.org/>) for dependency management and packaging.
 - Change documentation to support main branch rename to 'main'.
 - Fix settings override bug (fixes #388).
 - Use Markdown for README.
@@ -172,7 +177,7 @@
 
 ## 9.1.0 (2017-10-27)
 
-- Mention django-bootstrap4 (https://github.com/zostera/django-bootstrap4) in README
+- Mention django-bootstrap4 (<https://github.com/zostera/django-bootstrap4>) in README
 - Rewrite `tox` test matrix to focus on Django releases rather than Python versions
 - Add tests for Django master branch (>= 2)
 - Add `label` override for `{% bootstrap_field %}`
