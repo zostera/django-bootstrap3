@@ -4,7 +4,11 @@
 # Required
 version: 2
 
-# Set the version of Python and other tools you might need
+# Ensure full git history is available (prevents PR checkout errors)
+vcs:
+  depth: 0
+
+# Set the version of Python and other tools you might need  
 build:
   os: ubuntu-22.04
   tools:
