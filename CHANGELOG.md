@@ -2,6 +2,7 @@
 
 ## In development
 
+- Add support for Django 5.2 (#).
 - Symlink CHANGELOG.md into docs for Sphinx (#1076).
 - Drop support for Django 5.0 (EOL) (#1075).
 
