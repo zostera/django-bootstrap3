@@ -2,7 +2,7 @@
 
 ## In development
 
-- Symlink CHANGELOG.md into docs for Sphinx ($1076).
+- Symlink CHANGELOG.md into docs for Sphinx (#1076).
 
 ## 25.1 (2025-02-28)
 
