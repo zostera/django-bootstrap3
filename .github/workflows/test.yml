@@ -50,12 +50,11 @@ jobs:
       run: sudo apt-get install binutils libproj-dev gdal-bin
 
     - name: Set up Python with uv
-      uses: drivendataorg/setup-python-uv-action@main
+      uses: astral-sh/setup-uv@v6
       with:
         python-version: ${{ matrix.python-version }}
-        cache: packages
-        cache-dependency-path: >-
-          pyproject.toml
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
 
     - name: Install dependencies
       run: uv sync --all-extras --all-groups --upgrade
