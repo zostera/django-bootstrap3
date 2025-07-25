@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+build-backend = "uv_build"
+requires = ["uv_build>=0.8.3,<0.9.0"]
 
 [project]
 authors = [
@@ -14,7 +14,6 @@ classifiers = [
   "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.9",
@@ -28,7 +27,8 @@ classifiers = [
 dependencies = ["Django>=4.2"]
 description = "Bootstrap 3 for Django"
 keywords = ["django", "bootstrap", "bootstrap3"]
-license = {file = "LICENSE"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap3"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -102,5 +102,23 @@ docs = [
   "sphinx>=7.1.2",
 ]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/bootstrap3"]
+[tool.uv.build-backend]
+module-name = "bootstrap3"
+source-exclude = [
+  "**/.DS_Store",
+  "docs/_build",
+  "example/db.sqlite3",
+]
+source-include = [
+  ".editorconfig",
+  ".readthedocs.yaml",
+  "FUNDING.yml",
+  "manage.py",
+  "justfile",
+  "*.md",
+  "example/**",
+  "tests/**",
+  "tox.ini",
+  "docs/**",
+  "uv.lock",
+]
