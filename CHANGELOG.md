@@ -7,6 +7,7 @@
 - Drop support for Django 5.0 (EOL) (#1075).
 - Use `astral-sh/setup-uv` in GitHub Actions (#1080).
 - Use `uv build` and setup-uv (#1081).
+- Use `uv.locl` in GitHub Actions (#1082).
 
 ## 25.1 (2025-02-28)
 
