@@ -1,13 +1,13 @@
 # Changelog
 
-## In development
+## 25.2 (2025-07-31)
 
 - Add support for Django 5.2 (#).
 - Symlink CHANGELOG.md into docs for Sphinx (#1076).
 - Drop support for Django 5.0 (EOL) (#1075).
 - Use `astral-sh/setup-uv` in GitHub Actions (#1080).
 - Use `uv build` and setup-uv (#1081).
-- Use `uv.locl` in GitHub Actions (#1082).
+- Use `uv.lock` in GitHub Actions (#1082).
 
 ## 25.1 (2025-02-28)
 
