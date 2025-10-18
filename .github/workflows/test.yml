@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.9, "3.10", 3.11, 3.12, 3.13]
-        django-version: [4.2, 5.1, 5.2, "main"]
+        django-version: [4.2, 5.1, 5.2, 6.0, "main"]
         exclude:
 
             # Django 5.1
@@ -32,6 +32,14 @@ jobs:
             # Django 5.2
             - python-version: 3.9
               django-version: 5.2
+
+            # Django 6.0
+            - python-version: 3.9
+              django-version: 6.0
+            - python-version: 3.10
+              django-version: 6.0
+            - python-version: 3.11
+              django-version: 6.0
 
             # Django main
             - python-version: 3.9
@@ -64,7 +72,10 @@ jobs:
 
     - name: Install Django ${{ matrix.django-version }}
       run: uv pip install Django==${{ matrix.django-version }}
-      if: matrix.django-version != 'main'
+      if: ${{ matrix.django-version != 'main' && matrix.django-version != '6.0' }}
+    - name: Install Django ${{ matrix.django-version }}
+      run: uv pip install "Django>=6.0a1,<6.1"
+      if: matrix.django-version == '6.0'
     - name: Install Django main branch
       run: uv pip install -U https://github.com/django/django/archive/master.tar.gz
       if: matrix.django-version == 'main'
