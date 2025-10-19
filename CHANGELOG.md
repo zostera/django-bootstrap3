@@ -1,5 +1,10 @@
 # Changelog
 
+## In development
+
+- Add support for Python 3.14 (#1089).
+- Add support for Django 6.0 (#1088).
+
 ## 25.2 (2025-07-31)
 
 - Add support for Django 5.2 (#).
