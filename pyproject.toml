@@ -17,7 +17,6 @@ classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -33,7 +32,7 @@ license = "BSD-3-Clause"
 license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap3"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 version = "25.2"
 
 [project.urls]
@@ -110,6 +109,7 @@ source-exclude = [
   "**/.DS_Store",
   "docs/_build",
   "example/db.sqlite3",
+  "uv.lock",
 ]
 source-include = [
   ".editorconfig",
@@ -122,5 +122,7 @@ source-include = [
   "tests/**",
   "tox.ini",
   "docs/**",
-  "uv.lock",
 ]
+
+[tool.check-manifest]
+ignore = ["uv.lock"]
