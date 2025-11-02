@@ -2,7 +2,6 @@ set export := true
 set dotenv-load := true
 
 EXAMPLE_DIRNAME := "example"
-VENV_DIRNAME := ".venv"
 VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 
 # default recipe
@@ -16,38 +15,31 @@ default:
         exit 1; \
     fi
 
-# Set up development environment
-@bootstrap: uv
-    if test ! -e {{ VENV_DIRNAME }}; then \
-        uv python install; \
-    fi
-    just update
-
-# Install and/or update all dependencies defined in pyproject.toml
-@update: uv
+# Install and/or upgrade all dependencies defined in pyproject.toml
+@upgrade: uv
     uv sync --all-extras --all-groups --upgrade
 
 # Format
-@format: bootstrap
+@format: upgrade
     ruff format
     ruff check --fix
 
 # Lint
-@lint: bootstrap
+@lint: upgrade
     ruff format --check
     ruff check
 
 # Test
-@test: bootstrap
+@test: upgrade
     coverage run manage.py test
     coverage report
 
 # Test
-@tests: bootstrap
+@tests: upgrade
     tox
 
 # Build
-@build: bootstrap
+@build: upgrade
     uv build
     uvx twine check dist/*
     uvx check-manifest
@@ -76,7 +68,7 @@ default:
         exit 1; \
     fi
 
-@docs: bootstrap clean
+@docs: upgrade clean
     uv run -m sphinx -T -b html -d docs/_build/doctrees -D language=en docs docs/_build/html
 
 @example:
