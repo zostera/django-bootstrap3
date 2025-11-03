@@ -49,12 +49,12 @@ You will need some knowledge of git, github, and Python/Django development. Usin
 
 This package uses [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just).
 
-After installing both, check out this repository and type `just bootstrap` to bootstrap a development environment.
+After installing both, check out this repository and type `just upgrade` to bootstrap a development environment.
 
 ```console
 git clone git://github.com/zostera/django-bootstrap3.git
 cd django-bootstrap3
-just bootstrap
+just upgrade
 ```
 
 ### Running the tests
