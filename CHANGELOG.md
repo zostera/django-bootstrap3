@@ -2,7 +2,7 @@
 
 ## In development
 
-- Remove support for Python 3.9 (EOL) (#1091).
+- Remove support for Python 3.9 (EOL) (#1091, #1093).
 - Add support for Python 3.14 (#1089).
 - Add support for Django 6.0 (#1088).
 
