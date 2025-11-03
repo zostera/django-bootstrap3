@@ -46,7 +46,6 @@ Source = "https://github.com/zostera/django-bootstrap3"
 fix = false
 line-length = 120
 src = ["src"]
-target-version = "py39"
 
 [tool.ruff.lint]
 fixable = [
