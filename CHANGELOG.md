@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 25.3 (2025-11-14)
 
 - Remove support for Python 3.9 (EOL) (#1091, #1093).
 - Add support for Python 3.14 (#1089).
