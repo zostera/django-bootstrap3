@@ -10,15 +10,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ruff:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: chartboost/ruff-action@v1
+
+      - name: Set up Python with uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: 3.12
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Set up just
+        uses: extractions/setup-just@v3
+
+      - name: Lint source code
+        run: just lint
 
   tests_matrix:
     runs-on: ubuntu-latest
-    needs: [ ruff ]
+    needs: [ lint ]
     strategy:
       matrix:
         python-version: ["3.10", 3.11, 3.12, 3.13, 3.14]
@@ -63,8 +75,11 @@ jobs:
           pyproject.toml
           uv.lock
 
+    - name: Set up just
+      uses: extractions/setup-just@v3
+
     - name: Install dependencies
-      run: uv sync --locked --all-extras --dev
+      run: just sync
 
     - name: Install Django ${{ matrix.django-version }}
       run: uv pip install Django==${{ matrix.django-version }}
@@ -77,9 +92,7 @@ jobs:
       if: matrix.django-version == 'main'
 
     - name: Run tests
-      run: |
-        uv run coverage run manage.py test
-        uv run coverage report
+      run: just test-with-coverage-without-sync
 
     - name: Upload coveralls (parallel)
       env:
@@ -131,7 +144,7 @@ jobs:
   tests:
     if: always()
     runs-on: ubuntu-latest
-    needs: [ tests_matrix, ruff, docs, build ]
+    needs: [ tests_matrix, lint, docs, build ]
     steps:
       - name: Check tests matrix status
         if: needs.tests_matrix.result != 'success'
