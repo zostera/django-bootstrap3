@@ -88,13 +88,8 @@ skip_covered = true
 
 [dependency-groups]
 dev = [
-  "check-manifest>=0.50",
-  "check-wheel-contents>=0.6.0",
   "coverage[toml]>=7.6.1",
-  "pyroma>=4.2",
-  "ruff>=0.7.1",
   "tox-uv>=1.13.1",
-  "twine>=5.1.1",
 ]
 docs = [
   "furo>=2024.8.6",
