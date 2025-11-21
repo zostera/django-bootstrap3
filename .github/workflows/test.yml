@@ -13,7 +13,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up Python with uv
         uses: astral-sh/setup-uv@v7
@@ -58,7 +58,7 @@ jobs:
               django-version: "main"
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Update repositories
       run: sudo apt-get update
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ tests_matrix ]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up Python with uv
         uses: astral-sh/setup-uv@v7
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ tests_matrix ]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up Python with uv
         uses: astral-sh/setup-uv@v7
