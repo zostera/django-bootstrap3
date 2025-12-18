@@ -1,6 +1,9 @@
 set export := true
 set dotenv-load := true
 
+alias update := upgrade
+alias tox := tests
+
 EXAMPLE_DIRNAME := "example"
 VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 
@@ -14,7 +17,7 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 [private]
 @uv:
     if ! command -v uv >/dev/null; then \
-        echo "Error: 'uv' command is not available"; \
+        echo "Error - Command 'uv' is not available."; \
         exit 1; \
     fi
 
@@ -31,22 +34,20 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 # Check if the current Git branch is 'main'
 [private]
 @branch:
-    if [ "`git rev-parse --abbrev-ref HEAD`" = "main" ]; then \
-        echo "On branch main."; \
-    else \
+    if [ "`git rev-parse --abbrev-ref HEAD`" != "main" ]; then \
         echo "Error - Not on branch main."; \
         exit 1; \
     fi
+    echo "On branch main.";
 
-# Check if the working directory is clean
+# Fail if working directory contains uncommitted or untracked changes
 [private]
 @porcelain:
-    if [ -z "`git status --porcelain`" ]; then \
-        echo "Working directory is clean."; \
-    else \
-        echo "Error - working directory is dirty. Commit your changes."; \
+    if [ -n "`git status --porcelain --untracked-files=all`" ]; then \
+        echo "Error - Working directory is not clean. Commit your changes."; \
         exit 1; \
     fi
+    echo "Working directory is clean.";
 
 # Upgrade and install all dependencies
 @upgrade: uv
