@@ -11,15 +11,71 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 [private]
 @default:
   just --list
-  just uv
+  if ! command -v uv >/dev/null; then \
+    echo "Error - Command 'uv' is not available. Please install uv."; \
+    exit 1; \
+  fi
 
-# Check to see if uv is installed
-[private]
-@uv:
-    if ! command -v uv >/dev/null; then \
-        echo "Error - Command 'uv' is not available."; \
-        exit 1; \
+# Upgrade and install all dependencies
+@upgrade:
+    uv sync --all-groups --upgrade
+
+# Install for development (uses uv.lock)
+install:
+    uv sync --frozen --all-groups
+
+# Format source code
+@format:
+    uvx ruff format
+    uvx ruff check --fix
+
+# Check formatting of source code
+@lint:
+    uvx ruff format --check
+    uvx ruff check
+
+# Run test with coverage
+@test-cov *ARGS:
+    uv run --no-sync coverage run manage.py test {{ARGS}}
+    uv run --no-sync coverage report
+
+# Run test
+@test *ARGS:
+    uv run --no-sync manage.py test {{ARGS}}
+
+# Run all tests (invokes tox)
+@tests *ARGS:
+    uvx --with tox-uv tox {{ARGS}}
+
+# Build the package and test the build
+@build: clean-build install
+    uv build
+    uvx twine check dist/*
+    uvx check-manifest
+    uvx pyroma .
+    uvx check-wheel-contents dist/*.whl
+
+# Build the documentation
+@docs: clean-docs install
+    uv run -m sphinx -T -b html -d docs/_build/doctrees -D language=en docs docs/_build/html
+
+# Run the example project
+@example:
+    if test -e {{ EXAMPLE_DIRNAME }}; then \
+        cd "{{ EXAMPLE_DIRNAME }}" && python manage.py runserver; \
+    else \
+        echo "Example not found."; \
     fi
+
+# Publish package on PyPI
+@publish: porcelain branch docs build
+    uvx uv-publish
+    git tag -a v${VERSION} -m "Release {{ VERSION }}"
+    git push origin --tags
+
+# Show package version number
+@version:
+    echo "{{ VERSION }}"
 
 # Delete the build directory and other build artefacts
 [private]
@@ -48,70 +104,3 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
         exit 1; \
     fi
     echo "Working directory is clean.";
-
-# Upgrade and install all dependencies
-@upgrade: uv
-    uv sync --all-extras --all-groups --upgrade
-
-# Install all dependencies
-@sync: uv
-    uv sync --all-extras --all-groups --frozen
-
-# Format source code
-@format: uv
-    uvx ruff format
-    uvx ruff check --fix
-
-# Check formatting of source code
-@lint: uv
-    uvx ruff format --check
-    uvx ruff check
-
-# Run test on the current environment with coverage and then report
-@test *ARGS: sync
-    just test-with-coverage-without-sync {{ARGS}}
-    uv run coverage report
-
-# Run test with coverage
-[private]
-@test-with-coverage-without-sync *ARGS:
-    uv run coverage run manage.py test {{ARGS}}
-
-# Run test command without coverage and syncing
-[private]
-@test-without-coverage-without-sync *ARGS:
-    uv run manage.py test {{ARGS}}
-
-# Run all tests (invokes tox)
-@tests: sync
-    uv run tox
-
-# Build the package and test the build
-@build: clean-build
-    uv build
-    uvx twine check dist/*
-    uvx check-manifest
-    uvx pyroma .
-    uvx check-wheel-contents dist
-
-# Build the documentation
-@docs: clean-docs sync
-    uv run -m sphinx -T -b html -d docs/_build/doctrees -D language=en docs docs/_build/html
-
-# Run the example project
-@example:
-    if test -e {{ EXAMPLE_DIRNAME }}; then \
-        cd "{{ EXAMPLE_DIRNAME }}" && python manage.py runserver; \
-    else \
-        echo "Example not found."; \
-    fi
-
-# Publish package on PyPI
-@publish: porcelain branch docs build
-    uvx uv-publish
-    git tag -a v${VERSION} -m "Release {{ VERSION }}"
-    git push origin --tags
-
-# Show package version number
-@version:
-    echo "{{ VERSION }}"

@@ -8,9 +8,16 @@
 .env*
 .venv
 
-# Testing
-.coverage*
+# Tox
 .tox/
+
+# Coverage reports
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+*.cover
+.hypothesis/
 
 # Vagrant
 .vagrant/

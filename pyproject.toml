@@ -11,7 +11,6 @@ classifiers = [
   "Environment :: Web Environment",
   "Framework :: Django",
   "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
   "Intended Audience :: Developers",
@@ -33,7 +32,7 @@ license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap3"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "25.3"
+version = "26.1.dev0"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap3/blob/main/CHANGELOG.md"
@@ -88,13 +87,16 @@ skip_covered = true
 
 [dependency-groups]
 dev = [
-  "coverage[toml]>=7.6.1",
-  "tox-uv>=1.13.1",
+  {include-group = "test"},
+  {include-group = "docs"},
 ]
 docs = [
   "furo>=2024.8.6",
   "myst-parser>=3.0.1",
   "sphinx>=7.1.2",
+]
+test = [
+  "coverage[toml]>=7.6.1",
 ]
 
 [tool.uv.build-backend]

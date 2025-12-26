@@ -1,0 +1,151 @@
+name: CI
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Set up just
+        uses: extractions/setup-just@v3
+
+      - name: Lint source code
+        run: just lint
+
+  python_django_matrix:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        django-version: ["4.2", "5.2", "6.0", "main"]
+        exclude:
+          # Django 4.2
+          - python-version: "3.14"
+            django-version: "4.2"
+          # Django 6.0
+          - python-version: "3.10"
+            django-version: "6.0"
+          - python-version: "3.11"
+            django-version: "6.0"
+          # Django main
+          - python-version: "3.10"
+            django-version: "main"
+          - python-version: "3.11"
+            django-version: "main"
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Install Django ${{ matrix.django-version }}
+        run: |
+          if [ "${{ matrix.django-version }}" = "main" ]; then
+            uv pip install "https://github.com/django/django/archive/main.tar.gz"
+          else
+            uv pip install "Django==${{ matrix.django-version }}.*"
+          fi
+
+      - name: Debug - Show versions
+        run: |
+          echo "=== Python Version ==="
+          uv run --no-sync python --version
+          echo "=== Django Version ==="
+          uv run --no-sync python -c "import django; print(f'Django: {django.__version__}')"
+
+      - name: Run tests with coverage
+        run: uv run --no-sync coverage run manage.py test --verbosity=2
+
+      - name: Upload coverage to Coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+        run: |
+          uvx coveralls --service=github
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [python_django_matrix]
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Update repositories
+        run: sudo apt-get update
+
+      - name: Install GDAL binaries
+        run: sudo apt-get install binutils libproj-dev gdal-bin
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Set up just
+        uses: extractions/setup-just@v3
+
+      - name: Build package
+        run: just build
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Set up just
+        uses: extractions/setup-just@v3
+
+      - name: Build documentation
+        run: just docs
+
+  tests:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [python_django_matrix, lint, docs, build]
+    steps:
+      - name: Check tests matrix status
+        if: needs.python_django_matrix.result != 'success'
+        run: exit 1
+
+      - name: Finish Coveralls parallel build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
