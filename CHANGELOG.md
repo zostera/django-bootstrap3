@@ -1,5 +1,10 @@
 # Changelog
 
+## In development
+
+- Remove support for Django 5.1 (#1098).
+- Fix tox and CI (#1098).
+
 ## 25.3 (2025-11-14)
 
 - Remove support for Python 3.9 (EOL) (#1091, #1093).
