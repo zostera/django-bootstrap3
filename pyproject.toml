@@ -76,7 +76,7 @@ known-third-party = ["django"]
 
 [tool.coverage.run]
 branch = true
-source = ["src", "tests"]
+source = ["src"]
 
 [tool.coverage.paths]
 package = ["src/bootstrap3", "*/django_bootstrap3/src/bootstrap3"]
