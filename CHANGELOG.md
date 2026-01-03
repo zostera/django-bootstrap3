@@ -1,7 +1,10 @@
 # Changelog
 
-## In development
+## 26.1 (2026-01-03)
 
+- Refactor release workflow to tag-based publishing via GitHub Actions (#1102).
+- Remove tests folder from coverage source (#1100).
+- Add smoke test (#1101).
 - Remove support for Django 5.1 (#1098).
 - Fix tox and CI (#1098).
 
