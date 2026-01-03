@@ -92,7 +92,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: [python_django_matrix]
+    needs: [lint]
     steps:
       - uses: actions/checkout@v6
 

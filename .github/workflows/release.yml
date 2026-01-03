@@ -1,0 +1,76 @@
+name: "Publish release to PyPI"
+
+on:
+  push:
+    tags:
+      # Publish on any tag starting with a `v`, e.g. v25.2
+      - v*
+  # Manual run for a "dry run" (runs everything except publish)
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Python 3.13
+        run: uv python install 3.13
+
+      - name: Use Python 3.13
+        run: uv python pin 3.13
+
+      - name: Check tag matches package version
+        if: github.event_name == 'push'
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(uvx python - <<'PY'
+          import tomllib
+          with open("pyproject.toml", "rb") as f:
+              print(tomllib.load(f)["project"]["version"])
+          PY
+          )"
+
+          echo "Git tag version: $TAG_VERSION"
+          echo "Package version: $PKG_VERSION"
+
+          test "$TAG_VERSION" = "$PKG_VERSION" || {
+            echo "ERROR: tag v$TAG_VERSION does not match pyproject.toml version $PKG_VERSION"
+            exit 1
+          }
+
+      - name: Build
+        run: uv build
+
+      - name: List dist artefacts
+        run: ls -lah dist
+
+      - name: Check distribution metadata (twine)
+        run: uvx twine check dist/*
+
+      - name: Check sdist file list (check-manifest)
+        run: uvx check-manifest
+
+      - name: Check wheel contents
+        run: uvx check-wheel-contents dist/*.whl
+
+      - name: Smoke test (wheel)
+        run: uv run --isolated --no-project --with dist/*.whl tests/smoke_test.py
+
+      - name: Smoke test (source distribution)
+        run: uv run --isolated --no-project --with dist/*.tar.gz tests/smoke_test.py
+
+      - name: Publish
+        # Only publish on tag push; manual runs act as a dry run
+        if: github.event_name == 'push'
+        run: uv publish

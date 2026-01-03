@@ -47,13 +47,15 @@ install:
 @tests *ARGS:
     uvx --with tox-uv tox {{ARGS}}
 
-# Build the package and test the build
+# Build artefacts + packaging checks (local preflight)
 @build: clean-build install
     uv build
     uvx twine check dist/*
     uvx check-manifest
     uvx pyroma .
     uvx check-wheel-contents dist/*.whl
+    uv run --isolated --no-project --with dist/*.whl tests/smoke_test.py
+    uv run --isolated --no-project --with dist/*.tar.gz tests/smoke_test.py
 
 # Build the documentation
 @docs: clean-docs install
@@ -67,11 +69,16 @@ install:
         echo "Example not found."; \
     fi
 
-# Publish package on PyPI
-@publish: porcelain branch docs build
-    uvx uv-publish
-    git tag -a v${VERSION} -m "Release {{ VERSION }}"
-    git push origin --tags
+# Create and push a release tag (publishing happens in GitHub Actions)
+@release-tag: porcelain branch build
+    git tag -a v{{ VERSION }} -m "Release {{ VERSION }}"
+    git push origin v{{ VERSION }}
+
+# Backwards-compatible alias (kept so muscle memory doesn't publish locally)
+@publish:
+    echo "Local publishing is disabled."
+    echo "Use: just release-tag"
+    exit 1
 
 # Show package version number
 @version:
