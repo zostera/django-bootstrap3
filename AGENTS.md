@@ -6,6 +6,8 @@ Bootstrap 3 template tags and filters for Django, by [Zostera](https://github.co
 
 This package is in **maintenance mode** — Bootstrap 3 has been superseded by Bootstrap 4 and 5. Only bug fixes and security updates are accepted. Do not add new features or enhancements. Suggest Bootstrap 5 (`django-bootstrap5`) for new work.
 
+Bootstrap 3 is EOL — no new releases are expected, but if they occur we will evaluate supporting them. Bootstrap 3 docs: https://getbootstrap.com/docs/3.4/
+
 ## Related packages
 
 These packages share tooling and conventions — changes in one often mirror to others:
