@@ -94,15 +94,7 @@ tests/
     test_version.py
 ```
 
-Test matrix (tox) — not a full grid:
-
-| Python  | Django versions         |
-|---------|-------------------------|
-| 3.10    | 5.2                     |
-| 3.11    | 5.2                     |
-| 3.12    | 5.2, 6.0, 6.1, main     |
-| 3.13    | 5.2, 6.0, 6.1, main     |
-| 3.14    | 5.2, 6.0, 6.1, main     |
+The current Python × Django matrix is not a full grid — see `tox.ini`'s `envlist` for what's actually tested (`pyproject.toml` classifiers and `ci.yml`'s matrix must match it). Don't copy the matrix into prose elsewhere; it drifts. See [MAINTAINING.md](MAINTAINING.md) for the policy behind how the matrix is chosen and kept current.
 
 Target the matrix when adding features; avoid Django-version-specific code paths where possible.
 
@@ -114,11 +106,4 @@ GitHub Actions runs on every push and PR:
 
 `just lint` must pass before committing — CI enforces it and will fail the PR.
 
-## Release process
-
-1. Update `CHANGELOG.md` and bump `version` in `pyproject.toml`
-2. Commit and push to `main`
-3. `just build` — builds wheel + tarball, runs packaging checks, and smoke-tests both against an isolated env
-4. `just release-tag` — creates and pushes the version tag; GitHub Actions publishes to PyPI
-
-`just release-tag` requires: clean working directory AND current branch is `main`. It will fail otherwise.
+See [MAINTAINING.md](MAINTAINING.md) for the release process and version-support policy.
