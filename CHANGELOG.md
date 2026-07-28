@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add support for Django 6.1.
+- Drop support for Django 4.2 (EOL).
+
 ## 26.1 (2026-01-03)
 
 - Refactor release workflow to tag-based publishing via GitHub Actions (#1102).
