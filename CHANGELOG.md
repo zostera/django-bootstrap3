@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Remove `IS_DJANGO5`/`DJANGO_VERSION` from `bootstrap3.utils` — dead now that the Django floor is 5.2 (was a compatibility bridge for pre-5.0 aria-describedby rendering).
 - Add MAINTAINING.md (version-support policy, release process); add scope statement and PR-review checklist to CONTRIBUTING.md.
 - Add support for Django 6.1.
 - Drop support for Django 4.2 (EOL).
