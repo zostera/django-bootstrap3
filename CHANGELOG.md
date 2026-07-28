@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add MAINTAINING.md (version-support policy, release process); add scope statement and PR-review checklist to CONTRIBUTING.md.
+
 ## 26.1 (2026-01-03)
 
 - Refactor release workflow to tag-based publishing via GitHub Actions (#1102).
