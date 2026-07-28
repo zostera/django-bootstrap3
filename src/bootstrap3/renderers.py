@@ -192,7 +192,7 @@ class FormRenderer(BaseRenderer):
         elif error_types == "non_field_errors":
             form_errors = self.form.non_field_errors()
         elif error_types and error_types != "none":
-            raise Exception('Illegal value "{}" for error_types.')
+            raise Exception(f'Illegal value "{error_types}" for error_types.')
 
         if form_errors:
             return render_template_file(

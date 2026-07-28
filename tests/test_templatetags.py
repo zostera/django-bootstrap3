@@ -7,7 +7,6 @@ from django.test import TestCase
 from bootstrap3.exceptions import BootstrapError
 from bootstrap3.text import text_concat, text_value
 from bootstrap3.utils import (
-    IS_DJANGO5,
     add_css_class,
     render_tag,
     url_to_attrs_dict,
@@ -169,8 +168,7 @@ class FieldTest(TestCase):
 
     def test_checkbox(self):
         res = render_form_field("cc_myself")
-        if IS_DJANGO5:
-            res = res.replace('aria-describedby="id_cc_myself_helptext"', "")
+        res = res.replace('aria-describedby="id_cc_myself_helptext"', "")
         self.assertHTMLEqual(
             """
 <div class="form-group">
