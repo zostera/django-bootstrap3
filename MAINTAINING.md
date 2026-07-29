@@ -29,6 +29,13 @@ copy always drifts out of sync with the files that actually enforce it.
   it's cut, so the interpreter itself is rarely the blocker. Only make the job blocking once
   test dependencies with C extensions publish wheels for it, if any are in use.
 
+### Bootstrap
+
+The default CDN URL is pinned to Bootstrap 3.4.1 — confirmed to be the final 3.x release
+(Bootstrap itself has moved on to 5.x, no further 3.x releases are expected). Nothing to
+monitor here under normal circumstances; only revisit if upstream unexpectedly cuts a new
+3.x patch.
+
 ## Release process
 
 1. Update `CHANGELOG.md` and bump `version` in `pyproject.toml`
