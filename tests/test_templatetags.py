@@ -1,5 +1,6 @@
 import re
 
+from django import forms
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.forms import formset_factory
 from django.test import TestCase
@@ -165,6 +166,21 @@ class FieldTest(TestCase):
     def test_illegal_field(self):
         with self.assertRaises(BootstrapError):
             render_field(field="illegal")
+
+    def test_placeholder_xss(self):
+        """A label containing a quote must not break out of the auto-generated placeholder attribute."""
+
+        class XssTestForm(forms.Form):
+            xss_field = forms.CharField(label='XSS" onmouseover="alert(1)" foo="', max_length=100)
+
+        res = render_template_with_form("{% bootstrap_field form.xss_field %}", {"form": XssTestForm()})
+        # The label breaking out of the placeholder attribute would inject a live
+        # onmouseover handler on the <input> — must render as escaped text instead.
+        self.assertNotIn('onmouseover="alert(1)"', res)
+        self.assertIn(
+            'placeholder="XSS&quot; onmouseover=&quot;alert(1)&quot; foo=&quot;"',
+            res,
+        )
 
     def test_checkbox(self):
         res = render_form_field("cc_myself")
