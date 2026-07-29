@@ -34,6 +34,8 @@ Never invoke `python`, `pip`, or `ruff` directly. All commands go through `just`
 
 `uv.lock` is fully generated — never manually resolve merge conflicts in it. On conflict: accept either side, then run `just upgrade` to regenerate.
 
+Also run `just upgrade` after changing any dependency constraint in `pyproject.toml` (e.g. bumping the Django floor) — otherwise `uv.lock`'s own `requires-dist` metadata goes stale and silently drifts from `pyproject.toml`.
+
 ## Key commands
 
 ```
