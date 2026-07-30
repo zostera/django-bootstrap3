@@ -21,6 +21,10 @@ These packages share tooling and conventions — changes in one often mirror to 
 Config files (justfile, tox.ini, pyproject.toml, etc.) are kept in sync across packages.
 AGENTS.md is **not** synced — each package has its own.
 
+django-marina is the canonical source for this shared tooling. See its
+[PACKAGING.md](https://github.com/zostera/django-marina/blob/main/PACKAGING.md) for exactly
+which files sync, which need per-package substitution, and the propagation process.
+
 ## Setup
 
 Requires [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just).
