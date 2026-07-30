@@ -38,9 +38,11 @@ monitor here under normal circumstances; only revisit if upstream unexpectedly c
 
 ## Release process
 
-1. Update `CHANGELOG.md` and bump `version` in `pyproject.toml`
-2. Commit and push to `main`
+1. On a release branch, update `CHANGELOG.md` and bump `version` in `pyproject.toml`; open a PR and merge it
+2. Check out and pull `main`
 3. `just build` — builds wheel + tarball, runs packaging checks, and smoke-tests both against an isolated env
 4. `just release-tag` — creates and pushes the version tag; GitHub Actions publishes to PyPI
 
-`just release-tag` requires a clean working directory and the current branch to be `main`. It will fail otherwise.
+`main` is protected — direct pushes are rejected (or bypass branch protection, which is worse). Always land the
+version bump through a PR like any other change. `just release-tag` requires a clean working directory and the
+current branch to be `main`. It will fail otherwise.
