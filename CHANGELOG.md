@@ -1,6 +1,6 @@
 # Changelog
 
-## 26.2 (2026-07-30)
+## Unreleased
 
 - Note in MAINTAINING.md that the pinned Bootstrap 3.4.1 CDN version is confirmed final (no 3.x releases expected), matching the note already in django-bootstrap4.
 - Fix XSS: a field `label` containing a quote could break out of the auto-generated `placeholder` attribute and inject arbitrary HTML/JS, because the placeholder value was wrapped in `mark_safe()` before being written into the widget's attrs.
