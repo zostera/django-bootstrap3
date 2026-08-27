@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add `typos` spell checking to `just lint`.
+
 ## 26.2 (2026-07-30)
 
 - Note in MAINTAINING.md that the pinned Bootstrap 3.4.1 CDN version is confirmed final (no 3.x releases expected), matching the note already in django-bootstrap4.
