@@ -61,9 +61,6 @@ class TestForm(forms.Form):
     url = forms.URLField()
     addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
 
-    # TODO: Re-enable this after Django 1.11 #28105 is available
-    # polygon = gisforms.PointField()
-
     required_css_class = "bootstrap3-req"
 
     # Set this to allow tests to work properly in Django 1.10+

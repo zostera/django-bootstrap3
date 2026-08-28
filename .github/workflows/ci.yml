@@ -103,12 +103,6 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Update repositories
-        run: sudo apt-get update
-
-      - name: Install GDAL binaries
-        run: sudo apt-get install binutils libproj-dev gdal-bin
-
       - name: Set up Python
         run: uv python install 3.12
 

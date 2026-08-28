@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Remove unused GDAL install from CI and the stale commented-out GIS test field.
 - Add `typos` spell checking to `just lint`.
 
 ## 26.2 (2026-07-30)
