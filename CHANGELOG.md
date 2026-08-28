@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a 15-minute `timeout-minutes` to every CI job.
 - Add `typos` spell checking to `just lint`.
 
 ## 26.2 (2026-07-30)
