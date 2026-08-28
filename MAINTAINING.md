@@ -36,6 +36,24 @@ The default CDN URL is pinned to Bootstrap 3.4.1 — confirmed to be the final 3
 monitor here under normal circumstances; only revisit if upstream unexpectedly cuts a new
 3.x patch.
 
+## Maintenance round
+
+Start every maintenance round — and every release — by reconciling the support matrix with
+reality, not from memory:
+
+1. Check [endoflife.date/python](https://endoflife.date/python) and
+   [endoflife.date/django](https://endoflife.date/django) for what is currently supported.
+   The JSON endpoints (`https://endoflife.date/api/python.json`, `.../django.json`) are easier
+   to diff against the matrix than the pages.
+2. Drop every cycle that has gone EOL, and add every new one, per the policy above.
+3. Reconcile all three sources of truth together — `tox.ini` (`envlist`),
+   `.github/workflows/ci.yml` (`python_django_matrix`), and `pyproject.toml` (classifiers and
+   the `Django` dependency). They drift independently, so check all three even when only one
+   looks wrong.
+4. Record any change as a `CHANGELOG.md` entry — dropping a cycle raises the dependency floor
+   and is a breaking change for anyone on it. Under the `YY.N` version scheme the number
+   carries no such signal, so the note is the only warning those users get.
+
 ## Release process
 
 1. On a release branch, update `CHANGELOG.md` and bump `version` in `pyproject.toml`; open a PR and merge it
@@ -46,3 +64,24 @@ monitor here under normal circumstances; only revisit if upstream unexpectedly c
 `main` is protected — direct pushes are rejected (or bypass branch protection, which is worse). Always land the
 version bump through a PR like any other change. `just release-tag` requires a clean working directory and the
 current branch to be `main`. It will fail otherwise.
+
+Order the release notes by category, in this order:
+
+1. Security fixes
+2. Dropped Python/Django cycles
+3. Added Python/Django cycles
+4. Bug fixes
+5. Features
+6. Tooling and internal changes
+7. Everything else
+
+The audience for these notes is someone upgrading, not someone shopping — so what might break
+them comes before what is new for them. That is why fixes sort above features, unlike Keep a
+Changelog, which lists Added first.
+
+Security goes above even the support matrix: a user scanning the notes must not have to read
+past a Django version line to find out they were vulnerable.
+
+If an entry is a breaking behavior change rather than a plain fix — rendered output changes,
+a default changes — prefix it with `**Breaking:**`. It sorts under bug fixes, where it would
+otherwise read as routine.
