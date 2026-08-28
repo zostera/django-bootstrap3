@@ -122,3 +122,7 @@ source-include = [
 
 [tool.check-manifest]
 ignore = ["uv.lock", "pyproject.toml.orig"]
+
+[tool.typos.default]
+# Subresource Integrity hashes are base64; they mint words that look like typos.
+extend-ignore-re = ['sha\d+-[A-Za-z0-9+/=]{40,}']

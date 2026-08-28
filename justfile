@@ -33,6 +33,7 @@ install:
 @lint:
     uvx ruff format --check
     uvx ruff check
+    uvx typos
 
 # Run test with coverage
 @test-cov *ARGS:
