@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
 - Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
 - Remove unused GDAL install from CI and the stale commented-out GIS test field.
 - Add a 15-minute `timeout-minutes` to every CI job.
