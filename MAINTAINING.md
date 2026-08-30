@@ -65,14 +65,18 @@ reality, not from memory:
 
 ## Release process
 
-1. On a release branch, update `CHANGELOG.md` and bump `version` in `pyproject.toml`; open a PR and merge it
-2. Check out and pull `main`
-3. `just build` — builds wheel + tarball, runs packaging checks, and smoke-tests both against an isolated env
-4. `just release-tag` — creates and pushes the version tag; GitHub Actions publishes to PyPI
+1. `just release-check` — lists the commits touching `src/` since the last tag next to the current
+   `Unreleased` entries. Every one of those commits must be covered by an entry, or be a no-op for
+   users (a docstring typo, say). A code change that reaches users without an entry ships invisible.
+2. On a release branch, update `CHANGELOG.md` and bump `version` in `pyproject.toml`; open a PR and merge it
+3. Check out and pull `main`
+4. `just build` — builds wheel + tarball, runs packaging checks, and smoke-tests both against an isolated env
+5. `just release-tag` — creates and pushes the version tag; GitHub Actions publishes to PyPI
 
 `main` is protected — direct pushes are rejected (or bypass branch protection, which is worse). Always land the
-version bump through a PR like any other change. `just release-tag` requires a clean working directory and the
-current branch to be `main`. It will fail otherwise.
+version bump through a PR like any other change.
+
+`just release-tag` requires a clean working directory and the current branch to be `main`. It will fail otherwise.
 
 Order the release notes by category, in this order:
 
