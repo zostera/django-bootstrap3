@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a system check that warns about keys in the `BOOTSTRAP3` setting that the package does not read, such as `base_url`, `set_required` and `set_disabled`, all removed in 11.0.0 (`bootstrap3.W001`, #1144). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
 - Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
