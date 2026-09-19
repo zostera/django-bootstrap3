@@ -74,3 +74,22 @@ The ``BOOTSTRAP3`` dict variable contains these settings and defaults:
             "inline": "bootstrap3.renderers.InlineFieldRenderer",
         },
     }
+
+Unused settings
+---------------
+
+A key in ``BOOTSTRAP3`` that this package does not read is ignored. That is a problem
+when a setting used to exist and was removed: the key goes on looking effective while
+doing nothing.
+
+A system check reports those keys, so they show up in ``manage.py check``, in
+``runserver`` and in CI:
+
+.. code:: text
+
+    ?: (bootstrap3.W001) BOOTSTRAP3['base_url'] has no effect: removed in 11.0.0,
+    use `css_url` and `javascript_url`.
+
+If you deliberately keep extra keys in the dict, silence it with::
+
+    SILENCED_SYSTEM_CHECKS = ["bootstrap3.W001"]
