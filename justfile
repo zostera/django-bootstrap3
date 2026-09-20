@@ -34,6 +34,18 @@ install:
     uvx ruff format --check
     uvx ruff check
     uvx typos
+    just _no-invisible-characters
+
+# Fail if any tracked file holds an invisible or bidirectional control character.
+# They do not show up in review, which is what makes them useful for hiding code
+# (Trojan Source, CVE-2021-42574). If one is ever genuinely needed, add its path
+# as a git pathspec exclusion below and say in a comment why it is there.
+[private]
+@_no-invisible-characters:
+    if git grep -nIP '[\x{00AD}\x{200B}\x{200C}\x{200D}\x{2060}\x{202A}-\x{202E}\x{2066}-\x{2069}\x{FEFF}]' -- .; then \
+        echo "Error - invisible or bidi control characters found in the lines above."; \
+        exit 1; \
+    fi
 
 # Run test with coverage
 @test-cov *ARGS:
