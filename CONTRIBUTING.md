@@ -85,3 +85,18 @@ Before you submit a pull request, check that it meets these guidelines:
 Pull requests that don't meet these may be asked for changes, or closed if they've gone stale
 without a response — see [MAINTAINING.md](MAINTAINING.md) for how the project handles review
 backlog and version support.
+
+## Using AI assistants
+
+You may use AI assistants to write contributions. We do. The requirement is the same either
+way: you are responsible for what you submit. You must understand the change, be able to
+explain and defend it under review, have run the tests, and have the right to contribute the
+code.
+
+If an assistant wrote a meaningful part of a change, say so. A `Co-Authored-By:` trailer on
+the commit is the preferred way, and it is what this project's own commits use. This is not
+held against you. It tells reviewers where to look.
+
+Submissions whose author cannot answer review questions will be closed, however they were
+produced. The same goes for bug reports: a report we cannot reproduce from what you give us
+will be closed without analysis.
