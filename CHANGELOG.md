@@ -2,13 +2,18 @@
 
 ## Unreleased
 
+- Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
+- Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
+
+## 26.3 (2026-09-21)
+
 - Add a system check that warns about keys in the `BOOTSTRAP3` setting that the package does not read, such as `base_url`, `set_required` and `set_disabled`, all removed in 11.0.0 (`bootstrap3.W001`, #1144). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
-- Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
-- Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
 - Remove unused GDAL install from CI and the stale commented-out GIS test field.
 - Add a 15-minute `timeout-minutes` to every CI job.
 - Add `typos` spell checking to `just lint`.
+- Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
+- Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
 - Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 
 ## 26.2 (2026-07-30)
