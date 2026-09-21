@@ -28,6 +28,12 @@ copy always drifts out of sync with the files that actually enforce it.
   soon as it's installable — `uv python install` can usually fetch a new CPython the same day
   it's cut, so the interpreter itself is rarely the blocker. Only make the job blocking once
   test dependencies with C extensions publish wheels for it, if any are in use.
+- A pre-release goes in `tox.ini` and `ci.yml` but **not** in the `pyproject.toml` classifiers.
+  A classifier is a promise to users, and a job that cannot fail the build does not back one.
+  Add the classifier in the same change that makes the job blocking. Pair the pre-release only
+  with the Django series that will support it first, the newest one plus `main`. A leg against
+  a series that will never claim it is a standing red mark, and it teaches reviewers to ignore
+  the column.
 
 ### Bootstrap
 

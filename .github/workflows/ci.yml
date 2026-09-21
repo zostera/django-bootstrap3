@@ -33,10 +33,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [lint]
+    # Python 3.15 is still a release candidate, so its legs are non-blocking: they
+    # run and report, but a failure does not fail the build. Drop this once 3.15 is
+    # final and the Django series under test support it.
+    continue-on-error: ${{ matrix.python-version == '3.15' }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
         django-version: ["5.2", "6.0", "6.1", "main"]
         exclude:
           # Django 6.0
@@ -54,6 +58,12 @@ jobs:
             django-version: "main"
           - python-version: "3.11"
             django-version: "main"
+          # Python 3.15 (pre-release): no Django release claims it yet, so test only
+          # the series that will get it first rather than collecting known failures.
+          - python-version: "3.15"
+            django-version: "5.2"
+          - python-version: "3.15"
+            django-version: "6.0"
 
     steps:
       - uses: actions/checkout@v7
@@ -67,7 +77,9 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: uv sync
+        # Pin the interpreter explicitly: uv does not pick up a pre-release Python
+        # by discovery, so the 3.15 leg would otherwise resolve to another version.
+        run: uv sync --python ${{ matrix.python-version }}
 
       - name: Install Django ${{ matrix.django-version }}
         run: |
@@ -141,12 +153,31 @@ jobs:
     timeout-minutes: 15
     needs: [python_django_matrix, lint, docs, build]
     steps:
-      - name: Check tests matrix status
-        if: needs.python_django_matrix.result != 'success'
-        run: exit 1
-
       - name: Finish Coveralls parallel build
         uses: coverallsapp/github-action@v2
         with:
           parallel-finished: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # This job is the only required status check on main, so it has to fail
+      # whenever any job it needs fails. It cannot leave that to needs alone. A
+      # job skipped because one of its needs failed reports success to branch
+      # protection, so without always() this gate would go green on a failure
+      # and the pull request would merge. GitHub documents always() with needs
+      # as the way round that, which is why the condition is spelled out here:
+      # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks
+      #
+      # Checking the matrix alone left docs and build ungated: neither feeds the
+      # matrix, so a failure in either kept the matrix green and this job with
+      # it. Lint was already covered, since the matrix needs it and a skipped
+      # matrix is not a success. Reading every need means the gate no longer
+      # depends on the shape of the graph. No job here is conditional, so a
+      # skipped need also means something failed.
+      - name: Check that every job succeeded
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS"
+          echo "::error::A job this gate depends on did not succeed."
+          exit 1
