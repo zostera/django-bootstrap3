@@ -68,28 +68,25 @@ The full documentation is at https://django-bootstrap3.readthedocs.io/
 </form>
 ```
 
-Example app
------------
+## Example app
 
-An example app is provided in `example`. You can run it with `make example`.
+An example app is provided in the folder `example`. You can run the example app with this command:
 
+```console
+just example
+```
 
-Bugs and suggestions
---------------------
+## Bugs and suggestions
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
 https://github.com/zostera/django-bootstrap3/issues
 
-
-License
--------
+## License
 
 You can use this under BSD-3-Clause. See [LICENSE](LICENSE) file for details.
 
-
-Author
-------
+## Author
 
 Developed and maintained by [Zostera](https://zostera.nl).
 

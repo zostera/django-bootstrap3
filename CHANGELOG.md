@@ -9,6 +9,7 @@
 - Remove unused GDAL install from CI and the stale commented-out GIS test field.
 - Add a 15-minute `timeout-minutes` to every CI job.
 - Add `typos` spell checking to `just lint`.
+- Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 
 ## 26.2 (2026-07-30)
 
