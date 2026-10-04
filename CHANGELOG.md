@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Remove an unreachable guard in `get_pagination_context`: `pages_to_show` is already an integer of at least one by that point, so the half window cannot be negative.
+- Cover pagination with tests. `get_pagination_context` and the `bootstrap_pagination` and `bootstrap_url_replace_param` tags had no tests at all.
 - Add a system check that warns about keys in the `BOOTSTRAP3` setting that the package does not read, such as `base_url`, `set_required` and `set_disabled`, all removed in 11.0.0 (`bootstrap3.W001`, #1144). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
