@@ -102,6 +102,9 @@ jobs:
       - name: Run tests with coverage
         run: uv run --no-sync coverage run manage.py test --verbosity=2
 
+      - name: Check coverage against the floor
+        run: uv run --no-sync coverage report
+
       - name: Upload coverage to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
