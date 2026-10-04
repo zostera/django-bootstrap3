@@ -82,6 +82,10 @@ source = ["src"]
 package = ["src/bootstrap3", "*/django_bootstrap3/src/bootstrap3"]
 
 [tool.coverage.report]
+# The suite covers every statement and branch. A drop is a gap in the tests, not a
+# reason to lower the bar: cover the new code, or mark it `# pragma: no cover` with a
+# comment saying why it cannot be reached in a test.
+fail_under = 100
 show_missing = true
 skip_covered = true
 

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Cover `renderers.py` and `components.py` with tests, reaching 100% of statements and branches, and hold it there with `fail_under = 100`.
 - Cover `utils.py` and `forms.py` with tests. `remove_css_class`, `handle_var`, the `{% buttons %}` tag's argument parsing, every `render_button` size and type, and the standalone error renderers had no tests.
 - Remove an unreachable guard in `get_pagination_context`: `pages_to_show` is already an integer of at least one by that point, so the half window cannot be negative.
 - Cover pagination with tests. `get_pagination_context` and the `bootstrap_pagination` and `bootstrap_url_replace_param` tags had no tests at all.
