@@ -11,6 +11,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     environment:
       name: pypi
     permissions:
@@ -23,6 +24,10 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        with:
+          # No cache in the publishing job: a poisoned cache entry would reach the
+          # artifacts that get uploaded to PyPI.
+          enable-cache: false
 
       - name: Install Python 3.13
         run: uv python install 3.13

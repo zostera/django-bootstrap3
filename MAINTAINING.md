@@ -69,6 +69,32 @@ reality, not from memory:
    and is a breaking change for anyone on it. Under the `YY.N` version scheme the number
    carries no such signal, so the note is the only warning those users get.
 
+## Dependency updates
+
+Dependabot raises pull requests daily, for GitHub Actions and for Python dependencies.
+
+Patch and minor updates are approved and merged automatically by
+`.github/workflows/dependabot-auto-approve-and-merge.yml`. Major updates are left alone and
+handled by a person, usually in a maintenance round, because a major bump is the one that
+changes behaviour.
+
+Three things make that safe enough to leave running:
+
+The job decides whether a pull request is Dependabot's from the pull request author and from
+Dependabot's own metadata, not from `github.actor`, which a `pull_request_target` workflow
+cannot trust. It never checks out the branch, so no code from the pull request runs.
+
+Auto-merge is enabled rather than performed. GitHub still waits for the required checks, so a
+dependency that breaks the test matrix, lint, the docs build or packaging never lands.
+
+The approval comes from `GITHUB_TOKEN`, which is why "Allow GitHub Actions to create and
+approve pull requests" is enabled on these repositories. That setting is what makes the
+approval count towards the one required review, so turning it off would stop auto-merge
+working rather than make it safer.
+
+If a dependency update needs a human, close the Dependabot pull request rather than merging
+it half-updated. Dependabot reopens it on the next run.
+
 ## Release process
 
 1. `just release-check` — lists the commits touching `src/` since the last tag next to the current
