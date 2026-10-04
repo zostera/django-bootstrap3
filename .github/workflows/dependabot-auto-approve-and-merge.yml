@@ -11,8 +11,11 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    # Check the actor, only run for Dependabot PRs, prevent failing on non-Dependabot PRs.
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    timeout-minutes: 15
+    # Gate on the pull request author, not github.actor, which is spoofable in a
+    # pull_request_target context. The fetch-metadata step below is the second gate:
+    # it fails for any pull request Dependabot did not raise.
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
       # This step will fail (without approval) if there's no metadata.
       - name: Dependabot metadata
