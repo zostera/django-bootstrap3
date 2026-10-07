@@ -75,6 +75,31 @@ The ``BOOTSTRAP3`` dict variable contains these settings and defaults:
         },
     }
 
+The jQuery default is old
+-------------------------
+
+``jquery_url`` defaults to ``//code.jquery.com/jquery.min.js``. That URL carries no version, but
+jQuery does not keep it pointed at the current release: it still serves jQuery 1.11.1 from 2014,
+and it is not updated.
+
+This only reaches your pages if you set ``include_jquery`` to ``True``, or use
+``{% bootstrap_jquery %}`` or ``{% bootstrap_jquery_url %}``. The default is ``False``, so a
+project that loads its own jQuery is unaffected.
+
+Bootstrap 3 accepts jQuery ``1.9.1 - 3``, so nothing here requires 1.x. If you rely on this
+package for jQuery, pin a version you have chosen::
+
+    BOOTSTRAP3 = {
+        "jquery_url": {
+            "url": "https://code.jquery.com/jquery-3.7.1.min.js",
+            "integrity": "sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=",
+            "crossorigin": "anonymous",
+        },
+    }
+
+The default is left as it is on purpose. Changing it would swap the jQuery major version under
+every project that takes the default, which is not something a maintenance release should do.
+
 Unused settings
 ---------------
 
