@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Document that the `jquery_url` default, `//code.jquery.com/jquery.min.js`, is a CDN alias that still serves jQuery 1.11.1 from 2014 rather than the current release (#1162). It only reaches a page through `include_jquery` or the jQuery tags, all of which are off by default. The default is unchanged; pin a version yourself if you rely on this package for jQuery.
 - Cover `renderers.py` and `components.py` with tests, reaching 100% of statements and branches, and hold it there with `fail_under = 100`.
 - Cover `utils.py` and `forms.py` with tests. `remove_css_class`, `handle_var`, the `{% buttons %}` tag's argument parsing, every `render_button` size and type, and the standalone error renderers had no tests.
 - Remove an unreachable guard in `get_pagination_context`: `pages_to_show` is already an integer of at least one by that point, so the half window cannot be negative.
