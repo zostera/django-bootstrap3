@@ -18,6 +18,8 @@ For Bootstrap 4, please refer to our dedicated package: [django-bootstrap4](http
 
 For Bootstrap 5, please refer to our dedicated package: [django-bootstrap5](https://github.com/zostera/django-bootstrap5).
 
+To migrate, see [From django-bootstrap3](https://github.com/zostera/django-bootstrap5/blob/main/MIGRATE.md#from-django-bootstrap3) in the django-bootstrap5 migration guide. It covers the settings that disappear or change meaning, renamed tag arguments such as `size="large"`, and the removed `{% buttons %}` tag.
+
 For icons, we recommend our dedicated package: [django-icons](https://github.com/zostera/django-icons).
 
 ## Requirements

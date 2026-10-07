@@ -15,6 +15,7 @@
 - Add `typos` spell checking to `just lint`.
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
+- Link the README's maintenance-mode section to the django-bootstrap5 guide for migrating from django-bootstrap3 (#1160).
 - Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 
 ## 26.2 (2026-07-30)
