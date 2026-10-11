@@ -1,28 +1,34 @@
 # Changelog
 
-## Unreleased
+## 26.3 (2026-10-11)
 
 - **Breaking:** Drop support for Python 3.10, end of life since 2026-10-01. The floor is now Python 3.11.
-- Document that the `jquery_url` default, `//code.jquery.com/jquery.min.js`, is a CDN alias that still serves jQuery 1.11.1 from 2014 rather than the current release (#1162). It only reaches a page through `include_jquery` or the jQuery tags, all of which are off by default. The default is unchanged; pin a version yourself if you rely on this package for jQuery.
+- Add a system check that warns about keys in the `BOOTSTRAP3` setting that the package does not read, such as `base_url`, `set_required` and `set_disabled`, all removed in 11.0.0 (`bootstrap3.W001`, #1144). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Cover `renderers.py` and `components.py` with tests, reaching 100% of statements and branches, and hold it there with `fail_under = 100`.
 - Cover `utils.py` and `forms.py` with tests. `remove_css_class`, `handle_var`, the `{% buttons %}` tag's argument parsing, every `render_button` size and type, and the standalone error renderers had no tests.
-- Remove an unreachable guard in `get_pagination_context`: `pages_to_show` is already an integer of at least one by that point, so the half window cannot be negative.
 - Cover pagination with tests. `get_pagination_context` and the `bootstrap_pagination` and `bootstrap_url_replace_param` tags had no tests at all.
-- Add a system check that warns about keys in the `BOOTSTRAP3` setting that the package does not read, such as `base_url`, `set_required` and `set_disabled`, all removed in 11.0.0 (`bootstrap3.W001`, #1144). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
+- Remove an unreachable guard in `get_pagination_context`: `pages_to_show` is already an integer of at least one by that point, so the half window cannot be negative.
+- Run `coverage report` in CI, so the `fail_under` floor is enforced there and not only on a developer's machine.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
-- Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
-- Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
-- Remove unused GDAL install from CI and the stale commented-out GIS test field.
-- Add a 15-minute `timeout-minutes` to every CI job.
-- Add `typos` spell checking to `just lint`.
-- Test on Python 3.15 against Django 6.1 and `main`. The job is non-blocking and 3.15 is not advertised as supported, because no Django release claims it yet.
-- Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
-- Link the README's maintenance-mode section to the django-bootstrap5 guide for migrating from django-bootstrap3 (#1160).
-- Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 - Show commits that touch nothing in `src/` in `just release-check` as a second group, instead of hiding them. Tooling, CI and documentation changes belong in the release notes too, and the old output read as a complete list while being a filtered one.
 - Fail `just build` when `uv.lock` does not name the version in `pyproject.toml`, and add `just relock` to fix it. `uv sync --frozen` does not check the project's own version, so a stale lock passed every packaging check.
-- Say in MAINTAINING.md that `just release-check` reporting no `Unreleased` entries straight after a cut means nothing is pending, not that the changelog was lost.
+- Add a 15-minute `timeout-minutes` to every CI job.
+- Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
+- Harden the GitHub workflows: the Dependabot job gates on the pull request author instead of `github.actor`, `ci.yml` declares a read-only `contents: read` token, and the publishing job no longer restores a cache.
+- Fail `just lint` on invisible and bidirectional control characters, which can hide code from review (Trojan Source, CVE-2021-42574), and remove two such characters from `docs/settings.rst`.
+- Add `typos` spell checking to `just lint`.
+- Remove unused GDAL install from CI and the stale commented-out GIS test field.
+- Test on Python 3.15 against Django 6.1 and `main`. The job is non-blocking and 3.15 is not advertised as supported, because no Django release claims it yet.
 - Remove `.github/stale.yml`. It configured the Probot Stale app, archived upstream since 2023, and no other Zostera package carries it.
+- Document that the `jquery_url` default, `//code.jquery.com/jquery.min.js`, is a CDN alias that still serves jQuery 1.11.1 from 2014 rather than the current release (#1162). It only reaches a page through `include_jquery` or the jQuery tags, all of which are off by default. The default is unchanged; pin a version yourself if you rely on this package for jQuery.
+- Link the README's maintenance-mode section to the django-bootstrap5 guide for migrating from django-bootstrap3 (#1160).
+- Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
+- Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
+- Add a maintenance-round section and release-note ordering convention to MAINTAINING.md.
+- Add a Dependency updates section to MAINTAINING.md, describing how Dependabot pull requests are approved and merged.
+- Say in MAINTAINING.md that `just release-check` reporting no `Unreleased` entries straight after a cut means nothing is pending, not that the changelog was lost.
+- Add the shared AI assistance policy to CONTRIBUTING.md.
+- Add a `CLAUDE.md` shim that imports `AGENTS.md`, so Claude Code loads the project instructions, and trim `AGENTS.md` to what cannot be read from the repo itself.
 
 ## 26.2 (2026-07-30)
 
