@@ -36,33 +36,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [lint]
-    # Python 3.15 is still a release candidate, so its legs are non-blocking: they
-    # run and report, but a failure does not fail the build. Drop this once 3.15 is
-    # final and the Django series under test support it.
+    # Python 3.15 is released, but no Django release claims it yet, so its legs are
+    # non-blocking: they run and report, but a failure does not fail the build. Drop
+    # this once a Django release supports 3.15, and add the classifier in the same
+    # change.
     continue-on-error: ${{ matrix.python-version == '3.15' }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
         django-version: ["5.2", "6.0", "6.1", "main"]
         exclude:
           # Django 6.0
-          - python-version: "3.10"
-            django-version: "6.0"
           - python-version: "3.11"
             django-version: "6.0"
           # Django 6.1
-          - python-version: "3.10"
-            django-version: "6.1"
           - python-version: "3.11"
             django-version: "6.1"
           # Django main
-          - python-version: "3.10"
-            django-version: "main"
           - python-version: "3.11"
             django-version: "main"
-          # Python 3.15 (pre-release): no Django release claims it yet, so test only
-          # the series that will get it first rather than collecting known failures.
+          # Python 3.15: no Django release claims it yet, so test only the series
+          # that will get it first rather than collecting known failures.
           - python-version: "3.15"
             django-version: "5.2"
           - python-version: "3.15"
