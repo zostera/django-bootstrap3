@@ -110,6 +110,11 @@ it half-updated. Dependabot reopens it on the next run.
    gate or a contributor policy belongs in the notes under tooling. django-marina 26.3 shipped
    with nine such changes unrecorded, and django-bootstrap4 and django-bootstrap5 each found
    four or five more of their own, because the recipe only showed the first group.
+   Straight after a cut, in the window between merging the release PR and pushing the tag, this
+   prints `(none)` for the `Unreleased` entries next to every commit since the previous tag.
+   That is correct and it means nothing is pending: stamping the section removed the heading the
+   recipe looks for, and the tag it compares against is still the old one. It does not mean the
+   changelog was lost.
 2. On a release branch, update `CHANGELOG.md`, bump `version` in `pyproject.toml`, and run
    `just relock` so `uv.lock` names the new version; open a PR and merge it. `uv sync --frozen`
    does not check the project's own version, so a stale lock otherwise survives every packaging
