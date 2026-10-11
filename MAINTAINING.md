@@ -34,6 +34,11 @@ copy always drifts out of sync with the files that actually enforce it.
   with the Django series that will support it first, the newest one plus `main`. A leg against
   a series that will never claim it is a standing red mark, and it teaches reviewers to ignore
   the column.
+- A Python that is final but that no Django release claims yet stays non-blocking too, and
+  stays out of the classifiers. Our tests passing on it says nothing about the Django
+  underneath, and a user who takes the classifier at its word would be running a combination
+  Django does not support. Wait for a Django release to list it, then make the job blocking
+  and add the classifier in one change.
 
 ### Bootstrap
 

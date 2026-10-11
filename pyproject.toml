@@ -16,7 +16,6 @@ classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -31,7 +30,7 @@ license = "BSD-3-Clause"
 license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap3"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 version = "26.2"
 
 [project.urls]
