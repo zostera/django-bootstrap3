@@ -20,6 +20,10 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 @upgrade:
     uv sync --all-groups --upgrade
 
+# Regenerate uv.lock without upgrading anything (use after bumping version)
+@relock:
+    uv lock
+
 # Install for development (uses uv.lock)
 install:
     uv sync --frozen --all-groups
@@ -60,8 +64,20 @@ install:
 @tests *ARGS:
     uvx --with tox-uv tox {{ARGS}}
 
+# Fail if uv.lock does not name the version in pyproject.toml.
+# `uv sync --frozen` does not check the project's own version, so without this a build
+# passes with a stale lock: django-bootstrap4 shipped a bump with the previous version
+# still in the lock, and `just build` reported everything green. Fix with `just relock`.
+[private]
+@_lockfile-matches-version:
+    LOCKED=`awk -F'"' '/^version = /{v=$2} /editable = "\."/{print v; exit}' uv.lock`; \
+    if [ "$LOCKED" != "{{ VERSION }}" ]; then \
+        echo "Error - pyproject.toml says {{ VERSION }}, uv.lock says $LOCKED. Run 'just relock'."; \
+        exit 1; \
+    fi
+
 # Build artefacts + packaging checks (local preflight)
-@build: clean-build install
+@build: clean-build install _lockfile-matches-version
     uv build
     uvx twine check dist/*
     uvx check-manifest
@@ -82,16 +98,21 @@ install:
         echo "Example not found."; \
     fi
 
-# Show src changes and changelog entries since the last tag (release preflight)
+# Show changes and changelog entries since the last tag (release preflight)
 @release-check:
     TAG=$(git describe --tags --abbrev=0); \
-    echo "Commits touching src/ since $TAG:"; \
+    echo "Commits touching src/ since $TAG. Each needs an entry, or is a no-op for users:"; \
     git log --format='  %h %s' "$TAG"..HEAD -- src/ | grep . || echo "  (none)"; \
+    echo ""; \
+    echo "Commits touching nothing in src/. Tooling, CI and docs still ship, so read these too:"; \
+    git log --format='  %h %s' "$TAG"..HEAD -- . ':(exclude)src/' | grep . || echo "  (none)"; \
     echo ""; \
     echo "Entries in the Unreleased section of CHANGELOG.md:"; \
     awk '/^## Unreleased/{f=1;next} /^## /{f=0} f' CHANGELOG.md | grep '^- ' || echo "  (none)"; \
     echo ""; \
-    echo "Every commit above must be covered by an entry, or be a no-op for users."
+    echo "Version: pyproject.toml {{ VERSION }}, uv.lock `awk -F'\"' '/^version = /{v=$2} /editable = \"\\.\"/{print v; exit}' uv.lock`"; \
+    echo ""; \
+    echo "A commit touching src/ and other paths appears in both lists."
 
 # Create and push a release tag (publishing happens in GitHub Actions)
 @release-tag: porcelain branch build
