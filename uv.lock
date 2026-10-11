@@ -253,7 +253,7 @@ wheels = [
 
 [[package]]
 name = "django-bootstrap3"
-version = "26.2"
+version = "26.3"
 source = { editable = "." }
 dependencies = [
     { name = "django" },
