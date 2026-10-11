@@ -19,6 +19,8 @@
 - Link the README's maintenance-mode section to the django-bootstrap5 guide for migrating from django-bootstrap3 (#1160).
 - Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 
+- Show commits that touch nothing in `src/` in `just release-check` as a second group, instead of hiding them. Tooling, CI and documentation changes belong in the release notes too, and the old output read as a complete list while being a filtered one.
+- Fail `just build` when `uv.lock` does not name the version in `pyproject.toml`, and add `just relock` to fix it. `uv sync --frozen` does not check the project's own version, so a stale lock passed every packaging check.
 ## 26.2 (2026-07-30)
 
 - Note in MAINTAINING.md that the pinned Bootstrap 3.4.1 CDN version is confirmed final (no 3.x releases expected), matching the note already in django-bootstrap4.
