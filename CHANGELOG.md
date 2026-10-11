@@ -15,13 +15,14 @@
 - Remove unused GDAL install from CI and the stale commented-out GIS test field.
 - Add a 15-minute `timeout-minutes` to every CI job.
 - Add `typos` spell checking to `just lint`.
-- Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
+- Test on Python 3.15 against Django 6.1 and `main`. The job is non-blocking and 3.15 is not advertised as supported, because no Django release claims it yet.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
 - Link the README's maintenance-mode section to the django-bootstrap5 guide for migrating from django-bootstrap3 (#1160).
 - Fix README: restore the canonical `##` headings for the last four sections, and correct the example-app command from the long-gone `make example` to `just example`.
 
 - Show commits that touch nothing in `src/` in `just release-check` as a second group, instead of hiding them. Tooling, CI and documentation changes belong in the release notes too, and the old output read as a complete list while being a filtered one.
 - Fail `just build` when `uv.lock` does not name the version in `pyproject.toml`, and add `just relock` to fix it. `uv sync --frozen` does not check the project's own version, so a stale lock passed every packaging check.
+- Say in MAINTAINING.md that `just release-check` reporting no `Unreleased` entries straight after a cut means nothing is pending, not that the changelog was lost.
 ## 26.2 (2026-07-30)
 
 - Note in MAINTAINING.md that the pinned Bootstrap 3.4.1 CDN version is confirmed final (no 3.x releases expected), matching the note already in django-bootstrap4.
