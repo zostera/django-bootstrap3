@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add `.gitattributes` with `* text=auto`, so the repository stores text files with LF whatever the committing machine used. `.editorconfig` asked for this and could not enforce it.
+- Drop `max_line_length` for Python from `.editorconfig`. It said 88 while ruff enforces 120, so an editor honouring it flagged code that passes lint.
+
 ## 26.3 (2026-10-11)
 
 - **Breaking:** Drop support for Python 3.10, end of life since 2026-10-01. The floor is now Python 3.11.
