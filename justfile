@@ -32,6 +32,7 @@ install:
 @format:
     uvx ruff format
     uvx ruff check --fix
+    just _strip-trailing-whitespace
 
 # Check formatting of source code
 @lint:
@@ -39,6 +40,8 @@ install:
     uvx ruff check
     uvx typos
     just _no-invisible-characters
+    just _no-trailing-whitespace
+    just _one-unreleased-section
 
 # Fail if any tracked file holds an invisible or bidirectional control character.
 # They do not show up in review, which is what makes them useful for hiding code
@@ -48,6 +51,54 @@ install:
 @_no-invisible-characters:
     if git grep -nIP '[\x{00AD}\x{200B}\x{200C}\x{200D}\x{2060}\x{202A}-\x{202E}\x{2066}-\x{2069}\x{FEFF}]' -- .; then \
         echo "Error - invisible or bidi control characters found in the lines above."; \
+        exit 1; \
+    fi
+
+# Strip trailing whitespace from the text files that have it.
+# Scoped by the same `git grep -I` that the check uses, so it only opens files that
+# are text and that actually need changing, rather than handing every tracked file
+# to a fixer and asking it to decide.
+# --markdown-linebreak-ext=md keeps exactly two trailing spaces in Markdown, which
+# is a hard line break and not an accident. One space or three still go.
+[private]
+@_strip-trailing-whitespace:
+    FILES=`git grep -lIP ' +$' -- . || true`; \
+    if [ -n "$FILES" ]; then \
+        echo "$FILES" | xargs uvx --from pre-commit-hooks trailing-whitespace-fixer --markdown-linebreak-ext=md || true; \
+    fi
+
+# Fail if any tracked file has a line ending in whitespace.
+# `.editorconfig` sets trim_trailing_whitespace, but nothing enforced it: ruff only
+# sees Python, and the invisible-character check looks for specific code points, not
+# a plain space. Two had slipped in across the five packages before this existed.
+# Checks rather than fixes, because these packages render HTML: trailing space in a
+# template is output, so it is a change a person should look at. `just format` fixes.
+# Markdown is excluded: two trailing spaces there are a hard line break, which the
+# fixer keeps, so checking them would fail on something `just format` will not fix.
+[private]
+@_no-trailing-whitespace:
+    if git grep -nIP ' +$' -- . ':(exclude)*.md'; then \
+        echo "Error - trailing whitespace on the lines above. Run 'just format'."; \
+        exit 1; \
+    fi
+
+# Fail if CHANGELOG.md has more than one `## Unreleased`, or has it out of place.
+# Branches that each add the heading instead of appending to the existing one merge
+# without a conflict, because the two sides touch different lines. django-marina
+# reached four before anyone noticed. Cutting a release then stamps the first and
+# orphans the rest, which is how a release ships without its own notes.
+# None is correct and expected: a cut removes the heading until the next change.
+[private]
+@_one-unreleased-section:
+    N=`grep -c '^## Unreleased' CHANGELOG.md || true`; \
+    if [ "$N" -gt 1 ]; then \
+        grep -n '^## Unreleased' CHANGELOG.md; \
+        echo "Error - $N '## Unreleased' headings above, expected at most one."; \
+        echo "Move every entry under a single heading."; \
+        exit 1; \
+    fi; \
+    if [ "$N" -eq 1 ] && [ "`grep -m1 '^## ' CHANGELOG.md`" != "## Unreleased" ]; then \
+        echo "Error - '## Unreleased' is not the first section in CHANGELOG.md."; \
         exit 1; \
     fi
 

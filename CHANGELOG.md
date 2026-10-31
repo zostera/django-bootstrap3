@@ -5,6 +5,8 @@
 - Add `.gitattributes` with `* text=auto`, so the repository stores text files with LF whatever the committing machine used. `.editorconfig` asked for this and could not enforce it.
 - Drop `max_line_length` for Python from `.editorconfig`. It said 88 while ruff enforces 120, so an editor honouring it flagged code that passes lint.
 
+- Fail `just lint` on trailing whitespace, and strip it in `just format`. `.editorconfig` asked for it and nothing enforced it, so it depended on each person's editor. Markdown hard line breaks, which are exactly two trailing spaces, are preserved.
+- Fail `just lint` if `CHANGELOG.md` has more than one `## Unreleased` heading, or has it below a released section. Branches that each add the heading merge without a conflict.
 ## 26.3 (2026-10-11)
 
 - **Breaking:** Drop support for Python 3.10, end of life since 2026-10-01. The floor is now Python 3.11.
