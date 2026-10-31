@@ -1,0 +1,11 @@
+# Normalise line endings in the repository.
+# `text=auto` lets git detect text files and store them with LF, whatever the
+# machine they were committed from used. .editorconfig asked for this and could
+# not enforce it: django-bootstrap4 still has a CRLF file in src/, and
+# django-bootstrap5 had to fix the same one by hand in 26.4.
+#
+# Deliberately not `eol=lf`, which would also dictate line endings in the working
+# tree. What matters is what the repository stores; how a checkout looks on
+# someone else's machine is their business.
+
+* text=auto

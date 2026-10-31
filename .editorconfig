@@ -10,9 +10,6 @@ trim_trailing_whitespace = true
 end_of_line = lf
 charset = utf-8
 
-[*.py]
-max_line_length = 88
-
 [*.toml]
 indent_size = 2
 
